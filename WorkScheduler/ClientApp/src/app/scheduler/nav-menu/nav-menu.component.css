@@ -1,0 +1,98 @@
+li .glyphicon {
+  margin-right: 10px;
+}
+
+.navbar {
+  background-color: #F0FFF0 !important;
+}
+
+.navbar-brand {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+  .navbar a {
+    color: black;
+  }
+
+ a:hover {
+  color: gray !important;
+}
+
+
+.navbar-inverse {
+  border-color: white !important;
+}
+
+  .navbar-inverse .navbar-toggle {
+    border-color: gray !important;
+  }
+
+    .navbar-inverse .navbar-toggle .icon-bar {
+      background-color: gray;
+    }
+
+  .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+    border-color: none !important;
+  }
+
+/* Highlighting rules for nav menu items */
+li.link-active a {
+  background-color: rgb(107, 199, 65);
+  color: white;
+}
+
+/* Keep the nav menu independent of scrolling and on top of other items */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  /* On small screens, convert the nav menu to a vertical sidebar */
+  .main-nav {
+    height: 100%;
+    width: calc(25% - 20px);
+  }
+
+  .navbar {
+    border-radius: 0px;
+    border-width: 0px;
+    height: 100%;
+  }
+
+  .navbar-header {
+    float: none;
+  }
+
+  .navbar-collapse {
+    border-top: #F0F1FF;
+    padding: 0px;
+  }
+
+  .navbar ul {
+    float: none;
+  }
+
+  .navbar li {
+    float: none;
+    font-size: 15px;
+    margin: 6px;
+  }
+
+    .navbar li a {
+      padding: 10px 16px;
+      border-radius: 4px;
+    }
+
+  .navbar a {
+    /* If a menu item's text is too long, truncate it */
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

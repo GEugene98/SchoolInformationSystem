@@ -1,0 +1,65 @@
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+  .flex-container div {
+    margin: 5px;
+    padding: 5px;
+  }
+
+.day-container {
+  justify-content: space-between !important;
+  margin: 2px !important;
+}
+
+.day-off {
+  background-color: gainsboro !important;
+}
+
+.day-block {
+  width: 250px;
+  background-color: mintcream;
+  border: 1px solid #ccc !important;
+  min-height: 150px;
+}
+
+.badge {
+  background-color: darkcyan !important;
+}
+
+.action-icon {
+  opacity: 0.1;
+  transition: 0.5s;
+}
+
+/*.action-icon:hover {
+  opacity: 1;
+  transition: 1s;
+}*/
+
+.action-card:hover .action-icon {
+  opacity: 1;
+  transition: 0.5s;
+}
+
+
+
+textarea {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.clock {
+  width: 50px !important;
+  text-align: center;
+  display: inline;
+}
+
+.modal-body div {
+  margin-top: 15px;
+}

@@ -1,0 +1,158 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using WorkScheduler.Models.Identity;
+using WorkScheduler.Services;
+using WorkScheduler.ViewModels;
+
+namespace WorkScheduler.Controllers
+{
+    [Authorize]
+    [Route("api/[controller]")]
+    public class ScheduleController : Controller
+    {
+        protected Context Db;
+        protected UserManager<User> UserManager;
+        protected SchedulerService SchedulerService;
+        protected NotificationService NotificationService;
+
+        public ScheduleController(Context context, UserManager<User> userManager, SchedulerService schedulerService, NotificationService notificationService)
+        {
+            Db = context;
+            UserManager = userManager;
+            SchedulerService = schedulerService;
+            NotificationService = notificationService;
+        }
+
+        [HttpPost("ForDay")]
+        public IActionResult ForDay([FromBody]DateTime date, bool showMine = false)
+        {
+            date = date.AddHours(3);
+            var currentUser = showMine ? Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name) : null;
+            var schedule = SchedulerService.MakeScheduleForDay(date, currentUser);
+            return Ok(schedule);
+        }
+
+        [HttpPost("ForPeriod")]
+        public IActionResult ForPeriod([FromBody]GeneralScheduleViewModel model, bool showMine = false)
+        {
+            var start = model.Start.AddHours(3);
+            var end = model.End.AddHours(3);
+
+            if (start.ToShortDateString() == "01.01.0001")
+            {
+                return BadRequest();
+            }
+            var currentUser = showMine ? Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name) : null;
+            var schedule = SchedulerService.MakeScheduleForPeriod(start, end, currentUser);
+            return Ok(schedule);
+        }
+
+        [HttpGet("AddWorkSchedule")]
+        public IActionResult AddWorkSchedule(int academicYearId, int activityId, string name)
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            try
+            {
+                SchedulerService.AddWorkSchedule(currentUser.Id, activityId, academicYearId, name);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok();
+        }
+
+        [HttpGet("GetWorkSchedule")]
+        public IActionResult GetWorkSchedule(int scheduleId)
+        {
+            var s = SchedulerService.GetSchedule(scheduleId);
+            return Ok(new { s.Id, s.Name} );
+        }
+
+        [HttpGet("MyWorkSchedules")]
+        public IActionResult MyWorkSchedules()
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            return Ok(SchedulerService.GetWorkSchedules(currentUser.Id));
+        }
+
+        [HttpGet("Actions")]
+        public IActionResult GetActions(int workScheduleId)
+        {
+            return Ok(SchedulerService.GetActionsFor(workScheduleId));
+        }
+
+        [HttpPost("AllowConfirm")]
+        public async Task<IActionResult> AllowConfirm([FromBody]IEnumerable<int> actionIds)
+        {
+            await SchedulerService.AllowConfirm(actionIds);
+            return Ok();
+        }
+
+        [Authorize(Roles = "Администратор")]
+        [HttpPost("Confirm")]
+        public async Task<IActionResult> Confirm([FromBody]IEnumerable<int> actionIds)
+        {
+            await SchedulerService.Confirm(actionIds);
+            return Ok();
+        }
+
+        [Authorize(Roles = "Администратор")]
+        [HttpPost("CancelConfirming")]
+        public async Task<IActionResult> CancelConfirming([FromBody]IEnumerable<int> actionIds)
+        {
+            await SchedulerService.CancelConfirming(actionIds);
+            return Ok();
+        }
+
+        [Authorize(Roles = "Директор")]
+        [HttpPost("Accept")]
+        public async Task<IActionResult> Accept([FromBody]IEnumerable<int> actionIds)
+        {
+            await SchedulerService.Accept(actionIds);
+            return Ok();
+        }
+
+        [Authorize(Roles = "Директор")]
+        [HttpPost("CancelAccepting")]
+        public async Task<IActionResult> CancelAccepting([FromBody]IEnumerable<int> actionIds)
+        {
+            await SchedulerService.CancelAccepting(actionIds);
+            return Ok();
+        }
+
+        [HttpGet("SendSchedule")]
+        public IActionResult SendSchedule(int scheduleId)
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+            var schedule = SchedulerService.GetSchedule(scheduleId);
+            var recievers = new List<User>() { currentUser };
+            var actions = SchedulerService.GetActionsFor(scheduleId);
+            NotificationService.SendSchedule(schedule, actions, recievers);
+            return Ok();
+        }
+
+        [HttpDelete("Delete")]
+        public IActionResult Delete(int scheduleId)
+        {
+            try
+            {
+                SchedulerService.DeleteSchedule(scheduleId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
+        }
+    }
+}

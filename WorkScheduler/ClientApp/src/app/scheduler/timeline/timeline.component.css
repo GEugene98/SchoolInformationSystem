@@ -1,0 +1,24 @@
+textarea {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.clock {
+  width: 50px !important;
+  text-align: center;
+  display: inline;
+}
+
+.modal-body div {
+  margin-top: 15px;
+}
+
+.deleted-action {
+  opacity: 0.4;
+}
+
+.badge {
+  background-color: darkcyan !important;
+}

@@ -1,0 +1,57 @@
+{
+  "name": "WorkScheduler",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --extract-css",
+    "build": "ng build --extract-css",
+    "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
+    "test": "ng test",
+    "lint": "ng lint"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^5.2.11",
+    "@angular/cdk": "^5.2.5",
+    "@angular/common": "^5.2.0",
+    "@angular/compiler": "^5.2.0",
+    "@angular/core": "^5.2.0",
+    "@angular/forms": "^5.2.0",
+    "@angular/http": "^5.2.0",
+    "@angular/material": "^5.2.5",
+    "@angular/platform-browser": "^5.2.0",
+    "@angular/platform-browser-dynamic": "^5.2.0",
+    "@angular/platform-server": "^5.2.0",
+    "@angular/router": "^5.2.0",
+    "@ng-bootstrap/ng-bootstrap": "^4.0.0",
+    "@ng-select/ng-select": "^1.5.2",
+    "@nguniversal/module-map-ngfactory-loader": "^5.0.0-beta.5",
+    "aspnet-prerendering": "^3.0.1",
+    "bind-decorator": "^1.0.11",
+    "bootstrap": "^3.3.7",
+    "chart.js": "^2.7.2",
+    "core-js": "^2.4.1",
+    "ngx-bootstrap": "^3.0.1",
+    "ngx-ui-loader": "^1.2.5",
+    "primeicons": "^1.0.0-beta.10",
+    "primeng": "^6.1.4",
+    "rxjs": "^6.2.2",
+    "rxjs-compat": "^6.2.2",
+    "zone.js": "^0.8.19"
+  },
+  "devDependencies": {
+    "@angular/cli": "^6.0.8",
+    "@angular/compiler-cli": "^5.2.0",
+    "@angular/language-service": "^5.2.0",
+    "@types/node": "~6.0.60",
+    "codelyzer": "^4.0.1",
+    "ts-node": "~4.1.0",
+    "tslint": "~5.9.1",
+    "typescript": "~2.5.3",
+    "@angular-devkit/build-angular": "~0.6.8"
+  },
+  "optionalDependencies": {
+    "node-sass": "^4.9.0"
+  }
+}

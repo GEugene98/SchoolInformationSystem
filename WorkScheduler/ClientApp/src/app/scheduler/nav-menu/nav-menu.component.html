@@ -1,0 +1,68 @@
+<div class='main-nav'>
+  <div class='navbar navbar-inverse'>
+    <div class='navbar-header'>
+      <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
+        <span class='sr-only'>Toggle navigation</span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+      </button>
+    </div>
+    <div class='clearfix'></div>
+    <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
+      <div style="text-align: center;">
+        <h3>
+          <span class='glyphicon glyphicon-user'></span>
+          <span *ngIf="!userState.currentUser.state">Вход не выполнен</span>
+          {{userState.currentUser?.state?.lastName}}
+          {{userState.currentUser?.state?.firstName}}
+          {{userState.currentUser?.state?.surName}},
+          {{userState.currentUser?.state?.roles?.join(', ').toLowerCase()}}
+        </h3>
+      </div>
+
+      <ul class='nav navbar-nav'>
+        <!--<li [routerLinkActive]='["link-active"]'>
+          <a [routerLink]='["/stat"]' (click)='collapse()'>
+            <span class='glyphicon glyphicon-stats'></span> Статистика
+          </a>
+        </li>-->
+        <li [routerLinkActive]='["link-active"]'>
+          <a routerLink='timeline' (click)='collapse()'>
+            <span class='glyphicon glyphicon-time'></span> Моя циклограмма
+          </a>
+        </li>  
+        <li [routerLinkActive]='["link-active"]'>
+          <a routerLink='my-schedule' (click)='collapse()'>
+            <span class='glyphicon glyphicon-calendar'></span> Мои планы
+          </a>
+        </li>
+        <li [routerLinkActive]='["link-active"]'>
+          <a routerLink='general-schedule' (click)='collapse()'>
+            <span class='glyphicon glyphicon-th'></span> Сводный план
+          </a>
+        </li>
+        <li *ngIf="checkRole(userState.currentUser?.state, 'Администратор')" [routerLinkActive]='["link-active"]'>
+          <a routerLink='confirm' (click)='collapse()'>
+            <span class='glyphicon glyphicon-ok'></span> Планы для согласования
+          </a>
+        </li>
+        <li *ngIf="checkRole(userState.currentUser?.state, 'Директор')" [routerLinkActive]='["link-active"]'>
+          <a routerLink='accept' (click)='collapse()'>
+            <span class='glyphicon glyphicon-ok'></span> Планы для утверждения
+          </a>
+        </li>
+        <li *ngIf="checkRole(userState.currentUser?.state, 'Директор')" [routerLinkActive]='["link-active"]'>
+          <a routerLink='settings' (click)='collapse()'>
+            <span class='glyphicon glyphicon-cog'></span> Настройки
+          </a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" (click)='collapse(); logout();'>
+            <span class='glyphicon glyphicon-log-out'></span> Выход
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

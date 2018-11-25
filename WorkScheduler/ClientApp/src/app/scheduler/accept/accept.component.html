@@ -1,0 +1,36 @@
+<h1>Планы для утверждения</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col"><input type="checkbox" [(ngModel)]="selectedAll" (click)="selection()" /></th>
+      <th scope="col">Дата</th>
+      <th scope="col">Мероприятие</th>
+      <th scope="col">Ответственные</th>
+      <th scope="col">Форма подтверждения</th>
+      <th scope="col">План</th>
+      <th scope="col">Автор</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let action of actions">
+      <td><input type="checkbox" [(ngModel)]="action.selected" (ngModelChange)="select()" /></td>
+      <td>{{action.date | date : 'dd.MM.yyyy'}}</td>
+      <td>{{action.name}}</td>
+      <td>
+        <span *ngFor="let user of action.responsibles" class="badge">
+          {{user.lastName}} {{user.firstName[0]}}. {{user.surName[0]}}.
+        </span> &nbsp;
+      </td>
+      <td>{{action.confirmationForm.name}}</td>
+      <td>{{action.scheduleName}}</td>
+      <td>{{action.authorName}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="text-align: center">
+  <button type="button" (click)="cancel()" class="btn btn-danger">Отклонить отмеченные мероприятия</button>
+  <button type="button" (click)="accept()" class="btn btn-success">Утвердить отмеченные мероприятия</button>
+</div>
+<p-toast [baseZIndex]="1000"></p-toast>

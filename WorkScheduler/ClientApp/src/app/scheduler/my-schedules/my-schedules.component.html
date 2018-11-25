@@ -1,0 +1,58 @@
+<h1>Мои планы</h1>
+<button type="button" (click)="openModal(add)" class="btn btn-primary"><span class='glyphicon glyphicon-plus'></span> Создать план</button>
+
+<div *ngFor="let academicYear of allAcademicYears">
+  <h3>{{academicYear.name}} учебный год</h3>
+  <div class="list-group">
+    <a *ngFor="let schedule of academicYear.workSchedules"
+       href="javascript:void(0)"
+       [routerLink]="['//scheduler/schedule-details', schedule.id]"
+       class="list-group-item list-group-item-action c{{schedule.activity.color}}">
+      {{schedule.name}} ({{schedule.activity.name}})
+    </a>
+  </div>
+</div>
+
+<div *ngIf="!allAcademicYears" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+
+<ng-template #add>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Создать план</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Наименование:
+    <input class="form-control" [(ngModel)]="name" placeholder="Наименование">
+    <br/>
+
+    Направление деятельности:
+    <ng-select [items]="allActivities"
+               bindLabel="name"
+               bindValue="id"
+               [(ngModel)]="selectedActivityId"
+               [clearable]="false">
+    </ng-select>
+
+    <br />
+
+    Учебный год:
+    <ng-select [items]="allAcademicYears"
+               bindLabel="name"
+               bindValue="id"
+               [(ngModel)]="selectedAcademicYearId"
+               [clearable]="false">
+    </ng-select>
+    <br>
+
+
+    <div style="text-align:center; margin-top: 15px;">
+      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+      <button type="button" (click)="createSchedule()" class="btn btn-success">Создать</button>
+    </div>
+
+  </div>
+</ng-template>
+<p-toast [baseZIndex]="1000"></p-toast>
+

@@ -1,0 +1,27 @@
+<h1>Сводный план</h1>
+<div style="margin-top:20px">
+
+  <div style="margin-top:20px; text-align:center;">
+    <button type="button"
+            class="btn btn-success"
+            [class.active]="selectedOptopn == 1"
+            (click)="selectedOptopn = 1">
+      План на день
+    </button>
+
+    <button type="button"
+            class="btn btn-success"
+            [class.active]="selectedOptopn == 2"
+            (click)="selectedOptopn = 2">
+      План на период
+    </button>
+
+
+  </div>
+
+  <div>
+    <app-day *ngIf="selectedOptopn == 1"></app-day>
+    <app-month *ngIf="selectedOptopn == 2"></app-month>
+    <app-year *ngIf="selectedOptopn == 3"></app-year>
+  </div>
+</div>

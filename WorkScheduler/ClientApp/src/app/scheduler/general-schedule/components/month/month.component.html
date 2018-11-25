@@ -1,0 +1,151 @@
+<div class="flex-container">
+  <div>
+    <input type="text"
+           class="form-control"
+           [(ngModel)]="range"
+           (ngModelChange)="loadData()"
+           AUTOCOMPLETE="off"
+           [bsConfig]="bsConfig"
+           bsDaterangepicker
+           placeholder="Выбрать период"
+           style="width: 200px;">
+  </div>
+  <div><button type="button" class="btn btn-warning" (click)="currentWeek()">На текущую неделю</button></div>
+  <div>
+    <button type="button" class="btn btn-warning" (click)="currentMonth()">На текущий месяц</button>
+  </div>
+</div>
+
+<div style="margin-top: 10px;">
+  <input type="checkbox" id="me" [(ngModel)]="showMine" (ngModelChange)="loadData()">
+  <label style="font-weight: normal;" for="me">Показать только те мероприятия, в которых ответственен(на) я</label>
+</div>
+
+<div *ngIf="checkRole(userState.currentUser?.state, 'Директор') || checkRole(userState.currentUser?.state, 'Администратор')" style="text-align: right; margin-right: 7px; margin-bottom: 10px;">
+  <button type="button" (click)="getDocument()" class="btn btn-primary">Сформировать документ</button>
+</div>
+
+<div style="text-align: center; margin-top: 50px; font-style: italic;" *ngIf="!generalSchedule"><span>Выберите диапазон дат</span></div>
+
+<div class="flex-container day-container">
+  <div *ngFor="let day of generalSchedule?.days" class="day-block" [class.day-off]="day.isDayOff">
+    <span style="font-size: 16px;"><b>{{day.date | date : 'dd.MM.yyyy' }} {{day.shortDayOfWeekName}}</b></span>
+    <span style="color: gray; text-align: center" *ngIf="!day.actions"><br />(мероприятий нет)</span>
+    <div *ngFor="let action of day?.actions" class="action-card c{{action.activity.color}}">
+      <span>{{action.name}}</span>
+      <br />
+      <span *ngFor="let user of action.responsibles" class="badge">{{user.lastName}} {{user.firstName[0]}}. {{user.surName[0]}}</span>
+      <br />
+      ФП: {{action.confirmationForm.name}}
+      <span style="float: right;">
+        <a *ngIf="checkRole(userState.currentUser?.state, 'Директор') || (checkRole(userState.currentUser?.state, 'Администратор') && action.status != 3)" title="Редактировать" href="javascript:void(0)" (click)="copy(action); openModal(edit);"><span style="color: purple" class="action-icon glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+        <a title="В циклограмму" href="javascript:void(0)" (click)="copy(action); openModal(toTimeline);"><span style="color: purple" class="action-icon glyphicon glyphicon-time" aria-hidden="true"></span></a>
+      </span>
+    </div>
+  </div>
+</div>
+
+<ng-template #edit>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Редактировать мероприятие</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Дата:
+    <input type="text"
+           placeholder="Щелкните здесь для выбора"
+           class="form-control"
+           [(ngModel)]="bufferedAction.date"
+           AUTOCOMPLETE="off"
+           [bsConfig]="bsConfig"
+           bsDatepicker>
+    <br>
+    Мероприятие:
+    <input type="text" [(ngModel)]="bufferedAction.name" class="form-control" placeholder="Название мероприятия">
+    <br>
+    Ответственные:
+    <ng-select [items]="allResponsibles | async"
+               [multiple]="true"
+               [closeOnSelect]="false"
+               [searchable]="true"
+               bindLabel="fullName"
+               placeholder="Выберите как минимум одного"
+               [(ngModel)]="bufferedAction.responsibles">
+    </ng-select>
+    <br>
+    Форма подтверждения выполнения:
+    <ng-select [items]="allConfForms | async"
+               bindLabel="name"
+               bindValue="id"
+               [(ngModel)]="bufferedAction.confirmationForm.id"
+               [clearable]="false">
+    </ng-select>
+    <br>
+
+    <div style="text-align:center; margin-top: 15px;">
+      <button type="button" (click)="deleteAction()" class="btn btn-danger">Удалить мероприяте</button>
+      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+      <button type="button" (click)="saveAction()" class="btn btn-success">Сохранить</button>
+    </div>
+
+  </div>
+
+</ng-template>
+
+
+<ng-template #toTimeline>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Создать запись в циклограмме</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div style="margin-top: -10px">
+      Наименование:
+      <input type="text" [(ngModel)]="newTicket.name" class="form-control" placeholder="Название записи">
+    </div>
+
+    <div>
+      Дата:
+      <input type="text"
+             placeholder="Щелкните здесь для выбора"
+             class="form-control"
+             [(ngModel)]="newTicket.date"
+             AUTOCOMPLETE="off"
+             [bsConfig]="bsConfig"
+             bsDatepicker>
+    </div>
+    <div>
+      Время начала:
+      <input type="text" [(ngModel)]="newTicket.hours" class="clock form-control" placeholder="ЧЧ"> :
+      <input type="text" [(ngModel)]="newTicket.minutes" class="clock form-control" placeholder="ММ">
+    </div>
+
+    <div>
+      <div class="inner-action-card c{{bufferedAction.activity.color}}">
+        <span>{{bufferedAction.name}}</span>
+        <br />
+        <span *ngFor="let user of bufferedAction.responsibles" class="badge">{{user.lastName}} {{user.firstName[0]}}. {{user.surName[0]}}</span>
+        <br />
+        ФП: {{bufferedAction.confirmationForm.name}}
+      </div>
+    </div>
+
+    <div>
+      Комментарий(не обязательно):
+      <textarea [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
+    </div>
+
+    <div style="text-align:center; margin-top: 15px;">
+      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+      <button type="button" (click)="saveTicket()" class="btn btn-success">Сохранить</button>
+    </div>
+
+  </div>
+
+</ng-template>
+
+<p-toast [baseZIndex]="1000"></p-toast>

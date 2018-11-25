@@ -1,0 +1,13 @@
+.badge {
+  background-color: darkcyan !important;
+}
+.freezed {
+  background-color: gainsboro;
+}
+
+.disabledLink {
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
+}
