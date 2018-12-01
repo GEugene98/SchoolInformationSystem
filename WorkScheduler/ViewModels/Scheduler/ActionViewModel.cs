@@ -15,7 +15,7 @@ namespace WorkScheduler.ViewModels
         public ActivityViewModel Activity { get; set; }
         public bool IsDeleted { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public string ScheduleName { get; set; }
         public string AuthorName { get; set; }

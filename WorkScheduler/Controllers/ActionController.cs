@@ -33,7 +33,11 @@ namespace WorkScheduler.Controllers
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
 
             action.Date = action.Date.AddHours(3);
-            action.EndDate = action.EndDate.AddHours(3);
+
+            if (action.EndDate != null)
+            {
+                action.EndDate = action.EndDate.Value.AddHours(3);
+            }
 
             ActionStatus status = ActionStatus.New;
 
@@ -48,13 +52,13 @@ namespace WorkScheduler.Controllers
 
             try
             {
-                if (action.EndDate.Date.ToShortDateString() == "01.01.0001" || action.EndDate == null)
+                if (!action.EndDate.HasValue || action.EndDate.Value.ToShortDateString() == "01.01.0001")
                 {
                     SchedulerService.AddAction(currentUser.Id, workScheduleId, action, status);
                 }
                 else
                 {
-                    while (action.Date.Date <= action.EndDate.Date)
+                    while (action.Date.Date <= action.EndDate.Value.Date)
                     {
                         SchedulerService.AddAction(currentUser.Id, workScheduleId, action, status);
                         action.Date = action.Date.AddDays(1);
