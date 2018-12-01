@@ -522,7 +522,7 @@ namespace WorkScheduler.Services
             await Db.SaveChangesAsync();
         }
 
-        public IEnumerable<ActionViewModel> GetActionsToMake(ActionStatus targetStatus)
+        public IEnumerable<WorkScheduleViewModel> GetActionsToMake(ActionStatus targetStatus)
         {
             ActionStatus currentStatus = ActionStatus.New;
 
@@ -536,15 +536,25 @@ namespace WorkScheduler.Services
                     break;
             }
 
+            var schedules = new List<WorkScheduleViewModel>();
+
             var actionUsers = Db.ActionUsers
                .Include(au => au.User)
                .Include(au => au.Action)
                .ToList();
 
-            return Db.Actions
+            var scheduleGroups = Db.Actions
+                .Include(a => a.WorkSchedule)
+                .Include(a => a.ConfirmationForm)
                 .Where(a => a.Status == currentStatus && !a.IsDeleted)
                 .OrderBy(a => a.Date)
-                .Select(a => new ActionViewModel
+                .GroupBy(a => a.WorkSchedule);
+
+            foreach (var group in scheduleGroups)
+            {
+                var schedule = new WorkScheduleViewModel();
+
+                var actions = group.Select(a => new ActionViewModel
                 {
                     Id = a.Id,
                     Name = a.Name,
@@ -570,6 +580,21 @@ namespace WorkScheduler.Services
                     AuthorName = $"{a.WorkSchedule.User.LastName} {a.WorkSchedule.User.FirstName[0]}. {a.WorkSchedule.User.SurName[0]}."
                 })
                 .ToList();
+
+                schedule.Id = group.Key.Id;
+                schedule.Name = group.Key.Name;
+                schedule.User = new UserViewModel
+                {
+                    Id = group.Key.User.Id,
+                    Name = group.Key.User.UserName,
+                    FullName = actions.First().AuthorName
+                };
+                schedule.Actions = actions;
+
+                schedules.Add(schedule);
+            }
+
+            return schedules;
         }
     }
 }
