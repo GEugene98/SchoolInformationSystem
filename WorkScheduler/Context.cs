@@ -18,20 +18,20 @@ namespace WorkScheduler
         public DbSet<Ticket> Tickets { get; set; }
 
         //Monitoring
-        public DbSet<Address> Addresses { get; set; }
-        public DbSet<Certificate> Certificates { get; set; }
-        public DbSet<Diploma> Diplomas { get; set; }
-        public DbSet<Experience> Experiences { get; set; }
-        public DbSet<Passport> Passports { get; set; }
-        public DbSet<RefCourse> RefCourses { get; set; }
-        public DbSet<Reward> Rewards { get; set; }
-        public DbSet<Student> Students { get; set; }
-        public DbSet<StudentAchivment> StudentAchivments { get; set; }
-        public DbSet<Vacation> Vacations { get; set; }
-        public DbSet<Worker> Workers { get; set; }
-        public DbSet<WorkerAchivment> WorkerAchivments { get; set; }
-        public DbSet<WorkHistory> WorkHistory { get; set; }
-        public DbSet<WorkPeriod> WorkPeriods { get; set; }
+        //public DbSet<Address> Addresses { get; set; }
+        //public DbSet<Certificate> Certificates { get; set; }
+        //public DbSet<Diploma> Diplomas { get; set; }
+        //public DbSet<Experience> Experiences { get; set; }
+        //public DbSet<Passport> Passports { get; set; }
+        //public DbSet<RefCourse> RefCourses { get; set; }
+        //public DbSet<Reward> Rewards { get; set; }
+        //public DbSet<Student> Students { get; set; }
+        //public DbSet<StudentAchivment> StudentAchivments { get; set; }
+        //public DbSet<Vacation> Vacations { get; set; }
+        //public DbSet<Worker> Workers { get; set; }
+        //public DbSet<WorkerAchivment> WorkerAchivments { get; set; }
+        //public DbSet<WorkHistory> WorkHistory { get; set; }
+        //public DbSet<WorkPeriod> WorkPeriods { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options)
         {
