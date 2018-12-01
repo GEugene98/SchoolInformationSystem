@@ -49,7 +49,7 @@
   </tbody>
 </table>
 
-<div *ngIf="checkRole(userState.currentUser?.state, 'Учитель')" style="text-align: center">
+<div *ngIf="checkRole(userState.currentUser?.state, 'Учитель') && !checkRole(userState.currentUser?.state, 'Администратор')" style="text-align: center">
   <button type="button" (click)="confirm()" class="btn btn-warning" >Отправить отмеченные мероприятия на согласование</button>
 </div>
 

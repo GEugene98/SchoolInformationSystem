@@ -2,7 +2,7 @@
   <button style="float: right;" (click)="showAll = !showAll" type="button" class="btn btn-light"><span *ngIf="!showAll">Показать</span><span *ngIf="showAll">Скрыть</span></button>
   <div>
     <h3>План: "{{schedule.name}}"</h3>
-    <h4>Атвор: {{schedule.user.fullName}}</h4>
+    <h4>Автор: {{schedule.user.fullName}}</h4>
   </div>
 </div>
 <div *ngIf="showAll">
