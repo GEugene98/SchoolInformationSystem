@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="DinkToPdf" Version="1.0.8" />
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.3" />
@@ -64,6 +65,7 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\app\monitoring\" />
     <Folder Include="ClientApp\src\app\statistic\" />
+    <Folder Include="ViewModels\Monitoring\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
