@@ -78,6 +78,7 @@ export class ScheduleDetailsComponent implements OnInit {
 
   clearFields() {
     this.selectedDate = undefined;
+    this.selectedEndDate = undefined;
     this.selectedName = undefined;
     this.selectedConfFormId = undefined;
     this.selectedResponsibles = new Array<User>();

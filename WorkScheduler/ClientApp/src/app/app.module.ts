@@ -28,6 +28,7 @@ import { ScheduleDetailsComponent } from './scheduler/schedule-details/schedule-
 import { TimelineComponent } from './scheduler/timeline/timeline.component';
 import { NgxUiLoaderModule, NgxUiLoaderConfig } from 'ngx-ui-loader';
 import { ActionComponent } from './scheduler/action/action.component';
+import { ConfirmAcceptScheduleComponent } from './scheduler/confirm-accept-schedule/confirm-accept-schedule.component';
 
 defineLocale('ru', ruLocale);
 

@@ -35,6 +35,7 @@ import { ScheduleDetailsComponent } from './schedule-details/schedule-details.co
 import { AccountService } from '../shared/services/account.service';
 import { TimelineComponent } from './timeline/timeline.component';
 import { ActionComponent } from './action/action.component';
+import { ConfirmAcceptScheduleComponent } from './confirm-accept-schedule/confirm-accept-schedule.component';
 defineLocale('ru', ruLocale); 
 
 const schedulerRoutes = [
@@ -61,6 +62,7 @@ const schedulerRoutes = [
     AcceptComponent,
     ScheduleDetailsComponent,
     TimelineComponent,
+    ConfirmAcceptScheduleComponent,
     ActionComponent,
   ],
   imports: [

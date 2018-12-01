@@ -83,7 +83,7 @@ export class ScheduleService {
   async getActionsToMake(targetStatus: ActionStatus) {
     const params = new HttpParams()
       .set('targetStatus', targetStatus.toString());
-    return await this.http.get<Action[]>('api/Action/GetActionsToMake', { params: params }).toPromise();
+    return await this.http.get<WorkSchedule[]>('api/Action/GetActionsToMake', { params: params }).toPromise();
   }
 
   async allowConfirm(ids: number[]) {
