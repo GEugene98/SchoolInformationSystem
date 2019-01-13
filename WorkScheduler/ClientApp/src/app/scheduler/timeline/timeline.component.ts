@@ -24,6 +24,10 @@ export class TimelineComponent implements OnInit {
   newTicket: Ticket;
   modalRef: BsModalRef;
 
+  days: number[] = undefined;
+  dateTo: Date = undefined;
+  repeat: boolean = false;
+
   constructor(private activateRoute: ActivatedRoute,
     private modalService: BsModalService,
     private schedule: ScheduleService,
@@ -47,27 +51,37 @@ export class TimelineComponent implements OnInit {
   }
 
   async saveTicket() {
-    try {
-      await this.schedule.updateTicket(this.newTicket);
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись изменена", life: 5000 });
-      this.loadData();
-      this.modalRef.hide();
-    } catch (e) {
-      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    if (this.isTimeCorrect()) {
+      try {
+        await this.schedule.updateTicket(this.newTicket);
+        this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись изменена", life: 5000 });
+        this.loadData();
+        this.modalRef.hide();
+      } catch (e) {
+        this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+      }
     }
-
   }
 
   async addTicket() {
-    try {
-      await this.schedule.addTicket(this.newTicket);
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись добавлена в циклограмму", life: 5000 });
-      this.loadData();
-      this.modalRef.hide();
-    } catch (e) {
-      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    if (this.isTimeCorrect()) {
+      try {
+        await this.schedule.addTicket(this.newTicket, this.repeat, this.dateTo, this.days);
+        this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись добавлена в циклограмму", life: 5000 });
+        this.loadData();
+        this.modalRef.hide();
+      } catch (e) {
+        this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+      }
     }
+  }
 
+  isTimeCorrect() {
+    if ((this.newTicket.hours > 23 || this.newTicket.hours < 0) || (this.newTicket.minutes > 59 || this.newTicket.minutes < 0)) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Время введено не корректно', life: 5000 });
+      return false;
+    }
+    return true;
   }
 
   async delete(ticket: Ticket) {
@@ -92,4 +106,15 @@ export class TimelineComponent implements OnInit {
     this.newTicket = Object.assign({}, ticket);
   }
 
+  setDays(days: number[]) {
+    this.days = days;
+  }
+
+  setDateTo(dateTo: Date) {
+    this.dateTo = dateTo;
+  }
+
+  setRepeat(repeat: boolean) {
+    this.repeat = repeat;
+  }
 }

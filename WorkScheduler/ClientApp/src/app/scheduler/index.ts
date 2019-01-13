@@ -36,6 +36,7 @@ import { AccountService } from '../shared/services/account.service';
 import { TimelineComponent } from './timeline/timeline.component';
 import { ActionComponent } from './action/action.component';
 import { ConfirmAcceptScheduleComponent } from './confirm-accept-schedule/confirm-accept-schedule.component';
+import { RepeatComponent } from './timeline/components/repeat/repeat.component';
 defineLocale('ru', ruLocale); 
 
 const schedulerRoutes = [
@@ -64,6 +65,7 @@ const schedulerRoutes = [
     TimelineComponent,
     ConfirmAcceptScheduleComponent,
     ActionComponent,
+    RepeatComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

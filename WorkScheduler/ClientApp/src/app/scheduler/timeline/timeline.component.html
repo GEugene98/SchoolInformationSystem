@@ -10,7 +10,7 @@
          (ngModelChange)="loadData()"
          AUTOCOMPLETE="off"
          [bsConfig]="bsConfig"
-         bsDatepicker  
+         bsDatepicker
          style="width: 300px; float: left;"> &nbsp;
   <button type="button" (click)="openModal(add)" class="btn btn-success">Добавить запись</button>&nbsp;
   <!--<button type="button" (click)="sendSchedule()" class="btn btn-info">Отправить на мою почту</button>-->
@@ -128,11 +128,15 @@
              [bsConfig]="bsConfig"
              bsDatepicker>
     </div>
+
     <div>
       Время начала:
       <input type="text" [(ngModel)]="newTicket.hours" class="clock form-control" placeholder="ЧЧ"> :
       <input type="text" [(ngModel)]="newTicket.minutes" class="clock form-control" placeholder="ММ">
     </div>
+    <br />
+
+    <app-repeat (days)="setDays($event)" (dateTo)="setDateTo($event)" (repeatAction)="setRepeat($event)"></app-repeat>
 
     <div>
       Комментарий(не обязательно):

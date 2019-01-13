@@ -141,22 +141,44 @@ namespace WorkScheduler.Controllers
 
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
 
-            var newTicket = new Ticket
+            if (ticket.Repeat)
             {
-                Name = ticket.Name,
-                ActionId = ticket.Action?.Id,
-                UserId = currentUser.Id,
-                Comment = ticket.Comment,
-                Done = ticket.Done,
-                Date = ticket.Date.AddHours(3),
-                Hours = ticket.Hours == null ? 0 : ticket.Hours,
-                Minutes = ticket.Minutes == null ? 0 : ticket.Minutes
-            };
+                var daysOfWeek = ticket.Days.Cast<DayOfWeek>();
 
-            Db.Tickets.Add(newTicket);
+                while (ticket.Date.Date <= ticket.DateTo.Date)
+                {
+                    if (daysOfWeek.Contains(ticket.Date.DayOfWeek))
+                    {
+                        AddTicket(ticket);  
+                    }
+
+                    ticket.Date = ticket.Date.AddDays(1);
+                }
+
+            }
+            else
+            {
+                AddTicket(ticket);
+            }
+
+            void AddTicket(TicketViewModel ticketModel)
+            {
+                var newTicket = new Ticket
+                {
+                    Name = ticketModel.Name,
+                    ActionId = ticketModel.Action?.Id,
+                    UserId = currentUser.Id,
+                    Comment = ticketModel.Comment,
+                    Done = ticketModel.Done,
+                    Date = ticketModel.Date.AddHours(3),
+                    Hours = ticketModel.Hours == null ? 0 : ticket.Hours,
+                    Minutes = ticketModel.Minutes == null ? 0 : ticket.Minutes
+                };
+
+                Db.Tickets.Add(newTicket);
+            }
 
             Db.SaveChanges();
-
             return Ok();
         }
 

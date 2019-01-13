@@ -15,6 +15,10 @@ namespace WorkScheduler.ViewModels
         public Time Start { get; set; }
         public byte? Hours { get; set; }
         public byte? Minutes { get; set; }
+
+        public bool Repeat { get; set; }
+        public DateTime DateTo { get; set; }
+        public IEnumerable<int> Days { get; set; }
     }
 
     public class Time

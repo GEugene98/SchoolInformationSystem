@@ -64,6 +64,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\monitoring\" />
+    <Folder Include="ClientApp\src\app\scheduler\timeline\components\" />
     <Folder Include="ClientApp\src\app\statistic\" />
     <Folder Include="ViewModels\Monitoring\" />
     <Folder Include="wwwroot\" />

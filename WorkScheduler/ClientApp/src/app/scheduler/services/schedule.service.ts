@@ -6,6 +6,7 @@ import { Action } from "../../shared/models/action.model";
 import { ActionStatus } from "../../shared/enums/action-status.enum";
 import { Ticket } from "../../shared/models/ticket.model";
 import { TicketPack } from "../../shared/models/ticket-pack.model";
+import { tick } from "@angular/core/testing";
 
 @Injectable()
 export class ScheduleService {
@@ -106,7 +107,17 @@ export class ScheduleService {
     return await this.http.post('api/Schedule/Accept', ids).toPromise();
   }
 
-  async addTicket(ticket: Ticket) {
+  async addTicket(ticket: Ticket, repeat: boolean = false, dateTo: Date = undefined, days: number[] = undefined) {
+    //debugger;
+    //const params = new HttpParams()
+    //  .set('repeat', repeat.toString())
+    //  .set('dateTo', dateTo != null ? dateTo.toString() : undefined)
+    //  .set('days', days != null ? days.toString() : undefined);
+
+    ticket.repeat = repeat;
+    ticket.dateTo = dateTo;
+    ticket.days = days;
+    debugger;
     return await this.http.post('api/Ticket/Add', ticket).toPromise();
   }
 

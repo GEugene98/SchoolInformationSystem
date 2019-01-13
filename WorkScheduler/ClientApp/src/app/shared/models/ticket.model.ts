@@ -16,4 +16,8 @@ export class Ticket extends Dictionary<number> {
   //front only
   dateToGroup: any;
   dateToShow: string;
+
+  repeat: boolean;
+  dateTo: Date;
+  days: number[];
 }

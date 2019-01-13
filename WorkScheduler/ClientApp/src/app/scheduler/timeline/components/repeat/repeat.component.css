@@ -1,0 +1,8 @@
+.days {
+  display: flex;
+  flex-direction: row;
+}
+
+  .days div {
+    margin-right: 20px;
+  }
