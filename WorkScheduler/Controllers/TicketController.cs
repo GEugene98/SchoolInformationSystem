@@ -141,7 +141,7 @@ namespace WorkScheduler.Controllers
 
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
 
-            if (ticket.Repeat)
+            if (ticket.Repeat && ticket.Days != null)
             {
                 var daysOfWeek = ticket.Days.Cast<DayOfWeek>();
 
