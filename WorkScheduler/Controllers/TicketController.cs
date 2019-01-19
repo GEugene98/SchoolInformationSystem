@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WorkScheduler.Models;
 using WorkScheduler.Models.Identity;
+using WorkScheduler.Services;
 using WorkScheduler.ViewModels;
 
 namespace WorkScheduler.Controllers
@@ -18,115 +19,23 @@ namespace WorkScheduler.Controllers
     {
         protected Context Db;
         protected UserManager<User> UserManager;
+        protected NotificationService NotificationService;
+        protected TicketService TicketService;
 
-        public TicketController(Context context, UserManager<User> userManager)
+        public TicketController(Context context, UserManager<User> userManager, NotificationService notificationService, TicketService ticketService)
         {
             Db = context;
             UserManager = userManager;
+            NotificationService = notificationService;
+            TicketService = ticketService;
         }
 
         [HttpPost("MyTickets")]
-        public IActionResult MyTickets([FromBody]DateTime dateTo)
+        public IActionResult MyTickets([FromBody]IEnumerable<DateTime> range)
         {
-            dateTo = dateTo.AddHours(3);
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
-            var actionUsers = Db.ActionUsers
-                .Include(au => au.User)
-                .Include(au => au.Action)
-                .ToList();
-            var tickets = Db.Tickets
-                .Include(t => t.Action)
-                .Include(t => t.Action.ConfirmationForm)
-                .Include(t => t.Action.WorkSchedule)
-                .Include(t => t.Action.WorkSchedule.Activity)
-                .Where(t => t.UserId == currentUser.Id);
 
-            if (dateTo == null || dateTo.ToShortDateString() == "01.01.0001")
-            {
-                dateTo = DateTime.Now;
-            }
-
-            var groupedTickets = tickets
-                .Where(t => t.Date.Date == dateTo.Date)
-                .ToList()
-                .OrderBy(t => t.Date.Date)
-                .GroupBy(t => t.Date.Date);
-
-            var ticketPacks = new List<TicketPackViewModel>();
-
-            foreach (var group in groupedTickets)
-            {
-                var ticketsToPack = group.Select(t => new TicketViewModel
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                    Date = t.Date,
-                    Comment = t.Comment,
-                    Done = t.Done,
-                    User = new UserViewModel
-                    {
-                        Id = t.User.Id,
-                        Name = t.User.UserName
-                    },
-                    Action = t.Action != null ? new ActionViewModel
-                    {
-                        Id = t.Action.Id,
-                        Name = t.Action.Name,
-                        Activity = new ActivityViewModel
-                        {
-                            Id = t.Action.WorkSchedule.Activity.Id,
-                            Name = t.Action.WorkSchedule.Activity.Name,
-                            Color = t.Action.WorkSchedule.Activity.Color
-                        },
-                        IsDeleted = t.Action.IsDeleted,
-                        ConfirmationForm = new ConfirmationFormViewModel
-                        {
-                            Id = t.Action.ConfirmationForm.Id,
-                            Name = t.Action.ConfirmationForm.Name
-                        },
-                        Status = t.Action.Status,
-                        Date = t.Action.Date.AddHours(3),
-                        Responsibles = actionUsers
-                    .Where(ar => ar.ActionId == t.Action.Id)
-                    .Select(ar => new UserViewModel
-                    {
-                        Id = ar.User.Id,
-                        Name = ar.User.UserName,
-                        FirstName = ar.User.FirstName,
-                        LastName = ar.User.LastName,
-                        SurName = ar.User.SurName,
-                    })
-                    .ToList(),
-                    } : null,
-                    Hours = t.Hours,
-                    Minutes = t.Minutes ?? 0
-                });
-
-                var timeGroups = new List<TicketTimeGroup>();
-                var minTicketHour = ticketsToPack.Select(ttp => ttp.Hours).Min().Value;
-                var startHour = minTicketHour < 8 ? minTicketHour : 8;
-                var maxTicketHour = ticketsToPack.Select(ttp => ttp.Hours).Max().Value;
-                var endHour = maxTicketHour > 17 ? maxTicketHour : 17;
-
-                for (var i = startHour; i <= endHour; i++)
-                {
-                    var timeGroup = new TicketTimeGroup
-                    {
-                        Hour = i,
-                        Tickets = ticketsToPack.Where(t => t.Hours == i).ToList()
-                    };
-
-                    timeGroups.Add(timeGroup);
-                }
-
-                var pack = new TicketPackViewModel
-                {
-                    Date = group.Key,
-                    TimeGroups = timeGroups
-                };
-
-                ticketPacks.Add(pack);
-            }
+            var ticketPacks = TicketService.GetTickets(range, currentUser);
 
             return Ok(ticketPacks);
         }
@@ -149,7 +58,7 @@ namespace WorkScheduler.Controllers
                 {
                     if (daysOfWeek.Contains(ticket.Date.DayOfWeek))
                     {
-                        AddTicket(ticket);  
+                        AddTicket(ticket);
                     }
 
                     ticket.Date = ticket.Date.AddDays(1);
@@ -202,6 +111,24 @@ namespace WorkScheduler.Controllers
             var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
             Db.Tickets.Remove(ticket);
             Db.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost("SendTimeline")]
+        public IActionResult SendTimeline([FromBody]IEnumerable<DateTime> range)
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            try
+            {
+                var ticketPacks = TicketService.GetTickets(range, currentUser);
+                NotificationService.SendTimeline(ticketPacks, currentUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+
             return Ok();
         }
     }

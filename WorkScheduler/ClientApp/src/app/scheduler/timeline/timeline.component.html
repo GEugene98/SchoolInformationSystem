@@ -3,24 +3,27 @@
 <br />
 
 <div style="text-align: left">
-  <input type="text"
-         placeholder="Выберите день"
-         class="form-control"
-         [(ngModel)]="selectedDate"
-         (ngModelChange)="loadData()"
-         AUTOCOMPLETE="off"
-         [bsConfig]="bsConfig"
-         bsDatepicker
-         style="width: 300px; float: left;"> &nbsp;
+  
+    <input type="text"
+           class="form-control"
+           [(ngModel)]="range"
+           (ngModelChange)="loadData()"
+           AUTOCOMPLETE="off"
+           [bsConfig]="bsConfig"
+           bsDaterangepicker
+           placeholder="Выбрать период"
+           style="width: 300px; float: left;"> &nbsp;
+
   <button type="button" (click)="openModal(add)" class="btn btn-success">Добавить запись</button>&nbsp;
-  <!--<button type="button" (click)="sendSchedule()" class="btn btn-info">Отправить на мою почту</button>-->
+  <button type="button" (click)="sendTimeline()" class="btn btn-info">Отправить на мою почту</button>
 </div>
 
 <br />
 
-<div style="text-align: center; margin-top: 50px; font-style: italic;" *ngIf="!packs || packs?.length == 0"><span>Ваша циклограмма на выбранную дату пуста. Добавьте запись</span></div>
+<div style="text-align: center; margin-top: 50px; font-style: italic;" *ngIf="!packs || packs?.length == 0"><span>Выберите период</span></div>
 
 <div *ngFor="let pack of packs">
+  <h3>{{pack.dateToShow}}</h3><br />
   <table class="table">
     <thead>
       <tr>
@@ -48,7 +51,7 @@
               ФП: {{ticket.action.confirmationForm.name}}
             </div>
           </div>
-          <span style="color: darkgray; text-align: center;" *ngIf="!ticket.action">(Нет закрепленного мероприятия)</span>
+          <span style="color: darkgray; text-align: center;" *ngIf="!ticket.action"></span>
         </td>
         <td>{{ticket.comment}}</td>
         <td>

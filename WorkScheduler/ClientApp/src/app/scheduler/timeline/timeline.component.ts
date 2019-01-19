@@ -18,6 +18,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class TimelineComponent implements OnInit {
 
+  range: Date[]; 
   bsConfig: any;
   packs: TicketPack[];
   selectedDate: Date = new Date();
@@ -25,7 +26,7 @@ export class TimelineComponent implements OnInit {
   modalRef: BsModalRef;
 
   days: number[] = undefined;
-  dateTo: Date = undefined;
+  dateTo: Date = new Date();
   repeat: boolean = false;
 
   constructor(private activateRoute: ActivatedRoute,
@@ -38,14 +39,15 @@ export class TimelineComponent implements OnInit {
     private userState: UserState) {
     this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
     this.titleService.setTitle('Моя циклограмма');
+    this.range = new Array<Date>();
   }
 
   async ngOnInit() {
-    await this.loadData();
+    //await this.loadData();
   }
 
   async loadData() {
-    this.packs = await this.schedule.myTicketPacks(this.selectedDate);
+    this.packs = await this.schedule.myTicketPacks(this.range);
     this.newTicket = new Ticket();
     this.newTicket.date = this.selectedDate;
   }
@@ -68,6 +70,10 @@ export class TimelineComponent implements OnInit {
       try {
         await this.schedule.addTicket(this.newTicket, this.repeat, this.dateTo, this.days);
         this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись добавлена в циклограмму", life: 5000 });
+        this.dateTo = new Date();
+        this.selectedDate = new Date();
+        this.repeat = false;
+        this.days = undefined;
         this.loadData();
         this.modalRef.hide();
       } catch (e) {
@@ -116,5 +122,15 @@ export class TimelineComponent implements OnInit {
 
   setRepeat(repeat: boolean) {
     this.repeat = repeat;
+  }
+
+  async sendTimeline() {
+    try {
+      await this.schedule.sendTimeline(this.range);
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Циклограмма отправлена на вашу почту", life: 5000 });
+    } catch (e) {
+      console.error(e);
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
   }
 }

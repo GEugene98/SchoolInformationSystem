@@ -8,6 +8,7 @@ namespace WorkScheduler.ViewModels
     public class TicketPackViewModel
     {
         public DateTime Date { get; set; }
+        public string DateToShow { get; set; }
         public IEnumerable<TicketTimeGroup> TimeGroups { get; set; }
     }
 

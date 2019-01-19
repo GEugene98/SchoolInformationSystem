@@ -1,12 +1,170 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using WorkScheduler.Models.Identity;
+using WorkScheduler.ViewModels;
 
 namespace WorkScheduler.Services
 {
     public class TicketService
     {
+        protected Context Db;
+        protected NotificationService NotificationService;
+
+        protected CultureInfo culture = CultureInfo.GetCultureInfo("ru-RU");
+
+        public TicketService(Context context, NotificationService notificationService)
+        {
+            Db = context;
+            NotificationService = notificationService;
+        }
+
+        public List<TicketPackViewModel> GetTickets(IEnumerable<DateTime> range, User user)
+        {
+            var dateFrom = range.ToArray()[0].AddHours(3);
+            var dateTo = range.ToArray()[1].AddHours(3);
+
+            var actionUsers = Db.ActionUsers
+                .Include(au => au.User)
+                .Include(au => au.Action)
+                .ToList();
+            var tickets = Db.Tickets
+                .Include(t => t.Action)
+                .Include(t => t.Action.ConfirmationForm)
+                .Include(t => t.Action.WorkSchedule)
+                .Include(t => t.Action.WorkSchedule.Activity)
+                .Where(t => t.UserId == user.Id);
+
+            if (dateTo == null || dateTo.ToShortDateString() == "01.01.0001")
+            {
+                dateTo = DateTime.Now;
+            }
+
+            if (dateFrom == null || dateFrom.ToShortDateString() == "01.01.0001")
+            {
+                dateFrom = DateTime.Now;
+            }
+
+            var groupedTickets = tickets
+                .Where(t => t.Date.Date >= dateFrom.Date && t.Date.Date <= dateTo.Date)
+                .ToList()
+                .OrderBy(t => t.Date.Date)
+                .GroupBy(t => t.Date.Date);
+
+            var ticketPacks = new List<TicketPackViewModel>();
+
+
+            for (DateTime i = dateFrom.Date; i < dateTo.Date; i = i.AddDays(1))
+            {
+                var group = groupedTickets.FirstOrDefault(g => g.Key.Date == i.Date);
+
+                if (group == null)
+                {
+                    var tGroups = new List<TicketTimeGroup>();
+
+                    for (var j = 8; j <= 17; j++)
+                    {
+                        var timeGroup = new TicketTimeGroup
+                        {
+                            Hour = j,
+                        };
+
+                        tGroups.Add(timeGroup);
+                    }
+
+                    var mock = new TicketPackViewModel
+                    {
+                        Date = i,
+                        DateToShow = i.ToLongDateString() + ", " + culture.DateTimeFormat.GetDayName(i.DayOfWeek).ToLower(),
+                        TimeGroups = tGroups
+                    };
+
+                    ticketPacks.Add(mock);
+
+                    continue;
+                }
+
+
+                var ticketsToPack = group.Select(t => new TicketViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Date = t.Date,
+                    Comment = t.Comment,
+                    Done = t.Done,
+                    User = new UserViewModel
+                    {
+                        Id = t.User.Id,
+                        Name = t.User.UserName
+                    },
+                    Action = t.Action != null ? new ActionViewModel
+                    {
+                        Id = t.Action.Id,
+                        Name = t.Action.Name,
+                        Activity = new ActivityViewModel
+                        {
+                            Id = t.Action.WorkSchedule.Activity.Id,
+                            Name = t.Action.WorkSchedule.Activity.Name,
+                            Color = t.Action.WorkSchedule.Activity.Color
+                        },
+                        IsDeleted = t.Action.IsDeleted,
+                        ConfirmationForm = new ConfirmationFormViewModel
+                        {
+                            Id = t.Action.ConfirmationForm.Id,
+                            Name = t.Action.ConfirmationForm.Name
+                        },
+                        Status = t.Action.Status,
+                        Date = t.Action.Date.AddHours(3),
+                        Responsibles = actionUsers
+                    .Where(ar => ar.ActionId == t.Action.Id)
+                    .Select(ar => new UserViewModel
+                    {
+                        Id = ar.User.Id,
+                        Name = ar.User.UserName,
+                        FirstName = ar.User.FirstName,
+                        LastName = ar.User.LastName,
+                        SurName = ar.User.SurName,
+                    })
+                    .ToList(),
+                    } : null,
+                    Hours = t.Hours,
+                    Minutes = t.Minutes ?? 0
+                });
+
+                var timeGroups = new List<TicketTimeGroup>();
+                var minTicketHour = ticketsToPack.Select(ttp => ttp.Hours).Min().Value;
+                var startHour = minTicketHour < 8 ? minTicketHour : 8;
+                var maxTicketHour = ticketsToPack.Select(ttp => ttp.Hours).Max().Value;
+                var endHour = maxTicketHour > 17 ? maxTicketHour : 17;
+
+                for (var j = startHour; j <= endHour; j++)
+                {
+                    var timeGroup = new TicketTimeGroup
+                    {
+                        Hour = j,
+                        Tickets = ticketsToPack.Where(t => t.Hours == j).ToList()
+                    };
+
+                    timeGroups.Add(timeGroup);
+                }
+
+                var pack = new TicketPackViewModel
+                {
+                    Date = group.Key,
+                    DateToShow = group.Key.ToLongDateString() + ", " + culture.DateTimeFormat.GetDayName(i.DayOfWeek).ToLower(),
+                    TimeGroups = timeGroups
+                };
+
+                ticketPacks.Add(pack);
+            }
+
+
+            return ticketPacks;
+        }
+
 
     }
 }

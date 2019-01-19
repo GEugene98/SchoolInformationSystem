@@ -95,7 +95,7 @@ namespace WorkScheduler.Services
                 .ToList();
         }
 
-        public IEnumerable<ActionViewModel> GetActionsFor(int workScheduleId, int count = 1000)
+        public IEnumerable<ActionViewModel> GetActionsFor(int workScheduleId, int count = 100000)
         {
             var actionUsers = Db.ActionUsers
                 .Include(au => au.User)

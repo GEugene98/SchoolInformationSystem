@@ -59,6 +59,7 @@ namespace WorkSheduler
                     .AddEntityFrameworkStores<WorkScheduler.Context>();
 
                 services.AddScoped<SchedulerService>();
+                services.AddScoped<TicketService>();
                 services.AddScoped<ReportService>();
                 services.AddScoped<NotificationService>();
 

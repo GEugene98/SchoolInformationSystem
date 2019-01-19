@@ -117,7 +117,6 @@ export class ScheduleService {
     ticket.repeat = repeat;
     ticket.dateTo = dateTo;
     ticket.days = days;
-    debugger;
     return await this.http.post('api/Ticket/Add', ticket).toPromise();
   }
 
@@ -132,8 +131,12 @@ export class ScheduleService {
     return await this.http.delete('api/Ticket/Delete', { params: params }).toPromise();
   }
 
-  async myTicketPacks(dateTo: Date = null) {
-    return await this.http.post<TicketPack[]>('api/Ticket/MyTickets', dateTo).toPromise();
+  async myTicketPacks(range: Date[] = null) {
+    return await this.http.post<TicketPack[]>('api/Ticket/MyTickets', range).toPromise();
+  }
+
+  async sendTimeline(range: Date[] = null) {
+    return await this.http.post('api/Ticket/SendTimeline', range).toPromise();
   }
 
   async deleteSchedule(scheduleId: number) {
