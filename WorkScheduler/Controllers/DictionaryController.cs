@@ -74,7 +74,9 @@ namespace WorkScheduler.Controllers
                 responsibles.Add(userModel);
             }
 
-            return Ok(responsibles);
+            return Ok(responsibles
+                .Where(r => r.LastName != "Тест")
+                .OrderBy(r => r.LastName));
         }
 
         [HttpGet("Roles")]
