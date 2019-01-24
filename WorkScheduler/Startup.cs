@@ -73,7 +73,7 @@ namespace WorkSheduler
             }
             catch(Exception ex)
             {
-                logger.Error(ex.Message);
+                logger.Error(ex.ToString());
             }
         }
 
@@ -121,7 +121,7 @@ namespace WorkSheduler
             }
             catch(Exception ex)
             {
-                logger.Error(ex.Message);
+                logger.Error(ex.ToString());
             }
         }
     }

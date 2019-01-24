@@ -23,12 +23,12 @@ namespace WorkScheduler
 
         public void Log(string message)
         {
-            File.WriteAllText(@"C:\InnerApplicationsLogs.txt", $"\nIS: {message}");
+            File.WriteAllText(@"C:\InformationSystemLogs.txt", $"\n {message}");
         }
 
         public void Error(string message)
         {
-            File.WriteAllText(@"C:\InnerApplicationsErrors.txt", $"\nIS: {message}");
+            File.WriteAllText(@"C:\InformationSystemErrors.txt", $"\n: {message}");
         }
     }
 }
