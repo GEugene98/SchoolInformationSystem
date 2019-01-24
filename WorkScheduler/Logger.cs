@@ -9,7 +9,7 @@ namespace WorkScheduler
     public class Logger
     {
         private static Logger instance;
-        private string path = @"C:\";
+        private string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
         private Logger()
         { }
@@ -23,12 +23,12 @@ namespace WorkScheduler
 
         public void Log(string message)
         {
-            File.WriteAllText(@"C:\InformationSystemLogs.txt", $"\n {message}");
+            File.AppendAllText(Path.Combine(path, "InformationSystemLogs.txt"), $"[{DateTime.Now.ToShortDateString()} {DateTime.Now.ToLongTimeString()}]  {message}\n\n");
         }
 
         public void Error(string message)
         {
-            File.WriteAllText(@"C:\InformationSystemErrors.txt", $"\n: {message}");
+            File.AppendAllText(Path.Combine(path, "InformationSystemErrors.txt"), $"[{DateTime.Now.ToShortDateString()} {DateTime.Now.ToLongTimeString()}]  {message}\n\n");
         }
     }
 }

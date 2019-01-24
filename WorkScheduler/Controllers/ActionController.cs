@@ -19,12 +19,14 @@ namespace WorkScheduler.Controllers
         protected Context Db;
         protected SchedulerService SchedulerService;
         protected UserManager<User> UserManager;
+        private readonly Logger Logger;
 
         public ActionController(Context context, SchedulerService schedulerService, UserManager<User> userManager)
         {
             Db = context;
             SchedulerService = schedulerService;
             UserManager = userManager;
+            Logger = Logger.GetInstance();
         }
 
         [HttpPost("Add")]
@@ -67,6 +69,7 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception e)
             {
+                Logger.Error(e.ToString());
                 return BadRequest(e.Message);
             }
 
@@ -84,6 +87,7 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception e)
             {
+                Logger.Error(e.ToString());
                 return BadRequest(e.Message);
             }
 
@@ -99,6 +103,7 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception e)
             {
+                Logger.Error(e.ToString());
                 BadRequest(e.Message);
             }
 

@@ -19,6 +19,7 @@ namespace WorkScheduler.Controllers
         protected UserManager<User> UserManager;
         protected SchedulerService SchedulerService;
         protected NotificationService NotificationService;
+        private readonly Logger Logger;
 
         public ScheduleController(Context context, UserManager<User> userManager, SchedulerService schedulerService, NotificationService notificationService)
         {
@@ -26,6 +27,7 @@ namespace WorkScheduler.Controllers
             UserManager = userManager;
             SchedulerService = schedulerService;
             NotificationService = notificationService;
+            Logger = Logger.GetInstance();
         }
 
         [HttpPost("ForDay")]
@@ -63,6 +65,7 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception e)
             {
+                Logger.Error(e.ToString());
                 return BadRequest(e.Message);
             }
 
@@ -149,6 +152,7 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Error(ex.ToString());
                 return BadRequest(ex.Message);
             }
 

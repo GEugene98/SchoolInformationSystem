@@ -13,10 +13,12 @@ namespace WorkScheduler.Controllers
     public class ReportController : Controller
     {
         protected ReportService ReportService;
+        private readonly Logger Logger;
 
         public ReportController(ReportService reportService)
         {
             ReportService = reportService;
+            Logger = Logger.GetInstance();
         }
 
         [HttpGet("ForPeriod")]
@@ -48,6 +50,7 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Error(ex.ToString());
                 return BadRequest(ex.Message);
             }
         }

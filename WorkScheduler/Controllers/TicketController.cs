@@ -21,6 +21,7 @@ namespace WorkScheduler.Controllers
         protected UserManager<User> UserManager;
         protected NotificationService NotificationService;
         protected TicketService TicketService;
+        private readonly Logger Logger;
 
         public TicketController(Context context, UserManager<User> userManager, NotificationService notificationService, TicketService ticketService)
         {
@@ -28,6 +29,7 @@ namespace WorkScheduler.Controllers
             UserManager = userManager;
             NotificationService = notificationService;
             TicketService = ticketService;
+            Logger = Logger.GetInstance();
         }
 
         [HttpPost("MyTickets")]
@@ -126,7 +128,8 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.ToString());
+                Logger.Error(ex.ToString());
+                return BadRequest(ex.Message);
             }
 
             return Ok();

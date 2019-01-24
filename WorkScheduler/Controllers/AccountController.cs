@@ -16,12 +16,14 @@ namespace WorkScheduler.Controllers
         private readonly UserManager<User> UserManager;
         private readonly SignInManager<User> SignInManager;
         private readonly Context Context;
+        private readonly Logger Logger;
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, Context context)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             Context = context;
+            Logger = Logger.GetInstance();
         }
 
         [Authorize(Roles = "Директор")]
@@ -118,6 +120,7 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Error(ex.ToString());
                 ViewBag.Message = $"Неизвестная ошибка. Дополнительная информация: {ex.Message}";
                 return View();
             }
