@@ -7,6 +7,7 @@ export class Ticket extends Dictionary<number> {
   action: Action;
   comment: string;
   done: boolean;
+  important: boolean;
   date: Date;
   hours: number;
   minutes: number;

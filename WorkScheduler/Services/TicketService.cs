@@ -95,6 +95,7 @@ namespace WorkScheduler.Services
                     Date = t.Date,
                     Comment = t.Comment,
                     Done = t.Done,
+                    Important = t.Important,
                     User = new UserViewModel
                     {
                         Id = t.User.Id,

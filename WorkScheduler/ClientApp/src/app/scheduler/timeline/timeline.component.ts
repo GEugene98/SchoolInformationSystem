@@ -10,6 +10,7 @@ import { Ticket } from '../../shared/models/ticket.model';
 import { TicketPack } from '../../shared/models/ticket-pack.model';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Title } from '@angular/platform-browser';
+import { concat } from 'rxjs';
 
 @Component({
   selector: 'app-timeline',
@@ -93,10 +94,11 @@ export class TimelineComponent implements OnInit {
   async delete(ticket: Ticket) {
     try {
       await this.schedule.deleteTicket(ticket);
+      await this.loadData();
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись удалена", life: 5000 });
-      this.loadData();
-      this.modalRef.hide();
+      //this.modalRef.hide();
     } catch (e) {
+      console.log(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
   }
@@ -128,6 +130,28 @@ export class TimelineComponent implements OnInit {
     try {
       await this.schedule.sendTimeline(this.range);
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Циклограмма отправлена на вашу почту", life: 5000 });
+    } catch (e) {
+      console.error(e);
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+  async makeDone(id) {
+    try {
+      var response = await this.schedule.makeDone(id);
+      await this.loadData();
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
+    } catch (e) {
+      console.error(e);
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+  async makeImportant(id) {
+    try {
+      var response = await this.schedule.makeImportant(id);
+      await this.loadData();
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
     } catch (e) {
       console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });

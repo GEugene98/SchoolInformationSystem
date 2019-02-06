@@ -134,5 +134,55 @@ namespace WorkScheduler.Controllers
 
             return Ok();
         }
+
+        [HttpGet("MakeDone")]
+        public IActionResult MakeDone(int ticketId)
+        {
+            try
+            {
+                var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
+
+                if (ticket == null)
+                {
+                    throw new Exception("Запись не найдена");
+                }
+
+                ticket.Done = !ticket.Done;
+                Db.SaveChanges();
+
+                var message = ticket.Done ? "Запись помечена как выполненная" : "Пометка \"Выполнено\" снята";
+
+                return Ok(new { message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+        }
+
+        [HttpGet("MakeImportant")]
+        public IActionResult MakeImportant(int ticketId)
+        {
+            try
+            {
+                var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
+
+                if (ticket == null)
+                {
+                    throw new Exception("Запись не найдена");
+                }
+
+                ticket.Important = !ticket.Important;
+                Db.SaveChanges();
+
+                var message = ticket.Important ? "Запись помечена как важная" : "Пометка \"Важно\" снята";
+
+                return Ok(new { message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+        }
     }
 }

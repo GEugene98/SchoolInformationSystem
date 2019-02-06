@@ -11,6 +11,7 @@ namespace WorkScheduler.ViewModels
         public ActionViewModel Action { get; set; }
         public string Comment { get; set; }
         public bool Done { get; set; }
+        public bool Important { get; set; }
         public DateTime Date { get; set; }
         public Time Start { get; set; }
         public byte? Hours { get; set; }

@@ -22,3 +22,23 @@ textarea {
 .badge {
   background-color: darkcyan !important;
 }
+
+.done {
+  color: darkgrey !important;
+}
+
+.important {
+  font-weight: bolder !important;
+}
+
+.gray {
+  color: gray !important;
+}
+
+.glyphicon-ok {
+  color: limegreen;
+}
+
+.glyphicon-exclamation-sign {
+  color: orange;
+}

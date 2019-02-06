@@ -139,6 +139,18 @@ export class ScheduleService {
     return await this.http.post('api/Ticket/SendTimeline', range).toPromise();
   }
 
+  async makeDone(ticketId: number) {
+    const params = new HttpParams()
+      .set('ticketId', ticketId.toString());
+    return await this.http.get<any>('api/Ticket/MakeDone', { params: params }).toPromise();
+  }
+
+  async makeImportant(ticketId: number) {
+    const params = new HttpParams()
+      .set('ticketId', ticketId.toString());
+    return await this.http.get<any>('api/Ticket/MakeImportant', { params: params }).toPromise();
+  }
+
   async deleteSchedule(scheduleId: number) {
     const params = new HttpParams()
       .set('scheduleId', scheduleId.toString());
