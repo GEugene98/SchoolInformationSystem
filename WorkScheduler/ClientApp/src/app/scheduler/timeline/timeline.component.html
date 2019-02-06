@@ -157,4 +157,30 @@
 
 </ng-template>
 
+<ng-template #deleteAll>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Удалить все записи?</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Было найдно ещё {{similarTickets.length}} записей похожих на	&laquo;{{currentTicket.name}}&raquo;</p>
+    <p>Дата последней записи: {{similarTickets[similarTickets.length - 1].date | date : 'dd.MM.yyyy'}}</p>
+
+    <a href="javascript:void(0)" (click)="showAllSimilar = !showAllSimilar"><span *ngIf="!showAllSimilar">Посмотреть</span><span *ngIf="showAllSimilar">Скрыть</span> все похожие записи</a>
+
+    <div *ngIf="showAllSimilar">
+      <p *ngFor="let t of similarTickets">
+        {{t.date | date : 'dd.MM.yyyy'}} {{t.name}} {{t.comment}}
+      </p>
+    </div>
+
+    <div style="text-align:center; margin-top: 15px;">
+      <button type="button" (click)="deleteSimilar()" class="btn btn-danger">Удалить все похожие записи</button>
+      <button type="button" (click)="deleteOne()" class="btn btn-success">Удалить только выбранную</button>
+    </div>
+  </div>
+</ng-template>
+
 <p-toast [baseZIndex]="1000"></p-toast>

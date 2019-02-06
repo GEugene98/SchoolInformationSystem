@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap';
 import { ScheduleService } from '../services/schedule.service';
@@ -25,6 +25,12 @@ export class TimelineComponent implements OnInit {
   selectedDate: Date = new Date();
   newTicket: Ticket;
   modalRef: BsModalRef;
+
+  currentTicket: Ticket;
+  similarTickets: Ticket[];
+  showAllSimilar: boolean = false;
+
+  @ViewChild("deleteAll") deleteAllModal: ElementRef;
 
   days: number[] = undefined;
   dateTo: Date = new Date();
@@ -93,12 +99,42 @@ export class TimelineComponent implements OnInit {
 
   async delete(ticket: Ticket) {
     try {
-      await this.schedule.deleteTicket(ticket);
-      await this.loadData();
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись удалена", life: 5000 });
-      //this.modalRef.hide();
+      var similarTickets = await this.schedule.deleteTicket(ticket);
+      if (!similarTickets) {
+        await this.loadData();
+        this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись удалена", life: 5000 });
+        return;
+      }
+      else {
+        this.currentTicket = Object.assign({}, ticket);
+        this.similarTickets = similarTickets;
+        this.openModal(this.deleteAllModal);
+      }
+
     } catch (e) {
       console.log(e);
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+  async deleteSimilar() {
+    try {
+      await this.schedule.deleteSimilarTickets(this.currentTicket);
+      this.loadData();
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Записи удалены", life: 5000 });
+      this.modalRef.hide();
+    } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+  async deleteOne() {
+    try {
+      await this.schedule.deleteOneTicket(this.currentTicket);
+      this.loadData();
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Одна запись удалена", life: 5000 });
+      this.modalRef.hide();
+    } catch (e) {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
   }
@@ -109,6 +145,7 @@ export class TimelineComponent implements OnInit {
 
   closeModal() {
     this.modalRef.hide();
+    this.showAllSimilar = false;
   }
   copy(ticket: Ticket) {
     this.newTicket = Object.assign({}, ticket);

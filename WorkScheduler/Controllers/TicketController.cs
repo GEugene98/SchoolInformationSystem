@@ -108,11 +108,24 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpDelete("Delete")]
-        public IActionResult Delete(long ticketId)
+        public IActionResult Delete(long ticketId, bool deleteAll = false)
         {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
             var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
-            Db.Tickets.Remove(ticket);
+
+            if (deleteAll)
+            {
+                var similar = Db.Tickets.Where(t => t.Name == ticket.Name && t.UserId == currentUser.Id).ToList();
+                Db.Tickets.RemoveRange(similar);
+            }
+            else
+            {
+                Db.Tickets.Remove(ticket);
+            }
+
             Db.SaveChanges();
+
             return Ok();
         }
 
@@ -181,6 +194,44 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception ex)
             {
+                return BadRequest(ex.ToString());
+            }
+        }
+
+        [HttpGet("SimilarTickets")]
+        public IActionResult SimilarTickets(int ticketId)
+        {
+            try
+            {
+                var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+                var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
+
+                var similarTickets = Db.Tickets.Where(t => t.Name == ticket.Name && t.Id != ticket.Id && t.UserId == currentUser.Id);
+
+                if (similarTickets.Count() == 0)
+                {
+                    return Ok(new List<object>());
+                }
+
+                var tickets =
+                    similarTickets
+                    .OrderBy(t => t.Date)
+                    .ToList()
+                    .Select(t => new
+                    {
+                        t.Date,
+                        t.Name,
+                        t.Comment,
+                        t.Done,
+                        t.Important
+                    });
+
+                return Ok(tickets);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
         }

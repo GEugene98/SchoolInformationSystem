@@ -128,6 +128,29 @@ export class ScheduleService {
     const params = new HttpParams()
       .set('ticketId', ticket.id.toString());
 
+    var similarTickets = await this.http.get<any>('api/Ticket/SimilarTickets', { params: params }).toPromise();
+
+    if (similarTickets.length == 0) {
+      return await this.http.delete('api/Ticket/Delete', { params: params }).toPromise();
+    }
+    else {
+      return similarTickets;
+    } 
+  }
+
+  async deleteSimilarTickets(ticket: Ticket) {
+    const params = new HttpParams()
+      .set('ticketId', ticket.id.toString())
+      .set('deleteAll', 'true');
+
+    return await this.http.delete('api/Ticket/Delete', { params: params }).toPromise();
+  }
+
+  async deleteOneTicket(ticket: Ticket) {
+    const params = new HttpParams()
+      .set('ticketId', ticket.id.toString())
+      .set('deleteAll', 'false');
+
     return await this.http.delete('api/Ticket/Delete', { params: params }).toPromise();
   }
 
