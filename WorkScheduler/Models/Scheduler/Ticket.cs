@@ -14,14 +14,13 @@ namespace WorkScheduler.Models
 
         public int? ActionId { get; set; }
         public Action Action { get; set; }
+
         public string Comment { get; set; }
 
         public bool Done { get; set; }
+        public bool Important { get; set; }
 
         public DateTime Date { get; set; }
-        public TimeSpan Start { get; set; }
-        public TimeSpan? End { get; set; }
-
         public byte? Hours { get; set; }
         public byte? Minutes { get; set; }
     }
