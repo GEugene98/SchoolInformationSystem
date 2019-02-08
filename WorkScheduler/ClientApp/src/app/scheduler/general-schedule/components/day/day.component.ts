@@ -41,11 +41,19 @@ export class DayComponent implements OnInit {
   }
 
   async loadData() {
-    this.day = await this.schedule.getScheduleForDay(this.date, this.showMine);
-    this.actions = new Array<Action>();
-    this.day.actions.forEach(a => {
-      this.actions.push(a);
-    });
+    this.ngxService.start();
+    try {
+      this.day = await this.schedule.getScheduleForDay(this.date, this.showMine);
+      this.actions = new Array<Action>();
+      this.day.actions.forEach(a => {
+        this.actions.push(a);
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    finally {
+      this.ngxService.stop();
+    }
   }
 
   checkRole(user: User, role: string) {

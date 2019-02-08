@@ -13,7 +13,7 @@ using WorkScheduler;
 
 namespace WorkSheduler
 {
-    ////For publishing as service
+    ////ƒл€ разворачивани€ приложени€ в виде сервиса Windows
     //public class Program
     //{
     //    public static void Main(string[] args)

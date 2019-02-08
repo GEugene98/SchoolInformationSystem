@@ -19,7 +19,7 @@ import { concat } from 'rxjs';
 })
 export class TimelineComponent implements OnInit {
 
-  range: Date[]; 
+  range: Date[];
   bsConfig: any;
   packs: TicketPack[];
   selectedDate: Date = new Date();
@@ -54,9 +54,11 @@ export class TimelineComponent implements OnInit {
   }
 
   async loadData() {
+    this.ngxService.start();
     this.packs = await this.schedule.myTicketPacks(this.range);
     this.newTicket = new Ticket();
     this.newTicket.date = this.selectedDate;
+    this.ngxService.stop();
   }
 
   async saveTicket() {
@@ -194,4 +196,11 @@ export class TimelineComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
   }
+
+  getDocument() {
+    window.open(`/api/Report/ForTimeline?` +
+      `startDay=${this.range[0].getDate()}&startMonth=${this.range[0].getMonth() + 1}&startYear=${this.range[0].getFullYear()}`
+      + `&endDay=${this.range[1].getDate()}&endMonth=${this.range[1].getMonth() + 1}&endYear=${this.range[1].getFullYear()}`);
+  }
+
 }

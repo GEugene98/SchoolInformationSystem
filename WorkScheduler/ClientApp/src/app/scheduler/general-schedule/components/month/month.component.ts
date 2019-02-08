@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { GeneralSchedule } from '../../../../shared/models/general-schedule.model';
 import { isUserInRole, User } from '../../../../shared/models/user';
 import { UserState } from '../../../../shared/states/user.state';
@@ -18,9 +18,14 @@ import { MessageService } from 'primeng/api';
 })
 export class MonthComponent implements OnInit {
 
+  confirmDate: Date;
+  acceptDate: Date;
+
   range: Date[];
   bsConfig: any;
   generalSchedule: GeneralSchedule;
+
+  @ViewChild("selectDate") selectDateModal: ElementRef;
 
   modalRef: BsModalRef;
 
@@ -73,7 +78,15 @@ export class MonthComponent implements OnInit {
   getDocument() {
     window.open(`/api/Report/ForPeriod?` +
       `startDay=${this.range[0].getDate()}&startMonth=${this.range[0].getMonth() + 1}&startYear=${this.range[0].getFullYear()}`
-      + `&endDay=${this.range[1].getDate()}&endMonth=${this.range[1].getMonth() + 1}&endYear=${this.range[1].getFullYear()}`);
+      + `&endDay=${this.range[1].getDate()}&endMonth=${this.range[1].getMonth() + 1}&endYear=${this.range[1].getFullYear()}`
+      + `&confDay=${this.confirmDate.getDate()}&confMonth=${this.confirmDate.getMonth() + 1}&confYear=${this.confirmDate.getFullYear()}`
+      + `&acpDay=${this.acceptDate.getDate()}&acpMonth=${this.acceptDate.getMonth() + 1}&acpYear=${this.acceptDate.getFullYear()}`);
+
+    this.closeModal();
+  }
+
+  selectDateOpenModal() {
+    this.openModal(this.selectDateModal);
   }
 
   checkRole(user: User, role: string) {

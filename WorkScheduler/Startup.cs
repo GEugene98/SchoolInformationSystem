@@ -62,6 +62,7 @@ namespace WorkSheduler
                 services.AddScoped<TicketService>();
                 services.AddScoped<ReportService>();
                 services.AddScoped<NotificationService>();
+                services.AddScoped<RenderService>();
 
                 services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 

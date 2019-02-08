@@ -3,18 +3,19 @@
 <br />
 
 <div style="text-align: left">
-  
-    <input type="text"
-           class="form-control"
-           [(ngModel)]="range"
-           (ngModelChange)="loadData()"
-           AUTOCOMPLETE="off"
-           [bsConfig]="bsConfig"
-           bsDaterangepicker
-           placeholder="Выбрать период"
-           style="width: 300px; float: left;"> &nbsp;
+
+  <input type="text"
+         class="form-control"
+         [(ngModel)]="range"
+         (ngModelChange)="loadData()"
+         AUTOCOMPLETE="off"
+         [bsConfig]="bsConfig"
+         bsDaterangepicker
+         placeholder="Выбрать период"
+         style="width: 300px; float: left;"> &nbsp;
 
   <button type="button" (click)="openModal(add)" class="btn btn-success">Добавить запись</button>&nbsp;
+  <button type="button" (click)="getDocument()" class="btn btn-primary">Сформировать документ</button>&nbsp;
   <button type="button" (click)="sendTimeline()" class="btn btn-info">Отправить на мою почту</button>
 </div>
 
@@ -170,7 +171,7 @@
 
     <a href="javascript:void(0)" (click)="showAllSimilar = !showAllSimilar"><span *ngIf="!showAllSimilar">Посмотреть</span><span *ngIf="showAllSimilar">Скрыть</span> все похожие записи</a>
 
-    <div *ngIf="showAllSimilar">
+    <div *ngIf="showAllSimilar" style="overflow-y: scroll; height:400px;">
       <p *ngFor="let t of similarTickets">
         {{t.date | date : 'dd.MM.yyyy'}} {{t.name}} {{t.comment}}
       </p>

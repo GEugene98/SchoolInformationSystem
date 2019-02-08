@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, TemplateRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Data } from '@angular/router';
 import { WorkSchedule } from '../../shared/models/work-schedule.model';
 import { Action } from '../../shared/models/action.model';
 import { User, isUserInRole } from '../../shared/models/user';
@@ -20,6 +20,7 @@ import { Title } from '@angular/platform-browser';
 export class ScheduleDetailsComponent implements OnInit {
 
   modalRef: BsModalRef;
+  @ViewChild("selectDate") selectDateModal: ElementRef;
   selectedAll: boolean;
   bsConfig: any;
   scheduleId: number;
@@ -33,6 +34,8 @@ export class ScheduleDetailsComponent implements OnInit {
   selectedConfFormId: number;
   selectedName: string;
   editedAction: Action;
+  confirmDate: Date;
+  acceptDate: Date;
 
   constructor(private activateRoute: ActivatedRoute,
     private modalService: BsModalService,
@@ -84,6 +87,8 @@ export class ScheduleDetailsComponent implements OnInit {
     this.selectedResponsibles = new Array<User>();
     this.selectedResponsibles.push(this.userState.currentUser.state);
     this.editedAction = undefined;
+    this.confirmDate = null;
+    this.acceptDate = null;
   }
 
   selection() {
@@ -254,9 +259,16 @@ export class ScheduleDetailsComponent implements OnInit {
     }
   }
 
+  next() {
+    this.closeModal();
+    this.modalRef = this.modalService.show(this.selectDateModal);
+  }
+
   getDocument() {
-    window.open(`/api/Report/ForSchedule?` +
-      `scheduleId=${this.scheduleId}`);
+    window.open(`/api/Report/ForSchedule?`
+      + `scheduleId=${this.scheduleId}`
+      + `&confDay=${this.confirmDate.getDate()}&confMonth=${this.confirmDate.getMonth() + 1}&confYear=${this.confirmDate.getFullYear()}`
+      + `&acpDay=${this.acceptDate.getDate()}&acpMonth=${this.acceptDate.getMonth() + 1}&acpYear=${this.acceptDate.getFullYear()}`);
     this.closeModal();
   }
 }

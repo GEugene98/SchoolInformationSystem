@@ -22,7 +22,7 @@
 </div>
 
 <div *ngIf="checkRole(userState.currentUser?.state, 'Директор') || checkRole(userState.currentUser?.state, 'Администратор')" style="text-align: right; margin-right: 7px; margin-bottom: 10px;">
-  <button type="button" (click)="getDocument()" class="btn btn-primary">Сформировать документ</button>
+  <button type="button" (click)="selectDateOpenModal()" class="btn btn-primary">Сформировать документ</button>
 </div>
 
 <div style="text-align: center; margin-top: 50px; font-style: italic;" *ngIf="!generalSchedule"><span>Выберите диапазон дат</span></div>
@@ -142,6 +142,42 @@
     <div style="text-align:center; margin-top: 15px;">
       <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
       <button type="button" (click)="saveTicket()" class="btn btn-success">Сохранить</button>
+    </div>
+
+  </div>
+
+</ng-template>
+
+<ng-template #selectDate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Укажите дату согласования и утверждения</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Эти даты используются только для вставки в грифы документа</p> <br />
+    Дата согласования:
+    <input type="text"
+           placeholder="Щелкните здесь для выбора"
+           class="form-control"
+           [(ngModel)]="confirmDate"
+           AUTOCOMPLETE="off"
+           [bsConfig]="bsConfig"
+           bsDatepicker>
+    <br>
+    Дата утверждения:
+    <input type="text"
+           placeholder="Щелкните здесь для выбора"
+           class="form-control"
+           [(ngModel)]="acceptDate"
+           AUTOCOMPLETE="off"
+           [bsConfig]="bsConfig"
+           bsDatepicker>
+    <br>
+    <div style="text-align:center; margin-top: 15px;">
+      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+      <button type="button" (click)="getDocument()" class="btn btn-success">Сформировать документ</button>
     </div>
 
   </div>

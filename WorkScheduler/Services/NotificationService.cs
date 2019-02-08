@@ -17,11 +17,13 @@ namespace WorkScheduler.Services
     {
         protected Context Db;
         protected UserManager<User> UserManager;
+        protected RenderService RenderService;
 
-        public NotificationService(Context context, UserManager<User> userManager)
+        public NotificationService(Context context, UserManager<User> userManager, RenderService renderService)
         {
             Db = context;
             UserManager = userManager;
+            RenderService = renderService;
         }
 
         public void SendEmail(string receiverEmail, string subject, string htmlContent, bool serviceMessage = false, IEnumerable<string> fileNames = null)
@@ -127,68 +129,8 @@ namespace WorkScheduler.Services
         public void SendTimeline(List<TicketPackViewModel> ticketPacks, User receiver)
         {
             var subject = $@"Циклограмма c {ticketPacks.First().Date.ToShortDateString()} по {ticketPacks.Last().Date.ToShortDateString()}";
-            var content = $@"
-            <h4>Здравствуйте, USERNAME!</h4> 
-            <p>Ваша циклограмма c {ticketPacks.First().Date.ToShortDateString()} по {ticketPacks.Last().Date.ToShortDateString()} по состоянию на {DateTime.Now.ToLongDateString()} {DateTime.Now.ToShortTimeString()}</p>
-            <br/> TABLECONTENT";
 
-            const string tableStart = @"<table style=""font-size: 14px; background: white; max-width: 70%; width: 100%; border-collapse: collapse; text-align: left; "" >";
-            const string th = @"<th style=""font-weight: normal; color: #039;  border-bottom: 2px solid #6678b1; padding: 10px 8px;""> %DATA% </th>";
-            const string td = @"<td style=""color: #669; padding: 9px 8px; transition: .3s linear; border-bottom: 1px solid #ccc;""> %DATA% </th>";
-
-            //const string tableStart = "<table>";
-            //const string th = @"<th> %DATA% </th>";
-            //const string td = @"<td> %DATA% </td>";
-
-            var tableContent = new StringBuilder();
-
-            foreach (var pack in ticketPacks)
-            {
-                tableContent.Append($"<h3>{pack.DateToShow}</h3>");
-                tableContent.Append(tableStart);
-                tableContent.Append("<thead>");
-                tableContent.Append("<tr>");
-                tableContent.Append(th.Replace("%DATA%", "Время"));
-                tableContent.Append(th.Replace("%DATA%", "Наименование"));
-                tableContent.Append(th.Replace("%DATA%", "Мероприятие"));
-                tableContent.Append(th.Replace("%DATA%", "Комментарий"));
-                tableContent.Append("</tr>");
-                tableContent.Append("</thead>");
-
-                foreach (var timeGroup in pack.TimeGroups)
-                {
-                    tableContent.Append("<tbody>");
-
-                    tableContent.Append("<tr>");
-                    tableContent.Append(td.Replace("%DATA%", $"<b>{timeGroup.Hour}:00</b>"));
-                    tableContent.Append(td.Replace("%DATA%", ""));
-                    tableContent.Append(td.Replace("%DATA%", ""));
-                    tableContent.Append(td.Replace("%DATA%", ""));
-                    tableContent.Append("</tr>");
-
-                    if (timeGroup.Tickets != null)
-                    {
-                        foreach (var ticket in timeGroup.Tickets)
-                        {
-                            tableContent.Append("<tr>");
-                            var minutes = ticket.Minutes.Value < 10 ? $"0{ticket.Minutes.Value}" : ticket.Minutes.Value.ToString();
-                            var time = ticket.Minutes.Value == 0 ? " " : $"{ticket.Hours.Value}:{minutes}";
-                            tableContent.Append(td.Replace("%DATA%", $"{time}"));
-                            tableContent.Append(td.Replace("%DATA%", $"{ticket.Name}"));
-                            var action = ticket.Action == null ? " " : $"&#171;{ticket.Action?.Name}&#187; <br />  {ticket.Action?.GetResponsiblesShortNameForms()} <br />ФП: {ticket.Action?.ConfirmationForm.Name}";
-                            tableContent.Append(td.Replace("%DATA%", action));
-                            tableContent.Append(td.Replace("%DATA%", $"{ticket.Comment}"));
-                            tableContent.Append("</tr>");
-                        }
-                    }
-
-                    tableContent.Append("</tbody>");
-                }
-
-                tableContent.Append("</table>");
-            }
-
-            content = content.Replace("TABLECONTENT", tableContent.ToString());
+            var content = RenderService.GetTimelineHTML(ticketPacks);
 
             SendEmail(receiver.Email, subject, content.Replace("USERNAME", $"{receiver.FirstName} {receiver.SurName}"));
         }
