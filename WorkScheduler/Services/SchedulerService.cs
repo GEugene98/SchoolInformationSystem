@@ -461,11 +461,16 @@ namespace WorkScheduler.Services
                         IsDayOff = i.DayOfWeek == DayOfWeek.Saturday || i.DayOfWeek == DayOfWeek.Sunday
                     };
 
-                    days.Add(day);
+                    if (!(day.IsDayOff == true && (day.Actions == null || day.Actions.Count() == 0)))
+                    {
+                        days.Add(day);
+                    }
                 }
             }
 
-            days = days.OrderBy(d => d.Date).ToList();
+            days = days
+                .OrderBy(d => d.Date)
+                .ToList();
 
             var schedule = new GeneralScheduleViewModel
             {
