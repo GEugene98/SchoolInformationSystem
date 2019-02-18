@@ -62,6 +62,12 @@ namespace WorkScheduler.Controllers
                 {
                     while (action.Date.Date <= action.EndDate.Value.Date)
                     {
+                        if (action.Date.DayOfWeek == DayOfWeek.Saturday || action.Date.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            action.Date = action.Date.AddDays(1);
+                            continue;
+                        }
+
                         SchedulerService.AddAction(currentUser.Id, workScheduleId, action, status);
                         action.Date = action.Date.AddDays(1);
                     }
