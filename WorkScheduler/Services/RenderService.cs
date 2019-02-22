@@ -58,10 +58,11 @@ namespace WorkScheduler.Services
                     {
                         foreach (var ticket in timeGroup.Tickets)
                         {
-                            //var trStyle = "";
-                            //trStyle += ticket.Important ? "font-weight: bolder !important; " : "";
-                            //trStyle += ticket.Done ? "color: darkgrey !important; " : "";
-                            tableContent.Append($"<tr>");
+                            var trStyle = "";
+                            trStyle += ticket.Important ? "font-weight: bolder !important; " : "";
+                            trStyle += ticket.Done ? "color: darkgrey !important; " : "";
+
+                            tableContent.Append($@"<tr style=""{trStyle}"">");
                             var minutes = ticket.Minutes.Value < 10 ? $"0{ticket.Minutes.Value}" : ticket.Minutes.Value.ToString();
                             var time = ticket.Minutes.Value == 0 ? " " : $"{ticket.Hours.Value}:{minutes}";
                             tableContent.Append(td.Replace("%DATA%", $"{time}"));
