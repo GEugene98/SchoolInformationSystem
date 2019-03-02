@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WorkScheduler.Models.Base;
 using WorkScheduler.Models.Enums;
+using WorkScheduler.Models.Monitoring.Shared;
 
 namespace WorkScheduler.Models
 {
@@ -27,5 +28,6 @@ namespace WorkScheduler.Models
         public bool IsDeleted { get; set; }
 
         public virtual ICollection<ActionUser> ActionUsers { get; set; }
+        public virtual ICollection<StudentAction> StudentActions { get; set; }
     }
 }
