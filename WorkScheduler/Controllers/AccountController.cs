@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WorkScheduler.Models.Identity;
+using WorkScheduler.Models.Shared;
 using WorkScheduler.ViewModels;
 
 namespace WorkScheduler.Controllers
@@ -109,6 +110,10 @@ namespace WorkScheduler.Controllers
 
                 if (result.Succeeded)
                 {
+                    var log = new LoginLog(user.Id);
+                    Context.LoginLogs.Add(log);
+                    Context.SaveChanges();
+                    
                     return Redirect("/");
                 }
                 else

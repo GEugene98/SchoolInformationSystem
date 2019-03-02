@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WorkScheduler.Models.Shared;
 
 namespace WorkScheduler.Models.Identity
 {
@@ -23,5 +24,6 @@ namespace WorkScheduler.Models.Identity
         public virtual ICollection<WorkSchedule> WorkSchedules { get; set; }
         public virtual ICollection<ActionUser> ActionUsers { get; set; } // связь для установки ответственных
         public virtual ICollection<Ticket> Tickets { get; set; }
+        public virtual ICollection<LoginLog> LoginLogs { get; set; }
     }
 }

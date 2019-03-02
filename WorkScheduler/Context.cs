@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WorkScheduler.Models;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.Models.Monitoring;
+using WorkScheduler.Models.Shared;
 
 namespace WorkScheduler
 {
@@ -16,6 +17,7 @@ namespace WorkScheduler
         public DbSet<ConfirmationForm> ConfirmationForms { get; set; }
         public DbSet<WorkSchedule> WorkSchedules { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<LoginLog> LoginLogs { get; set; }
 
         //Monitoring
         //public DbSet<Address> Addresses { get; set; }
