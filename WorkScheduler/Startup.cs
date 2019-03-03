@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using WorkScheduler;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.Services;
+using WorkScheduler.Services.Monitoring;
 using WorkSheduler.Controllers.Identity;
 
 namespace WorkSheduler
@@ -63,6 +64,8 @@ namespace WorkSheduler
                 services.AddScoped<ReportService>();
                 services.AddScoped<NotificationService>();
                 services.AddScoped<RenderService>();
+                services.AddScoped<WorkScheduler.Services.Monitoring.DictionaryService>();
+                services.AddScoped<TalentedChildrenService>();
 
                 services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
