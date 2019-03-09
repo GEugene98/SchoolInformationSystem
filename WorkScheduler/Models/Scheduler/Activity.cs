@@ -11,5 +11,6 @@ namespace WorkScheduler.Models
     {
         public Color Color { get; set; } = Color.White;
         public virtual ICollection<WorkSchedule> WorkSchedules { get; set; }
+        public int Priority { get; set; }
     }
 }

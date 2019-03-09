@@ -378,6 +378,7 @@ namespace WorkScheduler.Services
                 .Where(a => a.Date.Date >= start.Date && a.Date.Date <= end.Date)
                 .Where(a => !a.IsDeleted)
                 .OrderBy(a => a.Date)
+                .ThenBy(a => a.WorkSchedule.Activity.Priority)
                 .GroupBy(a => a.Date.Date)
                 .AsEnumerable();
 
