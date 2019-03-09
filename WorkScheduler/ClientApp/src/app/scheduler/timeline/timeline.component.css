@@ -42,3 +42,16 @@ textarea {
 .glyphicon-exclamation-sign {
   color: orange;
 }
+
+
+.add-date-btn {
+  margin: 16px;
+  opacity: 0.3;
+  transition: 0.5s;
+}
+
+.date-box:hover .add-date-btn {
+  margin: 16px;
+  opacity: 1;
+  transition: 0.5s;
+}
