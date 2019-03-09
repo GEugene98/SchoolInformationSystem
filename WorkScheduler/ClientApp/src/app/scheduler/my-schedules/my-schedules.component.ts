@@ -60,6 +60,8 @@ export class MySchedules {
       await this.schedule.addWorkSchedule(this.selectedAcademicYearId, this.selectedActivityId, this.name);
       this.loadSchedules();
       this.modalRef.hide();
+      this.selectedActivityId = this.selectedAcademicYearId = 0; this.name = "";
+
     } catch (e) {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }

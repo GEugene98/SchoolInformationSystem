@@ -142,7 +142,6 @@ export class TimelineComponent implements OnInit {
   }
 
   openModal(modal, date = null) {
-    debugger;
     if (date) {
       this.newTicket = new Ticket();
       this.newTicket.date = date;
