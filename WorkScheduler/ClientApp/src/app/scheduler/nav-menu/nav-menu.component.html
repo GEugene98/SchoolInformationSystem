@@ -23,15 +23,20 @@
 
       <ul class='nav navbar-nav'>
         <!--<li [routerLinkActive]='["link-active"]'>
-          <a [routerLink]='["/stat"]' (click)='collapse()'>
-            <span class='glyphicon glyphicon-stats'></span> Статистика
-          </a>
-        </li>-->
+    <a [routerLink]='["/stat"]' (click)='collapse()'>
+      <span class='glyphicon glyphicon-stats'></span> Статистика
+    </a>
+  </li>-->
         <li [routerLinkActive]='["link-active"]'>
           <a routerLink='timeline' (click)='collapse()'>
-            <span class='glyphicon glyphicon-time'></span> Моя циклограмма
+            <span class='glyphicon glyphicon-time'></span> Моя циклограмма <span class="badge badge-info">9</span>
           </a>
-        </li>  
+        </li>
+        <li [routerLinkActive]='["link-active"]' *ngIf="checkRole(userState.currentUser?.state, 'Администратор') || checkRole(userState.currentUser?.state, 'Директор')">
+          <a routerLink='checklists' (click)='collapse()'>
+            <span class='	glyphicon glyphicon-check'></span> Чеклисты <span class="badge badge-info">9</span>
+          </a>
+        </li>
         <li [routerLinkActive]='["link-active"]'>
           <a routerLink='my-schedule' (click)='collapse()'>
             <span class='glyphicon glyphicon-calendar'></span> Мои планы
