@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WorkScheduler.Models.Base;
+using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.Models.Scheduler;
 
@@ -20,6 +21,8 @@ namespace WorkScheduler.Models
         public Checklist Checklist { get; set; }
 
         public string Comment { get; set; }
+
+        public TicketStatus? Status { get; set; }
 
         public bool Done { get; set; }
         public bool Important { get; set; }
