@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WorkScheduler.Models;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.ViewModels;
@@ -17,6 +19,7 @@ namespace WorkScheduler.Controllers
     {
         protected Context Db;
         protected UserManager<User> UserManager;
+        protected CultureInfo culture = CultureInfo.GetCultureInfo("ru-RU");
 
         public DictionaryController(Context context, UserManager<User> userManager)
         {
@@ -189,10 +192,43 @@ namespace WorkScheduler.Controllers
                     Roles = roles
                 };
 
+                u.FullName = u.GetShortNameForm();
+
                 userViewModels.Add(u);
             }
 
             return Ok(userViewModels);
         }
+
+        [Authorize(Roles = "Директор")]
+        [HttpGet("UserActivity")]
+        public IActionResult UserActivity(string userId)
+        {
+            var result = Db.LoginLogs
+                .Where(l => l.UserId == userId)
+                .OrderBy(l => l.LoggedOn)
+                .ToList()
+                .Select(l => $"{l.LoggedOn.ToShortDateString()} {culture.DateTimeFormat.GetDayName(l.LoggedOn.DayOfWeek).ToLower()} в {l.LoggedOn.ToShortTimeString()} был выполнен вход");
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "Директор")]
+        [HttpPost("AllActivity")]
+        public IActionResult AllActivity([FromBody]IEnumerable<DateTime> range)
+        {
+            var dateFrom = range.ToArray()[0].AddHours(3);
+            var dateTo = range.ToArray()[1].AddHours(3);
+
+            var result = Db.LoginLogs
+                .Include(l => l.User)
+                .Where(l => l.LoggedOn.Date >= dateFrom.Date && l.LoggedOn.Date <= dateTo.Date)
+                .OrderBy(l => l.LoggedOn)
+                .ToList()
+                .Select(l => $"Пользователь {l.User.LastName} {l.User.FirstName} {l.User.SurName} выполнил(а) вход {l.LoggedOn.ToShortDateString()} {culture.DateTimeFormat.GetDayName(l.LoggedOn.DayOfWeek).ToLower()} в {l.LoggedOn.ToShortTimeString()}");
+
+            return Ok(result);
+        }
+
     }
 }

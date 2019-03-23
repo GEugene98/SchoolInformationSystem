@@ -7,6 +7,7 @@ export class User {
   surName: string;
   roles: string[];
   fullName: string;
+  activity: string[];
 }
 
 export function isUserInRole(user: User, role: string) {

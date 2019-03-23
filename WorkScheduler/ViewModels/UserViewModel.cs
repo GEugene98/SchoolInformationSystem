@@ -14,6 +14,7 @@ namespace WorkScheduler.ViewModels
         public string FullName { get; set; }
 
         public IEnumerable<string> Roles { get; set; }
+        public IEnumerable<string> Activity { get; set; }
     }
 
     public static class UserModelHelper

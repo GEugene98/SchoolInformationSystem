@@ -16,6 +16,11 @@ export class SettingsComponent implements OnInit {
 
   users: User[];
 
+  selectedUser: User;
+
+  allActivity: string[];
+  range: Date[];
+
   modalRef: BsModalRef;
 
   allRoles: Dictionary<string>[];
@@ -30,6 +35,7 @@ export class SettingsComponent implements OnInit {
     private modalService: BsModalService,
     private titleService: Title) {
     this.titleService.setTitle('Настройки');
+    this.range = new Array<Date>();
   }
 
   async ngOnInit() {
@@ -76,7 +82,23 @@ export class SettingsComponent implements OnInit {
   }
 
   async delete(user: User) {
-    await this.account.block(user.id);
-    await this.loadData();
+    var confirmation = confirm("Заблокировать пользователя " + user.fullName + " ?");
+
+    if (confirmation) {
+      await this.account.block(user.id);
+      await this.loadData();
+    }
+  }
+
+  copy(user: User) {
+    this.selectedUser = Object.assign({}, user);
+  }
+
+  async loadActivity(user: User) {
+    this.selectedUser.activity = await this.dictionary.getUserActivity(user.id);
+  }
+
+  async loadAllActivity() {
+    this.allActivity = await this.dictionary.getAllActivity(this.range);
   }
 }

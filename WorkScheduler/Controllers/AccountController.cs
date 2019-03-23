@@ -145,6 +145,7 @@ namespace WorkScheduler.Controllers
         {
             var user = Context.Users.FirstOrDefault(u => u.Id == userId);
             user.LockoutEnabled = true;
+            user.GetNotifications = false;
             Context.SaveChanges();
             return Ok();
         }

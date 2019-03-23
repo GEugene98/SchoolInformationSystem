@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { AcademicYear } from "../models/academic-year.model";
 import { Activity } from "../models/activity.model";
 import { User } from "../models/user";
@@ -35,6 +35,17 @@ export class DictionaryService {
 
   async getRoles() {
     return await this.http.get<Dictionary<string>[]>('api/Dictionary/Roles').toPromise();
+  }
+
+  async getUserActivity(userId: string) {
+    const params = new HttpParams()
+      .set('userId', userId.toString());
+
+    return await this.http.get<string[]>('api/Dictionary/UserActivity', { params: params }).toPromise();
+  }
+
+  async getAllActivity(range: Date[]) {
+    return await this.http.post<string[]>('api/Dictionary/AllActivity', range).toPromise();
   }
 
   //async getActivities() {

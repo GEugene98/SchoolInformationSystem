@@ -21,7 +21,6 @@ using WorkScheduler;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.Services;
 using WorkScheduler.Services.Monitoring;
-using WorkSheduler.Controllers.Identity;
 
 namespace WorkSheduler
 {
