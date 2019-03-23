@@ -55,3 +55,15 @@ textarea {
   opacity: 1;
   transition: 0.5s;
 }
+
+.top .top-item {
+  margin-top: 5px;
+}
+
+.top-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
