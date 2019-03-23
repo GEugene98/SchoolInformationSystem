@@ -36,7 +36,8 @@ namespace WorkScheduler.Services
                 .Include(t => t.Action.ConfirmationForm)
                 .Include(t => t.Action.WorkSchedule)
                 .Include(t => t.Action.WorkSchedule.Activity)
-                .Where(t => t.UserId == user.Id);
+                .Where(t => t.UserId == user.Id)
+                .Where(t => t.Date.HasValue);
 
             if (dateTo == null || dateTo.ToShortDateString() == "01.01.0001")
             {
@@ -49,10 +50,10 @@ namespace WorkScheduler.Services
             }
 
             var groupedTickets = tickets
-                .Where(t => t.Date.Date >= dateFrom.Date && t.Date.Date <= dateTo.Date)
+                .Where(t => t.Date.Value.Date >= dateFrom.Date && t.Date.Value.Date <= dateTo.Date)
                 .ToList()
-                .OrderBy(t => t.Date.Date)
-                .GroupBy(t => t.Date.Date);
+                .OrderBy(t => t.Date.Value.Date)
+                .GroupBy(t => t.Date.Value.Date);
 
             var ticketPacks = new List<TicketPackViewModel>();
 
@@ -92,7 +93,7 @@ namespace WorkScheduler.Services
                 {
                     Id = t.Id,
                     Name = t.Name,
-                    Date = t.Date,
+                    Date = t.Date.Value,
                     Comment = t.Comment,
                     Done = t.Done,
                     Important = t.Important,

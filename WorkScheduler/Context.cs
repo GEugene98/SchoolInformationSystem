@@ -5,6 +5,7 @@ using WorkScheduler.Models.Identity;
 using WorkScheduler.Models.Monitoring;
 using WorkScheduler.Models.Monitoring.Shared;
 using WorkScheduler.Models.Monitoring.TalentedChildren;
+using WorkScheduler.Models.Scheduler;
 using WorkScheduler.Models.Shared;
 
 namespace WorkScheduler
@@ -20,6 +21,7 @@ namespace WorkScheduler
         public DbSet<WorkSchedule> WorkSchedules { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<LoginLog> LoginLogs { get; set; }
+        public DbSet<Checklist> Checklists { get; set; }
 
         //Monitoring
         public DbSet<Student> Students { get; set; }

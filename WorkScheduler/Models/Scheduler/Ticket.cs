@@ -27,7 +27,7 @@ namespace WorkScheduler.Models
         public bool Done { get; set; }
         public bool Important { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         public byte? Hours { get; set; }
         public byte? Minutes { get; set; }
     }
