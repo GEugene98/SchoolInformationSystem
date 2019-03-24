@@ -7,6 +7,9 @@ namespace WorkScheduler.Models.Enums
 {
     public enum TicketStatus
     {
-        
+        Created,
+        Assigned,
+        Accepted,
+        Done
     }
 }

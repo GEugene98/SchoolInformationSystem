@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WorkScheduler.ViewModels.Scheduler;
 
 namespace WorkScheduler.ViewModels
 {
@@ -10,12 +11,14 @@ namespace WorkScheduler.ViewModels
         public UserViewModel User { get; set; }
         public ActionViewModel Action { get; set; }
         public string Comment { get; set; }
+        public string AssignmentComment { get; set; }
         public bool Done { get; set; }
         public bool Important { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         public Time Start { get; set; }
         public byte? Hours { get; set; }
         public byte? Minutes { get; set; }
+        public ChecklistViewModel Checklist { get; set; }
 
         public bool Repeat { get; set; }
         public DateTime DateTo { get; set; }

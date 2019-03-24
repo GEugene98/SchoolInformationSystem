@@ -13,7 +13,7 @@ namespace WorkScheduler.Models.Scheduler
         public User User { get; set; }
 
         public DateTime CreatedOn { get; set; }
-        public DateTime Deadline { get; set; }
+        public DateTime? Deadline { get; set; }
         public string Comment { get; set; }
 
         public virtual ICollection<Ticket> Tickets { get; set; }

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.ViewModels;
+using WorkScheduler.ViewModels.Scheduler;
 
 namespace WorkScheduler.Services
 {
@@ -167,6 +169,38 @@ namespace WorkScheduler.Services
             return ticketPacks;
         }
 
+        public IEnumerable<TicketViewModel> GetAssignedTickets(string userId)
+        {
+            var tickets = Db.Tickets
+                .Include(t => t.Checklist)
+                .Include(t => t.Checklist.User)
+                .Where(t => t.UserId == userId && t.ChecklistId != null && t.Status == TicketStatus.Assigned)
+                .Select(t => new TicketViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    AssignmentComment = t.AssignmentComment,
+                    Important = t.Important,
+                    Date = t.Date,
+                    Hours = t.Hours,
+                    Minutes = t.Minutes,
+                    Checklist = new ChecklistViewModel
+                    {
+                        Id = t.Checklist.Id,
+                        Name = t.Checklist.Name,
+                        User = new UserViewModel
+                        {
+                            Id = t.Checklist.User.Id,
+                            Name = t.Checklist.User.UserName,
+                        },
+                        Deadline = t.Checklist.Deadline,
+                        Comment = t.Checklist.Comment,
+                        CreatedOn = t.Checklist.CreatedOn
+                    }
+                });
+
+            return tickets;
+        }
 
     }
 }

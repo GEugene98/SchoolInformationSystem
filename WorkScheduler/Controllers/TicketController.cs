@@ -42,10 +42,20 @@ namespace WorkScheduler.Controllers
             return Ok(ticketPacks);
         }
 
+        [HttpGet("AssignedTickets")]
+        public IActionResult AssignedTickets()
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            var tickets = TicketService.GetAssignedTickets(currentUser.Id);
+
+            return Ok(tickets);
+        }
+
         [HttpPost("Add")]
         public IActionResult Add([FromBody]TicketViewModel ticket)
         {
-            if (ticket == null || ticket.Date.ToShortDateString() == "01.01.0001" || (ticket.Hours == null && ticket.Minutes == null))
+            if (ticket == null || !ticket.Date.HasValue || ticket.Date.Value.ToShortDateString() == "01.01.0001" || (ticket.Hours == null && ticket.Minutes == null))
             {
                 return BadRequest("Необходимо указать дату и время");
             }
@@ -56,14 +66,14 @@ namespace WorkScheduler.Controllers
             {
                 var daysOfWeek = ticket.Days.Cast<DayOfWeek>();
 
-                while (ticket.Date.Date <= ticket.DateTo.Date)
+                while (ticket.Date.Value.Date <= ticket.DateTo.Date)
                 {
-                    if (daysOfWeek.Contains(ticket.Date.DayOfWeek))
+                    if (daysOfWeek.Contains(ticket.Date.Value.DayOfWeek))
                     {
                         AddTicket(ticket);
                     }
 
-                    ticket.Date = ticket.Date.AddDays(1);
+                    ticket.Date = ticket.Date.Value.AddDays(1);
                 }
 
             }
@@ -81,7 +91,7 @@ namespace WorkScheduler.Controllers
                     UserId = currentUser.Id,
                     Comment = ticketModel.Comment,
                     Done = ticketModel.Done,
-                    Date = ticketModel.Date.AddHours(3),
+                    Date = ticketModel.Date.Value.AddHours(3),
                     Hours = ticketModel.Hours == null ? 0 : ticket.Hours,
                     Minutes = ticketModel.Minutes == null ? 0 : ticket.Minutes
                 };
@@ -99,7 +109,7 @@ namespace WorkScheduler.Controllers
             var foundTicket = Db.Tickets.FirstOrDefault(t => t.Id == ticket.Id);
             foundTicket.Name = ticket.Name;
             foundTicket.Comment = ticket.Comment;
-            foundTicket.Date = ticket.Date.AddHours(3);
+            foundTicket.Date = ticket.Date.Value.AddHours(3);
             foundTicket.Done = ticket.Done;
             foundTicket.Hours = ticket.Hours;
             foundTicket.Minutes = ticket.Minutes;
