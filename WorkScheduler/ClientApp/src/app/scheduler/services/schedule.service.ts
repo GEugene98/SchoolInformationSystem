@@ -158,6 +158,14 @@ export class ScheduleService {
     return await this.http.post<TicketPack[]>('api/Ticket/MyTickets', range).toPromise();
   }
 
+  async assignedTickets() {
+    return await this.http.get<Ticket[]>('api/Ticket/AssignedTickets').toPromise();
+  }
+
+  async acceptTicket(ticket: Ticket) {
+    return await this.http.post('api/Ticket/AcceptTicket', ticket).toPromise();
+  }
+
   async sendTimeline(range: Date[] = null) {
     return await this.http.post('api/Ticket/SendTimeline', range).toPromise();
   }
@@ -180,4 +188,6 @@ export class ScheduleService {
 
     return await this.http.delete('api/Schedule/Delete', { params: params }).toPromise();
   }
+
+
 }

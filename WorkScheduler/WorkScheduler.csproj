@@ -41,6 +41,7 @@
     <None Remove="ClientApp\src\app\shared\models\academic-year.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\action.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\activity.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\checklist.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\confirmation-form.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\dictionary.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\general-schedule.model.ts" />
@@ -77,6 +78,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\academic-year.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\action.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\activity.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\checklist.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\confirmation-form.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\dictionary.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\general-schedule.model.ts" />

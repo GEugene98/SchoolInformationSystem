@@ -5,4 +5,5 @@ import { User } from "../models/user";
 @Injectable()
 export class UserState {
   readonly currentUser = new DataStore<User>();
+  readonly unseenTaskRequests = new DataStore<number>();
 }

@@ -38,8 +38,7 @@ namespace WorkScheduler.Services
                 .Include(t => t.Action.ConfirmationForm)
                 .Include(t => t.Action.WorkSchedule)
                 .Include(t => t.Action.WorkSchedule.Activity)
-                .Where(t => t.UserId == user.Id)
-                .Where(t => t.Date.HasValue);
+                .Where(t => t.UserId == user.Id && t.Date.HasValue && (!t.Status.HasValue || t.Status == TicketStatus.Accepted || t.Status == TicketStatus.Done));
 
             if (dateTo == null || dateTo.ToShortDateString() == "01.01.0001")
             {
@@ -175,6 +174,7 @@ namespace WorkScheduler.Services
                 .Include(t => t.Checklist)
                 .Include(t => t.Checklist.User)
                 .Where(t => t.UserId == userId && t.ChecklistId != null && t.Status == TicketStatus.Assigned)
+                .ToList()
                 .Select(t => new TicketViewModel
                 {
                     Id = t.Id,
@@ -202,5 +202,34 @@ namespace WorkScheduler.Services
             return tickets;
         }
 
+        public void AcceptTicket(long ticketId, DateTime? date, byte? hours, byte? minutes)
+        {
+            if (!date.HasValue || !hours.HasValue || !minutes.HasValue)
+            {
+                throw new Exception("Не указана дата или время");
+            }
+
+            var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
+
+            if (ticket == null)
+            {
+                throw new Exception("Запись не найдена");
+            }
+
+            if (ticket.Date.Value.Date != date.Value.Date)
+            {
+                ticket.Date = date;
+            }
+
+            if (ticket.Hours != hours || ticket.Minutes != minutes)
+            {
+                ticket.Minutes = minutes;
+                ticket.Hours = hours;
+            }
+
+            ticket.Status = TicketStatus.Accepted;
+
+            Db.SaveChanges();
+        }
     }
 }

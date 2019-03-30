@@ -67,3 +67,10 @@ textarea {
   box-sizing: border-box;
 }
 
+.expired {
+  background: antiquewhite;
+}
+
+h1 {
+  margin-left: -15px;
+}

@@ -4,7 +4,7 @@
   </div>
   
   <div>
-    <button style="margin-top: 20px;" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Задания</button>
+    <button *ngIf="assignedTickets && assignedTickets.length > 0" style="margin-top: 20px;" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Задания</button>
   </div>
 </div>
 
@@ -38,12 +38,12 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Время</th>
-        <th scope="col">Наименование</th>
+        <th scope="col" style="width: 5%">Время</th>
+        <th scope="col" style="width: 30%">Наименование</th>
         <!--<th scope="col">Дата</th>-->
-        <th scope="col">Мероприятие</th>
-        <th scope="col">Комментарий</th>
-        <th scope="col">Действия</th>
+        <th scope="col" width="25%">Мероприятие</th>
+        <th scope="col" width="30%">Комментарий</th>
+        <th scope="col" width="5%">Действия</th>
       </tr>
     </thead>
     <tbody *ngFor="let timeGroup of pack?.timeGroups">
@@ -195,15 +195,35 @@
 </ng-template>
 
 <ng-template #assignedTasksModal>
-  <div class="modal-header">
+  <div class="modal-header" style="border-bottom: none !important">
     <h4 class="modal-title pull-left">Задания</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    Есть несколько заданий, которые необходимо выполнить. <br />
-    Нажмите на кнопку "Принять", чтобы разместить запись в циклограмме или "Отклонить" для отказа от задания 
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 15%">Дата</th>
+          <th scope="col" style="width: 10%">Время</th>
+          <th scope="col" style="width: 65%">Задание</th>
+          <th scope="col" style="width: 10%; text-align: center">Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of assignedTickets" [class.expired]="false">
+          <td><span *ngIf="ticket.date">{{ticket.date | date : 'dd.MM.yyyy'}}</span></td>
+          <td><span *ngIf="ticket.hours">{{ticket.hours}}:{{ticket.minutes}}</span></td>
+          <td>{{ticket.name}}</td>
+          <td style="text-align: center">
+            <a title="Принять" href="javascript:void(0)" (click)="acceptTicket(ticket)"><span style="color: green" class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></a>
+            <a title="Отклонить" href="javascript:void(0)" (click)="declineTicket(ticket)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+            <a title="Информация" href="javascript:void(0)" (click)="info(ticket)"><span style="color: skyblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </ng-template>
 

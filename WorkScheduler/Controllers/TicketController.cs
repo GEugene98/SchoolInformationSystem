@@ -159,7 +159,7 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpGet("MakeDone")]
-        public IActionResult MakeDone(int ticketId)
+        public IActionResult MakeDone(long ticketId)
         {
             try
             {
@@ -173,7 +173,43 @@ namespace WorkScheduler.Controllers
                 ticket.Done = !ticket.Done;
                 Db.SaveChanges();
 
-                var message = ticket.Done ? "Запись помечена как выполненная" : "Пометка \"Выполнено\" снята";
+                var message = ticket.Done ? "Запись помечена как выполненная" : "Отметка \"Выполнено\" снята";
+
+                return Ok(new { message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+        }
+
+        [HttpGet("MakeDoneChecklistTicket")]
+        public IActionResult MakeDoneChecklistTicket(long ticketId)
+        {
+            try
+            {
+                var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
+
+                if (ticket == null)
+                {
+                    throw new Exception("Запись не найдена");
+                }
+
+                if (ticket.Status == Models.Enums.TicketStatus.Assigned)
+                {
+                    ticket.Status = Models.Enums.TicketStatus.Done;
+                    ticket.Done = true;
+                }
+
+                if (ticket.Status == Models.Enums.TicketStatus.Done)
+                {
+                    ticket.Status = Models.Enums.TicketStatus.Assigned;
+                    ticket.Done = false;
+                }
+
+                Db.SaveChanges();
+
+                var message = ticket.Done ? "Запись помечена как выполненная" : "Отметка \"Выполнено\" снята";
 
                 return Ok(new { message });
             }
@@ -184,7 +220,7 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpGet("MakeImportant")]
-        public IActionResult MakeImportant(int ticketId)
+        public IActionResult MakeImportant(long ticketId)
         {
             try
             {
@@ -198,7 +234,7 @@ namespace WorkScheduler.Controllers
                 ticket.Important = !ticket.Important;
                 Db.SaveChanges();
 
-                var message = ticket.Important ? "Запись помечена как важная" : "Пометка \"Важно\" снята";
+                var message = ticket.Important ? "Запись помечена как важная" : "Отметка \"Важно\" снята";
 
                 return Ok(new { message });
             }
@@ -209,7 +245,7 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpGet("SimilarTickets")]
-        public IActionResult SimilarTickets(int ticketId)
+        public IActionResult SimilarTickets(long ticketId)
         {
             try
             {
@@ -238,6 +274,21 @@ namespace WorkScheduler.Controllers
 
                 return Ok(tickets);
 
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString());
+                return BadRequest(ex.ToString());
+            }
+        }
+
+        [HttpPost("AcceptTicket")]
+        public IActionResult AcceptTicket([FromBody]TicketViewModel ticket)
+        {
+            try
+            {
+                TicketService.AcceptTicket(ticket.Id, ticket.Date, ticket.Hours, ticket.Minutes);
+                return Ok();
             }
             catch (Exception ex)
             {

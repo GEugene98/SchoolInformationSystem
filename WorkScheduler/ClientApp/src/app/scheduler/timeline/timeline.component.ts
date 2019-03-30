@@ -28,6 +28,7 @@ export class TimelineComponent implements OnInit {
 
   currentTicket: Ticket;
   similarTickets: Ticket[];
+  assignedTickets: Ticket[];
   showAllSimilar: boolean = false;
 
   @ViewChild("deleteAll") deleteAllModal: ElementRef;
@@ -47,6 +48,10 @@ export class TimelineComponent implements OnInit {
     this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
     this.titleService.setTitle('Моя циклограмма');
     this.range = new Array<Date>();
+
+    setInterval(async () => {
+      this.assignedTickets = await this.schedule.assignedTickets();
+    }, 10000);
   }
 
   async ngOnInit() {
@@ -58,6 +63,7 @@ export class TimelineComponent implements OnInit {
     this.packs = await this.schedule.myTicketPacks(this.range);
     this.newTicket = new Ticket();
     this.newTicket.date = this.selectedDate;
+    this.assignedTickets = await this.schedule.assignedTickets();
     this.ngxService.stop();
   }
 
@@ -196,6 +202,19 @@ export class TimelineComponent implements OnInit {
       var response = await this.schedule.makeImportant(id);
       await this.loadData();
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
+    } catch (e) {
+      console.error(e);
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+
+  async acceptTicket(ticket: Ticket) {
+    try {
+      await this.schedule.acceptTicket(ticket);
+      await this.loadData();
+      this.closeModal();
+      this.messageService.add({ severity: 'success', summary: 'готово', detail: "Задача занесена в циклограмму", life: 5000 });
     } catch (e) {
       console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });

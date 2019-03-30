@@ -10,6 +10,7 @@ namespace WorkScheduler.Models.Enums
         Created,
         Assigned,
         Accepted,
+        Declined,
         Done
     }
 }
