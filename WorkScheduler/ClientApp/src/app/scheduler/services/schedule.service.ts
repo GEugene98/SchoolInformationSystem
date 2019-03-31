@@ -7,6 +7,7 @@ import { ActionStatus } from "../../shared/enums/action-status.enum";
 import { Ticket } from "../../shared/models/ticket.model";
 import { TicketPack } from "../../shared/models/ticket-pack.model";
 import { tick } from "@angular/core/testing";
+import { Dictionary } from "../../shared/models/dictionary.model";
 
 @Injectable()
 export class ScheduleService {
@@ -188,6 +189,4 @@ export class ScheduleService {
 
     return await this.http.delete('api/Schedule/Delete', { params: params }).toPromise();
   }
-
-
 }

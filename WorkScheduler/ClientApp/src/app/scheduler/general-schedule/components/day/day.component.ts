@@ -71,10 +71,11 @@ export class DayComponent implements OnInit {
   copy(action: Action) {
     action.responsibles.forEach(r => r.fullName = `${r.lastName} ${r.firstName[0]}. ${r.surName[0]}.`);
     this.bufferedAction = Object.assign({}, action);
+    this.bufferedAction.date = new Date(this.bufferedAction.date.toString()); //Костыль для ngx-datepicker'а
     this.newTicket = new Ticket();
     this.newTicket.action = this.bufferedAction;
     this.newTicket.start = new Time();
-    this.newTicket.date = action.date;
+    this.newTicket.date = new Date(action.date.toString());
   }
 
   async saveTicket() {

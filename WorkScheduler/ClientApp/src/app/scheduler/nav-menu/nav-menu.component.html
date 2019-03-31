@@ -29,12 +29,12 @@
   </li>-->
         <li [routerLinkActive]='["link-active"]'>
           <a routerLink='timeline' (click)='collapse()'>
-            <span class='glyphicon glyphicon-time'></span> Моя циклограмма <span class="badge badge-info">9</span>
+            <span class='glyphicon glyphicon-time'></span> Моя циклограмма <span *ngIf="userState.assignedTicketCount.state != 0" class="badge badge-info">{{userState.assignedTicketCount.state}}</span>
           </a>
         </li>
         <li [routerLinkActive]='["link-active"]' *ngIf="checkRole(userState.currentUser?.state, 'Администратор') || checkRole(userState.currentUser?.state, 'Директор')">
           <a routerLink='checklists' (click)='collapse()'>
-            <span class='	glyphicon glyphicon-check'></span> Чеклисты <span class="badge badge-info">9</span>
+            <span class='	glyphicon glyphicon-check'></span> Чеклисты 
           </a>
         </li>
         <li [routerLinkActive]='["link-active"]'>

@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { UserState } from '../../shared/states/user.state';
 import { User } from '../../shared/models/user';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { ScheduleService } from '../services/schedule.service';
+import { DictionaryService } from '../../shared/services/dictionary.service';
 
 @Component({
   selector: 'app-home',
@@ -10,32 +12,25 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 })
 export class SchedulerHomeComponent implements OnInit {
 
-  data: any;
-
-  constructor(private http: HttpClient, private userState: UserState, private ngxService: NgxUiLoaderService) {
-    this.data = {
-      labels: ['A', 'B', 'C'],
-      datasets: [
-        {
-          data: [300, 50, 100],
-          backgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56"
-          ],
-          hoverBackgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56"
-          ]
-        }]
-    };
+  constructor(private http: HttpClient, private userState: UserState, private schedule: ScheduleService, private dictionary: DictionaryService, private ngxService: NgxUiLoaderService) {
   }
 
   async ngOnInit() {
     try {
       this.ngxService.start();
       this.userState.currentUser.state = await this.http.get<User>('/api/Account/GetCurrentUserInfo').toPromise();
+      this.userState.assignedTickets.state = await this.schedule.assignedTickets();
+
+      setInterval(async () => {
+        let notifications = await this.dictionary.getNotifications();
+        this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);
+
+        if (this.userState.assignedTickets.state.length != this.userState.assignedTicketCount.state) {
+          this.userState.assignedTickets.state = await this.schedule.assignedTickets();
+        }
+
+      }, 5000);
+
     } catch (e) {
       location.href = '/api/Account/Login';
     }

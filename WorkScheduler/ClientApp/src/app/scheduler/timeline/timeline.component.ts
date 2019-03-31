@@ -28,7 +28,6 @@ export class TimelineComponent implements OnInit {
 
   currentTicket: Ticket;
   similarTickets: Ticket[];
-  assignedTickets: Ticket[];
   showAllSimilar: boolean = false;
 
   @ViewChild("deleteAll") deleteAllModal: ElementRef;
@@ -47,15 +46,11 @@ export class TimelineComponent implements OnInit {
     private userState: UserState) {
     this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
     this.titleService.setTitle('Моя циклограмма');
-    this.range = new Array<Date>();
-
-    setInterval(async () => {
-      this.assignedTickets = await this.schedule.assignedTickets();
-    }, 10000);
+    this.currentWeek();
   }
 
   async ngOnInit() {
-    //await this.loadData();
+    await this.loadData();
   }
 
   async loadData() {
@@ -63,7 +58,6 @@ export class TimelineComponent implements OnInit {
     this.packs = await this.schedule.myTicketPacks(this.range);
     this.newTicket = new Ticket();
     this.newTicket.date = this.selectedDate;
-    this.assignedTickets = await this.schedule.assignedTickets();
     this.ngxService.stop();
   }
 
@@ -147,10 +141,10 @@ export class TimelineComponent implements OnInit {
     }
   }
 
-  openModal(modal, date = null) {
+  openModal(modal, date: Date = null) {
     if (date) {
       this.newTicket = new Ticket();
-      this.newTicket.date = date;
+      this.newTicket.date = new Date(date.toString());
     }
 
     this.modalRef = this.modalService.show(modal);
@@ -162,6 +156,7 @@ export class TimelineComponent implements OnInit {
   }
   copy(ticket: Ticket) {
     this.newTicket = Object.assign({}, ticket);
+    this.newTicket.date = new Date(this.newTicket.date.toString()); //Костыль для ngx-datepicker'а
   }
 
   setDays(days: number[]) {
@@ -213,8 +208,11 @@ export class TimelineComponent implements OnInit {
     try {
       await this.schedule.acceptTicket(ticket);
       await this.loadData();
-      this.closeModal();
-      this.messageService.add({ severity: 'success', summary: 'готово', detail: "Задача занесена в циклограмму", life: 5000 });
+      this.userState.assignedTickets.state.splice(this.userState.assignedTickets.state.indexOf(ticket), 1);
+      if (this.userState.assignedTickets.state.length == 0) {
+        this.closeModal();
+      }
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задача занесена в циклограмму", life: 5000 });
     } catch (e) {
       console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
@@ -225,6 +223,30 @@ export class TimelineComponent implements OnInit {
     window.open(`/api/Report/ForTimeline?` +
       `startDay=${this.range[0].getDate()}&startMonth=${this.range[0].getMonth() + 1}&startYear=${this.range[0].getFullYear()}`
       + `&endDay=${this.range[1].getDate()}&endMonth=${this.range[1].getMonth() + 1}&endYear=${this.range[1].getFullYear()}`);
+  }
+
+  currentWeek() {
+
+    this.range = new Array<Date>();
+
+    var monday = this.getMondayOfCurrentWeek(new Date());
+    var sunday = this.getSundayOfCurrentWeek(new Date());
+
+    this.range.push(monday);
+    this.range.push(sunday);
+  }
+
+  getMondayOfCurrentWeek(d) {
+    var day = d.getDay();
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (day == 0 ? -6 : 1) - day);
+  }
+  getSundayOfCurrentWeek(d) {
+    var day = d.getDay();
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (day == 0 ? 0 : 7) - day);
+  }
+
+  getTooltip(ticket: Ticket) {
+    return `Задание из чеклиста &laquo;${ticket.checklist.name}&raquo; <br/> пользователя <br/> ${ticket.checklist.user.fullName}`;
   }
 
 }

@@ -48,6 +48,10 @@ export class DictionaryService {
     return await this.http.post<string[]>('api/Dictionary/AllActivity', range).toPromise();
   }
 
+  async getNotifications() {
+    return await this.http.get<Dictionary<string>[]>('api/Dictionary/Notifications').toPromise();
+  }
+
   //async getActivities() {
   //  return await this.http.get<Activity[]>('api/Dictionary/Activities').toPromise();
   //}

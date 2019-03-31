@@ -144,6 +144,7 @@ export class ScheduleDetailsComponent implements OnInit {
     console.log(action)
     action.responsibles.forEach(r => r.fullName = `${r.lastName} ${r.firstName[0]}. ${r.surName[0]}.`);
     this.editedAction = Object.assign({}, action);
+    this.editedAction.date = new Date(this.editedAction.date.toString()); //Костыль для ngx-datepicker'а
   }
 
   async createAction() {

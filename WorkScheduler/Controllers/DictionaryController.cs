@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorkScheduler.Models;
 using WorkScheduler.Models.Identity;
+using WorkScheduler.Services;
 using WorkScheduler.ViewModels;
 
 namespace WorkScheduler.Controllers
@@ -19,12 +20,14 @@ namespace WorkScheduler.Controllers
     {
         protected Context Db;
         protected UserManager<User> UserManager;
+        protected TicketService TicketService;
         protected CultureInfo culture = CultureInfo.GetCultureInfo("ru-RU");
 
-        public DictionaryController(Context context, UserManager<User> userManager)
+        public DictionaryController(Context context, UserManager<User> userManager, TicketService ticketService)
         {
             Db = context;
             UserManager = userManager;
+            TicketService = ticketService;
         }
 
         [HttpGet("AcademicYears")]
@@ -228,6 +231,23 @@ namespace WorkScheduler.Controllers
                 .Select(l => $"Пользователь {l.User.LastName} {l.User.FirstName} {l.User.SurName} выполнил(а) вход {l.LoggedOn.ToShortDateString()} {culture.DateTimeFormat.GetDayName(l.LoggedOn.DayOfWeek).ToLower()} в {l.LoggedOn.ToShortTimeString()}");
 
             return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("Notifications")]
+        public IActionResult Notifications()
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+            var notifications = new List<DictionaryViewModel<string>>();
+            var ticketCount = TicketService.GetAssignedTicketCount(currentUser.Id);
+
+            notifications.Add(new DictionaryViewModel<string>
+            {
+                Id = "assignedTickets",
+                Name = ticketCount.ToString()
+            });
+
+            return Ok(notifications);
         }
 
     }

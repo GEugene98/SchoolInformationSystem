@@ -104,10 +104,11 @@ export class MonthComponent implements OnInit {
   copy(action: Action) {
     action.responsibles.forEach(r => r.fullName = `${r.lastName} ${r.firstName[0]}. ${r.surName[0]}.`);
     this.bufferedAction = Object.assign({}, action);
+    this.bufferedAction.date = new Date(this.bufferedAction.date.toString()); //Костыль для ngx-datepicker'а
     this.newTicket = new Ticket();
     this.newTicket.action = this.bufferedAction;
     this.newTicket.start = new Time();
-    this.newTicket.date = action.date;
+    this.newTicket.date = new Date(action.date.toString());
   }
 
   async saveTicket() {
@@ -145,18 +146,24 @@ export class MonthComponent implements OnInit {
   }
 
   currentWeek() {
+
     this.range = new Array<Date>();
-    var curr = new Date; // get current date
-    var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week + 1 to start from Monday
-    var last = first + 6; // last day is the first day + 6
 
-    var firstDay = new Date(curr.setDate(first));
-    var lastDay = new Date(curr.setDate(last));
+    var monday = this.getMondayOfCurrentWeek(new Date());
+    var sunday = this.getSundayOfCurrentWeek(new Date());
 
-    this.range.push(firstDay);
-    this.range.push(lastDay);
-
+    this.range.push(monday);
+    this.range.push(sunday);
     this.loadData();
+  }
+
+  getMondayOfCurrentWeek(d) {
+    var day = d.getDay();
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (day == 0 ? -6 : 1) - day);
+  }
+  getSundayOfCurrentWeek(d) {
+    var day = d.getDay();
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (day == 0 ? 0 : 7) - day);
   }
 
   currentMonth() {

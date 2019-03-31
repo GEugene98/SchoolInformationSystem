@@ -59,7 +59,7 @@ namespace WorkScheduler.Services
             var ticketPacks = new List<TicketPackViewModel>();
 
 
-            for (DateTime i = dateFrom.Date; i < dateTo.Date; i = i.AddDays(1))
+            for (DateTime i = dateFrom.Date; i <= dateTo.Date; i = i.AddDays(1))
             {
                 var group = groupedTickets.FirstOrDefault(g => g.Key.Date == i.Date);
 
@@ -192,6 +192,7 @@ namespace WorkScheduler.Services
                         {
                             Id = t.Checklist.User.Id,
                             Name = t.Checklist.User.UserName,
+                            FullName =  $"{t.Checklist.User.LastName} {t.Checklist.User.FirstName[0]}. {t.Checklist.User.SurName[0]}."
                         },
                         Deadline = t.Checklist.Deadline,
                         Comment = t.Checklist.Comment,
@@ -200,6 +201,11 @@ namespace WorkScheduler.Services
                 });
 
             return tickets;
+        }
+
+        public int GetAssignedTicketCount(string userId)
+        {
+            return Db.Tickets.Where(t => t.UserId == userId && t.ChecklistId != null && t.Status == TicketStatus.Assigned).Count();
         }
 
         public void AcceptTicket(long ticketId, DateTime? date, byte? hours, byte? minutes)

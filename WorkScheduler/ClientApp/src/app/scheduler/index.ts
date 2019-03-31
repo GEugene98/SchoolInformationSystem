@@ -37,6 +37,7 @@ import { TimelineComponent } from './timeline/timeline.component';
 import { ActionComponent } from './action/action.component';
 import { ConfirmAcceptScheduleComponent } from './confirm-accept-schedule/confirm-accept-schedule.component';
 import { RepeatComponent } from './timeline/components/repeat/repeat.component';
+import { TooltipModule } from 'ng2-tooltip-directive';
 defineLocale('ru', ruLocale); 
 
 const schedulerRoutes = [
@@ -74,6 +75,7 @@ const schedulerRoutes = [
     BrowserAnimationsModule,
     NgSelectModule,
     GrowlModule,
+    TooltipModule,
     ToastModule,
     ChartModule,
     TabsModule,
