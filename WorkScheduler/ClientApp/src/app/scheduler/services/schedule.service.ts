@@ -8,6 +8,7 @@ import { Ticket } from "../../shared/models/ticket.model";
 import { TicketPack } from "../../shared/models/ticket-pack.model";
 import { tick } from "@angular/core/testing";
 import { Dictionary } from "../../shared/models/dictionary.model";
+import { Checklist } from "../../shared/models/checklist.model";
 
 @Injectable()
 export class ScheduleService {
@@ -188,5 +189,9 @@ export class ScheduleService {
       .set('scheduleId', scheduleId.toString());
 
     return await this.http.delete('api/Schedule/Delete', { params: params }).toPromise();
+  }
+
+  async getMyChecklists() {
+    return await this.http.get<Checklist[]>('api/Checklist/MyChecklists').toPromise();
   }
 }

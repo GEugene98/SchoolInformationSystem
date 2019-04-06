@@ -17,9 +17,14 @@ export class SchedulerHomeComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      this.ngxService.start();
-      this.userState.currentUser.state = await this.http.get<User>('/api/Account/GetCurrentUserInfo').toPromise();
-      this.userState.assignedTickets.state = await this.schedule.assignedTickets();
+        this.ngxService.start();
+        this.userState.currentUser.state = await this.http.get<User>('/api/Account/GetCurrentUserInfo').toPromise();
+
+        let notifications = await this.dictionary.getNotifications();
+        this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);
+
+        this.userState.assignedTickets.state = await this.schedule.assignedTickets();
+
 
       setInterval(async () => {
         let notifications = await this.dictionary.getNotifications();
@@ -29,7 +34,7 @@ export class SchedulerHomeComponent implements OnInit {
           this.userState.assignedTickets.state = await this.schedule.assignedTickets();
         }
 
-      }, 5000);
+      }, 5000); 
 
     } catch (e) {
       location.href = '/api/Account/Login';

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WorkScheduler.Models.Enums;
 using WorkScheduler.ViewModels.Scheduler;
 
 namespace WorkScheduler.ViewModels
@@ -19,6 +20,7 @@ namespace WorkScheduler.ViewModels
         public byte? Hours { get; set; }
         public byte? Minutes { get; set; }
         public ChecklistViewModel Checklist { get; set; }
+        public TicketStatus? Status { get; set; }
 
         public bool Repeat { get; set; }
         public DateTime DateTo { get; set; }

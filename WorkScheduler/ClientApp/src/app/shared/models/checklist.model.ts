@@ -8,4 +8,9 @@ export class Checklist {
   deadline: Date;
   comment: string;
   tickets: Ticket[];
+
+  assignedCount: number; 
+  acceptedCount: number;  
+  doneCount: number; 
+  totalCount: number; 
 }

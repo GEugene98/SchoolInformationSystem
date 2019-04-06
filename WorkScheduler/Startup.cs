@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using DinkToPdf;
 using DinkToPdf.Contracts;
@@ -42,8 +43,8 @@ namespace WorkSheduler
                 services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
                 ////Only for deploying
-                var context = new CustomAssemblyLoadContext();
-                context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+                //var context = new CustomAssemblyLoadContext();
+                //context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
 
                 services.AddDbContext<WorkScheduler.Context>(options =>
                     options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
@@ -63,6 +64,7 @@ namespace WorkSheduler
                 services.AddScoped<ReportService>();
                 services.AddScoped<NotificationService>();
                 services.AddScoped<RenderService>();
+                services.AddScoped<ChecklistService>();
                 services.AddScoped<WorkScheduler.Services.Monitoring.DictionaryService>();
                 services.AddScoped<TalentedChildrenService>();
 

@@ -12,6 +12,11 @@ namespace WorkScheduler.ViewModels.Scheduler
         public DateTime CreatedOn { get; set; }
         public DateTime? Deadline { get; set; }
         public string Comment { get; set; }
+        
+        public int AssignedCount { get; set; }   
+        public int AcceptedCount { get; set; } 
+        public int DoneCount { get; set; }
+        public int TotalCount { get; set; }     
 
         public IEnumerable<TicketViewModel> Tickets { get; set; }
     }
