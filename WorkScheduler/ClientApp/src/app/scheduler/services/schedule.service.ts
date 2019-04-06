@@ -137,7 +137,7 @@ export class ScheduleService {
     }
     else {
       return similarTickets;
-    } 
+    }
   }
 
   async deleteSimilarTickets(ticket: Ticket) {
@@ -172,10 +172,18 @@ export class ScheduleService {
     return await this.http.post('api/Ticket/SendTimeline', range).toPromise();
   }
 
-  async makeDone(ticketId: number) {
-    const params = new HttpParams()
-      .set('ticketId', ticketId.toString());
-    return await this.http.get<any>('api/Ticket/MakeDone', { params: params }).toPromise();
+  async makeDone(ticketId: number, hasChecklist: boolean = false) {
+    if (hasChecklist) {
+      const params = new HttpParams()
+        .set('ticketId', ticketId.toString());
+      return await this.http.get<any>('api/Ticket/MakeDoneChecklistTicket', { params: params }).toPromise();
+    }
+    else {
+      const params = new HttpParams()
+        .set('ticketId', ticketId.toString());
+      return await this.http.get<any>('api/Ticket/MakeDone', { params: params }).toPromise();
+    }
+
   }
 
   async makeImportant(ticketId: number) {
@@ -193,5 +201,12 @@ export class ScheduleService {
 
   async getMyChecklists() {
     return await this.http.get<Checklist[]>('api/Checklist/MyChecklists').toPromise();
+  }
+
+  async getChecklist(id: number) {
+    const params = new HttpParams()
+      .set('id', id.toString());
+
+    return await this.http.get<Checklist>('api/Checklist/GetById', { params: params }).toPromise();
   }
 }

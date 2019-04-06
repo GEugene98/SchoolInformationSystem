@@ -21,6 +21,53 @@ namespace WorkScheduler.Services
             Db = context;
         }
 
+        public ChecklistViewModel GetChecklistById(int id)
+        {
+            var checklist = Db.Checklists.FirstOrDefault(c => c.Id == id);
+
+            if (checklist == null)
+            {
+                throw new Exception("Такого чек-листа не существует");
+            }
+
+            var tickets = Db.Tickets
+                .Where(t => t.ChecklistId == id)
+                .Include(t => t.User)
+                .OrderBy(t => t.Date)
+                .ThenBy(t => t.Hours)
+                .ThenBy(t => t.Minutes)
+                .Select(t => new TicketViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    User = new UserViewModel
+                    {
+                        Id = t.User.Id,
+                        Name = t.User.UserName,
+                        FirstName = t.User.FirstName,
+                        LastName = t.User.LastName,
+                        SurName = t.User.SurName,
+                    },
+                    AssignmentComment = t.AssignmentComment,
+                    Comment = t.Comment,
+                    Date = t.Date,
+                    Hours = t.Hours,
+                    Minutes = t.Minutes,
+                    Status = t.Status,
+                })
+                .ToList();
+
+            return new ChecklistViewModel
+            {
+                Id = checklist.Id,
+                Name = checklist.Name,
+                CreatedOn = checklist.CreatedOn,
+                Deadline = checklist.Deadline,
+                Comment = checklist.Comment,
+                Tickets = tickets
+            };
+        }
+
         public IEnumerable<ChecklistViewModel> GetChecklists(string userId)
         {
             var checklists = Db.Checklists
@@ -44,7 +91,7 @@ namespace WorkScheduler.Services
                 var clModel =
                     new ChecklistViewModel
                     {
-                      Id = c.Id,
+                        Id = c.Id,
                         Name = c.Name,
                         CreatedOn = c.CreatedOn,
                         Deadline = c.Deadline,

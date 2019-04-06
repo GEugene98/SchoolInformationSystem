@@ -124,6 +124,12 @@ namespace WorkScheduler.Controllers
 
             var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
 
+            if(ticket.ChecklistId.HasValue)
+            {
+                 var checklistName = Db.Checklists.FirstOrDefault(c => c.Id == ticket.ChecklistId).Name;
+                return BadRequest($@"Вы не можете удалить эту запись, так как она находится в чек-листе ""{checklistName}"". Если этот чек-лист ваш, удалите запись из него");
+            }
+
             if (deleteAll)
             {
                 var similar = Db.Tickets.Where(t => t.Name == ticket.Name && t.UserId == currentUser.Id).ToList();
@@ -195,15 +201,14 @@ namespace WorkScheduler.Controllers
                     throw new Exception("Запись не найдена");
                 }
 
-                if (ticket.Status == Models.Enums.TicketStatus.Assigned)
+                if (ticket.Status == Models.Enums.TicketStatus.Accepted)
                 {
                     ticket.Status = Models.Enums.TicketStatus.Done;
                     ticket.Done = true;
                 }
-
-                if (ticket.Status == Models.Enums.TicketStatus.Done)
+                else if (ticket.Status == Models.Enums.TicketStatus.Done)
                 {
-                    ticket.Status = Models.Enums.TicketStatus.Assigned;
+                    ticket.Status = Models.Enums.TicketStatus.Accepted;
                     ticket.Done = false;
                 }
 

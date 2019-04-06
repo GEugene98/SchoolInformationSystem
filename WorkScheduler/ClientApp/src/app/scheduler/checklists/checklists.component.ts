@@ -19,7 +19,9 @@ export class ChecklistsComponent implements OnInit {
     private dictionary: DictionaryService,
     private messageService: MessageService,
     private titleService: Title,
-    private schedule: ScheduleService) { }
+    private schedule: ScheduleService) { 
+      this.titleService.setTitle("Мои чек-листы");
+    }
 
   ngOnInit() {
     this.loadData();
@@ -27,6 +29,34 @@ export class ChecklistsComponent implements OnInit {
 
   async loadData() {
     this.checklists = await this.schedule.getMyChecklists();
+    this.checklists.forEach(c => {
+      c.chartData =
+        {
+          labels: ['Назначенные', 'Принятые', 'Готовые'],
+          datasets: [
+            {
+              data: [c.assignedCount, c.acceptedCount, c.doneCount],
+              backgroundColor: [
+                "#36A2EB",
+                "#FFCE56",
+                "#DCF753"
+              ],
+              hoverBackgroundColor: [
+                "#36A2EB",
+                "#FFCE56",
+                "#DCF753"
+              ]
+            }
+          ],
+          options: {
+            legend: {
+              display: false,
+              position: 'left'
+            }
+          }
+        }
+    });
   }
+
 
 }

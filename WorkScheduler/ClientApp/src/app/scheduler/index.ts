@@ -38,6 +38,8 @@ import { ActionComponent } from './action/action.component';
 import { ConfirmAcceptScheduleComponent } from './confirm-accept-schedule/confirm-accept-schedule.component';
 import { RepeatComponent } from './timeline/components/repeat/repeat.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { ChecklistsComponent } from './checklists/checklists.component';
+import { ChecklistDetailsComponent } from './checklist-details/checklist-details.component';
 defineLocale('ru', ruLocale); 
 
 const schedulerRoutes = [
@@ -66,7 +68,9 @@ const schedulerRoutes = [
     TimelineComponent,
     ConfirmAcceptScheduleComponent,
     ActionComponent,
-    RepeatComponent
+    RepeatComponent,
+    ChecklistsComponent,
+    ChecklistDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

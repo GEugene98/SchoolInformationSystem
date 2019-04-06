@@ -21,6 +21,7 @@ namespace WorkScheduler.ViewModels
         public byte? Minutes { get; set; }
         public ChecklistViewModel Checklist { get; set; }
         public TicketStatus? Status { get; set; }
+        public bool HasChecklist { get; set; }
 
         public bool Repeat { get; set; }
         public DateTime DateTo { get; set; }

@@ -30,6 +30,8 @@ import { NgxUiLoaderModule, NgxUiLoaderConfig } from 'ngx-ui-loader';
 import { ActionComponent } from './scheduler/action/action.component';
 import { ConfirmAcceptScheduleComponent } from './scheduler/confirm-accept-schedule/confirm-accept-schedule.component';
 import { ChecklistsComponent } from './scheduler/checklists/checklists.component';
+import { ChartModule } from 'primeng/chart';
+import { ChecklistDetailsComponent } from './scheduler/checklist-details/checklist-details.component';
 
 defineLocale('ru', ruLocale);
 
@@ -46,6 +48,7 @@ const routes = [
       { path: 'timeline', component: TimelineComponent },
       { path: 'checklists', component: ChecklistsComponent },
       { path: 'schedule-details/:id', component: ScheduleDetailsComponent },
+      { path: 'checklist-details/:id', component: ChecklistDetailsComponent },
     ]
   }
 ];
@@ -81,7 +84,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
   declarations: [ 
     AppComponent,
     DashboardComponent,
-    ChecklistsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -89,6 +91,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     BrowserAnimationsModule,
     NgSelectModule,
     TabsModule,
+    ChartModule,
     //TabsModule.forRoot(),
     //BsDatepickerModule.forRoot(),
     //ModalModule.forRoot(),

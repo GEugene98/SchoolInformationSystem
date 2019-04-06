@@ -19,6 +19,13 @@ namespace WorkScheduler.Controllers
             ChecklistService = checklistService;
         }
 
+        [HttpGet("GetById")]
+        public IActionResult GetById(int id)
+        {
+            var checklist = ChecklistService.GetChecklistById(id);
+            return Ok(checklist);
+        }
+
         [HttpGet("MyChecklists")]
         public IActionResult MyChecklists()
         {

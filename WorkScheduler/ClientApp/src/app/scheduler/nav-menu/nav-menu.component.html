@@ -34,7 +34,7 @@
         </li>
         <li [routerLinkActive]='["link-active"]' *ngIf="checkRole(userState.currentUser?.state, 'Администратор') || checkRole(userState.currentUser?.state, 'Директор')">
           <a routerLink='checklists' (click)='collapse()'>
-            <span class='	glyphicon glyphicon-check'></span> Чеклисты 
+            <span class='	glyphicon glyphicon-check'></span> Мои чек-листы 
           </a>
         </li>
         <li [routerLinkActive]='["link-active"]'>

@@ -1,0 +1,87 @@
+<div style="word-wrap: break-word;"><h1>Чек-лист: "{{checklist.name}}"</h1></div>
+
+<div style="text-align: left">
+    <button type="button" (click)="openModal(add)" class="btn btn-success">Добавить задание</button>
+  </div>
+
+  <br/>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" style="width: 5%">Дата</th>
+        <th scope="col" style="width: 5%">Время</th>
+        <th scope="col" style="width: 30%">Наименование</th>
+        <th scope="col" width="30%">Комментарий</th>
+        <th scope="col" width="30%">Кому назначена</th>
+        <th scope="col" width="5%">Статус</th>
+        <th scope="col" width="5%">Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ticket of checklist.tickets">
+        <td>{{ticket.date | date : 'dd.MM.yyyy'}}</td>
+        <td><span>{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes == 0">0</span></span></td>
+        <td>{{ticket.name}}</td>
+        <td>{{ticket.comment}}</td>
+        <td>
+          <span class="badge">
+            {{ticket.user.lastName}} {{ticket.user.firstName[0]}}. {{ticket.user.surName[0]}}.
+          </span>
+        </td>
+        <td>Назначена</td>
+        <td>
+            <div style="text-align: center">
+                <a title="Редактировать" href="javascript:void(0)" (click)="copy(); openModal(edit);"><span style="color: purple" class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                <a title="Удалить" href="javascript:void(0)" (click)="delete()"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <ng-template #add>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Создать задание в чек-листе</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-top: -10px">
+          Наименование:
+          <input type="text" [(ngModel)]="newTicket.name" class="form-control" placeholder="Название записи">
+        </div>
+    
+        <div>
+          Дата:
+          <input type="text"
+                 placeholder="Щелкните здесь для выбора"
+                 class="form-control"
+                 [(ngModel)]="newTicket.date"
+                 AUTOCOMPLETE="off"
+                 [bsConfig]="bsConfig"
+                 bsDatepicker>
+        </div>
+    
+        <div>
+          Время начала:
+          <input type="text" [(ngModel)]="newTicket.hours" class="clock form-control" placeholder="ЧЧ"> :
+          <input type="text" [(ngModel)]="newTicket.minutes" class="clock form-control" placeholder="ММ">
+        </div>
+        <br />
+    
+        <app-repeat (days)="setDays($event)" (dateTo)="setDateTo($event)" (repeatAction)="setRepeat($event)"></app-repeat>
+    
+        <div>
+          Комментарий(не обязательно):
+          <textarea [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
+        </div>
+    
+        <div style="text-align:center; margin-top: 15px;">
+          <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+          <button type="button" (click)="addTicket()" class="btn btn-success">Сохранить</button>
+        </div>
+    
+      </div>

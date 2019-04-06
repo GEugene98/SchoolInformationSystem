@@ -181,9 +181,9 @@ export class TimelineComponent implements OnInit {
     }
   }
 
-  async makeDone(id) {
+  async makeDone(ticket: Ticket) {
     try {
-      var response = await this.schedule.makeDone(id);
+      var response = await this.schedule.makeDone(ticket.id, ticket.hasChecklist);
       await this.loadData();
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
     } catch (e) {

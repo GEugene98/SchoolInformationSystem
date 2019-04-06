@@ -13,4 +13,7 @@ export class Checklist {
   acceptedCount: number;  
   doneCount: number; 
   totalCount: number; 
+
+  //frontend only
+  chartData: any;
 }
