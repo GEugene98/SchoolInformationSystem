@@ -17,7 +17,7 @@ namespace WorkScheduler.Models
         public int? ActionId { get; set; }
         public Action Action { get; set; }
 
-        public string ChecklistId { get; set; }
+        public int? ChecklistId { get; set; }
         public Checklist Checklist { get; set; }
 
         public string Comment { get; set; }

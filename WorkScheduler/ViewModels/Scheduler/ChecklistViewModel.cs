@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WorkScheduler.ViewModels.Scheduler
 {
-    public class ChecklistViewModel : DictionaryViewModel<string>
+    public class ChecklistViewModel : DictionaryViewModel<int>
     {
         public UserViewModel User { get; set; }
 

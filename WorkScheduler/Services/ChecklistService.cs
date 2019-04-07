@@ -22,7 +22,7 @@ namespace WorkScheduler.Services
             Db = context;
         }
 
-        public ChecklistViewModel GetChecklistById(string id)
+        public ChecklistViewModel GetChecklistById(int id)
         {
             var checklist = Db.Checklists.FirstOrDefault(c => c.Id == id);
 
@@ -75,13 +75,13 @@ namespace WorkScheduler.Services
                 .Where(c => c.UserId == userId);
 
             var total = checklists
-                .Join(Db.Tickets, c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<string, long>(c.Id, t.Id)).ToList();
+                .Join(Db.Tickets, c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
             var assigned = checklists
-                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Assigned), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<string, long>(c.Id, t.Id)).ToList();
+                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Assigned), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
             var accepted = checklists
-                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Accepted), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<string, long>(c.Id, t.Id)).ToList();
+                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Accepted), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
             var done = checklists
-                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Done), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<string, long>(c.Id, t.Id)).ToList();
+                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Done), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
 
             var checklistViewModels = new List<ChecklistViewModel>();
 
@@ -92,7 +92,7 @@ namespace WorkScheduler.Services
                 var clModel =
                     new ChecklistViewModel
                     {
-                        Id = c.Id.ToString(),
+                        Id = c.Id,
                         Name = c.Name,
                         CreatedOn = c.CreatedOn,
                         Deadline = c.Deadline,
