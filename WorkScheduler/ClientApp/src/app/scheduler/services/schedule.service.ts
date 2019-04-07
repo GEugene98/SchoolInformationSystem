@@ -224,4 +224,19 @@ export class ScheduleService {
 
     return await this.http.delete('api/Checklist/Delete', { params: params }).toPromise();
   }
+
+  async addTicketFromChecklist(ticket: Ticket) {
+    return await this.http.post('api/Ticket/AddFromChecklist', ticket).toPromise();
+  }
+
+  async editTicketFromChecklist(ticket: Ticket) {
+    return await this.http.post('api/Ticket/EditFromChecklist', ticket).toPromise();
+  }
+
+  async deleteTicketFromChecklist(ticket: Ticket) {
+    const params = new HttpParams()
+      .set('id', ticket.id.toString());
+
+    return await this.http.delete('api/Ticket/DeleteFromChecklist', { params: params }).toPromise();
+  }
 }

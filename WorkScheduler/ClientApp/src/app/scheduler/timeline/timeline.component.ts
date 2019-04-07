@@ -31,6 +31,7 @@ export class TimelineComponent implements OnInit {
   showAllSimilar: boolean = false;
 
   @ViewChild("deleteAll") deleteAllModal: ElementRef;
+  @ViewChild("addWithTime") addWithTimeModal: ElementRef;
 
   days: number[] = undefined;
   dateTo: Date = new Date();
@@ -204,9 +205,23 @@ export class TimelineComponent implements OnInit {
   }
 
 
-  async acceptTicket(ticket: Ticket) {
+  ticketToAccept: Ticket;
+
+  async acceptTicket(ticket: Ticket = null) {
+    if(ticket != null){
+      this.ticketToAccept = Object.assign({}, ticket);
+      if(this.ticketToAccept.date){
+        this.ticketToAccept.date = new Date(this.ticketToAccept.date.toString()); //Костыль для ngx-datepicker'а
+      }
+    }
+    
     try {
-      await this.schedule.acceptTicket(ticket);
+      if(!this.ticketToAccept.date || !this.ticketToAccept.hours || (!this.ticketToAccept.minutes && this.ticketToAccept.minutes!=0))
+      {
+        this.openModal(this.addWithTimeModal);
+        return;
+      }
+      await this.schedule.acceptTicket(this.ticketToAccept);
       await this.loadData();
       this.userState.assignedTickets.state.splice(this.userState.assignedTickets.state.indexOf(ticket), 1);
       if (this.userState.assignedTickets.state.length == 0) {

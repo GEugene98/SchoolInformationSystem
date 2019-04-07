@@ -1,3 +1,21 @@
 .badge {
     background-color: darkcyan !important;
   }
+
+  .clock {
+    width: 50px !important;
+    text-align: center;
+    display: inline;
+  }
+
+  .blue {
+    background-color: aliceblue;
+  }
+
+  .yellow {
+    background-color: cornsilk;
+  }
+
+  .green {
+    background-color: #9acd326e;
+  }

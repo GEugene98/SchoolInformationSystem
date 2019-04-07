@@ -22,6 +22,8 @@ namespace WorkScheduler.ViewModels
         public ChecklistViewModel Checklist { get; set; }
         public TicketStatus? Status { get; set; }
         public bool HasChecklist { get; set; }
+        public string UserId { get; set; }
+        public int ChecklistId { get; set; }
 
         public bool Repeat { get; set; }
         public DateTime DateTo { get; set; }

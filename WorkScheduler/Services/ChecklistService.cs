@@ -48,6 +48,7 @@ namespace WorkScheduler.Services
                         FirstName = t.User.FirstName,
                         LastName = t.User.LastName,
                         SurName = t.User.SurName,
+                        FullName = $"{t.User.LastName} {t.User.FirstName[0]}.{t.User.SurName[0]}."
                     },
                     AssignmentComment = t.AssignmentComment,
                     Comment = t.Comment,

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WorkScheduler.Models;
+using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.Services;
 using WorkScheduler.ViewModels;
@@ -103,6 +104,64 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        [HttpPost("AddFromChecklist")]
+        public IActionResult AddFromChecklist([FromBody] TicketViewModel ticket)
+        {
+            var newTicket = new Ticket
+                {
+                    Name = ticket.Name,
+                    Comment = ticket.Comment,
+                    Hours = ticket.Hours,
+                    Minutes = ticket.Minutes,
+                    ChecklistId = ticket.ChecklistId,
+                    Status = TicketStatus.Assigned
+                };
+
+            if(ticket.Date.HasValue)
+            {
+                newTicket.Date = ticket.Date.Value.AddHours(3);
+            }
+
+            if(!String.IsNullOrEmpty(ticket.UserId))
+            {
+                newTicket.UserId = ticket.UserId;
+            }
+            else
+            {
+                newTicket.Status = TicketStatus.Created;
+            }
+
+            Db.Tickets.Add(newTicket);
+            Db.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpPost("EditFromChecklist")]
+        public IActionResult EditFromChecklist([FromBody] TicketViewModel ticket)
+        {
+            var found = Db.Tickets.FirstOrDefault(t => t.Id == ticket.Id);
+
+            if(found == null) return BadRequest("Задания не существует"); 
+
+            found.Date = ticket.Date;
+            found.Hours = ticket.Hours;
+            found.Minutes = ticket.Minutes;
+            found.Comment = ticket.Comment;
+            found.Name = ticket.Name;
+
+            if(found.UserId != ticket.UserId)
+            {
+                found.UserId = ticket.UserId;
+                found.Status = TicketStatus.Assigned;
+                found.Done = false;
+            } 
+
+            Db.SaveChanges();
+
+            return Ok();
+        }
+
         [HttpPost("Update")]
         public IActionResult Update([FromBody]TicketViewModel ticket)
         {
@@ -142,6 +201,16 @@ namespace WorkScheduler.Controllers
 
             Db.SaveChanges();
 
+            return Ok();
+        }
+
+        [HttpDelete("DeleteFromChecklist")]
+        public IActionResult DeleteFromChecklist(long id)
+        {
+            var ticket = Db.Tickets.FirstOrDefault(t => t.Id == id);
+            if(ticket == null) return BadRequest("Задания не существует"); 
+            Db.Tickets.Remove(ticket);
+            Db.SaveChanges();
             return Ok();
         }
 
@@ -298,7 +367,7 @@ namespace WorkScheduler.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex.ToString());
-                return BadRequest(ex.ToString());
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -228,4 +228,43 @@
   </div>
 </ng-template>
 
+
+
+<ng-template #addWithTime>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Задайте дату или время</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Установка даты или времени была оставлена на ваше усмотрение</p>
+
+    <div>
+      Дата:
+      <input type="text"
+             placeholder="Щелкните здесь для выбора"
+             class="form-control"
+             [(ngModel)]="ticketToAccept.date"
+             AUTOCOMPLETE="off"
+             [bsConfig]="bsConfig"
+             bsDatepicker>
+    </div>
+
+    <div>
+      Время начала:
+      <input type="text" [(ngModel)]="ticketToAccept.hours" class="clock form-control" placeholder="ЧЧ"> :
+      <input type="text" [(ngModel)]="ticketToAccept.minutes" class="clock form-control" placeholder="ММ">
+    </div>
+    <br />
+
+    <div style="text-align:center; margin-top: 15px;">
+      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+      <button type="button" (click)="acceptTicket()" class="btn btn-success">Добавить в циклограмму</button>
+    </div>
+  </div>
+</ng-template>
+
+
+
 <p-toast [baseZIndex]="1000"></p-toast>

@@ -16,6 +16,9 @@ export class Ticket extends Dictionary<number> {
   start: Time;
   end: Time;
   hasChecklist: boolean;
+  checklistId: number;
+  userId: string;
+  user: User;
 
   //front only
   dateToGroup: any;

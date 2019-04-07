@@ -38,7 +38,7 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.ToString());
+                return BadRequest(e.Message);
             }
         }
 
@@ -52,7 +52,7 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.ToString());
+                return BadRequest(e.Message);
             }
 
         }
@@ -67,7 +67,7 @@ namespace WorkScheduler.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.ToString());
+                return BadRequest(e.Message);
             }
 
         }
