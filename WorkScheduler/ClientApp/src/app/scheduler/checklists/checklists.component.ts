@@ -29,6 +29,7 @@ export class ChecklistsComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    this.newChecklist = new Checklist();
   }
 
   async loadData() {
@@ -63,13 +64,13 @@ export class ChecklistsComponent implements OnInit {
   }
 
   openModal(modal) {
-    this.newChecklist = new Checklist();
     this.modalRef = this.modalService.show(modal);
   }
 
   closeModal() {
     this.modalRef.hide();
   }
+  
   copy(checklist: Checklist) {
     this.newChecklist = Object.assign({}, checklist);
     this.newChecklist.deadline = new Date(this.newChecklist.deadline.toString()); //Костыль для ngx-datepicker'а
@@ -79,9 +80,42 @@ export class ChecklistsComponent implements OnInit {
     try {
       await this.schedule.addChecklist(this.newChecklist);
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Чек-лист создан", life: 5000 });
+      await this.loadData();
       this.modalRef.hide();
+      this.newChecklist = undefined;
+      this.newChecklist = new Checklist();
     } catch (e) {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
+  }
+
+  async saveChecklist(){
+    try {
+      await this.schedule.editChecklist(this.newChecklist);
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Чек-лист изменен", life: 5000 });
+      await this.loadData();
+      this.modalRef.hide();
+      this.newChecklist = undefined;
+      this.newChecklist = new Checklist();
+    } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+  async deleteChecklist(){
+    try {
+      await this.schedule.deleteChecklist(this.newChecklist);
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Чек-лист удален", life: 5000 });
+      await this.loadData();
+      this.modalRef.hide();
+      this.newChecklist = undefined;
+      this.newChecklist = new Checklist();
+    } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+  clear(){
+    this.newChecklist = new Checklist();
   }
 }

@@ -30,9 +30,46 @@ namespace WorkScheduler.Controllers
         [HttpPost("Add")]
         public IActionResult Add([FromBody]ChecklistViewModel checklist)
         {
-            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
-            ChecklistService.AddChecklist(checklist, currentUser.Id);
-            return Ok();
+            try
+            {
+                var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+                ChecklistService.AddChecklist(checklist, currentUser.Id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+        [HttpPost("Edit")]
+        public IActionResult Edit([FromBody]ChecklistViewModel checklist)
+        {
+            try
+            {
+                ChecklistService.EditChecklist(checklist);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+
+        }
+
+        [HttpDelete("Delete")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                ChecklistService.DeleteChecklist(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+
         }
 
         [HttpGet("MyChecklists")]

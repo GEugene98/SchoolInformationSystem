@@ -111,6 +111,8 @@ namespace WorkScheduler.Services
 
         public void AddChecklist(ChecklistViewModel checklist, string userId)
         {
+            if(!checklist.Deadline.HasValue) throw new Exception("Укажите срок выполнения");
+
             var newChecklist = new Checklist
             {
                 Name = checklist.Name,
@@ -121,6 +123,38 @@ namespace WorkScheduler.Services
             };
 
             Db.Checklists.Add(newChecklist);
+            Db.SaveChanges();
+        }
+
+        public void DeleteChecklist(int checklistId)
+        {
+            var foundChecklist = Db.Checklists.FirstOrDefault(c => c.Id == checklistId);
+
+            if (foundChecklist == null)
+            {
+                throw new Exception("Чек-лист не найден");
+            }
+
+            var tickets = Db.Tickets.Where(t => t.ChecklistId == foundChecklist.Id);
+
+            Db.Tickets.RemoveRange(tickets);
+            Db.Checklists.Remove(foundChecklist);
+
+            Db.SaveChanges();
+        }
+
+        public void EditChecklist(ChecklistViewModel checklist)
+        {
+            var foundChecklist = Db.Checklists.FirstOrDefault(c => c.Id == checklist.Id);
+
+            if (foundChecklist == null)
+            {
+                throw new Exception("Чек-лист не найден");
+            }
+
+            foundChecklist.Name = checklist.Name;
+            foundChecklist.Comment = checklist.Comment;
+            foundChecklist.Deadline = checklist.Deadline;
             Db.SaveChanges();
         }
     }

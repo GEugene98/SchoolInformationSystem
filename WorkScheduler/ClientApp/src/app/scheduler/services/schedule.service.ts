@@ -213,4 +213,15 @@ export class ScheduleService {
   async addChecklist(checklist: Checklist) {
     return await this.http.post('api/Checklist/Add', checklist).toPromise();
   }
+
+  async editChecklist(checklist: Checklist) {
+    return await this.http.post('api/Checklist/Edit', checklist).toPromise();
+  }
+
+  async deleteChecklist(checklist: Checklist) {
+    const params = new HttpParams()
+      .set('id', checklist.id.toString());
+
+    return await this.http.delete('api/Checklist/Delete', { params: params }).toPromise();
+  }
 }
