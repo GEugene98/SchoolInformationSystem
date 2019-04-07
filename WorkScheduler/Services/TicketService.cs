@@ -98,7 +98,7 @@ namespace WorkScheduler.Services
                     Comment = t.Comment,
                     Done = t.Done,
                     Important = t.Important,
-                    HasChecklist = t.ChecklistId.HasValue,
+                    HasChecklist = t.ChecklistId != null,
                     User = new UserViewModel
                     {
                         Id = t.User.Id,

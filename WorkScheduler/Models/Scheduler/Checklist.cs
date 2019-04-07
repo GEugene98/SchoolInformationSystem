@@ -7,7 +7,7 @@ using WorkScheduler.Models.Identity;
 
 namespace WorkScheduler.Models.Scheduler
 {
-    public class Checklist : Dictionary<int>
+    public class Checklist : Dictionary<string>
     {
         public string UserId { get; set; }
         public User User { get; set; }

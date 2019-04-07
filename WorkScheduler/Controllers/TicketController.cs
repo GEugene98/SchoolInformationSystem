@@ -124,7 +124,7 @@ namespace WorkScheduler.Controllers
 
             var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
 
-            if(ticket.ChecklistId.HasValue)
+            if(ticket.ChecklistId != null)
             {
                  var checklistName = Db.Checklists.FirstOrDefault(c => c.Id == ticket.ChecklistId).Name;
                 return BadRequest($@"Вы не можете удалить эту запись, так как она находится в чек-листе ""{checklistName}"". Если этот чек-лист ваш, удалите запись из него");

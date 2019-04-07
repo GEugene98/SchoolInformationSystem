@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Identity;
+using WorkScheduler.Models.Scheduler;
 using WorkScheduler.ViewModels;
 using WorkScheduler.ViewModels.Scheduler;
 
@@ -21,7 +22,7 @@ namespace WorkScheduler.Services
             Db = context;
         }
 
-        public ChecklistViewModel GetChecklistById(int id)
+        public ChecklistViewModel GetChecklistById(string id)
         {
             var checklist = Db.Checklists.FirstOrDefault(c => c.Id == id);
 
@@ -74,13 +75,13 @@ namespace WorkScheduler.Services
                 .Where(c => c.UserId == userId);
 
             var total = checklists
-                .Join(Db.Tickets, c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
+                .Join(Db.Tickets, c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<string, long>(c.Id, t.Id)).ToList();
             var assigned = checklists
-                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Assigned), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
+                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Assigned), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<string, long>(c.Id, t.Id)).ToList();
             var accepted = checklists
-                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Accepted), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
+                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Accepted), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<string, long>(c.Id, t.Id)).ToList();
             var done = checklists
-                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Done), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
+                .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Done), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<string, long>(c.Id, t.Id)).ToList();
 
             var checklistViewModels = new List<ChecklistViewModel>();
 
@@ -91,7 +92,7 @@ namespace WorkScheduler.Services
                 var clModel =
                     new ChecklistViewModel
                     {
-                        Id = c.Id,
+                        Id = c.Id.ToString(),
                         Name = c.Name,
                         CreatedOn = c.CreatedOn,
                         Deadline = c.Deadline,
@@ -106,6 +107,21 @@ namespace WorkScheduler.Services
             }
 
             return checklistViewModels;
+        }
+
+        public void AddChecklist(ChecklistViewModel checklist, string userId)
+        {
+            var newChecklist = new Checklist
+            {
+                Name = checklist.Name,
+                UserId = userId,
+                Deadline = checklist.Deadline,
+                CreatedOn = DateTime.Now,
+                Comment = checklist.Comment
+            };
+
+            Db.Checklists.Add(newChecklist);
+            Db.SaveChanges();
         }
     }
 }

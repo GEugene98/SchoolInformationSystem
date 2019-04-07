@@ -3,6 +3,7 @@ import { Ticket } from "./ticket.model";
 
 export class Checklist {
   user: User;
+  id: string;
   name: string;
   createdOn: Date;
   deadline: Date;

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorkScheduler.Services;
+using WorkScheduler.ViewModels.Scheduler;
 
 namespace WorkScheduler.Controllers
 {
@@ -20,10 +21,18 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpGet("GetById")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById(string id)
         {
             var checklist = ChecklistService.GetChecklistById(id);
             return Ok(checklist);
+        }
+
+        [HttpPost("Add")]
+        public IActionResult Add([FromBody]ChecklistViewModel checklist)
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+            ChecklistService.AddChecklist(checklist, currentUser.Id);
+            return Ok();
         }
 
         [HttpGet("MyChecklists")]

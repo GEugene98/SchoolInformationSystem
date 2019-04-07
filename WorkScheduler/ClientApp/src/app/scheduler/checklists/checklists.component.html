@@ -1,5 +1,10 @@
 <h1>Чек-листы</h1>
 
+<div style="text-align: left">
+    <button type="button" (click)="openModal(add)" class="btn btn-success">Создать чек-лист</button>
+</div>
+
+
 <div *ngIf="!checklists" class="lds-ring"><div></div><div></div><div></div><div></div></div>
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
@@ -42,3 +47,39 @@
         </div>
     </div>
 </div>
+
+<ng-template #add>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Создание чек-листа</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div style="margin-top: -10px">
+        Наименование:
+        <input type="text" [(ngModel)]="newChecklist.name" class="form-control" placeholder="Название чек-листа">
+      </div>
+  
+      <div>
+        Срок выполнения:
+        <input type="text"
+               placeholder="Щелкните здесь для выбора"
+               class="form-control"
+               [(ngModel)]="newChecklist.deadline"
+               AUTOCOMPLETE="off"
+               [bsConfig]="bsConfig"
+               bsDatepicker>
+      </div>
+
+      <div>
+        Комментарий(не обязательно):
+        <textarea [(ngModel)]="newChecklist.comment" class="form-control" placeholder="Комментарий"></textarea>
+      </div>
+  
+      <div style="text-align:center; margin-top: 15px;">
+        <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+        <button type="button" (click)="addChecklist()" class="btn btn-success">Сохранить</button>
+      </div>
+  
+    </div>

@@ -209,4 +209,8 @@ export class ScheduleService {
 
     return await this.http.get<Checklist>('api/Checklist/GetById', { params: params }).toPromise();
   }
+
+  async addChecklist(checklist: Checklist) {
+    return await this.http.post('api/Checklist/Add', checklist).toPromise();
+  }
 }
