@@ -23,6 +23,8 @@ export class Ticket extends Dictionary<number> {
   //front only
   dateToGroup: any;
   dateToShow: string;
+  blockedData: boolean;
+  blockedTime: boolean;
 
   repeat: boolean;
   dateTo: Date;

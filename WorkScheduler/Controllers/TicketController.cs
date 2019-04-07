@@ -108,21 +108,21 @@ namespace WorkScheduler.Controllers
         public IActionResult AddFromChecklist([FromBody] TicketViewModel ticket)
         {
             var newTicket = new Ticket
-                {
-                    Name = ticket.Name,
-                    Comment = ticket.Comment,
-                    Hours = ticket.Hours,
-                    Minutes = ticket.Minutes,
-                    ChecklistId = ticket.ChecklistId,
-                    Status = TicketStatus.Assigned
-                };
+            {
+                Name = ticket.Name,
+                Comment = ticket.Comment,
+                Hours = ticket.Hours,
+                Minutes = ticket.Minutes,
+                ChecklistId = ticket.ChecklistId,
+                Status = TicketStatus.Assigned
+            };
 
-            if(ticket.Date.HasValue)
+            if (ticket.Date.HasValue)
             {
                 newTicket.Date = ticket.Date.Value.AddHours(3);
             }
 
-            if(!String.IsNullOrEmpty(ticket.UserId))
+            if (!String.IsNullOrEmpty(ticket.UserId))
             {
                 newTicket.UserId = ticket.UserId;
             }
@@ -142,7 +142,7 @@ namespace WorkScheduler.Controllers
         {
             var found = Db.Tickets.FirstOrDefault(t => t.Id == ticket.Id);
 
-            if(found == null) return BadRequest("Задания не существует"); 
+            if (found == null) return BadRequest("Задания не существует");
 
             found.Date = ticket.Date;
             found.Hours = ticket.Hours;
@@ -150,12 +150,12 @@ namespace WorkScheduler.Controllers
             found.Comment = ticket.Comment;
             found.Name = ticket.Name;
 
-            if(found.UserId != ticket.UserId)
+            if (found.UserId != ticket.UserId)
             {
                 found.UserId = ticket.UserId;
                 found.Status = TicketStatus.Assigned;
                 found.Done = false;
-            } 
+            }
 
             Db.SaveChanges();
 
@@ -183,9 +183,9 @@ namespace WorkScheduler.Controllers
 
             var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
 
-            if(ticket.ChecklistId != null)
+            if (ticket.ChecklistId != null)
             {
-                 var checklistName = Db.Checklists.FirstOrDefault(c => c.Id == ticket.ChecklistId).Name;
+                var checklistName = Db.Checklists.FirstOrDefault(c => c.Id == ticket.ChecklistId).Name;
                 return BadRequest($@"Вы не можете удалить эту запись, так как она находится в чек-листе ""{checklistName}"". Если этот чек-лист ваш, удалите запись из него");
             }
 
@@ -208,7 +208,7 @@ namespace WorkScheduler.Controllers
         public IActionResult DeleteFromChecklist(long id)
         {
             var ticket = Db.Tickets.FirstOrDefault(t => t.Id == id);
-            if(ticket == null) return BadRequest("Задания не существует"); 
+            if (ticket == null) return BadRequest("Задания не существует");
             Db.Tickets.Remove(ticket);
             Db.SaveChanges();
             return Ok();
@@ -361,7 +361,28 @@ namespace WorkScheduler.Controllers
         {
             try
             {
-                TicketService.AcceptTicket(ticket.Id, ticket.Date, ticket.Hours, ticket.Minutes);
+                TicketService.AcceptTicket(ticket.Id, ticket.Date.Value.AddHours(3), ticket.Hours, ticket.Minutes);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString());
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("DeclineTicket")]
+        public IActionResult DeclineTicket(long id)
+        {
+            try
+            {
+                var ticket = Db.Tickets.FirstOrDefault(t => t.Id == id);
+                if (ticket == null)
+                {
+                    throw new Exception("Задание было удалено");
+                }
+                ticket.Status = TicketStatus.Declined;
+                Db.SaveChanges();
                 return Ok();
             }
             catch (Exception ex)

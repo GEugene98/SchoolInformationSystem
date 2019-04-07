@@ -238,11 +238,11 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>Установка даты или времени была оставлена на ваше усмотрение</p>
+    <p>Установка даты или времени для этого задания была оставлена на ваше усмотрение</p>
 
     <div>
       Дата:
-      <input type="text"
+      <input [attr.disabled]="ticketToAccept.blockedData" type="text"
              placeholder="Щелкните здесь для выбора"
              class="form-control"
              [(ngModel)]="ticketToAccept.date"
@@ -253,14 +253,14 @@
 
     <div>
       Время начала:
-      <input type="text" [(ngModel)]="ticketToAccept.hours" class="clock form-control" placeholder="ЧЧ"> :
-      <input type="text" [(ngModel)]="ticketToAccept.minutes" class="clock form-control" placeholder="ММ">
+      <input [attr.disabled]="ticketToAccept.blockedTime"  type="text" [(ngModel)]="ticketToAccept.hours" class="clock form-control" placeholder="ЧЧ"> :
+      <input [attr.disabled]="ticketToAccept.blockedTime" type="text" [(ngModel)]="ticketToAccept.minutes" class="clock form-control" placeholder="ММ">
     </div>
     <br />
 
     <div style="text-align:center; margin-top: 15px;">
       <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
-      <button type="button" (click)="acceptTicket()" class="btn btn-success">Добавить в циклограмму</button>
+      <button type="button" (click)="acceptWithNewDateTimeTicket()" class="btn btn-success">Добавить в циклограмму</button>
     </div>
   </div>
 </ng-template>

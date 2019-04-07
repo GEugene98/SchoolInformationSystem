@@ -8,6 +8,7 @@ import { DictionaryService } from '../../shared/services/dictionary.service';
 import { User } from '../../shared/models/user';
 import { MessageService } from 'primeng/api';
 import { Title } from '@angular/platform-browser';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-checklist-details',
@@ -30,6 +31,7 @@ export class ChecklistDetailsComponent implements OnInit {
     private modalService: BsModalService,
     private dictionary: DictionaryService,
     private messageService: MessageService,
+    private ngxService: NgxUiLoaderService,
     private titleService: Title,
     private schedule: ScheduleService) { 
     this.checklistId = this.activateRoute.snapshot.params['id'];
@@ -42,10 +44,12 @@ export class ChecklistDetailsComponent implements OnInit {
   }
 
   async loadData(){
+    this.ngxService.start();
     this.checklist = await this.schedule.getChecklist(this.checklistId);
     this.titleService.setTitle(this.checklist.name);
     this.responsibles = this.dictionary.getResponsibles();
     this.newTicket = new Ticket();
+    this.ngxService.stop();
   }
 
   openModal(modal) {

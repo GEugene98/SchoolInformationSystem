@@ -34,7 +34,7 @@ export class SchedulerHomeComponent implements OnInit {
           this.userState.assignedTickets.state = await this.schedule.assignedTickets();
         }
 
-      }, 30000); 
+      }, 20000); 
 
     } catch (e) {
       location.href = '/api/Account/Login';

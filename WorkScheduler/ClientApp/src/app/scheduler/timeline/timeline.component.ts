@@ -59,6 +59,9 @@ export class TimelineComponent implements OnInit {
     this.packs = await this.schedule.myTicketPacks(this.range);
     this.newTicket = new Ticket();
     this.newTicket.date = this.selectedDate;
+    let notifications = await this.dictionary.getNotifications();
+    this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);
+    this.userState.assignedTickets.state = await this.schedule.assignedTickets();
     this.ngxService.stop();
   }
 
@@ -208,26 +211,65 @@ export class TimelineComponent implements OnInit {
   ticketToAccept: Ticket;
 
   async acceptTicket(ticket: Ticket = null) {
-    if(ticket != null){
-      this.ticketToAccept = Object.assign({}, ticket);
-      if(this.ticketToAccept.date){
-        this.ticketToAccept.date = new Date(this.ticketToAccept.date.toString()); //Костыль для ngx-datepicker'а
-      }
-    }
-    
+    // if(ticket != null){
+    //   this.ticketToAccept = Object.assign({}, ticket);
+    //   if(this.ticketToAccept.date){
+    //     this.ticketToAccept.date = new Date(this.ticketToAccept.date.toString()); //Костыль для ngx-datepicker'а
+    //   }
+    // }
+
     try {
-      if(!this.ticketToAccept.date || !this.ticketToAccept.hours || (!this.ticketToAccept.minutes && this.ticketToAccept.minutes!=0))
-      {
+      if (!ticket.date || !ticket.hours || (!ticket.minutes && ticket.minutes != 0)) {
+        this.ticketToAccept = Object.assign({}, ticket);
+        if (this.ticketToAccept.date) {
+          this.ticketToAccept.date = new Date(this.ticketToAccept.date.toString()); //Костыль для ngx-datepicker'а
+          this.ticketToAccept.blockedData = true;
+        }
+        if((ticket.hours && ticket.hours != 0) || (ticket.minutes && ticket.minutes != 0)){
+          this.ticketToAccept.blockedTime = true;
+        }
+
         this.openModal(this.addWithTimeModal);
         return;
       }
-      await this.schedule.acceptTicket(this.ticketToAccept);
+      await this.schedule.acceptTicket(ticket);
       await this.loadData();
       this.userState.assignedTickets.state.splice(this.userState.assignedTickets.state.indexOf(ticket), 1);
       if (this.userState.assignedTickets.state.length == 0) {
         this.closeModal();
       }
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задача занесена в циклограмму", life: 5000 });
+    } catch (e) {
+      console.error(e);
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+  async acceptWithNewDateTimeTicket() {
+    try {
+      if(!this.ticketToAccept.date || !this.ticketToAccept.hours || (!this.ticketToAccept.minutes && this.ticketToAccept.minutes != 0)){
+        throw {error: "Укажите дату или время"};
+      }
+      await this.schedule.acceptTicket(this.ticketToAccept);
+      await this.loadData();
+      this.closeModal();
+      this.userState.assignedTickets.state.splice(this.userState.assignedTickets.state.indexOf(this.ticketToAccept), 1);
+      if (this.userState.assignedTickets.state.length == 0) {
+        this.closeModal();
+      }
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задача занесена в циклограмму", life: 5000 });
+    } catch (e) {
+      console.error(e);
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+  async declineTicket(ticket: Ticket){
+    try {
+      await this.schedule.declineTicket(ticket);
+      await this.loadData();
+      this.closeModal();
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задача отклонена", life: 5000 });
     } catch (e) {
       console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });

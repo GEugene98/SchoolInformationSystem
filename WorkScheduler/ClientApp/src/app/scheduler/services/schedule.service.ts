@@ -239,4 +239,11 @@ export class ScheduleService {
 
     return await this.http.delete('api/Ticket/DeleteFromChecklist', { params: params }).toPromise();
   }
+
+  async declineTicket(ticket: Ticket) {
+    const params = new HttpParams()
+      .set('id', ticket.id.toString());
+
+    return await this.http.get('api/Ticket/DeclineTicket', { params: params }).toPromise();
+  }
 }

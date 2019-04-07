@@ -12,7 +12,7 @@
     <div></div>
 </div>
 
-<div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+<div style="display: flex; flex-direction: row; flex-wrap: wrap; margin-left: -5px; margin-top: 15px;">
     <div *ngFor="let checklist of checklists" class="panel panel-default"
         style="max-width: 440px; min-width: 440px; margin: 5px">
         <div class="panel-heading" style="display: flex; justify-content: space-between">
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div>
-                <button style="margin-top: 20px;" type="button"
+                <button style="margin-top: 25px;" type="button"
                     [routerLink]="['//scheduler/checklist-details', checklist.id]"
                     class="btn-tasks btn btn-info btn-block">Перейти к заданиям чеклиста</button>
             </div>
@@ -90,28 +90,29 @@
 
 <ng-template #edit>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">Измененеие чек-листа</h4>
+        <h4 class="modal-title pull-left">Редактирование чек-листа</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+    <br />
     <div class="modal-body">
         <div style="margin-top: -10px">
             Наименование:
             <input type="text" [(ngModel)]="newChecklist.name" class="form-control" placeholder="Название чек-листа">
         </div>
-
+        <br />
         <div>
             Срок выполнения:
             <input type="text" placeholder="Щелкните здесь для выбора" class="form-control"
                 [(ngModel)]="newChecklist.deadline" AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
         </div>
-
+        <br />
         <div>
             Комментарий(не обязательно):
             <textarea [(ngModel)]="newChecklist.comment" class="form-control" placeholder="Комментарий"></textarea>
         </div>
-
+        <br />
         <div style="text-align:center; margin-top: 15px;">
             <button type="button" (click)="deleteChecklist()" class="btn btn-danger">Удалить чек-лист</button>
             <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>

@@ -222,11 +222,8 @@ namespace WorkScheduler.Services
             {
                 throw new Exception("Запись не найдена");
             }
-
-            if (ticket.Date.Value.Date != date.Value.Date)
-            {
-                ticket.Date = date;
-            }
+  
+            ticket.Date = date;
 
             if (ticket.Hours != hours || ticket.Minutes != minutes)
             {

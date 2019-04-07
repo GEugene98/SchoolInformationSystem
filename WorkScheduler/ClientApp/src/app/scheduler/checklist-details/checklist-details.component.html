@@ -116,7 +116,7 @@
       Наименование:
       <input type="text" [(ngModel)]="newTicket.name" class="form-control" placeholder="Название записи">
     </div>
-
+    <br />
     <div>
       Дата:
       <input type="text"
@@ -127,6 +127,7 @@
              [bsConfig]="bsConfig"
              bsDatepicker>
     </div>
+    <br />
     <div>
       Время начала:
       <input type="text" [(ngModel)]="newTicket.hours" class="clock form-control" placeholder="ЧЧ"> :
@@ -146,7 +147,7 @@
       Комментарий(не обязательно):
       <textarea [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
     </div>
-
+    <br />
     <div style="text-align:center; margin-top: 15px;">
       <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
       <button type="button" (click)="saveTicket()" class="btn btn-success">Сохранить</button>
