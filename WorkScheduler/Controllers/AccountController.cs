@@ -43,13 +43,16 @@ namespace WorkScheduler.Controllers
                 UserName = GenerateUsername(model.FirstName, model.LastName),
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                SurName = model.SurName,
-                LockoutEnabled = false
+                SurName = model.SurName
             };
 
             var password = GeneratePassword();
 
             var result = await UserManager.CreateAsync(user, password);
+
+            var userToMakeActive = Context.Users.FirstOrDefault(u => u.Id == user.Id);
+            userToMakeActive.LockoutEnabled = false;
+            Context.SaveChanges();
 
             if (result.Succeeded)
             {

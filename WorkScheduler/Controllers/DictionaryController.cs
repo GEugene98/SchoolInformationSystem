@@ -61,7 +61,7 @@ namespace WorkScheduler.Controllers
         {
             var responsibles = new List<UserViewModel>();
 
-            foreach (var user in Db.Users)
+            foreach (var user in Db.Users.Where(u => !u.LockoutEnabled))
             {
                 var userRoles = (await UserManager.GetRolesAsync(user)).Where(r => r != "");
 
