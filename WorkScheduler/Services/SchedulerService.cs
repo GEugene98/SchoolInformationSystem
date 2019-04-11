@@ -376,7 +376,7 @@ namespace WorkScheduler.Services
                 .Include(a => a.WorkSchedule.Activity)
                 .Include(a => a.ConfirmationForm)
                 .Where(a => a.Date.Date >= start.Date && a.Date.Date <= end.Date)
-                .Where(a => !a.IsDeleted)
+                .Where(a => !a.IsDeleted && a.Status == ActionStatus.Accepted)
                 .OrderBy(a => a.Date)
                 .ThenBy(a => a.WorkSchedule.Activity.Priority)
                 .GroupBy(a => a.Date.Date)
