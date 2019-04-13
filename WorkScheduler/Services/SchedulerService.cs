@@ -242,7 +242,19 @@ namespace WorkScheduler.Services
             };
 
             Db.Actions.Add(newAction);
+            Db.SaveChanges();
 
+            var newTicket = new Ticket
+            {
+                UserId = userId,
+                ActionId = newAction.Id,
+                Comment = "Эта запись была создана автоматически после того, как вы добавили мероприятие в свой план",
+                Date = newAction.Date,
+                Hours = 8,
+                Minutes = 0
+            };
+
+            Db.Tickets.Add(newTicket);
             Db.SaveChanges();
 
             var actionResponsiblesQuery = Db.ActionUsers;
