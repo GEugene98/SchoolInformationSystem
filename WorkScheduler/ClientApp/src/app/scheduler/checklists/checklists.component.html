@@ -41,8 +41,11 @@
                     <div>
                         <p>Срок выполнения: {{checklist.deadline | date : 'dd.MM.yyyy'}}</p>
                     </div>
+                    <div>
+                        <p *ngIf="checklist.expieredCount" style="color: #ed143d">Просроченные задания: {{checklist.expieredCount}}</p>
+                    </div>
                     <div style="word-wrap: break-word;">
-                        <p>Комментарий:<br /> {{checklist.comment}}</p>
+                        <p *ngIf="checklist.comment">Комментарий: {{checklist.comment}}</p>
                     </div>
                 </div>
             </div>

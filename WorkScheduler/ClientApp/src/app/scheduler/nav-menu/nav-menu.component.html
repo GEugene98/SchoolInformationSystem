@@ -49,12 +49,12 @@
         </li>
         <li *ngIf="checkRole(userState.currentUser?.state, 'Администратор')" [routerLinkActive]='["link-active"]'>
           <a routerLink='confirm' (click)='collapse()'>
-            <span class='glyphicon glyphicon-ok'></span> Планы для согласования
+            <span class='glyphicon glyphicon-ok'></span> Планы для согласования <span *ngIf="userState.schedulesToConfirm.state != 0" class="badge badge-info">{{userState.schedulesToConfirm.state}}</span>
           </a>
         </li>
         <li *ngIf="checkRole(userState.currentUser?.state, 'Директор')" [routerLinkActive]='["link-active"]'>
           <a routerLink='accept' (click)='collapse()'>
-            <span class='glyphicon glyphicon-ok'></span> Планы для утверждения
+            <span class='glyphicon glyphicon-ok'></span> Планы для утверждения <span *ngIf="userState.schedulesToAccept.state != 0" class="badge badge-info">{{userState.schedulesToAccept.state}}</span>
           </a>
         </li>
         <li *ngIf="checkRole(userState.currentUser?.state, 'Директор')" [routerLinkActive]='["link-active"]'>

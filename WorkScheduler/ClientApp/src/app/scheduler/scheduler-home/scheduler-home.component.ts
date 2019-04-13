@@ -22,6 +22,8 @@ export class SchedulerHomeComponent implements OnInit {
 
         let notifications = await this.dictionary.getNotifications();
         this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);
+        this.userState.schedulesToAccept.state = parseInt(notifications.filter(n => n.id == 'schedulesToAccept')[0].name);
+        this.userState.schedulesToConfirm.state = parseInt(notifications.filter(n => n.id == 'schedulesToConfirm')[0].name);
 
         this.userState.assignedTickets.state = await this.schedule.assignedTickets();
 
@@ -29,6 +31,8 @@ export class SchedulerHomeComponent implements OnInit {
       setInterval(async () => {
         let notifications = await this.dictionary.getNotifications();
         this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);
+        this.userState.schedulesToAccept.state = parseInt(notifications.filter(n => n.id == 'schedulesToAccept')[0].name);
+        this.userState.schedulesToConfirm.state = parseInt(notifications.filter(n => n.id == 'schedulesToConfirm')[0].name);
 
         if (this.userState.assignedTickets.state.length != this.userState.assignedTicketCount.state) {
           this.userState.assignedTickets.state = await this.schedule.assignedTickets();

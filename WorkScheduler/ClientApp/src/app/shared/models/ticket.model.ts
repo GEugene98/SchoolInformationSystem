@@ -19,6 +19,7 @@ export class Ticket extends Dictionary<number> {
   checklistId: number;
   userId: string;
   user: User;
+  isExpiered: boolean;
 
   //front only
   dateToGroup: any;

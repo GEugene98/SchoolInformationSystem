@@ -14,22 +14,21 @@
 <table class="table" *ngIf="checklist.tickets && checklist.tickets.length != 0">
   <thead>
     <tr>
-      <th scope="col" style="width: 5%">Дата</th>
+      <th scope="col" style="width: 8%">Дата</th>
       <th scope="col" style="width: 5%">Время</th>
-      <th scope="col" style="width: 30%">Наименование</th>
-      <th scope="col" width="30%">Комментарий</th>
-      <th scope="col" width="30%">Кому назначена</th>
-      <th scope="col" width="5%">Статус</th>
-      <th scope="col" width="5%">Действия</th>
+      <th scope="col" style="width: 27%">Наименование</th>
+      <th scope="col" style="width: 30%">Комментарий</th>
+      <th scope="col" style="width: 15%">Кому назначена</th>
+      <th scope="col" style="width: 7%">Статус</th>
+      <th scope="col" style="width: 7%">Действия</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let ticket of checklist.tickets" 
     [class.blue]="ticket.status == 1"
+    [class.red]="ticket.isExpiered"
     [class.yellow]="ticket.status == 2"
-    [class.green]="ticket.status == 4"
-    [class.blue]="ticket.status == 1"
-    [class.blue]="ticket.status == 1">
+    [class.green]="ticket.status == 4">
       <td>{{ticket.date | date : 'dd.MM.yyyy'}}</td>
       <td><span>{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes == 0">0</span></span></td>
       <td>{{ticket.name}}</td>

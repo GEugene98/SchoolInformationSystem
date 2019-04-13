@@ -54,6 +54,8 @@ namespace WorkScheduler.Services
                 .Where(t => t.Date.Value.Date >= dateFrom.Date && t.Date.Value.Date <= dateTo.Date)
                 .ToList()
                 .OrderBy(t => t.Date.Value.Date)
+                .ThenBy(t => t.Hours)
+                .ThenBy(t => t.Minutes)
                 .GroupBy(t => t.Date.Value.Date);
 
             var ticketPacks = new List<TicketPackViewModel>();

@@ -17,6 +17,7 @@ namespace WorkScheduler.ViewModels.Scheduler
         public int AcceptedCount { get; set; } 
         public int DoneCount { get; set; }
         public int TotalCount { get; set; }     
+        public int ExpieredCount { get; set; }     
 
         public IEnumerable<TicketViewModel> Tickets { get; set; }
     }

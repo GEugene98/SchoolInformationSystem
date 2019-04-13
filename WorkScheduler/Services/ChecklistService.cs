@@ -56,6 +56,7 @@ namespace WorkScheduler.Services
                     Hours = t.Hours,
                     Minutes = t.Minutes,
                     Status = t.Status,
+                    IsExpiered = t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date && t.Status != TicketStatus.Done
                 })
                 .ToList();
 
@@ -83,6 +84,8 @@ namespace WorkScheduler.Services
                 .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Accepted), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
             var done = checklists
                 .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Done), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
+            var expiered = checklists
+                .Join(Db.Tickets.Where(t => t.Status != TicketStatus.Done && t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
 
             var checklistViewModels = new List<ChecklistViewModel>();
 
@@ -101,7 +104,8 @@ namespace WorkScheduler.Services
                         TotalCount = total.Where(t => t.Key == c.Id).Count(),
                         AssignedCount = assigned.Where(t => t.Key == c.Id).Count(),
                         AcceptedCount = accepted.Where(t => t.Key == c.Id).Count(),
-                        DoneCount = done.Where(t => t.Key == c.Id).Count()
+                        DoneCount = done.Where(t => t.Key == c.Id).Count(),
+                        ExpieredCount = expiered.Where(t => t.Key == c.Id).Count()
                     };
 
                 checklistViewModels.Add(clModel);

@@ -8,4 +8,6 @@ export class UserState {
   readonly currentUser = new DataStore<User>();
   readonly assignedTickets = new DataStore<Ticket[]>();
   readonly assignedTicketCount = new DataStore<number>();
+  readonly schedulesToAccept = new DataStore<number>();
+  readonly schedulesToConfirm = new DataStore<number>();
 }

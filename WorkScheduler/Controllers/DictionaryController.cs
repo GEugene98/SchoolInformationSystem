@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorkScheduler.Models;
+using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.Services;
 using WorkScheduler.ViewModels;
@@ -245,6 +246,21 @@ namespace WorkScheduler.Controllers
             {
                 Id = "assignedTickets",
                 Name = ticketCount.ToString()
+            });
+
+            var schedulesToAccept = Db.WorkSchedules.Where(ws => ws.Actions.Where(a => a.Status == ActionStatus.Confirmed).Count() > 0).Count();
+            var schedulesToConfirm = Db.WorkSchedules.Where(ws => ws.Actions.Where(a => a.Status == ActionStatus.NeedConfirm).Count() > 0).Count();
+
+            notifications.Add(new DictionaryViewModel<string>
+            {
+                Id = "schedulesToAccept",
+                Name = schedulesToAccept.ToString()
+            });
+
+            notifications.Add(new DictionaryViewModel<string>
+            {
+                Id = "schedulesToConfirm",
+                Name = schedulesToConfirm.ToString()
             });
 
             return Ok(notifications);
