@@ -248,8 +248,8 @@ namespace WorkScheduler.Controllers
                 Name = ticketCount.ToString()
             });
 
-            var schedulesToAccept = Db.WorkSchedules.Where(ws => ws.Actions.Where(a => a.Status == ActionStatus.Confirmed).Count() > 0).Count();
-            var schedulesToConfirm = Db.WorkSchedules.Where(ws => ws.Actions.Where(a => a.Status == ActionStatus.NeedConfirm).Count() > 0).Count();
+            var schedulesToAccept = Db.WorkSchedules.Where(ws => ws.Actions.Any(a => a.Status == ActionStatus.Confirmed)).Count();
+            var schedulesToConfirm = Db.WorkSchedules.Where(ws => ws.Actions.Any(a => a.Status == ActionStatus.NeedConfirm)).Count();
 
             notifications.Add(new DictionaryViewModel<string>
             {
