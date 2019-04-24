@@ -59,6 +59,11 @@ namespace WorkSheduler
                 })
                     .AddEntityFrameworkStores<WorkScheduler.Context>();
 
+                services.ConfigureApplicationCookie(options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(180);
+                });
+
                 services.AddScoped<SchedulerService>();
                 services.AddScoped<TicketService>();
                 services.AddScoped<ReportService>();
