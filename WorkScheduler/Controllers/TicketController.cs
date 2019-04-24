@@ -107,33 +107,50 @@ namespace WorkScheduler.Controllers
         [HttpPost("AddFromChecklist")]
         public IActionResult AddFromChecklist([FromBody] TicketViewModel ticket)
         {
-            var newTicket = new Ticket
+            if (ticket.UserIdsToAssignTicket == null || ticket.UserIdsToAssignTicket.Count() == 0)
             {
-                Name = ticket.Name,
-                Comment = ticket.Comment,
-                Hours = ticket.Hours,
-                Minutes = ticket.Minutes,
-                ChecklistId = ticket.ChecklistId,
-                Status = TicketStatus.Assigned
-            };
+                var newTicket = new Ticket
+                {
+                    Name = ticket.Name,
+                    Comment = ticket.Comment,
+                    Hours = ticket.Hours,
+                    Minutes = ticket.Minutes,
+                    ChecklistId = ticket.ChecklistId,
+                    Status = TicketStatus.Created
+                };
 
-            if (ticket.Date.HasValue)
-            {
-                newTicket.Date = ticket.Date.Value.AddHours(3);
+                if (ticket.Date.HasValue)
+                {
+                    newTicket.Date = ticket.Date.Value.AddHours(3);
+                }
+
+                Db.Tickets.Add(newTicket);
+                Db.SaveChanges();
+                return Ok();
             }
 
-            if (!String.IsNullOrEmpty(ticket.UserId))
+            foreach (var userId in ticket.UserIdsToAssignTicket)
             {
-                newTicket.UserId = ticket.UserId;
-            }
-            else
-            {
-                newTicket.Status = TicketStatus.Created;
-            }
+                var newTicket = new Ticket
+                {
+                    Name = ticket.Name,
+                    Comment = ticket.Comment,
+                    Hours = ticket.Hours,
+                    Minutes = ticket.Minutes,
+                    ChecklistId = ticket.ChecklistId,
+                    Status = TicketStatus.Assigned,
+                    UserId = userId
+                };
 
-            Db.Tickets.Add(newTicket);
+                if (ticket.Date.HasValue)
+                {
+                    newTicket.Date = ticket.Date.Value.AddHours(3);
+                }
+
+                Db.Tickets.Add(newTicket); 
+            }
+            
             Db.SaveChanges();
-
             return Ok();
         }
 

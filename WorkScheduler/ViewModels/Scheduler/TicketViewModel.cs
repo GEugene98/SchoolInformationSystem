@@ -26,6 +26,8 @@ namespace WorkScheduler.ViewModels
         public int ChecklistId { get; set; }
         public bool IsExpiered { get; set; }
 
+        public IEnumerable<string> UserIdsToAssignTicket { get; set; }
+
         public bool Repeat { get; set; }
         public DateTime DateTo { get; set; }
         public IEnumerable<int> Days { get; set; }
