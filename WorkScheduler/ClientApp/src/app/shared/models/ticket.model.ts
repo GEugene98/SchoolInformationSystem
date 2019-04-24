@@ -20,6 +20,7 @@ export class Ticket extends Dictionary<number> {
   userId: string;
   user: User;
   isExpiered: boolean;
+  userIdsToAssignTicket: string[];
 
   //front only
   dateToGroup: any;
