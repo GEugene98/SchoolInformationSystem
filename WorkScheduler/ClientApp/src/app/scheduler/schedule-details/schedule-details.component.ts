@@ -11,6 +11,8 @@ import { MessageService } from 'primeng/api';
 import { ScheduleService } from '../services/schedule.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Title } from '@angular/platform-browser';
+import { AcademicYear } from '../../shared/models/academic-year.model';
+import { Activity } from '../../shared/models/activity.model';
 
 @Component({
   selector: 'app-schedule-details',
@@ -25,6 +27,7 @@ export class ScheduleDetailsComponent implements OnInit {
   bsConfig: any;
   scheduleId: number;
   currentSchedule: any;
+  editedSchedule: any;
   selectedDate: Date;
   selectedEndDate: Date;
   actions: Action[];
@@ -36,6 +39,8 @@ export class ScheduleDetailsComponent implements OnInit {
   editedAction: Action;
   confirmDate: Date;
   acceptDate: Date;
+  allAcademicYears: AcademicYear[];
+  allActivities: Activity[];
 
   constructor(private activateRoute: ActivatedRoute,
     private modalService: BsModalService,
@@ -53,7 +58,6 @@ export class ScheduleDetailsComponent implements OnInit {
   async ngOnInit() {
     this.ngxService.start();
     this.scheduleId = this.activateRoute.snapshot.params['id'];
-    this.currentSchedule = await this.schedule.getSchedule(this.scheduleId);
     await this.loadData();
     this.titleService.setTitle(this.currentSchedule.name);
     this.selectedResponsibles.push(this.userState.currentUser.state);
@@ -61,12 +65,16 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   async loadData() {
+    this.currentSchedule = await this.schedule.getSchedule(this.scheduleId);
+    this.allActivities = await this.dictionary.getActivities();
+    this.allAcademicYears = await this.dictionary.getAcademicYears();
     this.actions = await this.schedule.getActions(this.scheduleId);
     this.allResponsibles = this.dictionary.getResponsibles();
     this.allConfForms = this.dictionary.getConfForms();
   }
 
   openModal(modal) {
+    this.editedSchedule = Object.assign({}, this.currentSchedule);
     if (this.isActionFreezed(this.editedAction)) {
       this.editedAction = undefined;
       return;
@@ -193,6 +201,17 @@ export class ScheduleDetailsComponent implements OnInit {
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Мероприятие удалено", life: 5000 });
       await this.loadData();
     } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+  async editSchedule(){
+    try {
+      await this.schedule.editSchedule(this.editedSchedule);
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "План изменен", life: 5000 });
+      await this.loadData();
+      this.modalRef.hide();
+    } catch(e) {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
   }

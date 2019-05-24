@@ -83,6 +83,10 @@ export class ScheduleService {
     return await this.http.get<any>('api/Schedule/GetWorkSchedule', { params: params }).toPromise();
   }
 
+  async editSchedule(schedule: any) {
+    return await this.http.post('api/Schedule/Edit', schedule).toPromise();
+  }
+
   async getActionsToMake(targetStatus: ActionStatus) {
     const params = new HttpParams()
       .set('targetStatus', targetStatus.toString());

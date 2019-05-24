@@ -344,6 +344,22 @@ namespace WorkScheduler.Services
             Db.SaveChanges();
         }
 
+        public void EditSchedule(WorkScheduleViewModel schedule){
+
+            var found = Db.WorkSchedules.FirstOrDefault(ws => ws.Id == schedule.Id);
+
+            if(found == null)
+            {
+                throw new Exception("План не найден");
+            } 
+
+            found.Name = schedule.Name;
+            found.AcademicYearId = schedule.AcademicYear.Id;
+            found.ActivityId = schedule.Activity.Id;
+
+            Db.SaveChanges();
+        }
+
         public void UpdateAction(ActionViewModel action)
         {
             var foundAction = Db.Actions.FirstOrDefault(a => a.Id == action.Id);

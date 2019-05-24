@@ -76,7 +76,24 @@ namespace WorkScheduler.Controllers
         public IActionResult GetWorkSchedule(int scheduleId)
         {
             var s = SchedulerService.GetSchedule(scheduleId);
-            return Ok(new { s.Id, s.Name} );
+
+            var schedule = new WorkScheduleViewModel
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Activity = new ActivityViewModel
+                {
+                    Id = s.Activity.Id,
+                    Name = s.Activity.Name
+                },
+                AcademicYear = new AcademicYearViewModel
+                {
+                    Id = s.AcademicYear.Id,
+                    Name = s.AcademicYear.Name
+                }
+            };
+
+            return Ok(schedule);
         }
 
         [HttpGet("MyWorkSchedules")]
@@ -149,6 +166,22 @@ namespace WorkScheduler.Controllers
             try
             {
                 SchedulerService.DeleteSchedule(scheduleId);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString());
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
+        }
+
+        [HttpPost("Edit")]
+        public IActionResult Edit([FromBody]WorkScheduleViewModel schedule)
+        {
+            try
+            {
+                SchedulerService.EditSchedule(schedule);
             }
             catch (Exception ex)
             {
