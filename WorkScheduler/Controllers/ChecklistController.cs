@@ -79,5 +79,14 @@ namespace WorkScheduler.Controllers
             var checklists = ChecklistService.GetChecklists(currentUser.Id);
             return Ok(checklists);
         }
+
+        [Authorize(Roles = "Директор")]
+        [HttpGet("GetOther")]
+        public IActionResult GetOther()
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+            var checklists = ChecklistService.GetOtherChecklists(currentUser.Id);
+            return Ok(checklists);
+        }
     }
 }

@@ -71,6 +71,33 @@ namespace WorkScheduler.Services
             };
         }
 
+        public Dictionary<UserViewModel, IEnumerable<ChecklistViewModel>> GetOtherChecklists(params string[] userIdsToExclude)
+        {
+            var usersHavingChecklists = Db.Users
+                .Where(u => u.Checklists.Any() && !userIdsToExclude.Contains(u.Id))
+                .Select(u => new UserViewModel
+                {
+                    Id = u.Id,
+                    Name = u.UserName,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    SurName = u.SurName,
+                    FullName = $"{u.LastName} {u.FirstName} {u.SurName}",
+                });
+
+            var otherChecklists = new Dictionary<UserViewModel, IEnumerable<ChecklistViewModel>>();
+
+            foreach (var user in usersHavingChecklists)
+            {
+                var checklists = GetChecklists(user.Id);
+                otherChecklists.Add(user, checklists);
+            }
+
+            var t  = otherChecklists.OrderBy(i => i.Key.LastName);
+
+            return otherChecklists;
+        }
+
         public IEnumerable<ChecklistViewModel> GetChecklists(string userId)
         {
             var checklists = Db.Checklists
@@ -116,7 +143,7 @@ namespace WorkScheduler.Services
 
         public void AddChecklist(ChecklistViewModel checklist, string userId)
         {
-            if(!checklist.Deadline.HasValue) throw new Exception("Укажите срок выполнения");
+            if (!checklist.Deadline.HasValue) throw new Exception("Укажите срок выполнения");
 
             var newChecklist = new Checklist
             {
