@@ -42,15 +42,6 @@ import { ChecklistsComponent } from './checklists/checklists.component';
 import { ChecklistDetailsComponent } from './checklist-details/checklist-details.component';
 defineLocale('ru', ruLocale); 
 
-const schedulerRoutes = [
-  //{ path: 'my-schedule', component: MySchedules, outlet: "schedulerRouter" },
-  //{ path: 'general-schedule', component: GeneralScheduleComponent, outlet: "schedulerRouter" },
-  //{ path: 'settings', component: SettingsComponent, outlet: "schedulerRouter" },
-  //{ path: 'confirm', component: ConfirmComponent, outlet: "schedulerRouter" },
-  //{ path: 'accept', component: AcceptComponent, outlet: "schedulerRouter" },
-  //{ path: 'schedule-details/:id', component: ScheduleDetailsComponent, outlet: "schedulerRouter" }
-];
-
 @NgModule({
   declarations: [
     NavMenuComponent,
@@ -87,8 +78,7 @@ const schedulerRoutes = [
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     FormsModule,
-    RouterModule.forChild(schedulerRoutes),
-    //RouterModule.forRoot()
+    RouterModule.forChild([])
   ],
   providers: [
     UserState,
