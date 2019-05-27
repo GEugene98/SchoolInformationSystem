@@ -5,6 +5,9 @@ import { DictionaryService } from '../../shared/services/dictionary.service';
 import { MessageService } from 'primeng/api';
 import { Title } from '@angular/platform-browser';
 import { ScheduleService } from '../services/schedule.service';
+import { UserState } from '../../shared/states/user.state';
+import { User, isUserInRole } from '../../shared/models/user';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-checklists',
@@ -16,12 +19,15 @@ export class ChecklistsComponent implements OnInit {
   bsConfig: any;
   modalRef: BsModalRef;
   checklists: Checklist[];
+  otherChecklists: any;
+  otherChecklistKeys: any;
   newChecklist: Checklist;
 
   constructor(private modalService: BsModalService,
     private dictionary: DictionaryService,
     private messageService: MessageService,
     private titleService: Title,
+    private userState: UserState,
     private schedule: ScheduleService) { 
       this.titleService.setTitle("Мои чек-листы");
       this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
@@ -32,9 +38,25 @@ export class ChecklistsComponent implements OnInit {
     this.newChecklist = new Checklist();
   }
 
+  checkRole(user: User, role: string) {
+    return isUserInRole(user, role);
+  }
+  
+
   async loadData() {
     this.checklists = await this.schedule.getMyChecklists();
-    this.checklists.forEach(c => {
+    this.fillChartData(this.checklists);
+
+    if(this.checkRole(this.userState.currentUser.state, 'Директор')){
+      this.otherChecklists = await this.schedule.otherChecklists();
+      this.fillChartData(this.otherChecklists);
+      this.otherChecklists = _.groupBy(this.otherChecklists, c => c.user.fullName);
+      this.otherChecklistKeys = Object.keys(this.otherChecklists);
+    }
+  }
+
+  fillChartData(checklists) {
+    checklists.forEach(c => {
       c.chartData =
         {
           labels: ['Назначенные', 'Принятые', 'Готовые'],
@@ -61,6 +83,10 @@ export class ChecklistsComponent implements OnInit {
           }
         }
     });
+  }
+
+  getOtherChecklistArrayByKey(key){
+    return this.otherChecklists[key];
   }
 
   openModal(modal) {

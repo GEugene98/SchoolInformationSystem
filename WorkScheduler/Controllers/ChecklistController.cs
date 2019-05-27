@@ -80,7 +80,6 @@ namespace WorkScheduler.Controllers
             return Ok(checklists);
         }
 
-        [Authorize(Roles = "Директор")]
         [HttpGet("GetOther")]
         public IActionResult GetOther()
         {

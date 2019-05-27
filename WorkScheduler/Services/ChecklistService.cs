@@ -71,31 +71,20 @@ namespace WorkScheduler.Services
             };
         }
 
-        public Dictionary<UserViewModel, IEnumerable<ChecklistViewModel>> GetOtherChecklists(params string[] userIdsToExclude)
+        public IEnumerable<ChecklistViewModel> GetOtherChecklists(params string[] userIdsToExclude)
         {
             var usersHavingChecklists = Db.Users
-                .Where(u => u.Checklists.Any() && !userIdsToExclude.Contains(u.Id))
-                .Select(u => new UserViewModel
-                {
-                    Id = u.Id,
-                    Name = u.UserName,
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    SurName = u.SurName,
-                    FullName = $"{u.LastName} {u.FirstName} {u.SurName}",
-                });
+                .Where(u => u.Checklists.Any() && !userIdsToExclude.Contains(u.Id));
 
-            var otherChecklists = new Dictionary<UserViewModel, IEnumerable<ChecklistViewModel>>();
+            var otherChecklists = new List<ChecklistViewModel>();
 
             foreach (var user in usersHavingChecklists)
             {
                 var checklists = GetChecklists(user.Id);
-                otherChecklists.Add(user, checklists);
+                otherChecklists.AddRange(checklists);
             }
 
-            var t  = otherChecklists.OrderBy(i => i.Key.LastName);
-
-            return otherChecklists;
+            return otherChecklists.OrderBy(i => i.User.LastName);
         }
 
         public IEnumerable<ChecklistViewModel> GetChecklists(string userId)
@@ -132,7 +121,16 @@ namespace WorkScheduler.Services
                         AssignedCount = assigned.Where(t => t.Key == c.Id).Count(),
                         AcceptedCount = accepted.Where(t => t.Key == c.Id).Count(),
                         DoneCount = done.Where(t => t.Key == c.Id).Count(),
-                        ExpieredCount = expiered.Where(t => t.Key == c.Id).Count()
+                        ExpieredCount = expiered.Where(t => t.Key == c.Id).Count(),
+                        User = new UserViewModel
+                        {
+                            Id = c.User.Id,
+                            Name = c.User.UserName,
+                            FirstName = c.User.FirstName,
+                            LastName = c.User.LastName,
+                            SurName = c.User.SurName,
+                            FullName = $"{c.User.LastName} {c.User.FirstName} {c.User.SurName}",
+                        }
                     };
 
                 checklistViewModels.Add(clModel);

@@ -1,8 +1,4 @@
-<h1>Чек-листы</h1>
-
-<div style="text-align: left">
-    <button type="button" (click)="clear(); openModal(add)" class="btn btn-success">Создать чек-лист</button>
-</div>
+<h1>Мои чек-листы</h1>
 
 
 <div *ngIf="!checklists" class="lds-ring">
@@ -10,6 +6,10 @@
     <div></div>
     <div></div>
     <div></div>
+</div>
+
+<div style="text-align: left">
+    <button type="button" (click)="clear(); openModal(add)" class="btn btn-success">Создать чек-лист</button>
 </div>
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap; margin-left: -5px; margin-top: 15px;">
@@ -58,6 +58,20 @@
         </div>
     </div>
 </div>
+
+<br /><br />
+<div *ngIf="checkRole(userState.currentUser?.state, 'Директор') && otherChecklistKeys"><h3>Чек-листы других пользователей</h3></div>
+<br />
+<div *ngIf="checkRole(userState.currentUser?.state, 'Директор') && otherChecklistKeys">
+    <div  *ngFor="let key of otherChecklistKeys">
+        <app-other-checklists
+            [checklists]="getOtherChecklistArrayByKey(key)"
+            [title]="key">
+        </app-other-checklists>
+    </div>
+</div>
+
+<br /><br /><br /><br />
 
 <ng-template #add>
     <div class="modal-header">

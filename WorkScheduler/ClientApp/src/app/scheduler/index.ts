@@ -40,6 +40,7 @@ import { RepeatComponent } from './timeline/components/repeat/repeat.component';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { ChecklistsComponent } from './checklists/checklists.component';
 import { ChecklistDetailsComponent } from './checklist-details/checklist-details.component';
+import { OtherChecklistsComponent } from './other-checklists/other-checklists.component';
 defineLocale('ru', ruLocale); 
 
 @NgModule({
@@ -61,7 +62,8 @@ defineLocale('ru', ruLocale);
     ActionComponent,
     RepeatComponent,
     ChecklistsComponent,
-    ChecklistDetailsComponent
+    ChecklistDetailsComponent,
+    OtherChecklistsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

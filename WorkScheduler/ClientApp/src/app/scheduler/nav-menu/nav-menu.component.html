@@ -29,17 +29,24 @@
   </li>-->
         <li [routerLinkActive]='["link-active"]'>
           <a routerLink='timeline' (click)='collapse()'>
-            <span class='glyphicon glyphicon-time'></span> Моя циклограмма <span *ngIf="userState.assignedTicketCount.state != 0" class="badge badge-info">{{userState.assignedTicketCount.state}}</span>
+            <span class='glyphicon glyphicon-time'></span> 
+            <span *ngIf="checkRole(userState.currentUser?.state, 'Директор')">Циклограмма</span>
+            <span *ngIf="!checkRole(userState.currentUser?.state, 'Директор')">Моя циклограмма</span>
+            <span *ngIf="userState.assignedTicketCount.state != 0" class="badge badge-info">{{userState.assignedTicketCount.state}}</span>
           </a>
         </li>
         <li [routerLinkActive]='["link-active"]' *ngIf="checkRole(userState.currentUser?.state, 'Администратор') || checkRole(userState.currentUser?.state, 'Директор')">
           <a routerLink='checklists' (click)='collapse()'>
-            <span class='	glyphicon glyphicon-check'></span> Мои чек-листы 
+            <span class='	glyphicon glyphicon-check'></span> 
+            <span *ngIf="checkRole(userState.currentUser?.state, 'Директор')">Чек-листы</span>
+            <span *ngIf="!checkRole(userState.currentUser?.state, 'Директор')">Мои чек-листы</span>
           </a>
         </li>
         <li [routerLinkActive]='["link-active"]'>
           <a routerLink='my-schedule' (click)='collapse()'>
-            <span class='glyphicon glyphicon-calendar'></span> Мои планы
+            <span class='glyphicon glyphicon-calendar'></span> 
+            <span *ngIf="checkRole(userState.currentUser?.state, 'Директор')">Планы</span>
+            <span *ngIf="!checkRole(userState.currentUser?.state, 'Директор')">Мои планы</span>
           </a>
         </li>
         <li [routerLinkActive]='["link-active"]'>

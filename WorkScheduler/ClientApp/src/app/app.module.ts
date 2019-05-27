@@ -32,6 +32,7 @@ import { ConfirmAcceptScheduleComponent } from './scheduler/confirm-accept-sched
 import { ChecklistsComponent } from './scheduler/checklists/checklists.component';
 import { ChartModule } from 'primeng/chart';
 import { ChecklistDetailsComponent } from './scheduler/checklist-details/checklist-details.component';
+import { OtherChecklistsComponent } from './scheduler/other-checklists/other-checklists.component';
 
 defineLocale('ru', ruLocale);
 

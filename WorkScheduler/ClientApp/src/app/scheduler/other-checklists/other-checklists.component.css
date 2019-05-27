@@ -1,0 +1,9 @@
+.btn-tasks {
+    opacity: 0.4;
+    transition: 0.5s;
+  }
+  
+  .panel-body:hover .btn-tasks {
+    opacity: 1;
+    transition: 0.5s;
+  }

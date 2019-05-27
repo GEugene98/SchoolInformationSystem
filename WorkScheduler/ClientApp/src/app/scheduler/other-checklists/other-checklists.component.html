@@ -1,0 +1,51 @@
+<div style=" height: 40px;">
+  <!-- <button style="float: right;" (click)="showAllHandler()" type="button" class="btn btn-light"><span *ngIf="!showAll">Показать</span><span *ngIf="showAll">Скрыть</span></button> -->
+  <div>
+    <a href="javascript:void(0)" (click)="showAllHandler()"><h4>{{title}}</h4></a>
+  </div>
+</div>
+<div *ngIf="showAll">
+
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap; margin-left: -5px;">
+        <div *ngFor="let checklist of checklists" class="panel panel-default"
+            style="max-width: 440px; min-width: 440px; margin: 5px">
+            <div class="panel-heading" style="display: flex; justify-content: space-between">
+                <div style="word-wrap: break-word; width: 90%; font-weight: bold;">{{checklist.name}}</div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <div *ngIf="!(checklist.assignedCount == 0 && checklist.acceptedCount == 0 && checklist.doneCount == 0)"
+                        style="width: 120px; float: left;">
+                        <p-chart [width]="250" type="doughnut" [options]="checklist.chartData.options"
+                            [data]="checklist.chartData">
+                        </p-chart>
+                    </div>
+    
+                    <div
+                        style="text-align: left; display: inline-block; max-width: 260px; margin-left: 10px; margin-top: 2px;">
+                        <div>
+                            <p>Всего заданий: {{checklist.totalCount}}</p>
+                        </div>
+                        <div>
+                            <p>Срок выполнения: {{checklist.deadline | date : 'dd.MM.yyyy'}}</p>
+                        </div>
+                        <div>
+                            <p *ngIf="checklist.expieredCount" style="color: #ed143d">Просроченные задания: {{checklist.expieredCount}}</p>
+                        </div>
+                        <div style="word-wrap: break-word;">
+                            <p *ngIf="checklist.comment">Комментарий: {{checklist.comment}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button style="margin-top: 25px;" type="button"
+                        [routerLink]="['//scheduler/checklist-details', checklist.id]"
+                        class="btn-tasks btn btn-info btn-block">Перейти к заданиям чеклиста</button>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+    <br/>
+
+</div>
