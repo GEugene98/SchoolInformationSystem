@@ -95,7 +95,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     ChartModule,
     //TabsModule.forRoot(),
     //BsDatepickerModule.forRoot(),
-    //ModalModule.forRoot(),
+    ModalModule.forRoot(),
     FormsModule,
     SchedulerModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),

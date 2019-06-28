@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,11 +9,17 @@ import { Title } from '@angular/platform-browser';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private titleService: Title) {
-    this.titleService.setTitle('ИС "Ширинская СОШ"');
+  modalRef: BsModalRef;
+
+  constructor(private titleService: Title, private modalService: BsModalService) {
+    //this.titleService.setTitle('');
   }
 
   ngOnInit() {
+  }
+
+  openModal(modal) {
+    this.modalRef = this.modalService.show(modal);
   }
 
 }

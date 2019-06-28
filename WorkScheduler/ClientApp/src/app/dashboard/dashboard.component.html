@@ -1,8 +1,21 @@
 <div class="container" style="text-align:center">
-  <h1>Здравствуйте! Вы находитесь в информационной системе <br /> МКОУ "Ширинская СОШ"</h1>
-  <h3>Выберите нужное приложение ниже и выполните по необходимости вход для начала работы</h3>
+  <h1>Здравствуйте! Вы находитесь в информационной системе школы</h1>
+  <h3>Выберите приложение и выполните по необходимости вход для начала работы</h3>
   <br />
   <a class="btn btn-outline-info" routerLink="scheduler" role="button"><span class='glyphicon glyphicon-calendar'></span> <br /> Планирование</a>
-  <a class="btn btn-outline-info" routerLink="monitoring" role="button"><span class='glyphicon glyphicon-list-alt'></span> <br /> Мониторинг</a>
-  <a class="btn btn-outline-info" routerLink="statistic" role="button"><span class='glyphicon glyphicon-signal'></span> <br /> Статистика</a>
+  <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-list-alt'></span> <br /> Мониторинг</a>
+  <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-signal'></span> <br /> Статистика</a>
 </div>
+
+
+<ng-template #developModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Информация</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Приложение находится в стадии разработки
+  </div>
+</ng-template>
