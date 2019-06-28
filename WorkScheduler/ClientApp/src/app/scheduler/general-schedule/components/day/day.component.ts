@@ -81,7 +81,7 @@ export class DayComponent implements OnInit {
   async saveTicket() {
     try {
       await this.schedule.addTicket(this.newTicket);
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись добавлена в циклограмму", life: 5000 });
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись добавлена в планинг", life: 5000 });
       this.loadData();
       this.modalRef.hide();
     } catch (e) {

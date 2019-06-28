@@ -46,7 +46,7 @@ export class TimelineComponent implements OnInit {
     private titleService: Title,
     private userState: UserState) {
     this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
-    this.titleService.setTitle('Моя циклограмма');
+    this.titleService.setTitle('Планинг');
     this.currentWeek();
   }
 
@@ -82,7 +82,7 @@ export class TimelineComponent implements OnInit {
     if (this.isTimeCorrect()) {
       try {
         await this.schedule.addTicket(this.newTicket, this.repeat, this.dateTo, this.days);
-        this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись добавлена в циклограмму", life: 5000 });
+        this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Запись добавлена в планинг", life: 5000 });
         this.dateTo = new Date();
         this.selectedDate = new Date();
         this.repeat = false;
@@ -178,7 +178,7 @@ export class TimelineComponent implements OnInit {
   async sendTimeline() {
     try {
       await this.schedule.sendTimeline(this.range);
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Циклограмма отправлена на вашу почту", life: 5000 });
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Планинг отправлена на вашу почту", life: 5000 });
     } catch (e) {
       console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
@@ -238,7 +238,7 @@ export class TimelineComponent implements OnInit {
       if (this.userState.assignedTickets.state.length == 0) {
         this.closeModal();
       }
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задача занесена в циклограмму", life: 5000 });
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задача занесена в планинг", life: 5000 });
     } catch (e) {
       console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
@@ -257,7 +257,7 @@ export class TimelineComponent implements OnInit {
       if (this.userState.assignedTickets.state.length == 0) {
         this.closeModal();
       }
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задача занесена в циклограмму", life: 5000 });
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задача занесена в планинг", life: 5000 });
     } catch (e) {
       console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });

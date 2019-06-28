@@ -1,6 +1,6 @@
 <div class="top-container">
   <div>
-    <h1>Моя циклограмма</h1>
+    <h1>Мой планинг</h1>
   </div>
   
   <div>
@@ -42,8 +42,8 @@
         <th scope="col" style="width: 30%">Наименование</th>
         <!--<th scope="col">Дата</th>-->
         <th scope="col" width="25%">Мероприятие</th>
-        <th scope="col" width="30%">Комментарий</th>
-        <th scope="col" width="5%">Действия</th>
+        <th scope="col" width="29%">Комментарий</th>
+        <th scope="col" width="11%"></th>
       </tr>
     </thead>
     <tbody *ngFor="let timeGroup of pack?.timeGroups">
@@ -80,7 +80,7 @@
 
 <ng-template #edit>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Изменить запись в циклограмме</h4>
+    <h4 class="modal-title pull-left">Изменить запись в планинге</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -123,7 +123,7 @@
 
 <ng-template #add>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Создать запись в циклограмме</h4>
+    <h4 class="modal-title pull-left">Создать запись в планинге</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -260,7 +260,7 @@
 
     <div style="text-align:center; margin-top: 15px;">
       <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
-      <button type="button" (click)="acceptWithNewDateTimeTicket()" class="btn btn-success">Добавить в циклограмму</button>
+      <button type="button" (click)="acceptWithNewDateTimeTicket()" class="btn btn-success">Добавить в планинг</button>
     </div>
   </div>
 </ng-template>

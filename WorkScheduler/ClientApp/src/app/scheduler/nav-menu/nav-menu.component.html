@@ -30,8 +30,8 @@
         <li [routerLinkActive]='["link-active"]'>
           <a routerLink='timeline' (click)='collapse()'>
             <span class='glyphicon glyphicon-time'></span> 
-            <span *ngIf="checkRole(userState.currentUser?.state, 'Директор')">Циклограмма</span>
-            <span *ngIf="!checkRole(userState.currentUser?.state, 'Директор')">Моя циклограмма</span>
+            <span *ngIf="checkRole(userState.currentUser?.state, 'Директор')">Планинг</span>
+            <span *ngIf="!checkRole(userState.currentUser?.state, 'Директор')">Мой планинг</span>
             <span *ngIf="userState.assignedTicketCount.state != 0" class="badge badge-info">{{userState.assignedTicketCount.state}}</span>
           </a>
         </li>
