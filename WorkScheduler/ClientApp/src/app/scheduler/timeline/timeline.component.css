@@ -74,3 +74,14 @@ textarea {
 h1 {
   margin-left: -15px;
 }
+
+
+.action-icons {
+  opacity: 0.3;
+  transition: 0.5s;
+}
+
+tr:hover .action-icons {
+  opacity: 1;
+  transition: 0.5s;
+}
