@@ -128,7 +128,7 @@ namespace WorkScheduler.Services
 
         public void SendTimeline(List<TicketPackViewModel> ticketPacks, User receiver)
         {
-            var subject = $@"Планинг c {ticketPacks.First().Date.ToShortDateString()} по {ticketPacks.Last().Date.ToShortDateString()}";
+            var subject = $@"Органайзер c {ticketPacks.First().Date.ToShortDateString()} по {ticketPacks.Last().Date.ToShortDateString()}";
 
             var content = RenderService.GetTimelineHTML(ticketPacks);
 

@@ -113,7 +113,7 @@ namespace WorkScheduler.Services
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Unit = Unit.Centimeters, Left = 3, Top = 1, Right = 1, Bottom = 1.5 },
-                DocumentTitle = $"Отчёт по планингу с {range.First().ToShortDateString()} по {range.Last().ToShortDateString()}"
+                DocumentTitle = $"Отчёт по органайзеру с {range.First().ToShortDateString()} по {range.Last().ToShortDateString()}"
             };
 
             var objectSettings = new ObjectSettings

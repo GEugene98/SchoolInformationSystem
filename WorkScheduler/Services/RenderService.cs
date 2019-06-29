@@ -21,7 +21,7 @@ namespace WorkScheduler.Services
         public string GetTimelineHTML(List<TicketPackViewModel> ticketPacks)
         {
             var content = $@"
-            <p><b>Планинг c {ticketPacks.First().Date.ToShortDateString()} по {ticketPacks.Last().Date.ToShortDateString()} по состоянию на {DateTime.Now.ToLongDateString()} {DateTime.Now.ToShortTimeString()}</b></p>
+            <p><b>Органайзер c {ticketPacks.First().Date.ToShortDateString()} по {ticketPacks.Last().Date.ToShortDateString()} по состоянию на {DateTime.Now.ToLongDateString()} {DateTime.Now.ToShortTimeString()}</b></p>
             <br/> TABLECONTENT";
 
             var tableStart = @"<table style=""font-size: 14px; background: white; max-width: 70%; width: 100%; border-collapse: collapse; text-align: left; "" >";
