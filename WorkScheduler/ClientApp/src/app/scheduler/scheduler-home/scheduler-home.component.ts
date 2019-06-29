@@ -9,6 +9,7 @@ import { DictionaryService } from '../../shared/services/dictionary.service';
 @Component({
   selector: 'app-home',
   templateUrl: './scheduler-home.component.html',
+  styleUrls: ['./scheduler-home.component.scss']
 })
 export class SchedulerHomeComponent implements OnInit {
 
