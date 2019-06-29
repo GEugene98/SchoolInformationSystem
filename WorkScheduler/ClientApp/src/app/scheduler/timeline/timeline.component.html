@@ -48,11 +48,19 @@
     </thead>
     <tbody *ngFor="let timeGroup of pack?.timeGroups">
       <tr><td style="font-weight: 700; font-size:larger" colspan="6">{{timeGroup.hour}}:00 </td></tr>
-      <tr *ngFor="let ticket of timeGroup.tickets" [class.done]="ticket.done" [class.important]="ticket.important">
+      <tr *ngFor="let ticket of timeGroup.tickets"  [class.important]="ticket.important">
         <td><span *ngIf="ticket.hours && ticket.minutes != 0">{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes == 0">0</span></span></td>
-        <td>{{ticket.name}}</td>
+        
+        
+        <td [class.blue-text]="ticket.hasChecklist" 
+            [class.red-text]="ticket.isExpiered && ticket.hasChecklist"
+            [class.done]="ticket.done"
+            title="Задание из чек-листа">
+          <span *ngIf="ticket.hasChecklist" class='glyphicon glyphicon-check'></span> 
+          {{ticket.name}}
+        </td>
         <!--<td>ticket.date | date : 'dd.MM.yyyy'</td>-->
-        <td>
+        <td [class.done]="ticket.done">
           <div *ngIf="ticket.action" [class.deleted-action]="ticket.action.isDeleted">
             <div class="inner-action-card c{{ticket.action.activity.color}}">
               <span>{{ticket.action.name}}</span>
@@ -64,7 +72,7 @@
           </div>
           <span style="color: darkgray; text-align: center;" *ngIf="!ticket.action"></span>
         </td>
-        <td>{{ticket.comment}}</td>
+        <td [class.done]="ticket.done">{{ticket.comment}}</td>
         <td>
           <div class="action-icons" style="text-align: center">
             <a title="Отметка &laquo;Выполнено&raquo;" href="javascript:void(0)" (click)="makeDone(ticket)"><span [class.gray]="!ticket.done" class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
@@ -77,6 +85,22 @@
     </tbody>
   </table>
 </div>
+
+<ng-template #info>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Информация</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>{{getTooltip(newTicket)}}</p>
+      
+      <div style="text-align:center; margin-top: 15px;">
+        
+      </div>
+    </div>
+  </ng-template>
 
 <ng-template #edit>
   <div class="modal-header">

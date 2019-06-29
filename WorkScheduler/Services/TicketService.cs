@@ -101,6 +101,7 @@ namespace WorkScheduler.Services
                     Done = t.Done,
                     Important = t.Important,
                     HasChecklist = t.ChecklistId != null,
+                    IsExpiered = t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date && t.Status != TicketStatus.Done,
                     User = new UserViewModel
                     {
                         Id = t.User.Id,

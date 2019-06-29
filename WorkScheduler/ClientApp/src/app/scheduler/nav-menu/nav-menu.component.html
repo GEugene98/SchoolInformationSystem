@@ -14,9 +14,9 @@
         <h3>
           <span class='glyphicon glyphicon-user'></span>
           <span *ngIf="!userState.currentUser.state">Вход не выполнен</span>
-          {{userState.currentUser?.state?.lastName}}
-          {{userState.currentUser?.state?.firstName}}
-          {{userState.currentUser?.state?.surName}},
+          {{userState.currentUser?.state?.firstName[0]}}.
+          {{userState.currentUser?.state?.surName[0]}}.
+          {{userState.currentUser?.state?.lastName}},<br />
           {{userState.currentUser?.state?.roles?.join(', ').toLowerCase()}}
         </h3>
       </div>

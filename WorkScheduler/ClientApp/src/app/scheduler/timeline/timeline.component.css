@@ -24,7 +24,7 @@ textarea {
 }
 
 .done {
-  color: darkgrey !important;
+  opacity: 0.4 !important;
 }
 
 .important {
@@ -84,4 +84,12 @@ h1 {
 tr:hover .action-icons {
   opacity: 1;
   transition: 0.5s;
+}
+
+.blue-text {
+  color: #337ab7;
+}
+
+.red-text {
+  color: #b73333 !important;
 }
