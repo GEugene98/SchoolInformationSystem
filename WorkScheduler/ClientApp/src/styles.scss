@@ -32,3 +32,13 @@
 .inner-action-card span {
   margin-top: 5px;
 }
+
+.action-icons {
+  opacity: 0.3;
+  transition: 0.5s;
+}
+
+tr:hover .action-icons {
+  opacity: 1;
+  transition: 0.5s;
+}

@@ -76,15 +76,7 @@ h1 {
 }
 
 
-.action-icons {
-  opacity: 0.3;
-  transition: 0.5s;
-}
 
-tr:hover .action-icons {
-  opacity: 1;
-  transition: 0.5s;
-}
 
 .blue-text {
   color: #337ab7;
