@@ -41,6 +41,7 @@ import { TooltipModule } from 'ng2-tooltip-directive';
 import { ChecklistsComponent } from './checklists/checklists.component';
 import { ChecklistDetailsComponent } from './checklist-details/checklist-details.component';
 import { OtherChecklistsComponent } from './other-checklists/other-checklists.component';
+import { ProblemService } from '../shared/services/problem.service';
 defineLocale('ru', ruLocale); 
 
 @NgModule({
@@ -87,7 +88,8 @@ defineLocale('ru', ruLocale);
     DictionaryService,
     ScheduleService,
     MessageService,
-    AccountService
+    AccountService, 
+    ProblemService
   ],
   entryComponents: [
   ]

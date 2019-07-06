@@ -30,8 +30,8 @@
         <li [routerLinkActive]='["link-active"]'>
           <a routerLink='timeline' (click)='collapse()'>
             <span class='glyphicon glyphicon-time'></span> 
-            <span *ngIf="checkRole(userState.currentUser?.state, 'Директор')">Органайзер</span>
-            <span *ngIf="!checkRole(userState.currentUser?.state, 'Директор')">Мой органайзер</span>
+            <span *ngIf="checkRole(userState.currentUser?.state, 'Директор')">Тайм-лист</span>
+            <span *ngIf="!checkRole(userState.currentUser?.state, 'Директор')">Мой тайм-лист</span>
             <span *ngIf="userState.assignedTicketCount.state != 0" class="badge badge-info">{{userState.assignedTicketCount.state}}</span>
           </a>
         </li>
@@ -76,5 +76,35 @@
         </li>
       </ul>
     </div>
+
+    <a 
+      href="javascript:void(0)" 
+      style="position: absolute; bottom: 5px;"
+      (click)="report = undefined; openModal(reportModal)">
+      Сообщить об ошибке
+    </a>
+
   </div>
 </div>
+
+
+<ng-template #reportModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Сообщить об ошибке</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Большое спасибо за проявленный интерес к качеству программного продукта. <br>
+    Опишите, пожалуйста, Вашу проблему максимально полно. <br/> Это поможет исправить ее как можно быстрее.
+    <br/> <br/>
+
+    <textarea [(ngModel)]="report" class="form-control" rows="15"></textarea>
+
+    <div style="text-align:center; margin-top: 15px;">
+      <button type="button" (click)="modalRef.hide()" class="btn btn-danger">Отмена</button>
+      <button type="button" (click)="sendReport()" class="btn btn-success">Отправить</button>
+    </div>
+  </div>
+</ng-template>

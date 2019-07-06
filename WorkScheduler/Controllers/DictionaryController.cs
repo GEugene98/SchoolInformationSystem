@@ -248,6 +248,8 @@ namespace WorkScheduler.Controllers
                 Name = ticketCount.ToString()
             });
 
+            var t = Db.WorkSchedules.Include(f => f.Actions).Where(ws => ws.Actions.Any(a => a.Status == ActionStatus.Confirmed)).FirstOrDefault();
+
             var schedulesToAccept = Db.WorkSchedules.Where(ws => ws.Actions.Any(a => a.Status == ActionStatus.Confirmed)).Count();
             var schedulesToConfirm = Db.WorkSchedules.Where(ws => ws.Actions.Any(a => a.Status == ActionStatus.NeedConfirm)).Count();
 

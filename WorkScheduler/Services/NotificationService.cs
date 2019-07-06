@@ -128,7 +128,7 @@ namespace WorkScheduler.Services
 
         public void SendTimeline(List<TicketPackViewModel> ticketPacks, User receiver)
         {
-            var subject = $@"Органайзер c {ticketPacks.First().Date.ToShortDateString()} по {ticketPacks.Last().Date.ToShortDateString()}";
+            var subject = $@"Тайм-лист c {ticketPacks.First().Date.ToShortDateString()} по {ticketPacks.Last().Date.ToShortDateString()}";
 
             var content = RenderService.GetTimelineHTML(ticketPacks);
 
@@ -138,6 +138,17 @@ namespace WorkScheduler.Services
         public void SendGeneralScheduleForPeriod(GeneralScheduleViewModel schedule)
         {
 
+        }
+
+        public void SendProblemReport(string report)
+        {
+            // var recievers = new List<string>(){"stolp-olga@yandex.ru", "geugene1998@ya.ru"};
+            var recievers = new List<string>(){"geugene1998@ya.ru"};
+
+            foreach(var reciever in recievers)
+            {
+                SendEmail(reciever, "Отчет пользователя об ошибке", report);
+            }
         }
     }
 }

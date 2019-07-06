@@ -39,7 +39,7 @@
       ФП: {{action.confirmationForm.name}}
       <span style="float: right;">
         <a *ngIf="checkRole(userState.currentUser?.state, 'Директор') || (checkRole(userState.currentUser?.state, 'Администратор') && action.status != 3)" title="Редактировать" href="javascript:void(0)" (click)="copy(action); openModal(edit);"><span style="color: purple" class="action-icon glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-        <a title="В органайзер" href="javascript:void(0)" (click)="copy(action); openModal(toTimeline);"><span style="color: purple" class="action-icon glyphicon glyphicon-time" aria-hidden="true"></span></a>
+        <a title="В тайм-лист" href="javascript:void(0)" (click)="copy(action); openModal(toTimeline);"><span style="color: purple" class="action-icon glyphicon glyphicon-time" aria-hidden="true"></span></a>
       </span>
     </div>
   </div>
@@ -97,7 +97,7 @@
 
 <ng-template #toTimeline>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Создать запись в органайзер</h4>
+    <h4 class="modal-title pull-left">Создать запись в тайм-лист</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>

@@ -1,6 +1,6 @@
 <div class="top-container">
   <div>
-    <h1>Мой органайзер</h1>
+    <h1>Мой тайм-лист</h1>
   </div>
   
   <div>
@@ -104,7 +104,7 @@
 
 <ng-template #edit>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Изменить запись в органайзере</h4>
+    <h4 class="modal-title pull-left">Изменить запись в тайм-листе</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -147,7 +147,7 @@
 
 <ng-template #add>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Создать запись в органайзере</h4>
+    <h4 class="modal-title pull-left">Создать запись в тайм-листе</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -284,7 +284,7 @@
 
     <div style="text-align:center; margin-top: 15px;">
       <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
-      <button type="button" (click)="acceptWithNewDateTimeTicket()" class="btn btn-success">Добавить в органайзер</button>
+      <button type="button" (click)="acceptWithNewDateTimeTicket()" class="btn btn-success">Добавить в тайм-лист</button>
     </div>
   </div>
 </ng-template>

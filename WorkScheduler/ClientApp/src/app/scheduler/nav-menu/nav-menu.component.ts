@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { UserState } from '../../shared/states/user.state';
 import { isUserInRole, User } from '../../shared/models/user';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { ProblemService } from '../../shared/services/problem.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -10,7 +12,11 @@ import { isUserInRole, User } from '../../shared/models/user';
 export class NavMenuComponent {
   isExpanded = false;
 
-  constructor(public userState: UserState) {
+  report: string;
+
+  modalRef: BsModalRef;
+
+  constructor(public userState: UserState, private modalService: BsModalService, private problem: ProblemService ) {
   }
 
   collapse() {
@@ -27,5 +33,14 @@ export class NavMenuComponent {
 
   checkRole(user: User, role: string) {
     return isUserInRole(user, role);
+  }
+
+  openModal(modal) {
+    this.modalRef = this.modalService.show(modal);
+  }
+
+  sendReport(){
+    this.problem.sendReport(this.report);
+    this.modalRef.hide();
   }
 }
