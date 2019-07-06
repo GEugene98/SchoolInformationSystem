@@ -142,8 +142,7 @@ namespace WorkScheduler.Services
 
         public void SendProblemReport(string report)
         {
-            // var recievers = new List<string>(){"stolp-olga@yandex.ru", "geugene1998@ya.ru"};
-            var recievers = new List<string>(){"geugene1998@ya.ru"};
+            var recievers = new List<string>(){"stolp-olga@yandex.ru", "geugene1998@ya.ru"};
 
             foreach(var reciever in recievers)
             {
