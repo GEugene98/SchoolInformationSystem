@@ -17,9 +17,9 @@ namespace WorkScheduler.Services
     {
         protected Context Db;
         protected UserManager<User> UserManager;
-        protected RenderService RenderService;
+        protected ReportRenderService RenderService;
 
-        public NotificationService(Context context, UserManager<User> userManager, RenderService renderService)
+        public NotificationService(Context context, UserManager<User> userManager, ReportRenderService renderService)
         {
             Db = context;
             UserManager = userManager;

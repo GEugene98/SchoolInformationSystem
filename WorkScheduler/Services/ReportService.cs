@@ -17,10 +17,10 @@ namespace WorkScheduler.Services
         protected CultureInfo culture = CultureInfo.GetCultureInfo("ru-RU");
         protected SchedulerService SchedulerService;
         protected TicketService TicketService;
-        protected RenderService RenderService;
+        protected ReportRenderService RenderService;
         protected IConverter Converter;
 
-        public ReportService(SchedulerService schedulerService, IConverter converter, RenderService renderService, TicketService ticketService)
+        public ReportService(SchedulerService schedulerService, IConverter converter, ReportRenderService renderService, TicketService ticketService)
         {
             SchedulerService = schedulerService;
             TicketService = ticketService;

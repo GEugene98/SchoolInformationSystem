@@ -9,11 +9,11 @@ using WorkScheduler.ViewModels;
 
 namespace WorkScheduler.Services
 {
-    public class RenderService
+    public class ReportRenderService
     {
         protected CultureInfo culture = CultureInfo.GetCultureInfo("ru-RU");
 
-        public RenderService()
+        public ReportRenderService()
         {
 
         }
