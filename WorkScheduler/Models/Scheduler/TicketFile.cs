@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WorkScheduler.Models.Base;
+﻿using WorkScheduler.Models.Base;
+using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Shared;
 
 namespace WorkScheduler.Models.Scheduler
@@ -15,6 +12,6 @@ namespace WorkScheduler.Models.Scheduler
         public long FileId { get; set; }
         public File File { get; set; }
 
-        public DateTime Created { get; set; }
+        public TicketFileType Type { get; set; }
     }
 }
