@@ -70,6 +70,7 @@ namespace WorkSheduler
                 services.AddScoped<NotificationService>();
                 services.AddScoped<ReportRenderService>();
                 services.AddScoped<ChecklistService>();
+                services.AddScoped<FileService>();
                 services.AddScoped<WorkScheduler.Services.Monitoring.DictionaryService>();
                 services.AddScoped<TalentedChildrenService>();
 
