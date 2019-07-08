@@ -35,6 +35,7 @@ namespace WorkScheduler
         public DbSet<StudentAction> StudentActions { get; set; }
 
         public DbSet<File> Files { get; set; }
+        public DbSet<TicketFile> TicketFiles { get; set; }
 
         //public DbSet<Address> Addresses { get; set; }
         //public DbSet<Certificate> Certificates { get; set; }
@@ -58,6 +59,20 @@ namespace WorkScheduler
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Многие ко многим тикет - файл
+            modelBuilder.Entity<TicketFile>()
+            .HasKey(tf => tf.Id);
+
+            modelBuilder.Entity<TicketFile>()
+                .HasOne(tf => tf.Ticket)
+                .WithMany(ticket => ticket.TicketFiles)
+                .HasForeignKey(tf => tf.TicketId);
+
+            modelBuilder.Entity<TicketFile>()
+                .HasOne(ticketFile => ticketFile.File)
+                .WithMany(file => file.TicketFiles)
+                .HasForeignKey(tf => tf.FileId);
 
             // Связь для установки ответственных за мероприятия
             modelBuilder.Entity<ActionUser>()

@@ -20,7 +20,5 @@ namespace WorkScheduler.Models.Monitoring.TalentedChildren
 
         public int AchivmentResultId { get; set; }
         public AchivmentResult AchivmentResult { get; set; }
-
-        public virtual ICollection<File> Files { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WorkScheduler;
@@ -9,9 +10,10 @@ using WorkScheduler;
 namespace WorkScheduler.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20190708124527_TicketFiles_fix")]
+    partial class TicketFiles_fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -439,7 +441,11 @@ namespace WorkScheduler.Migrations
 
                     b.Property<double>("SizeMb");
 
+                    b.Property<int?>("StudentAchivmentId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StudentAchivmentId");
 
                     b.ToTable("Files");
                 });
@@ -661,6 +667,13 @@ namespace WorkScheduler.Migrations
                         .WithMany("TicketFiles")
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WorkScheduler.Models.Shared.File", b =>
+                {
+                    b.HasOne("WorkScheduler.Models.Monitoring.TalentedChildren.StudentAchivment", "StudentAchivment")
+                        .WithMany("Files")
+                        .HasForeignKey("StudentAchivmentId");
                 });
 
             modelBuilder.Entity("WorkScheduler.Models.Shared.LoginLog", b =>

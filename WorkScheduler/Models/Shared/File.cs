@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using WorkScheduler.Models.Base;
 using WorkScheduler.Models.Monitoring.TalentedChildren;
+using WorkScheduler.Models.Scheduler;
 
 namespace WorkScheduler.Models.Shared
 {
@@ -10,7 +11,6 @@ namespace WorkScheduler.Models.Shared
         public string Extension { get; set; }
         public double SizeMb { get; set; }
 
-        public int? StudentAchivmentId { get; set; }
-        public StudentAchivment StudentAchivment { get; set; }
+        public virtual ICollection<TicketFile> TicketFiles { get; set; }
     }
 }
