@@ -42,6 +42,7 @@ import { ChecklistsComponent } from './checklists/checklists.component';
 import { ChecklistDetailsComponent } from './checklist-details/checklist-details.component';
 import { OtherChecklistsComponent } from './other-checklists/other-checklists.component';
 import { ProblemService } from '../shared/services/problem.service';
+import { UploadModule } from '@progress/kendo-angular-upload';
 defineLocale('ru', ruLocale); 
 
 @NgModule({
@@ -81,7 +82,8 @@ defineLocale('ru', ruLocale);
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     FormsModule,
-    RouterModule.forChild([])
+    RouterModule.forChild([]),
+    UploadModule
   ],
   providers: [
     UserState,

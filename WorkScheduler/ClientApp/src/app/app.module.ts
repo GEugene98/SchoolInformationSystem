@@ -33,6 +33,8 @@ import { ChecklistsComponent } from './scheduler/checklists/checklists.component
 import { ChartModule } from 'primeng/chart';
 import { ChecklistDetailsComponent } from './scheduler/checklist-details/checklist-details.component';
 import { OtherChecklistsComponent } from './scheduler/other-checklists/other-checklists.component';
+import { UploadModule } from '@progress/kendo-angular-upload';
+
 
 defineLocale('ru', ruLocale);
 
@@ -99,7 +101,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     FormsModule,
     SchedulerModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    UploadModule
   ],
   providers: [
     UserState,

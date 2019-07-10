@@ -21,6 +21,9 @@
               "src/assets"
             ],
             "styles": [
+              {
+                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+              },
               "src/styles.scss",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
             ],
@@ -74,6 +77,9 @@
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
             "styles": [
+              {
+                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+              },
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WorkScheduler.Services;
 
 namespace WorkScheduler.Controllers
 {
@@ -13,6 +14,13 @@ namespace WorkScheduler.Controllers
     [Route("api/[controller]")]
     public class FileController : Controller
     {
+        private FileService FileService { get; set; }
+
+        public FileController(FileService fileService)
+        {
+            FileService = fileService;
+        }
+
         [HttpPost("[action]")]
         public IActionResult UploadTemporaryFile(IEnumerable<IFormFile> files)
         {
@@ -24,7 +32,7 @@ namespace WorkScheduler.Controllers
 
             foreach (var file in files)
             {
-                //guidFileName = fileService.AddFile(file, transactionId);
+                guidFileName = FileService.AddFile(file, transactionId);
             }
 
             return Ok(guidFileName);
@@ -39,7 +47,7 @@ namespace WorkScheduler.Controllers
 
             foreach (var fileName in fileNames)
             {
-                //fileService.RemoveFile(fileName, transactionId);
+                FileService.RemoveFile(fileName, transactionId);
             }
 
             return Ok();

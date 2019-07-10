@@ -8,7 +8,9 @@ import { DictionaryService } from '../../shared/services/dictionary.service';
 import { User } from '../../shared/models/user';
 import { MessageService } from 'primeng/api';
 import { Title } from '@angular/platform-browser';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { NgxUiLoaderService } from 'ngx-ui-loader'
+import { SuccessEvent, UploadEvent } from '@progress/kendo-angular-upload';
+import { guid } from '../../shared/guid';
 
 @Component({
   selector: 'app-checklist-details',
@@ -27,6 +29,10 @@ export class ChecklistDetailsComponent implements OnInit {
 
   newTicket: Ticket;
 
+  transactionId: string;
+  fileUploadUrl = '/api/File/UploadTemporaryFile';
+  fileRemoveUrl = '/api/File/RemoveTemporaryFiles';
+
   constructor(private activateRoute: ActivatedRoute,
     private modalService: BsModalService,
     private dictionary: DictionaryService,
@@ -40,6 +46,7 @@ export class ChecklistDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.transactionId = guid();
     this.loadData();
   }
 
@@ -108,4 +115,14 @@ export class ChecklistDetailsComponent implements OnInit {
     this.newTicket = new Ticket();
   }
 
+  uploadEventHandler(e: UploadEvent) {
+    e.headers = e.headers.append('transaction-id', this.transactionId);
+  }
+  removeEventHandler(e: UploadEvent) {
+    e.headers = e.headers.append('transaction-id', this.transactionId);
+  }
+
+  uploaded($event: SuccessEvent) {
+    //(<any>$event.files[0]).serverFileName = $event.response.text();
+  }
 }

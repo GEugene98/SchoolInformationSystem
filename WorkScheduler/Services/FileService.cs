@@ -29,7 +29,7 @@ namespace WorkScheduler.Services
 
             string userFileName = Path.GetFileName(fileContent.FileName.Trim('"'));
 
-            var transactionDirectory = new DirectoryInfo(Path.Combine(RootPath, DateTime.Now.Date.ToString(), transactionId));
+            var transactionDirectory = new DirectoryInfo(Path.Combine(RootPath, $"{DateTime.Now.Month} {DateTime.Now.Year}", transactionId));
 
             if (!transactionDirectory.Exists)
             {

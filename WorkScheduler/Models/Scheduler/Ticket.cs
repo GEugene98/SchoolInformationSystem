@@ -23,6 +23,7 @@ namespace WorkScheduler.Models
         public string Comment { get; set; }
 
         public string AssignmentComment { get; set; }
+        public string ResponseComment { get; set; }
 
         public TicketStatus? Status { get; set; }
 

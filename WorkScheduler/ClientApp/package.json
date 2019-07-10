@@ -27,6 +27,7 @@
     "@ng-bootstrap/ng-bootstrap": "^4.0.0",
     "@ng-select/ng-select": "^1.5.2",
     "@nguniversal/module-map-ngfactory-loader": "^5.0.0-beta.5",
+    "@progress/kendo-angular-upload": "^5.0.0",
     "aspnet-prerendering": "^3.0.1",
     "bind-decorator": "^1.0.11",
     "bootstrap": "^3.3.7",
@@ -40,7 +41,10 @@
     "primeng": "^6.1.4",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.2.2",
-    "zone.js": "^0.8.19"
+    "zone.js": "^0.8.19",
+    "@progress/kendo-angular-common": "^1.0.0",
+    "@progress/kendo-angular-l10n": "^2.0.0",
+    "@progress/kendo-theme-default": "latest"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.7",

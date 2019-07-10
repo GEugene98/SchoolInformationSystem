@@ -44,6 +44,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\scheduler\index.ts" />
     <None Remove="ClientApp\src\app\shared\enums\action-status.enum.ts" />
+    <None Remove="ClientApp\src\app\shared\guid.ts" />
     <None Remove="ClientApp\src\app\shared\models\academic-year.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\action.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\activity.model.ts" />
@@ -81,6 +82,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\scheduler\index.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\enums\action-status.enum.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\guid.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\academic-year.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\action.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\activity.model.ts" />
