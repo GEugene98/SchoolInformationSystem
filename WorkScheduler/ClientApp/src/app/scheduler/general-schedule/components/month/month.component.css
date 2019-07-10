@@ -1,4 +1,4 @@
-.flex-container {
+﻿.flex-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -21,7 +21,6 @@
 
 .day-block {
   width: 250px;
-  background-color: mintcream;
   border: 1px solid #ccc !important;
   min-height: 150px;
 }
