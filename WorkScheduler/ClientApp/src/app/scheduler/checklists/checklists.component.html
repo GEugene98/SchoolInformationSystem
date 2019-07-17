@@ -1,4 +1,4 @@
-<h1>Мои чек-листы</h1>
+﻿<h1>Чек-листы</h1>
 
 
 <div *ngIf="!checklists" class="lds-ring">
@@ -8,9 +8,19 @@
     <div></div>
 </div>
 
-<div style="text-align: left">
-    <button type="button" (click)="clear(); openModal(add)" class="btn btn-success">Создать чек-лист</button>
-</div>
+ <div class="panel panel-default">
+          <div class="panel-body">
+              <div style="text-align: left">
+                  <button type="button" (click)="clear(); openModal(add)" class="btn btn-success">Создать чек-лист</button>
+              </div>
+          </div>
+      </div>
+
+<tabset>
+  <tab heading="Мои чек-листы" id="tab1">
+
+
+
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap; margin-left: -5px; margin-top: 15px;">
     <div *ngFor="let checklist of checklists" class="panel panel-default"
@@ -58,20 +68,17 @@
         </div>
     </div>
 </div>
-
-<br /><br />
-<div *ngIf="checkRole(userState.currentUser?.state, 'Директор') && otherChecklistKeys"><h3>Чек-листы других пользователей</h3></div>
-<br />
-<div *ngIf="checkRole(userState.currentUser?.state, 'Директор') && otherChecklistKeys">
-    <div  *ngFor="let key of otherChecklistKeys">
-        <app-other-checklists
-            [checklists]="getOtherChecklistArrayByKey(key)"
-            [title]="key">
-        </app-other-checklists>
-    </div>
-</div>
-
-<br /><br /><br /><br />
+  </tab>
+  <tab *ngIf="checkRole(userState.currentUser?.state, 'Директор')" heading="Чек-листы других пользователей" id="tab2">
+      <div *ngIf="checkRole(userState.currentUser?.state, 'Директор') && otherChecklistKeys" style="margin-top: 20px">
+          <div  *ngFor="let key of otherChecklistKeys">
+              <app-other-checklists [checklists]="getOtherChecklistArrayByKey(key)"
+                                    [title]="key">
+              </app-other-checklists>
+          </div>
+      </div>
+  </tab>
+</tabset>
 
 <ng-template #add>
     <div class="modal-header">

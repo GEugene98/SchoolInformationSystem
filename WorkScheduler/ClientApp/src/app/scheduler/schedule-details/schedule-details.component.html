@@ -1,11 +1,17 @@
 <h1>{{currentSchedule?.name}}</h1> 
 
-<div style="text-align: left">
-  <button type="button" (click)="openModal(add)" class="btn btn-success">Добавить мероприятие</button>
-  <button type="button" (click)="openModal(generateDocConf)" class="btn btn-primary" >Сформировать документ</button>
-  <button type="button" (click)="sendSchedule()" class="btn btn-info" >Отправить на мою почту</button>
-  <button type="button" (click)="openModal(editScheduleModal)" class="btn btn-warning">Редактировать план</button>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div style="text-align: left">
+      <button type="button" (click)="openModal(add)" class="btn btn-success">Добавить мероприятие</button>
+      <button type="button" (click)="openModal(generateDocConf)" class="btn btn-primary" >Сформировать документ</button>
+      <button type="button" (click)="sendSchedule()" class="btn btn-info" >Отправить на мою почту</button>
+      <button type="button" (click)="openModal(editScheduleModal)" class="btn btn-warning">Редактировать план</button>
+    </div>
+  </div>
 </div>
+ 
+
 <br/>
 
 <table class="table">

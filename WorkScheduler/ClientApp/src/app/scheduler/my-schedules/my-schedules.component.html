@@ -1,5 +1,11 @@
 <h1>Мои планы</h1>
+
+<div class="panel panel-default">
+  <div class="panel-body">
 <button type="button" (click)="openModal(add)" class="btn btn-primary"><span class='glyphicon glyphicon-plus'></span> Создать план</button>
+  </div>
+</div>
+
 
 <div *ngFor="let academicYear of allAcademicYears">
   <h3>{{academicYear.name}} учебный год</h3>

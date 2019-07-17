@@ -1,31 +1,35 @@
-<div class="top-container">
-  <div>
+
+
     <h1>Мой тайм-лист</h1>
+
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="top" style="text-align: left;">
+
+        <input type="text"
+               class="form-control top-item"
+               [(ngModel)]="range"
+               (ngModelChange)="loadData()"
+               AUTOCOMPLETE="off"
+               [bsConfig]="bsConfig"
+               bsDaterangepicker
+               placeholder="Выбрать период" 
+               style="width: 300px; float: left;"> &nbsp;
+      
+        <button type="button" (click)="openModal(add)" class="btn btn-success top-item">Добавить запись</button>&nbsp;
+        <button type="button" (click)="getDocument()" class="btn btn-primary top-item">Сформировать документ</button>&nbsp;
+        <button type="button" (click)="sendTimeline()" class="btn btn-info top-item">Отправить на мою почту</button>
+    
+        <div>
+          <button *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0" style="margin-top: 20px;" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Задания</button>
+        </div>
+      </div>
+    </div>
   </div>
   
-  <div>
-    <button *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0" style="margin-top: 20px;" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Задания</button>
-  </div>
-</div>
 
-<br />
 
-<div class="top" style="text-align: left;">
-
-  <input type="text"
-         class="form-control top-item"
-         [(ngModel)]="range"
-         (ngModelChange)="loadData()"
-         AUTOCOMPLETE="off"
-         [bsConfig]="bsConfig"
-         bsDaterangepicker
-         placeholder="Выбрать период" 
-         style="width: 300px; float: left;"> &nbsp;
-
-  <button type="button" (click)="openModal(add)" class="btn btn-success top-item">Добавить запись</button>&nbsp;
-  <button type="button" (click)="getDocument()" class="btn btn-primary top-item">Сформировать документ</button>&nbsp;
-  <button type="button" (click)="sendTimeline()" class="btn btn-info top-item">Отправить на мою почту</button>
-</div>
 
 <br />
 
