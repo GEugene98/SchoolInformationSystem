@@ -74,7 +74,7 @@ namespace WorkScheduler.Services
 
         public void RemoveFile(string fileName, string transactionId)
         {
-            string physicalPath = Path.Combine(RootPath, transactionId, fileName);
+            string physicalPath = Path.Combine(RootPath, $"{DateTime.Now.Month} {DateTime.Now.Year}", transactionId, fileName);
 
             if (File.Exists(physicalPath))
             {

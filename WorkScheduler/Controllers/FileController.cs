@@ -28,14 +28,12 @@ namespace WorkScheduler.Controllers
 
             if (files == null) return BadRequest();
 
-            string guidFileName = "";
-
             foreach (var file in files)
             {
-                guidFileName = FileService.AddFile(file, transactionId);
+                FileService.AddFile(file, transactionId);
             }
 
-            return Ok(guidFileName);
+            return Ok();
         }
 
         [HttpPost("[action]")]
