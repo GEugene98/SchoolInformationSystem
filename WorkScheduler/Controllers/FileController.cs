@@ -54,7 +54,7 @@ namespace WorkScheduler.Controllers
         [HttpDelete("[action]")]
         public void RemoveUnclaimedFiles(string transactionId)
         {
-            //fileService.RemoveUnclaimedFiles(transactionId);
+            FileService.RemoveUnclaimedFiles(transactionId);
         }
 
         [HttpGet("[action]")]
