@@ -233,3 +233,7 @@ _Pvt_Extensions
 .fake/
 
 .vs/
+.vscode/tasks.json
+.vscode/launch.json
+WorkScheduler/Properties/launchSettings.json
+WorkScheduler/Properties/launchSettings.json
