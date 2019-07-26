@@ -101,7 +101,7 @@ namespace WorkScheduler.Services
             var done = checklists
                 .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Done), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
             var expiered = checklists
-                .Join(Db.Tickets.Where(t => t.Status != TicketStatus.Done && t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
+                .Join(Db.Tickets.Where(t => t.Status != TicketStatus.Done && t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date && t.Status != TicketStatus.Declined), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
 
             var checklistViewModels = new List<ChecklistViewModel>();
 
