@@ -151,6 +151,11 @@ export class TimelineComponent implements OnInit {
       this.newTicket.date = new Date(date.toString());
     }
 
+    if (this.newTicket.hasChecklist) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Изменить запись здесь нельзя, так как она находится в чек-листе. Измените ее в чек-листе, если он принадлежит Вам.', life: 5000 });
+      return;
+    }
+
     this.modalRef = this.modalService.show(modal);
   }
 
@@ -158,6 +163,7 @@ export class TimelineComponent implements OnInit {
     this.modalRef.hide();
     this.showAllSimilar = false;
   }
+
   copy(ticket: Ticket) {
     this.newTicket = Object.assign({}, ticket);
     this.newTicket.date = new Date(this.newTicket.date.toString()); //Костыль для ngx-datepicker'а
