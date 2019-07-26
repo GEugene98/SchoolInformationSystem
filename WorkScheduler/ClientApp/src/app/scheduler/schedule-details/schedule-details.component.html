@@ -2,11 +2,17 @@
 
 <div class="panel panel-default">
   <div class="panel-body">
-    <div style="text-align: left">
-      <button type="button" (click)="openModal(add)" class="btn btn-success">Добавить мероприятие</button>
-      <button type="button" (click)="openModal(generateDocConf)" class="btn btn-primary" >Сформировать документ</button>
-      <button type="button" (click)="sendSchedule()" class="btn btn-info" >Отправить на мою почту</button>
-      <button type="button" (click)="openModal(editScheduleModal)" class="btn btn-warning">Редактировать план</button>
+    <div class="top">
+
+      <div style="float: left">
+        <button type="button" (click)="openModal(add)" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Добавить мероприятие</button>
+        <button title="Изменить параметры плана" type="button" (click)="openModal(editScheduleModal)" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
+      </div>
+
+      <div style="float: right">
+        <button title="Сформировать документ по плану" type="button" (click)="openModal(generateDocConf)" class="btn btn-primary"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>
+        <button title="Отправить план на мою почту" type="button" (click)="sendSchedule()" class="btn btn-info"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+      </div>
     </div>
   </div>
 </div>

@@ -182,9 +182,10 @@ export class TimelineComponent implements OnInit {
   }
 
   async sendTimeline() {
+    this.messageService.add({ severity: 'success', detail: "Идет отправка тайм-листа...", life: 5000 });
     try {
       await this.schedule.sendTimeline(this.range);
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Тайм-лист отправлен на вашу почту", life: 5000 });
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Тайм-лист успешно отправлен на вашу почту", life: 5000 });
     } catch (e) {
       console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });

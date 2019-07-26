@@ -1,12 +1,13 @@
 
 
-    <h1>Мой тайм-лист</h1>
+<h1>Мой тайм-лист</h1>
 
 
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <div class="top" style="text-align: left;">
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="top">
 
+      <div style="float:left;">
         <input type="text"
                class="form-control top-item"
                [(ngModel)]="range"
@@ -14,20 +15,25 @@
                AUTOCOMPLETE="off"
                [bsConfig]="bsConfig"
                bsDaterangepicker
-               placeholder="Выбрать период" 
+               placeholder="Выбрать период"
                style="width: 300px; float: left;"> &nbsp;
+
+        <button type="button" (click)="openModal(add)" class="btn btn-success top-item"><span class="glyphicon glyphicon-plus"></span> Добавить запись</button>&nbsp;
+
+      </div>
       
-        <button type="button" (click)="openModal(add)" class="btn btn-success top-item">Добавить запись</button>&nbsp;
-        <button type="button" (click)="getDocument()" class="btn btn-primary top-item">Сформировать документ</button>&nbsp;
-        <button type="button" (click)="sendTimeline()" class="btn btn-info top-item">Отправить на мою почту</button>
-    
-        <div>
-          <button *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0" style="margin-top: 20px;" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Задания</button>
-        </div>
+      <div style="float:right;">
+        <button title="Сформировать документ по тайм-листу" type="button" (click)="getDocument()" class="btn btn-primary top-item"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>&nbsp;
+        <button title="Отправить там-лист на мою почту" type="button" (click)="sendTimeline()" class="btn btn-info top-item"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>&nbsp;
+        <button *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Новые задания</button>
+      </div>
+      
+      <div>
+        
       </div>
     </div>
   </div>
-  
+</div>
 
 
 
@@ -37,7 +43,7 @@
 
 <div *ngFor="let pack of packs">
   <div class="date-box">
-    <div style="float:left;"><h3>{{pack.dateToShow}}</h3> </div> <button class="btn btn-success add-date-btn" style="margin: 16px;" type="button" (click)="openModal(add, pack.date)"><span class="glyphicon glyphicon-plus"></span></button>&nbsp; <br />
+    <div style="float:left;"><h3>{{pack.dateToShow}}</h3> </div> <button title="Добавить запись на этот день" class="btn btn-success add-date-btn" style="margin: 16px;" type="button" (click)="openModal(add, pack.date)"><span class="glyphicon glyphicon-plus"></span></button>&nbsp; <br />
   </div>
   <table class="table">
     <thead>
@@ -52,15 +58,15 @@
     </thead>
     <tbody *ngFor="let timeGroup of pack?.timeGroups">
       <tr><td style="font-weight: 700; font-size:larger" colspan="6">{{timeGroup.hour}}:00 </td></tr>
-      <tr *ngFor="let ticket of timeGroup.tickets"  [class.important]="ticket.important">
+      <tr *ngFor="let ticket of timeGroup.tickets" [class.important]="ticket.important">
         <td><span *ngIf="ticket.hours && ticket.minutes != 0">{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes == 0">0</span></span></td>
-        
-        
-        <td [class.blue-text]="ticket.hasChecklist" 
+
+
+        <td [class.blue-text]="ticket.hasChecklist"
             [class.red-text]="ticket.isExpiered && ticket.hasChecklist"
             [class.done]="ticket.done"
             title="Задание из чек-листа">
-          <span *ngIf="ticket.hasChecklist" class='glyphicon glyphicon-check'></span> 
+          <span *ngIf="ticket.hasChecklist" class='glyphicon glyphicon-check'></span>
           {{ticket.name}}
         </td>
         <!--<td>ticket.date | date : 'dd.MM.yyyy'</td>-->
@@ -98,20 +104,20 @@
 </div>
 
 <ng-template #info>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Информация</h4>
-      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Информация</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{getTooltip(newTicket)}}</p>
+
+    <div style="text-align:center; margin-top: 15px;">
+
     </div>
-    <div class="modal-body">
-      <p>{{getTooltip(newTicket)}}</p>
-      
-      <div style="text-align:center; margin-top: 15px;">
-        
-      </div>
-    </div>
-  </ng-template>
+  </div>
+</ng-template>
 
 <ng-template #edit>
   <div class="modal-header">
@@ -249,13 +255,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let ticket of userState.assignedTickets.state" [class.expired]="false">
-          <td><span placement="left" theme="light"  z-index="10000" [tooltip]="getTooltip(ticket)" style="color: skyblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></td>
+          <td><span placement="left" theme="light" z-index="10000" [tooltip]="getTooltip(ticket)" style="color: skyblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></td>
           <td><span *ngIf="ticket.date">{{ticket.date | date : 'dd.MM.yyyy'}}</span></td>
           <td><span *ngIf="ticket.hours">{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes < 10">0</span></span></td>
           <td>{{ticket.name}}</td>
           <td style="text-align: center">
             <a title="Принять" href="javascript:void(0)" (click)="acceptTicket(ticket)"><span style="color: green" class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></a>
-            <a title="Отклонить" href="javascript:void(0)" (click)="declineTicket(ticket)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>        
+            <a title="Отклонить" href="javascript:void(0)" (click)="declineTicket(ticket)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
           </td>
         </tr>
       </tbody>
@@ -288,7 +294,7 @@
 
     <div>
       Время начала:
-      <input [attr.disabled]="ticketToAccept.blockedTime"  type="text" [(ngModel)]="ticketToAccept.hours" class="clock form-control" placeholder="ЧЧ"> :
+      <input [attr.disabled]="ticketToAccept.blockedTime" type="text" [(ngModel)]="ticketToAccept.hours" class="clock form-control" placeholder="ЧЧ"> :
       <input [attr.disabled]="ticketToAccept.blockedTime" type="text" [(ngModel)]="ticketToAccept.minutes" class="clock form-control" placeholder="ММ">
     </div>
     <br />

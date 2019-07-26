@@ -173,9 +173,10 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   async sendSchedule() {
+    this.messageService.add({ severity: 'success', detail: "Идет отправка плана...", life: 5000 });
     try {
       await this.schedule.sendSchedule(this.scheduleId);
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "План отправлен на ваш email", life: 5000 });
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "План успешно отправлен на вашу почту", life: 5000 });
     } catch (e) {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }

@@ -18,7 +18,7 @@
 
 <div style="margin-top: 10px;">
   <input type="checkbox" id="me" [(ngModel)]="showMine" (ngModelChange)="loadData()">
-  <label style="font-weight: normal;" for="me">Показать только те мероприятия, в которых ответственен(на) я</label>
+  <label style="font-weight: normal;" for="me">Показать только те мероприятия, за которые ответственен(на) я</label>
 </div>
 
 <div *ngIf="checkRole(userState.currentUser?.state, 'Директор') || checkRole(userState.currentUser?.state, 'Администратор')" style="text-align: right; margin-right: 7px; margin-bottom: 10px;">
