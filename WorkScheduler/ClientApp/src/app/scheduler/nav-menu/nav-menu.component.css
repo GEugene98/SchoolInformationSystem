@@ -3,7 +3,7 @@ li .glyphicon {
 }
 
 .navbar {
-  background-color: rgb(246, 255, 254) !important;
+  background-color: rgba(233, 245, 255, 0.25) !important;
 }
 
 .navbar-brand {
@@ -20,7 +20,8 @@ li .glyphicon {
 }
 
 .badge-info {
-  background-color: green !important;
+  background-color: rgb(255, 252, 34) !important;
+  color: black !important;
 }
 
 

@@ -23,9 +23,9 @@
       </div>
       
       <div style="float:right;">
+        <button *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Новые задания</button>
         <button title="Сформировать документ по тайм-листу" type="button" (click)="getDocument()" class="btn btn-primary top-item"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>&nbsp;
         <button title="Отправить там-лист на мою почту" type="button" (click)="sendTimeline()" class="btn btn-info top-item"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>&nbsp;
-        <button *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Новые задания</button>
       </div>
       
       <div>

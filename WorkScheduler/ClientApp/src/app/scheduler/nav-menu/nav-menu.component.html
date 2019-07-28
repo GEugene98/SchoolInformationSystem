@@ -30,8 +30,7 @@
   <li [routerLinkActive]='["link-active"]'>
     <a routerLink='my-schedule' (click)='collapse()'>
       <span class='glyphicon glyphicon-calendar'></span> 
-      <span *ngIf="checkRole(userState.currentUser?.state, 'Директор')">Планы</span>
-      <span *ngIf="!checkRole(userState.currentUser?.state, 'Директор')">Мои планы</span>
+      <span>Планы</span>
     </a>
   </li> 
 
@@ -55,16 +54,14 @@
   <li [routerLinkActive]='["link-active"]' *ngIf="checkRole(userState.currentUser?.state, 'Администратор') || checkRole(userState.currentUser?.state, 'Директор')">
     <a routerLink='checklists' (click)='collapse()'>
       <span class='	glyphicon glyphicon-check'></span> 
-      <span *ngIf="checkRole(userState.currentUser?.state, 'Директор')">Чек-листы</span>
-      <span *ngIf="!checkRole(userState.currentUser?.state, 'Директор')">Мои чек-листы</span>
+      <span>Чек-листы</span>
     </a>
   </li>
 
         <li [routerLinkActive]='["link-active"]'>
           <a routerLink='timeline' (click)='collapse()'>
             <span class='glyphicon glyphicon-time'></span> 
-            <span *ngIf="checkRole(userState.currentUser?.state, 'Директор')">Тайм-лист</span>
-            <span *ngIf="!checkRole(userState.currentUser?.state, 'Директор')">Мой тайм-лист</span>
+            <span>Тайм-лист</span>
             <span *ngIf="userState.assignedTicketCount.state != 0" class="badge badge-info">{{userState.assignedTicketCount.state}}</span>
           </a>
         </li>
