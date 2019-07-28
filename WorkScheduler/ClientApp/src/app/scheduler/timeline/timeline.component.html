@@ -35,6 +35,10 @@
   </div>
 </div>
 
+<div style="margin-top: 10px;">
+  <input type="checkbox" id="cto" [(ngModel)]="checklistTicketsOnly" (ngModelChange)="checklistTicketsFilterHandler()">
+  <label style="font-weight: normal;" for="cto">Показать только задания из чек-листов</label>
+</div>
 
 
 <br />

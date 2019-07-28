@@ -10,7 +10,7 @@ import { Ticket } from '../../shared/models/ticket.model';
 import { TicketPack } from '../../shared/models/ticket-pack.model';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Title } from '@angular/platform-browser';
-import { concat } from 'rxjs';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-timeline',
@@ -22,9 +22,12 @@ export class TimelineComponent implements OnInit {
   range: Date[];
   bsConfig: any;
   packs: TicketPack[];
+  originalPacks: TicketPack[];
   selectedDate: Date = new Date();
   newTicket: Ticket;
   modalRef: BsModalRef;
+
+  checklistTicketsOnly: boolean;
 
   currentTicket: Ticket;
   similarTickets: Ticket[];
@@ -56,13 +59,26 @@ export class TimelineComponent implements OnInit {
 
   async loadData() {
     this.ngxService.start();
-    this.packs = await this.schedule.myTicketPacks(this.range);
+    this.originalPacks = await this.schedule.myTicketPacks(this.range);
+    this.packs = _.cloneDeep(this.originalPacks);
     this.newTicket = new Ticket();
     this.newTicket.date = this.selectedDate;
     let notifications = await this.dictionary.getNotifications();
     this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);
     this.userState.assignedTickets.state = await this.schedule.assignedTickets();
     this.ngxService.stop();
+  }
+
+  checklistTicketsFilterHandler(){
+    this.packs = _.cloneDeep(this.originalPacks);
+
+    if(this.checklistTicketsOnly){
+      this.packs.forEach(p => {
+        p.timeGroups.forEach(g => {
+          g.tickets = g.tickets.filter(t => t.hasChecklist)
+        });
+      });
+    }
   }
 
   async saveTicket() {
