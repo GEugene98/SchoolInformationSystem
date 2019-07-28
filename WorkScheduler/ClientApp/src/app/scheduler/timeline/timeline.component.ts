@@ -104,6 +104,11 @@ export class TimelineComponent implements OnInit {
   }
 
   async delete(ticket: Ticket) {
+    if (ticket.hasChecklist) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Удалить запись здесь нельзя, так как она находится в чек-листе. Удалите ее в чек-листе, если он принадлежит Вам.', life: 5000 });
+      return;
+    }
+
     try {
       var similarTickets = await this.schedule.deleteTicket(ticket);
       if (!similarTickets) {
@@ -145,15 +150,19 @@ export class TimelineComponent implements OnInit {
     }
   }
 
+  openEditModal(modal){  
+    if (this.newTicket.hasChecklist) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Изменить запись здесь нельзя, так как она находится в чек-листе. Измените ее в чек-листе, если он принадлежит Вам.', life: 5000 });
+      return;
+    }
+
+    this.openModal(modal);
+  }
+
   openModal(modal, date: Date = null) {
     if (date) {
       this.newTicket = new Ticket();
       this.newTicket.date = new Date(date.toString());
-    }
-
-    if (this.newTicket.hasChecklist) {
-      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Изменить запись здесь нельзя, так как она находится в чек-листе. Измените ее в чек-листе, если он принадлежит Вам.', life: 5000 });
-      return;
     }
 
     this.modalRef = this.modalService.show(modal);

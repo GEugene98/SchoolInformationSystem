@@ -105,7 +105,6 @@ export class ChecklistDetailsComponent implements OnInit {
       await this.schedule.deleteTicketFromChecklist(ticket);
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задание удалено", life: 5000 });
       await this.loadData();
-      this.modalRef.hide();
     } catch (e) {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
