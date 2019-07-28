@@ -14,13 +14,15 @@ namespace WorkScheduler.Services
     {
         protected readonly string RootPath;
         protected readonly Context Db;
+        protected readonly IConfiguration Configuration;
         private readonly Logger Logger;
 
-        public FileService(Context context)
+        public FileService(Context context, IConfiguration configuration)
         {
             Db = context;
             Logger = Logger.GetInstance();
-            RootPath = "C:\\UPLOADED";
+            Configuration = configuration;
+            RootPath = configuration.GetValue<string>("UploadPath");
         }
 
         public string AddFile(IFormFile file, string transactionId)

@@ -30,7 +30,7 @@ export class ChecklistDetailsComponent implements OnInit {
   newTicket: Ticket;
 
   transactionId: string;
-  fileUploadUrl = '/api/File/UploadTemporaryFile';
+  fileUploadUrl = '/api/File/UploadTemporaryFiles';
   fileRemoveUrl = '/api/File/RemoveTemporaryFiles';
 
   constructor(private activateRoute: ActivatedRoute,

@@ -22,7 +22,7 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult UploadTemporaryFile(IEnumerable<IFormFile> files)
+        public IActionResult UploadTemporaryFiles(IEnumerable<IFormFile> files)
         {
             string transactionId = Request.Headers["transaction-id"];
 
