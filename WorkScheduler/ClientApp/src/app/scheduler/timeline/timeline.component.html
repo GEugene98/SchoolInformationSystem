@@ -28,20 +28,16 @@
         <button title="Отправить там-лист на мою почту" type="button" (click)="sendTimeline()" class="btn btn-info top-item"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>&nbsp;
       </div>
       
-      <div>
-        
-      </div>
+      
+    </div>
+
+    <div style="margin-top: 60px;width: 280px;">
+      <input type="checkbox" id="cto" [(ngModel)]="checklistTicketsOnly" (ngModelChange)="checklistTicketsFilterHandler()">
+      <label style="font-weight: normal;" for="cto">Показать только задания из чек-листов</label>
     </div>
   </div>
 </div>
 
-<div style="margin-top: 10px;">
-  <input type="checkbox" id="cto" [(ngModel)]="checklistTicketsOnly" (ngModelChange)="checklistTicketsFilterHandler()">
-  <label style="font-weight: normal;" for="cto">Показать только задания из чек-листов</label>
-</div>
-
-
-<br />
 
 <div style="text-align: center; margin-top: 70px; font-style: italic;" *ngIf="!packs || packs?.length == 0"><span>Выберите период</span></div>
 
