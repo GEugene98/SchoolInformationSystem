@@ -62,7 +62,9 @@ namespace WorkScheduler.Controllers
         {
             var responsibles = new List<UserViewModel>();
 
-            foreach (var user in Db.Users.Where(u => !u.LockoutEnabled))
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            foreach (var user in Db.Users.Where(u => !u.LockoutEnabled && u.SchoolId == currentUser.SchoolId))
             {
                 var userRoles = (await UserManager.GetRolesAsync(user)).Where(r => r != "");
 
@@ -177,7 +179,9 @@ namespace WorkScheduler.Controllers
         [HttpGet("Users")]
         async public Task<IActionResult> Users()
         {
-            var users = Db.Users.Where(u => !u.LockoutEnabled).ToList();
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            var users = Db.Users.Where(u => !u.LockoutEnabled && u.SchoolId == currentUser.SchoolId).ToList();
 
             var userViewModels = new List<UserViewModel>();
 

@@ -40,6 +40,12 @@
   <None Remove="$(SpaRoot)**" />
   <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
 </ItemGroup>
+<ItemGroup>
+  <Compile Remove="Migrations\20190729083121_Schools.cs" />
+  <Compile Remove="Migrations\20190729083121_Schools.Designer.cs" />
+  <Compile Remove="Migrations\20190729083322_Schools2.cs" />
+  <Compile Remove="Migrations\20190729083322_Schools2.Designer.cs" />
+</ItemGroup>
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\scheduler\index.ts" />

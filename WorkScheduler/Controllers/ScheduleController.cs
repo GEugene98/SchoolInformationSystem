@@ -34,8 +34,8 @@ namespace WorkScheduler.Controllers
         public IActionResult ForDay([FromBody]DateTime date, bool showMine = false)
         {
             date = date.AddHours(3);
-            var currentUser = showMine ? Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name) : null;
-            var schedule = SchedulerService.MakeScheduleForDay(date, currentUser);
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+            var schedule = SchedulerService.MakeScheduleForDay(date, currentUser, showMine);
             return Ok(schedule);
         }
 
@@ -49,8 +49,8 @@ namespace WorkScheduler.Controllers
             {
                 return BadRequest();
             }
-            var currentUser = showMine ? Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name) : null;
-            var schedule = SchedulerService.MakeScheduleForPeriod(start, end, currentUser);
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+            var schedule = SchedulerService.MakeScheduleForPeriod(start, end, currentUser, showMine);
             return Ok(schedule);
         }
 

@@ -28,9 +28,9 @@ namespace WorkScheduler.Services
             Converter = converter;
         }
 
-        public byte[] GetGeneralPeriodReport(DateTime start, DateTime end, DateTime confirmDate, DateTime acceptDate, bool titlePage = false)
+        public byte[] GetGeneralPeriodReport(DateTime start, DateTime end, DateTime confirmDate, DateTime acceptDate, User user, bool titlePage = false)
         {
-            var schedule = SchedulerService.MakeScheduleForPeriod(start, end);
+            var schedule = SchedulerService.MakeScheduleForPeriod(start, end, user);
 
             var html = RenderService.GetGeneralPeriodHTML(schedule, confirmDate, acceptDate);
 

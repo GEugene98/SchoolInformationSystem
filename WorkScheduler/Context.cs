@@ -37,6 +37,9 @@ namespace WorkScheduler
         public DbSet<File> Files { get; set; }
         public DbSet<TicketFile> TicketFiles { get; set; }
 
+
+        public DbSet<School> Schools { get; set; }
+
         //public DbSet<Address> Addresses { get; set; }
         //public DbSet<Certificate> Certificates { get; set; }
         //public DbSet<Diploma> Diplomas { get; set; }

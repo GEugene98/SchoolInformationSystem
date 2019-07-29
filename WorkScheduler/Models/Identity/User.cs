@@ -22,6 +22,9 @@ namespace WorkScheduler.Models.Identity
         public string SurName { get; set; }
         public bool GetNotifications { get; set; }
 
+        public int? SchoolId { get; set; }
+        public School School { get; set; }
+
         public virtual ICollection<WorkSchedule> WorkSchedules { get; set; }
         public virtual ICollection<ActionUser> ActionUsers { get; set; } // связь для установки ответственных
         public virtual ICollection<Ticket> Tickets { get; set; }

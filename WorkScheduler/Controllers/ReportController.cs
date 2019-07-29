@@ -31,7 +31,9 @@ namespace WorkScheduler.Controllers
             var confDate = new DateTime(confYear, confMonth, confDay);
             var acpDate = new DateTime(acpYear, acpMonth, acpDay);
 
-            var report = ReportService.GetGeneralPeriodReport(start, end, confDate, acpDate);
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            var report = ReportService.GetGeneralPeriodReport(start, end, confDate, acpDate, currentUser);
             return File(report, "application/pdf");
         }
 

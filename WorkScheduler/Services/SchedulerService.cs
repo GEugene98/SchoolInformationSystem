@@ -387,22 +387,24 @@ namespace WorkScheduler.Services
             Db.SaveChanges();
         }
 
-        public Day MakeScheduleForDay(DateTime date, User responsible = null)
+        public Day MakeScheduleForDay(DateTime date, User user, bool userResponsibleActionsOnly = false)
         {
-            return MakeScheduleForPeriod(date, date, responsible)?.Days?.FirstOrDefault();
+            return MakeScheduleForPeriod(date, date, user, userResponsibleActionsOnly)?.Days?.FirstOrDefault();
         }
 
-        public GeneralScheduleViewModel MakeScheduleForPeriod(DateTime start, DateTime end, User responsible = null)
+        public GeneralScheduleViewModel MakeScheduleForPeriod(DateTime start, DateTime end, User user, bool userResponsibleActionsOnly = false)
         {
             var actionUsers = Db.ActionUsers
+                .Where(au => au.Action.WorkSchedule.User.SchoolId == user.SchoolId)
                 .Include(au => au.User)
                 .Include(au => au.Action)
                 .ToList();
 
-            var groups = Db.Actions
+            var groupedActions = Db.Actions
                 .Include(a => a.WorkSchedule)
                 .Include(a => a.WorkSchedule.Activity)
                 .Include(a => a.ConfirmationForm)
+                .Where(a => a.WorkSchedule.User.SchoolId == user.SchoolId)
                 .Where(a => a.Date.Date >= start.Date && a.Date.Date <= end.Date)
                 .Where(a => !a.IsDeleted && a.Status == ActionStatus.Accepted)
                 .OrderBy(a => a.Date)
@@ -410,25 +412,25 @@ namespace WorkScheduler.Services
                 .GroupBy(a => a.Date.Date)
                 .AsEnumerable();
 
-            if (groups == null)
+            if (groupedActions == null)
             {
                 return null;
             }
 
             var days = new List<Day>();
 
-            foreach (var group in groups)
+            foreach (var actionGroup in groupedActions)
             {
-                IEnumerable<Models.Action> query = group;
+                IEnumerable<Models.Action> query = actionGroup;
 
-                if (responsible != null)
+                if (userResponsibleActionsOnly)
                 {
-                    query = group
+                    query = actionGroup
                     .Where(action =>
                     {
                         var actionUser = actionUsers
                             .Where(au => au.ActionId == action.Id)
-                            .FirstOrDefault(au => au.UserId == responsible.Id);
+                            .FirstOrDefault(au => au.UserId == user.Id);
                         if (actionUser != null)
                             return true;
                         else
@@ -469,9 +471,9 @@ namespace WorkScheduler.Services
 
                 var day = new Day
                 {
-                    Date = group.Key,
-                    ShortDayOfWeekName = culture.DateTimeFormat.GetShortestDayName(group.Key.DayOfWeek).ToLower(),
-                    IsDayOff = (group.Key.DayOfWeek == DayOfWeek.Saturday || group.Key.DayOfWeek == DayOfWeek.Sunday) && actions.Count() == 0,
+                    Date = actionGroup.Key,
+                    ShortDayOfWeekName = culture.DateTimeFormat.GetShortestDayName(actionGroup.Key.DayOfWeek).ToLower(),
+                    IsDayOff = (actionGroup.Key.DayOfWeek == DayOfWeek.Saturday || actionGroup.Key.DayOfWeek == DayOfWeek.Sunday) && actions.Count() == 0,
                     Actions = actions
                 };
 
