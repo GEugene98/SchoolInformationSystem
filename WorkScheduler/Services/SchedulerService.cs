@@ -558,7 +558,7 @@ namespace WorkScheduler.Services
             await Db.SaveChangesAsync();
         }
 
-        public IEnumerable<WorkScheduleViewModel> GetActionsToMake(ActionStatus targetStatus)
+        public IEnumerable<WorkScheduleViewModel> GetActionsToMake(ActionStatus targetStatus, User user)
         {
             ActionStatus currentStatus = ActionStatus.New;
 
@@ -575,6 +575,7 @@ namespace WorkScheduler.Services
             var schedules = new List<WorkScheduleViewModel>();
 
             var actionUsers = Db.ActionUsers
+               .Where(au => au.Action.WorkSchedule.User.SchoolId == user.SchoolId)
                .Include(au => au.User)
                .Include(au => au.Action)
                .ToList();
@@ -582,6 +583,7 @@ namespace WorkScheduler.Services
             var scheduleGroups = Db.Actions
                 .Include(a => a.WorkSchedule)
                 .Include(a => a.ConfirmationForm)
+                .Where(a => a.WorkSchedule.User.SchoolId == user.SchoolId)
                 .Where(a => a.Status == currentStatus && !a.IsDeleted)
                 .OrderBy(a => a.Date)
                 .GroupBy(a => a.WorkSchedule);

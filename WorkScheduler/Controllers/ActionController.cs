@@ -126,7 +126,9 @@ namespace WorkScheduler.Controllers
         [HttpGet("GetActionsToMake")]
         public IActionResult GetActionsToMake(ActionStatus targetStatus)
         {
-            var actions = SchedulerService.GetActionsToMake(targetStatus);
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            var actions = SchedulerService.GetActionsToMake(targetStatus, currentUser);
             return Ok(actions);
         }
     }

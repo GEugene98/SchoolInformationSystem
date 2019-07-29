@@ -254,8 +254,13 @@ namespace WorkScheduler.Controllers
 
             var t = Db.WorkSchedules.Include(f => f.Actions).Where(ws => ws.Actions.Any(a => a.Status == ActionStatus.Confirmed)).FirstOrDefault();
 
-            var schedulesToAccept = Db.WorkSchedules.Where(ws => ws.Actions.Any(a => a.Status == ActionStatus.Confirmed)).Count();
-            var schedulesToConfirm = Db.WorkSchedules.Where(ws => ws.Actions.Any(a => a.Status == ActionStatus.NeedConfirm)).Count();
+            var schedulesToAccept = Db.WorkSchedules
+                .Where(ws => ws.User.SchoolId == currentUser.SchoolId && ws.Actions.Any(a => a.Status == ActionStatus.Confirmed))
+                .Count();
+
+            var schedulesToConfirm = Db.WorkSchedules
+                .Where(ws => ws.User.SchoolId == currentUser.SchoolId && ws.Actions.Any(a => a.Status == ActionStatus.NeedConfirm))
+                .Count();
 
             notifications.Add(new DictionaryViewModel<string>
             {
