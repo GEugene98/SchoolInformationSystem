@@ -10,6 +10,7 @@ namespace WorkScheduler.Models.Shared
     public class School : Dictionary<int>
     {
         public string ShortName { get; set; }
+        public string Email { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }
