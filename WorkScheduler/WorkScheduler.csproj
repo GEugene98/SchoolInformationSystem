@@ -59,6 +59,7 @@
     <None Remove="ClientApp\src\app\shared\models\dictionary.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\general-schedule.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\register.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\school.ts" />
     <None Remove="ClientApp\src\app\shared\models\ticket-pack.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\ticket.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\time.model.ts" />
@@ -96,6 +97,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\confirmation-form.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\dictionary.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\general-schedule.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\school.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\ticket-pack.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\register.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\ticket.model.ts" />

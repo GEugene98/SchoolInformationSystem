@@ -82,7 +82,7 @@ namespace WorkScheduler.Services
                     var mock = new TicketPackViewModel
                     {
                         Date = i,
-                        DateToShow = i.ToLongDateString() + ", " + culture.DateTimeFormat.GetDayName(i.DayOfWeek).ToLower(),
+                        DateToShow = FirstUpper(culture.DateTimeFormat.GetDayName(i.DayOfWeek)) + "  " + i.ToLongDateString(),
                         TimeGroups = tGroups
                     };
 
@@ -162,7 +162,7 @@ namespace WorkScheduler.Services
                 var pack = new TicketPackViewModel
                 {
                     Date = group.Key,
-                    DateToShow = group.Key.ToLongDateString() + ", " + culture.DateTimeFormat.GetDayName(i.DayOfWeek).ToLower(),
+                    DateToShow = FirstUpper(culture.DateTimeFormat.GetDayName(i.DayOfWeek)) + "  " +  group.Key.ToLongDateString(),
                     TimeGroups = timeGroups
                 };
 
@@ -238,6 +238,19 @@ namespace WorkScheduler.Services
             ticket.Status = TicketStatus.Accepted;
 
             Db.SaveChanges();
+        }
+
+        string FirstUpper(string str)
+        {
+            string[] s = str.Split(' ');
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i].Length > 1)
+                    s[i] = s[i].Substring(0, 1).ToUpper() + s[i].Substring(1, s[i].Length - 1).ToLower();
+                else s[i] = s[i].ToUpper();
+            }
+            return string.Join(" ", s);
         }
     }
 }
