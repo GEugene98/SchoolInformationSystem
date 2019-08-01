@@ -60,7 +60,7 @@ export class TimelineComponent implements OnInit {
   async loadData() {
     this.ngxService.start();
     this.originalPacks = await this.schedule.myTicketPacks(this.range);
-    this.packs = _.cloneDeep(this.originalPacks);
+    this.filterChecklistTickets();
     this.newTicket = new Ticket();
     this.newTicket.date = this.selectedDate;
     let notifications = await this.dictionary.getNotifications();
@@ -69,10 +69,14 @@ export class TimelineComponent implements OnInit {
     this.ngxService.stop();
   }
 
-  checklistTicketsFilterHandler(){
+  checklistTicketsFilterHandler() {
+    this.filterChecklistTickets();
+  }
+
+  filterChecklistTickets() {
     this.packs = _.cloneDeep(this.originalPacks);
 
-    if(this.checklistTicketsOnly){
+    if (this.checklistTicketsOnly) {
       this.packs.forEach(p => {
         p.timeGroups.forEach(g => {
           g.tickets = g.tickets.filter(t => t.hasChecklist)
