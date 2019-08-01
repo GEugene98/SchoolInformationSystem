@@ -72,7 +72,6 @@
     <None Remove="ClientApp\src\app\shared\services\dictionary.service.ts" />
     <None Remove="ClientApp\src\app\shared\services\schedule.service.ts" />
     <None Remove="ClientApp\src\app\shared\services\user.state.ts" />
-    <None Remove="Content\Images\logo.png" />
     <None Remove="libwkhtmltox.dll" />
   </ItemGroup>
 
@@ -90,9 +89,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Content\Images\logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="wwwroot\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
