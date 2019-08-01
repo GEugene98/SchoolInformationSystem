@@ -117,7 +117,7 @@ namespace WorkScheduler.Controllers
                     Context.LoginLogs.Add(log);
                     Context.SaveChanges();
                     
-                    return Redirect("/");
+                    return Redirect("/scheduler/timeline");
                 }
                 else
                 {
