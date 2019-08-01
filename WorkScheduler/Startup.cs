@@ -74,6 +74,9 @@ namespace WorkSheduler
                 services.AddScoped<WorkScheduler.Services.Monitoring.DictionaryService>();
                 services.AddScoped<TalentedChildrenService>();
 
+                var context = new CustomAssemblyLoadContext();
+                context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+
                 services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
                 // In production, the Angular files will be served from this directory
