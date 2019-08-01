@@ -31,7 +31,7 @@ namespace WorkScheduler.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
-            var roles = Context.Roles.Where(r => model.Roles.Contains(r.Name));
+            var roles = Context.Roles.Where(r => r.Name == model.Role);
 
             if (roles == null)
             {
@@ -99,7 +99,7 @@ namespace WorkScheduler.Controllers
 
                 if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
                 {
-                    ViewBag.Message = "Не все поля были заполнены"; 
+                    ViewBag.Message = "Не все обязательные поля были заполнены"; 
                     return View();
                 }
 

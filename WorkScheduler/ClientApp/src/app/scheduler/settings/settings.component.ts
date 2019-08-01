@@ -25,7 +25,7 @@ export class SettingsComponent implements OnInit {
 
   allRoles: Dictionary<string>[];
 
-  selectedRoles: Dictionary<string>[];
+  selectedRole: Dictionary<string>;
   firstName: string;
   lastName: string;
   surName: string;
@@ -40,7 +40,7 @@ export class SettingsComponent implements OnInit {
 
   async ngOnInit() {
     await this.loadData();
-    this.selectedRoles = new Array<Dictionary<string>>();
+    this.selectedRole = new Dictionary<string>();
   }
 
   async loadData() {
@@ -53,7 +53,7 @@ export class SettingsComponent implements OnInit {
     newUser.firstName = this.firstName;
     newUser.lastName = this.lastName;
     newUser.surName = this.surName;
-    newUser.roles = this.selectedRoles.map(r => r.name);
+    newUser.role = this.selectedRole.name;
 
     try {
       var result = await this.account.register(newUser);
@@ -70,7 +70,7 @@ export class SettingsComponent implements OnInit {
     this.firstName = undefined;
     this.lastName = undefined;
     this.surName = undefined;
-    this.selectedRoles = new Array<Dictionary<string>>();
+    this.selectedRole = new Dictionary<string>();
   }
 
   openModal(modal) {

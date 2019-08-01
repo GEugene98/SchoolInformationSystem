@@ -10,6 +10,6 @@ namespace WorkScheduler.ViewModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string SurName { get; set; }
-        public IEnumerable<string> Roles { get; set; }
+        public string Role { get; set; }
     }
 }

@@ -46,6 +46,9 @@
   <Compile Remove="Migrations\20190729083322_Schools2.cs" />
   <Compile Remove="Migrations\20190729083322_Schools2.Designer.cs" />
 </ItemGroup>
+<ItemGroup>
+  <Content Remove="wwwroot\logo.png" />
+</ItemGroup>
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\scheduler\index.ts" />
@@ -69,6 +72,7 @@
     <None Remove="ClientApp\src\app\shared\services\dictionary.service.ts" />
     <None Remove="ClientApp\src\app\shared\services\schedule.service.ts" />
     <None Remove="ClientApp\src\app\shared\services\user.state.ts" />
+    <None Remove="Content\Images\logo.png" />
     <None Remove="libwkhtmltox.dll" />
   </ItemGroup>
 
@@ -83,7 +87,15 @@
     <Folder Include="ClientApp\src\app\scheduler\timeline\components\" />
     <Folder Include="ClientApp\src\app\statistic\" />
     <Folder Include="ViewModels\Monitoring\TalentedChildren\" />
-    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Content\Images\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="wwwroot\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

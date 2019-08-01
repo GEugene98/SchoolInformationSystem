@@ -71,11 +71,11 @@
         <button type="button" (click)="confirm()" class="btn btn-info"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Экспортировать в другой план</button>
 
 
-        <div *ngIf="checkRole(userState.currentUser?.state, 'Учитель') && !checkRole(userState.currentUser?.state, 'Администратор')">
+        <div *ngIf="checkRole('Учитель')">
           <button type="button" (click)="confirm()" class="btn btn-warning">Отправить отмеченные мероприятия на согласование</button>
         </div>
 
-        <div *ngIf="checkRole(userState.currentUser?.state, 'Администратор')">
+        <div *ngIf="checkRole('Администратор')">
           <button type="button" (click)="accept()" class="btn btn-warning">Отправить отмеченные мероприятия на утверждение</button>
         </div>
       </div>
@@ -221,7 +221,7 @@
     <br>
     Ответственные:
     <ng-select [items]="allResponsibles | async"
-               [disabled]="checkRole(userState.currentUser?.state, 'Учитель')"
+               [disabled]="checkRole('Учитель')"
                [multiple]="true"
                [closeOnSelect]="false"
                [searchable]="true"

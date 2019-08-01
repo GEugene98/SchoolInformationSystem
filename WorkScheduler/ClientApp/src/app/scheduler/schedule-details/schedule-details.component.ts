@@ -263,7 +263,11 @@ export class ScheduleDetailsComponent implements OnInit {
     }
   }
 
-  checkRole(user: User, role: string) {
+  checkRole(role: string, user: User = null) {
+    if (user == null) {
+      user = this.userState.currentUser.state;
+    }
+
     return isUserInRole(user, role);
   }
 

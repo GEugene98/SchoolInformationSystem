@@ -25,21 +25,22 @@
         .field {
             margin: 5px;
             text-align: center;
-            width: 100%;
+            width: 400px;
             font-size: larger;
         }
 
         button {
-            width: 100%;
+            width: 400px;
             margin: 5px;
             background-color: #007ad9;
-            border: none;
             color: white;
             padding: 15px 32px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
         .elements {
@@ -63,14 +64,15 @@
 </head>
 <body>
     <div class="container">
-        <div style="text-align:center"><h3>Для продолжения работы с выбраным приложением необходимо выполнить вход.<br/>Введите учётные данные ИСШ</h3></div>
+        <img src="~/logo.png" width="400"/>
+        <div style="text-align:center; margin-top: 15px;"><p>Выполните вход для продолжения работы</p></div>
         <div style="margin-top: 15px;" class="elements">
             <form method="post">
                 <input class="field" type="text" name="Username" autocomplete="off" id="username" placeholder="Логин"></br>
                 <input class="field" type="password" name="Password" autocomplete="off" id="password" placeholder="Пароль">
                 <div style="margin-top: 15px;">
                     <input type="checkbox" id="remember" name="Remember" />
-                    <label for="remember">Выполнять вход автоматически на этом компьютере</label>
+                    <label for="remember">Сохранить пароль на этом устройстве</label>
                 </div>
 
                 <button  style="margin-top: 15px;" type="submit">Войти</button>
@@ -79,7 +81,7 @@
         @{
             if (!String.IsNullOrEmpty(ViewBag.Message))
             {
-                <div style="margin-top: 10px;" class="message">
+                <div style="margin-top: 15px; max-width: 400px" class="message">
                     @ViewBag.Message
                 </div>
             }

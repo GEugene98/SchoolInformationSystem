@@ -84,14 +84,14 @@
     Отчество:
     <input type="text" [(ngModel)]="surName" class="form-control" placeholder="Отчество">
     <br />
-    Роли пользователя в системе:
+    Роль пользователя в системе:
     <ng-select [items]="allRoles"
-               [multiple]="true"
-               [closeOnSelect]="false"
-               [searchable]="true"
+               [multiple]="false"
+               [closeOnSelect]="true"
+               [searchable]="false"
                bindLabel="name"
-               placeholder="Выберите как минимум одну роль"
-               [(ngModel)]="selectedRoles">
+               placeholder="Выберите одну роль"
+               [(ngModel)]="selectedRole">
     </ng-select>
     <div style="text-align:center; margin-top: 15px;">
       <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
