@@ -89,6 +89,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WorkScheduler.Model\WorkScheduler.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="wwwroot\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
