@@ -73,6 +73,10 @@ export class ScheduleDetailsComponent implements OnInit {
     this.allConfForms = this.dictionary.getConfForms();
   }
 
+  export() {
+
+  }
+
   openModal(modal) {
     this.editedSchedule = Object.assign({}, this.currentSchedule);
     if (this.isActionFreezed(this.editedAction)) {
