@@ -40,7 +40,7 @@ export class ConfirmComponent implements OnInit {
 
   async confirm(actionIdsToConfirm: number[]) {
     if (actionIdsToConfirm.length == 0) {
-      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Необходимо выбрать хотя бы одно мероприятие', life: 5000 });
+      this.messageService.add({ severity: 'info', summary: 'Предупреждение', detail: 'Необходимо выбрать хотя бы одно мероприятие', life: 5000 });
       return;
     }
     this.ngxService.start();
@@ -58,7 +58,7 @@ export class ConfirmComponent implements OnInit {
 
   async cancel(actionIdsToCancel) {
     if (actionIdsToCancel.length == 0) {
-      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Необходимо выбрать хотя бы одно мероприятие', life: 5000 });
+      this.messageService.add({ severity: 'info', summary: 'Предупреждение', detail: 'Необходимо выбрать хотя бы одно мероприятие', life: 5000 });
       return;
     }
     this.ngxService.start();

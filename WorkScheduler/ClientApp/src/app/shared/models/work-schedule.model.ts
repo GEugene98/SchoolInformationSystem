@@ -8,6 +8,7 @@ export class WorkSchedule {
   name: string;
   activity: Activity;
   academicYear: AcademicYear;
+  academicYearName: string;
   actions: Action[];
   user: User;
 }

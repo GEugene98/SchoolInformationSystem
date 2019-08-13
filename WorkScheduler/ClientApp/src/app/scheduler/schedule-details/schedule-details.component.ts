@@ -41,6 +41,9 @@ export class ScheduleDetailsComponent implements OnInit {
   acceptDate: Date;
   allAcademicYears: AcademicYear[];
   allActivities: Activity[];
+  mySchedules: WorkSchedule[];
+  targetScheduleId: number;
+  replace: boolean = false;
 
   constructor(private activateRoute: ActivatedRoute,
     private modalService: BsModalService,
@@ -71,10 +74,38 @@ export class ScheduleDetailsComponent implements OnInit {
     this.actions = await this.schedule.getActions(this.scheduleId);
     this.allResponsibles = this.dictionary.getResponsibles();
     this.allConfForms = this.dictionary.getConfForms();
+    this.mySchedules = await this.schedule.getMyWorkSchedules();
+    this.mySchedules.forEach(s => s.academicYearName = s.academicYear.name);
   }
 
-  export() {
+  async export(){
+    if(!this.targetScheduleId){
+      this.messageService.add({ severity: 'info', summary: 'Предупреждение', detail: 'Необходимо выбрать план, в который будет выполнен экспорт', life: 5000 });
+      return;
+    }
+    try {
+      this.ngxService.start();
+      await this.schedule.exportActions(this.actions.filter(a => a.selected).map(a => a.id), this.targetScheduleId, this.replace);
+      await this.loadData();
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Мероприятия экспортированы", life: 5000 });
+      this.closeModal();
+      window.scrollTo(0, 0);
+    } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+    finally{
+      this.ngxService.stop();
+    }
+  }
 
+  openExportModal(modal){
+    this.clearFields();
+    if(this.actions.filter(a => a.selected).length == 0){
+      this.messageService.add({ severity: 'info', summary: 'Предупреждение', detail: 'Необходимо выбрать хотя бы одно мероприятие', life: 5000 });
+      return;
+    }
+
+    this.openModal(modal);
   }
 
   openModal(modal) {
@@ -101,6 +132,8 @@ export class ScheduleDetailsComponent implements OnInit {
     this.editedAction = undefined;
     this.confirmDate = null;
     this.acceptDate = null;
+    this.targetScheduleId = 0;
+    this.replace = false;
   }
 
   selection() {
@@ -153,7 +186,6 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   copy(action: Action) {
-    console.log(action)
     action.responsibles.forEach(r => r.fullName = `${r.lastName} ${r.firstName[0]}. ${r.surName[0]}.`);
     this.editedAction = Object.assign({}, action);
     this.editedAction.date = new Date(this.editedAction.date.toString()); //Костыль для ngx-datepicker'а
@@ -225,7 +257,7 @@ export class ScheduleDetailsComponent implements OnInit {
 
     let actionIdsToConfirm = this.actions.filter(a => a.selected).map(a => a.id);
     if (actionIdsToConfirm.length == 0) {
-      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Необходимо выбрать хотя бы одно мероприятие', life: 5000 });
+      this.messageService.add({ severity: 'info', summary: 'Предупреждение', detail: 'Необходимо выбрать хотя бы одно мероприятие', life: 5000 });
       return;
     }
 
@@ -248,7 +280,7 @@ export class ScheduleDetailsComponent implements OnInit {
 
     let actionIdsToAccept = this.actions.filter(a => a.selected).map(a => a.id);
     if (actionIdsToAccept.length == 0) {
-      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Необходимо выбрать хотя бы одно мероприятие', life: 5000 });
+      this.messageService.add({ severity: 'info', summary: 'Предупреждение', detail: 'Необходимо выбрать хотя бы одно мероприятие', life: 5000 });
       return;
     }
 

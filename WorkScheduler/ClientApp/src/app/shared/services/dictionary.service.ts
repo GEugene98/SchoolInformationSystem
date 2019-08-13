@@ -5,6 +5,7 @@ import { Activity } from "../models/activity.model";
 import { User } from "../models/user";
 import { ConfirmationForm } from "../models/confirmation-form.model";
 import { Dictionary } from "../models/dictionary.model";
+import { WorkSchedule } from "../models/work-schedule.model";
 
 @Injectable()
 export class DictionaryService {
@@ -46,6 +47,10 @@ export class DictionaryService {
 
   async getAllActivity(range: Date[]) {
     return await this.http.post<string[]>('api/Dictionary/AllActivity', range).toPromise();
+  }
+
+  async getUserSchedules(){
+    return await this.http.get<WorkSchedule[]>('api/Dictionary/MySchedules').toPromise();
   }
 
   async getNotifications() {

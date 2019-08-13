@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { TabsModule, ModalModule } from 'ngx-bootstrap';
+import { TabsModule, ModalModule, PaginationModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -83,7 +83,8 @@ defineLocale('ru', ruLocale);
     ModalModule.forRoot(),
     FormsModule,
     RouterModule.forChild([]),
-    UploadModule
+    UploadModule,
+    PaginationModule.forRoot()
   ],
   providers: [
     UserState,

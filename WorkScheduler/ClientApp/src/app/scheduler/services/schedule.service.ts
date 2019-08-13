@@ -87,6 +87,10 @@ export class ScheduleService {
     return await this.http.post('api/Schedule/Edit', schedule).toPromise();
   }
 
+  async exportActions(actionIds: number[], targetScheduleId: number, replace: boolean) {
+    return await this.http.post('api/Action/Export', {actionIds: actionIds, targetScheduleId: targetScheduleId, replace: replace}).toPromise();
+  }
+
   async getActionsToMake(targetStatus: ActionStatus) {
     const params = new HttpParams()
       .set('targetStatus', targetStatus.toString());

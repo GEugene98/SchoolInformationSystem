@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WorkScheduler.Models;
 using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.Services;
 using WorkScheduler.ViewModels;
+using Action = WorkScheduler.Models.Action;
 
 namespace WorkScheduler.Controllers
 {
@@ -131,5 +134,98 @@ namespace WorkScheduler.Controllers
             var actions = SchedulerService.GetActionsToMake(targetStatus, currentUser);
             return Ok(actions);
         }
+
+        [HttpPost("Export")]
+        public IActionResult Export([FromBody]ExportActionsRequest request)
+        {
+            var actions = Db.Actions
+                .Include(a => a.WorkSchedule.AcademicYear)
+                .Include(a => a.ActionUsers)
+                .Where(a => request.ActionIds.Contains(a.Id))
+                .ToList();
+
+            ActionStatus targetStatus;
+
+            if (this.User.IsInRole("Директор"))
+            {
+                targetStatus = ActionStatus.Accepted;
+            }
+            else if(this.User.IsInRole("Администратор"))
+            {
+                targetStatus = ActionStatus.Confirmed;
+            }
+            else
+            {
+                targetStatus = ActionStatus.New;
+            }
+
+            var targetSchedule = Db.WorkSchedules.Include(a => a.AcademicYear).FirstOrDefault(s => s.Id == request.TargetScheduleId);
+            var currentSchedule = actions.FirstOrDefault().WorkSchedule;
+
+            if(targetSchedule.Id == currentSchedule.Id)
+            {
+                return BadRequest("Невозможно экспортировать мероприятия из текущего плана в текущий");
+            }
+
+            if(request.Replace)
+            {
+                foreach(var a in actions)
+                {
+                    a.WorkScheduleId = request.TargetScheduleId;
+                    a.Status = targetStatus;
+                    if (targetSchedule.AcademicYear.Start.Year > currentSchedule.AcademicYear.Start.Year) 
+                    {
+                        a.Date = a.Date.AddYears(1);
+                    }
+                }
+
+                Db.SaveChanges();
+                return Ok();
+            }
+
+            foreach(var a in actions)
+            {
+                var newActionDate = a.Date;
+                
+                if (targetSchedule.AcademicYear.Start.Year > currentSchedule.AcademicYear.Start.Year) 
+                {
+                    newActionDate = a.Date.AddYears(1);
+                }
+
+                var action = new Action 
+                {
+                    Name = a.Name,
+                    Date = newActionDate,
+                    ConfirmationFormId = a.ConfirmationFormId,
+                    WorkScheduleId = request.TargetScheduleId,
+                    Status = targetStatus,
+                    IsDeleted = false
+                };
+
+                Db.Actions.Add(action);
+
+                Db.SaveChanges();
+
+                var aUsers = a.ActionUsers.ToList();
+
+                foreach(var aUser in aUsers)
+                {
+                    aUser.ActionId = action.Id;
+                }
+
+                Db.ActionUsers.AddRange(aUsers);
+
+                Db.SaveChanges();               
+            }
+            
+            return Ok();
+        }
+    }
+    
+    public class ExportActionsRequest {
+        public IEnumerable<int> ActionIds { get; set; } 
+        public int TargetScheduleId { get; set; }
+        public bool Replace { get; set; }
     }
 }
+

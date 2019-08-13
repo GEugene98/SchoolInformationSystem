@@ -65,7 +65,7 @@
   <div class="panel-body">
     <div class="bottom-container">
       <div style="float: right">
-        <button type="button" (click)="export()" class="btn btn-info"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Экспортировать в другой план</button>
+        <button type="button" (click)="openExportModal(exportModal)" class="btn btn-info"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Экспортировать в другой план</button>
         <button *ngIf="checkRole('Учитель')" type="button" (click)="confirm()" class="btn btn-warning">Отправить отмеченные мероприятия на согласование</button>
         <button *ngIf="checkRole('Администратор')" type="button" (click)="accept()" class="btn btn-warning">Отправить отмеченные мероприятия на утверждение</button>
       </div>
@@ -144,6 +144,44 @@
     <div style="text-align:center; margin-top: 15px;">
       <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
       <button type="button" (click)="next()" class="btn btn-success">Продолжить</button>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #exportModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Экспорт мероприятий в другой план</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Выберите план, в который будет выполнен экспорт выбранных мероприятий:</p>
+
+    <ng-select [items]="mySchedules"
+               bindLabel="name"
+               bindValue="id"
+               groupBy="academicYearName"
+               [(ngModel)]="targetScheduleId"
+               [clearable]="false">
+    </ng-select>
+
+    <div *ngIf="targetScheduleId">
+      <div class="alert alert-info" role="alert" style="margin-top: 15px">
+        <strong>После экспорта мероприятия останутся в обоих планах.</strong>
+        <p>Если мероприятия нужно экспортировать и убрать из текущего плана, отметьте галочкой "Переместить мероприятия"</p>
+      </div>
+
+      <div>
+        <input type="checkbox" id="rpl" [(ngModel)]="replace">
+        <label style="font-weight: normal;" for="rpl">Переместить мероприятия</label>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top: 15px;">
+      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+      <button type="button" (click)="export()" class="btn btn-success">Экспорт</button>
     </div>
   </div>
 
