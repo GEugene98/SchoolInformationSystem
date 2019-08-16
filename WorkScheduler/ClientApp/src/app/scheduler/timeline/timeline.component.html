@@ -62,12 +62,15 @@
         <td><span *ngIf="ticket.hours && ticket.minutes != 0">{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes == 0">0</span></span></td>
 
 
-        <td [class.blue-text]="ticket.hasChecklist"
-            [class.red-text]="ticket.isExpiered && ticket.hasChecklist"
-            [class.done]="ticket.done"
+        <td [class.done]="ticket.done"
             title="Задание из чек-листа">
-          <span *ngIf="ticket.hasChecklist" class='glyphicon glyphicon-check'></span>
-          {{ticket.name}}
+            <a *ngIf="ticket.hasChecklist" href="javascript:void(0)" (click)="openModal(replyModal)" class="blue-text" [class.red-text]="ticket.isExpiered">
+                <span class='glyphicon glyphicon-check'></span>
+                {{ticket.name}}
+            </a>
+            <span *ngIf="!ticket.hasChecklist">
+                {{ticket.name}}
+            </span>
         </td>
         <!--<td>ticket.date | date : 'dd.MM.yyyy'</td>-->
         <td [class.done]="ticket.done">
@@ -103,21 +106,39 @@
   </table>
 </div>
 
-<ng-template #info>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Информация</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>{{getTooltip(newTicket)}}</p>
-
-    <div style="text-align:center; margin-top: 15px;">
-
+<ng-template #replyModal>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Ответ</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </div>
-</ng-template>
+    <div class="modal-body">
+        <div>
+            Ответный комментарий:
+            <textarea [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
+        </div>
+
+        <div>
+            Вложения:
+            <kendo-upload [saveUrl]="fileUploadUrl"
+                          [removeUrl]="fileRemoveUrl"
+                          (upload)="uploadEventHandler($event)"
+                          (remove)="removeEventHandler($event)"
+                          (success)="uploaded($event)">
+              <kendo-upload-messages select="Открыть окно выбора файлов"
+                                     uploadSelectedFiles="Загрузить выбранные файлы"
+                                     clearSelectedFiles="Удалить выбранные файлы">
+              </kendo-upload-messages>
+            </kendo-upload>
+          </div>
+
+          <div style="text-align:center; margin-top: 15px;">
+            <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+            <button type="button" class="btn btn-success">Сохранить</button>
+          </div>
+      </div>
+  </ng-template>
 
 <ng-template #edit>
   <div class="modal-header">

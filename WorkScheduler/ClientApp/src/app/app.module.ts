@@ -62,12 +62,12 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
   "bgsOpacity": 0.5,
   "bgsPosition": "bottom-right",
   "bgsSize": 60,
-  "bgsType": "double-bounce",
+  "bgsType": "square-jelly-box",
   "blur": 0,
   "fgsColor": "rgb(76,175,80)",
   "fgsPosition": "center-center",
   "fgsSize": 60,
-  "fgsType": "double-bounce",
+  "fgsType": "square-jelly-box",
   "gap": 24,
   "logoPosition": "center-center",
   "logoSize": 120,
@@ -77,10 +77,10 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
   "pbDirection": "ltr",
   "pbThickness": 3,
   "hasProgressBar": false,
-  "text": "",
-  "textColor": "#FFFFFF",
+  "text": "Загрузка данных с сервера...",
+  "textColor": "#c5c5c5",
   "textPosition": "center-center",
-  "threshold": 500
+  "threshold": 300
 }
 
 @NgModule({
