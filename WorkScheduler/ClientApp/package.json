@@ -44,7 +44,8 @@
     "primeng": "^6.1.4",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.2.2",
-    "zone.js": "^0.8.19"
+    "zone.js": "^0.8.19",
+    "font-awesome": "4.7.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.7",

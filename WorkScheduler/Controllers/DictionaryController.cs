@@ -253,11 +253,11 @@ namespace WorkScheduler.Controllers
             });
 
             var schedulesToAccept = Db.WorkSchedules.AsNoTracking()
-                .Where(ws => ws.User.SchoolId == currentUser.SchoolId && ws.Actions.Any(a => a.Status == ActionStatus.Confirmed))
+                .Where(ws => ws.User.SchoolId == currentUser.SchoolId && ws.Actions.Any(a => a.Status == ActionStatus.Confirmed && !a.IsDeleted))
                 .Count();
 
             var schedulesToConfirm = Db.WorkSchedules.AsNoTracking()
-                .Where(ws => ws.User.SchoolId == currentUser.SchoolId && ws.Actions.Any(a => a.Status == ActionStatus.NeedConfirm))
+                .Where(ws => ws.User.SchoolId == currentUser.SchoolId && ws.Actions.Any(a => a.Status == ActionStatus.NeedConfirm && !a.IsDeleted))
                 .Count();
 
             notifications.Add(new DictionaryViewModel<string>

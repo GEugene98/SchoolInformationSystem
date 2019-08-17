@@ -108,19 +108,71 @@
 
 <ng-template #replyModal>
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Ответ</h4>
+      <h4 class="modal-title pull-left">Детали задания</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
         <div>
+            Задание:
+            <p></p>
+        </div>
+
+        <div>
+            Комментарий автора:
+            <p></p>
+        </div>
+
+        <div>
+          Вложения автора:
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 80%">Файл</th>
+                    <th scope="col" style="width: 10%">Размер</th>
+                    <th scope="col" style="width: 10%; text-align: center">Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let ticket of userState.assignedTickets.state">
+                    <td>
+                        <!-- <i *ngIf="file.extension == 'doc' || file.extension == 'docx'" class="fa fa-file-word-o" aria-hidden="true" style="color: blue"></i>
+                        <i *ngIf="file.extension == 'xls' || file.extension == 'xlsx'" class="fa fa-file-excel-o" aria-hidden="true" style="color: green"></i>
+                        <i *ngIf="file.extension == 'ppt' || file.extension == 'pptx'" class="fa fa-file-powerpoint-o" aria-hidden="true" style="color: orange"></i>
+                        <i *ngIf="file.extension == 'pdf'" class="fa fa-file-pdf-o" aria-hidden="true" style="color: red"></i>
+                        <i *ngIf="file.extension == 'zip' || file.extension == 'rar'" class="fa fa-file-archive-o" aria-hidden="true" style="color: dimgray"></i>
+                        <i *ngIf="file.extension == 'png' || file.extension == 'jpg' || file.extension == 'jpeg'" class="fa fa-file-image-o" aria-hidden="true" style="color: purple"></i>
+                        <i *ngIf="file.extension != 'doc'
+                           && file.extension != 'docx'
+                           && file.extension != 'xls'
+                           && file.extension != 'xlsx'
+                           && file.extension != 'ppt'
+                           && file.extension != 'pptx'
+                           && file.extension != 'pdf'
+                           && file.extension != 'zip'
+                           && file.extension != 'rar'
+                           && file.extension != 'png'
+                           && file.extension != 'jpg'
+                           && file.extension != 'jpeg'"
+                           class="fa fa-file-o" aria-hidden="true"></i> -->
+                    </td>
+                    <td>{{ticket.name}}</td>
+                    <td style="text-align: center">
+                      <a title="Скачать" href="javascript:void(0)" ><span style="color: green" class="glyphicon glyphicon-save" aria-hidden="true"></span></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+
+        <div>
             Ответный комментарий:
             <textarea [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
         </div>
 
         <div>
-            Вложения:
+            Ответные вложения:
             <kendo-upload [saveUrl]="fileUploadUrl"
                           [removeUrl]="fileRemoveUrl"
                           (upload)="uploadEventHandler($event)"

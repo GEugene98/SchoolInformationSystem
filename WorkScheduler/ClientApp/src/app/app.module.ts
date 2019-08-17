@@ -80,7 +80,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
   "text": "Загрузка данных с сервера...",
   "textColor": "#c5c5c5",
   "textPosition": "center-center",
-  "threshold": 300
+  "threshold": 500
 }
 
 @NgModule({

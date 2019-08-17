@@ -98,6 +98,7 @@ namespace WorkScheduler.Services
         public IEnumerable<ActionViewModel> GetActionsFor(int workScheduleId, int count = 100000)
         {
             var actionUsers = Db.ActionUsers
+                .Where(au => au.Action.WorkScheduleId == workScheduleId && au.Action.IsDeleted == false)
                 .Include(au => au.User)
                 .Include(au => au.Action)
                 .ToList();
@@ -109,7 +110,7 @@ namespace WorkScheduler.Services
 
             return Db.Actions
                 .Include(a => a.ConfirmationForm)
-                .Where(a => a.WorkScheduleId == workScheduleId && !a.IsDeleted)
+                .Where(a => a.WorkScheduleId == workScheduleId && a.IsDeleted == false)
                 .OrderBy(a => a.Date)
                 .Take(count)
                 .ToList()
@@ -395,7 +396,8 @@ namespace WorkScheduler.Services
         public GeneralScheduleViewModel MakeScheduleForPeriod(DateTime start, DateTime end, User user, bool userResponsibleActionsOnly = false)
         {
             var actionUsers = Db.ActionUsers
-                .Where(au => au.Action.WorkSchedule.User.SchoolId == user.SchoolId)
+                .Where(au => au.Action.WorkSchedule.User.SchoolId == user.SchoolId && au.Action.IsDeleted == false && au.Action.Status == ActionStatus.Accepted)
+                .Where(au => au.Action.Date.Date >= start.Date && au.Action.Date.Date <= end.Date)
                 .Include(au => au.User)
                 .Include(au => au.Action)
                 .ToList();
@@ -406,11 +408,11 @@ namespace WorkScheduler.Services
                 .Include(a => a.ConfirmationForm)
                 .Where(a => a.WorkSchedule.User.SchoolId == user.SchoolId)
                 .Where(a => a.Date.Date >= start.Date && a.Date.Date <= end.Date)
-                .Where(a => !a.IsDeleted && a.Status == ActionStatus.Accepted)
+                .Where(a => a.IsDeleted == false && a.Status == ActionStatus.Accepted)
                 .OrderBy(a => a.Date)
                 .ThenBy(a => a.WorkSchedule.Activity.Priority)
                 .GroupBy(a => a.Date.Date)
-                .AsEnumerable();
+                .ToList();
 
             if (groupedActions == null)
             {
@@ -575,7 +577,7 @@ namespace WorkScheduler.Services
             var schedules = new List<WorkScheduleViewModel>();
 
             var actionUsers = Db.ActionUsers
-               .Where(au => au.Action.WorkSchedule.User.SchoolId == user.SchoolId)
+               .Where(au => au.Action.WorkSchedule.User.SchoolId == user.SchoolId && au.Action.Status == currentStatus && au.Action.IsDeleted == false)
                .Include(au => au.User)
                .Include(au => au.Action)
                .ToList();

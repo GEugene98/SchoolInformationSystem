@@ -60,6 +60,7 @@ export class ChecklistDetailsComponent implements OnInit {
   }
 
   openModal(modal) {
+    this.transactionId = guid();
     this.modalRef = this.modalService.show(modal);
   }
 
@@ -77,7 +78,7 @@ export class ChecklistDetailsComponent implements OnInit {
     try {
       this.newTicket.checklistId = this.checklistId;
       if(this.newTicket.user) this.newTicket.userId = this.newTicket.user.id;
-      await this.schedule.addTicketFromChecklist(this.newTicket);
+      await this.schedule.addTicketFromChecklist(this.newTicket, this.transactionId);
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задание создано", life: 5000 });
       await this.loadData();
       this.modalRef.hide();

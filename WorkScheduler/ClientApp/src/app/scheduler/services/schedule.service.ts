@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { WorkSchedule } from "../../shared/models/work-schedule.model";
 import { Day, GeneralSchedule } from "../../shared/models/general-schedule.model";
 import { Action } from "../../shared/models/action.model";
@@ -237,8 +237,11 @@ export class ScheduleService {
     return await this.http.delete('api/Checklist/Delete', { params: params }).toPromise();
   }
 
-  async addTicketFromChecklist(ticket: Ticket) {
-    return await this.http.post('api/Ticket/AddFromChecklist', ticket).toPromise();
+  async addTicketFromChecklist(ticket: Ticket, transactionId: string = null) {
+    let headers = new HttpHeaders()
+      .set('transaction-id', transactionId);
+
+    return await this.http.post('api/Ticket/AddFromChecklist', ticket, {headers: headers}).toPromise();
   }
 
   async editTicketFromChecklist(ticket: Ticket) {

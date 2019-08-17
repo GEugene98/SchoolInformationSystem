@@ -15,22 +15,26 @@ namespace WorkScheduler.Controllers
     public class FileController : Controller
     {
         private FileService FileService { get; set; }
+        protected Context Db;
 
-        public FileController(FileService fileService)
+        public FileController(Context context, FileService fileService)
         {
             FileService = fileService;
+            Db = context;
         }
 
         [HttpPost("[action]")]
         public IActionResult UploadTemporaryFiles(IEnumerable<IFormFile> files)
         {
+            var schoolId = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
+
             string transactionId = Request.Headers["transaction-id"];
 
             if (files == null) return BadRequest();
 
             foreach (var file in files)
             {
-                FileService.AddFile(file, transactionId);
+                FileService.AddFile(file, transactionId, schoolId);
             }
 
             return Ok();
@@ -39,13 +43,15 @@ namespace WorkScheduler.Controllers
         [HttpPost("[action]")]
         public IActionResult RemoveTemporaryFiles(string[] fileNames)
         {
+            var schoolId = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
+
             if (fileNames == null) return BadRequest();
 
             string transactionId = Request.Headers["transaction-id"];
 
             foreach (var fileName in fileNames)
             {
-                FileService.RemoveFile(fileName, transactionId);
+                FileService.RemoveFile(fileName, transactionId, schoolId);
             }
 
             return Ok();
@@ -54,7 +60,9 @@ namespace WorkScheduler.Controllers
         [HttpDelete("[action]")]
         public void RemoveUnclaimedFiles(string transactionId)
         {
-            FileService.RemoveUnclaimedFiles(transactionId);
+            var schoolId = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
+            
+            FileService.RemoveUnclaimedFiles(transactionId, schoolId);
         }
 
         [HttpGet("[action]")]

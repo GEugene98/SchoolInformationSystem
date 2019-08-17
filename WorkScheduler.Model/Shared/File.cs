@@ -11,7 +11,7 @@ namespace WorkScheduler.Models.Shared
         public string Path { get; set; }
         public string Extension { get; set; }
         public double SizeMb { get; set; }
-        public DateTime CreatedOn { get; set; } = DateTime.Now.Date;
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
 
         public virtual ICollection<TicketFile> TicketFiles { get; set; }
     }

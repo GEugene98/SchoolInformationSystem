@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WorkScheduler.Models;
 using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Identity;
+using WorkScheduler.Models.Shared;
 using WorkScheduler.Services;
 using WorkScheduler.ViewModels;
 
@@ -22,15 +23,17 @@ namespace WorkScheduler.Controllers
         protected UserManager<User> UserManager;
         protected NotificationService NotificationService;
         protected TicketService TicketService;
+        private FileService FileService { get; set; }
         private readonly Logger Logger;
 
-        public TicketController(Context context, UserManager<User> userManager, NotificationService notificationService, TicketService ticketService)
+        public TicketController(Context context, UserManager<User> userManager, NotificationService notificationService, TicketService ticketService, FileService fileService)
         {
             Db = context;
             UserManager = userManager;
             NotificationService = notificationService;
             TicketService = ticketService;
             Logger = Logger.GetInstance();
+            FileService = fileService;
         }
 
         [HttpPost("MyTickets")]
@@ -107,6 +110,11 @@ namespace WorkScheduler.Controllers
         [HttpPost("AddFromChecklist")]
         public IActionResult AddFromChecklist([FromBody] TicketViewModel ticket)
         {
+            string transactionId = Request.Headers["transaction-id"];
+            var schoolId = Db.Users.First(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
+
+            var uploadedFiles = FileService.PutFilesInDb(transactionId, schoolId);
+
             if (ticket.UserIdsToAssignTicket == null || ticket.UserIdsToAssignTicket.Count() == 0)
             {
                 var newTicket = new Ticket
@@ -126,6 +134,12 @@ namespace WorkScheduler.Controllers
 
                 Db.Tickets.Add(newTicket);
                 Db.SaveChanges();
+
+                if(uploadedFiles.Count() != 0)
+                {
+                    FileService.BindFilesToTicket(uploadedFiles, newTicket.Id, TicketFileType.Incoming);
+                }
+
                 return Ok();
             }
 
@@ -148,9 +162,14 @@ namespace WorkScheduler.Controllers
                 }
 
                 Db.Tickets.Add(newTicket); 
+                Db.SaveChanges();
+
+                if(uploadedFiles.Count() != 0)
+                {
+                    FileService.BindFilesToTicket(uploadedFiles, newTicket.Id, TicketFileType.Incoming);
+                }
             }
-            
-            Db.SaveChanges();
+
             return Ok();
         }
 

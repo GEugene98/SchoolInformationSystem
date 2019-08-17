@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using WorkScheduler.Models.Scheduler;
+using WorkScheduler.Models.Enums;
 
 namespace WorkScheduler.Services
 {
@@ -25,13 +27,66 @@ namespace WorkScheduler.Services
             RootPath = configuration.GetValue<string>("UploadPath");
         }
 
-        public string AddFile(IFormFile file, string transactionId)
+        public IEnumerable<Models.Shared.File> PutFilesInDb(string transactionId, string schoolId)
+        {
+            var files = new List<Models.Shared.File>();
+
+            var transactionDirectory = new DirectoryInfo(Path.Combine(RootPath, schoolId, $"{DateTime.Now.Year}", transactionId));
+
+            if(!transactionDirectory.Exists || transactionDirectory.GetFiles().Count() == 0)
+            {
+                return files;
+            }
+
+            var foundFiles = transactionDirectory.GetFiles();
+
+            foreach(var f in foundFiles)
+            {
+                var file = new Models.Shared.File
+                {
+                    Name = f.Name,
+                    Path = Path.Combine(schoolId, $"{DateTime.Now.Year}", transactionId, f.Name),
+                    Extension = f.Extension,
+                    SizeMb = (f.Length / 1048576)
+                };
+
+                files.Add(file);
+            }
+
+            Db.Files.AddRange(files);
+
+            Db.SaveChanges();
+
+            return files;
+        }
+
+        public void BindFilesToTicket(IEnumerable<Models.Shared.File> uploadedFiles, long ticketId, TicketFileType bindingType)
+        {
+            var ticketFiles = new List<TicketFile>();
+
+            foreach(var f in uploadedFiles)
+            {
+                var ticketFile = new TicketFile
+                {
+                    TicketId = ticketId,
+                    FileId = f.Id,
+                    Type = bindingType
+                };
+
+                ticketFiles.Add(ticketFile);
+            }
+
+            Db.TicketFiles.AddRange(ticketFiles);
+            Db.SaveChanges();
+        }
+
+        public string AddFile(IFormFile file, string transactionId, string schoolId)
         {
             var fileContent = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
 
             string userFileName = Path.GetFileName(fileContent.FileName.Trim('"'));
 
-            var transactionDirectory = new DirectoryInfo(Path.Combine(RootPath, $"{DateTime.Now.Month} {DateTime.Now.Year}", transactionId));
+            var transactionDirectory = new DirectoryInfo(Path.Combine(RootPath, schoolId, $"{DateTime.Now.Year}", transactionId));
 
             if (!transactionDirectory.Exists)
             {
@@ -48,9 +103,9 @@ namespace WorkScheduler.Services
             return userFileName;
         }
 
-        public void RemoveUnclaimedFiles(string transactionId)
+        public void RemoveUnclaimedFiles(string transactionId, string schoolId)
         {
-            var transactionDir = new DirectoryInfo(Path.Combine(RootPath, DateTime.Now.Date.ToString(), transactionId));
+            var transactionDir = new DirectoryInfo(Path.Combine(RootPath, schoolId, DateTime.Now.Date.Year.ToString(), transactionId));
 
             try
             {
@@ -74,9 +129,9 @@ namespace WorkScheduler.Services
             return Path.Combine(RootPath, file.Path);
         }
 
-        public void RemoveFile(string fileName, string transactionId)
+        public void RemoveFile(string fileName, string transactionId, string schoolId)
         {
-            string physicalPath = Path.Combine(RootPath, $"{DateTime.Now.Month} {DateTime.Now.Year}", transactionId, fileName);
+            string physicalPath = Path.Combine(RootPath, schoolId, $"{DateTime.Now.Year}", transactionId, fileName);
 
             if (File.Exists(physicalPath))
             {
