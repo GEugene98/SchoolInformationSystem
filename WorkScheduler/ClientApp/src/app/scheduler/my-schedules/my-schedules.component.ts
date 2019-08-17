@@ -18,6 +18,7 @@ import { Title } from '@angular/platform-browser';
 export class MySchedules {
   modalRef: BsModalRef;
   allAcademicYears: AcademicYear[];
+  academicYearsToShow: AcademicYear[];
   allActivities: Activity[];
   selectedAcademicYearId: number;
   name: string;
@@ -45,6 +46,8 @@ export class MySchedules {
     this.allAcademicYears.forEach(ay => {
       ay.workSchedules = schedules.filter(s => s.academicYear.id == ay.id)
     });
+
+    this.academicYearsToShow = this.allAcademicYears.filter(a => a.workSchedules.length > 0);
   }
 
   openModal(modal) {

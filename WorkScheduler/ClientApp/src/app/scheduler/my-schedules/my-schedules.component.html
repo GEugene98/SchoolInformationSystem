@@ -7,7 +7,7 @@
 </div>
 
 
-<div *ngFor="let academicYear of allAcademicYears">
+<div *ngFor="let academicYear of academicYearsToShow">
   <h3>{{academicYear.name}} учебный год</h3>
   <div class="list-group">
     <a *ngFor="let schedule of academicYear.workSchedules"
@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<div *ngIf="!allAcademicYears" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+<div *ngIf="academicYearsToShow.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>У вас пока нет ни одного плана</span></div>
 
 <ng-template #add>
   <div class="modal-header">

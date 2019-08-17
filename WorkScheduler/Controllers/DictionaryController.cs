@@ -225,12 +225,14 @@ namespace WorkScheduler.Controllers
         [HttpPost("AllActivity")]
         public IActionResult AllActivity([FromBody]IEnumerable<DateTime> range)
         {
+            var schoolId = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId;
+
             var dateFrom = range.ToArray()[0].AddHours(3);
             var dateTo = range.ToArray()[1].AddHours(3);
 
             var result = Db.LoginLogs
                 .Include(l => l.User)
-                .Where(l => l.LoggedOn.Date >= dateFrom.Date && l.LoggedOn.Date <= dateTo.Date)
+                .Where(l => l.LoggedOn.Date >= dateFrom.Date && l.LoggedOn.Date <= dateTo.Date && l.User.SchoolId == schoolId)
                 .OrderBy(l => l.LoggedOn)
                 .ToList()
                 .Select(l => $"Пользователь {l.User.LastName} {l.User.FirstName} {l.User.SurName} выполнил(а) вход {l.LoggedOn.ToShortDateString()} {culture.DateTimeFormat.GetDayName(l.LoggedOn.DayOfWeek).ToLower()} в {l.LoggedOn.ToShortTimeString()}");
