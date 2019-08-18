@@ -17,7 +17,6 @@
   </div>
 </div>
  
-
 <br/>
 
 <table class="table">
@@ -33,8 +32,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let action of actions" [class.freezed]="isActionFreezed(action)">
-      <td><input type="checkbox" [disabled]="isActionFreezed(action)" [(ngModel)]="action.selected" (ngModelChange)="select()"/></td>
+    <tr *ngFor="let action of actions">
+      <td><input type="checkbox" [(ngModel)]="action.selected" (ngModelChange)="select()"/></td>
       <td>{{action.date | date : 'dd.MM.yyyy'}}</td>
       <td>{{action.name}}</td>
       <td>
@@ -53,7 +52,7 @@
       </td>
       <td>
         <div class="action-icons" style="text-align: center">
-          <a [class.disabledLink]="isActionFreezed(action)" title="Редактировать" href="javascript:void(0)" (click)="copy(action); openModal(edit);"><span style="color: purple" class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+          <a title="Редактировать" href="javascript:void(0)" (click)="copy(action); openModal(edit);"><span style="color: purple" class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
           <a [class.disabledLink]="isActionFreezed(action)" title="Удалить" href="javascript:void(0)" (click)="delete(action)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
         </div>
       </td>
@@ -67,7 +66,7 @@
       <div style="float: right">
         <button type="button" (click)="openExportModal(exportModal)" class="btn btn-info"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Экспортировать в другой план</button>
         <button *ngIf="checkRole('Учитель')" type="button" (click)="confirm()" class="btn btn-warning">Отправить отмеченные мероприятия на согласование</button>
-        <button *ngIf="checkRole('Администратор')" type="button" (click)="accept()" class="btn btn-warning">Отправить отмеченные мероприятия на утверждение</button>
+        <!-- <button *ngIf="checkRole('Администратор')" type="button" (click)="accept()" class="btn btn-warning">Отправить отмеченные мероприятия на утверждение</button> -->
       </div>
     </div>
   </div>
@@ -263,6 +262,22 @@
                [clearable]="false">
     </ng-select>
     <br>
+
+    <div *ngIf="showEditMessage && checkRole('Учитель')" class="alert alert-warning" role="alert">
+      <strong>Статус мероприятия будет изменен на "Новая запись"</strong>
+      <p>
+        Так как вы пытаетесь изменить мероприятие, имеющее статус "Утверждено" или "Согласовано", 
+        статус мероприятия будет сброшен и мероприятие будет нужно заново отправить на согласование
+      </p>
+    </div>
+
+    <div *ngIf="showEditMessage && checkRole('Администратор')" class="alert alert-warning" role="alert">
+      <strong>Статус мероприятия будет изменен на "Согласовано"</strong>
+      <p>
+        Так как вы пытаетесь изменить мероприятие, имеющее статус "Утверждено", 
+        статус мероприятия будет сброшен. Дождитесь утверждения мероприятия директором.
+      </p>
+    </div>
 
     <div style="text-align:center; margin-top: 15px;">
       <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>

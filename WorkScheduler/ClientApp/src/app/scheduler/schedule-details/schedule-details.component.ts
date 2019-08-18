@@ -45,6 +45,8 @@ export class ScheduleDetailsComponent implements OnInit {
   targetScheduleId: number;
   replace: boolean = false;
 
+  showEditMessage: boolean = false;
+
   constructor(private activateRoute: ActivatedRoute,
     private modalService: BsModalService,
     private schedule: ScheduleService,
@@ -109,10 +111,11 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   openModal(modal) {
+    this.showEditMessage = false;
+
     this.editedSchedule = Object.assign({}, this.currentSchedule);
     if (this.isActionFreezed(this.editedAction)) {
-      this.editedAction = undefined;
-      return;
+      this.showEditMessage = true;
     }
     this.modalRef = this.modalService.show(modal);
   }
@@ -141,9 +144,9 @@ export class ScheduleDetailsComponent implements OnInit {
 
     if (this.selectedAll) {
       this.actions.forEach(a => {
-        if (!this.isActionFreezed(a)) {
+   
           a.selected = true;
-        }
+        
       });
     }
     else {
@@ -153,14 +156,9 @@ export class ScheduleDetailsComponent implements OnInit {
 
   select() {
     for (var i = 0; i < this.actions.length; i++) {
-      let isFreezed = this.isActionFreezed(this.actions[i]);
 
-      if (this.actions[i].selected && !isFreezed) {
+      if (this.actions[i].selected) {
         this.selectedAll = true;
-      }
-      else if (isFreezed) {
-        this.selectedAll = true;
-        continue;
       }
       else {
         this.selectedAll = false;
@@ -181,7 +179,7 @@ export class ScheduleDetailsComponent implements OnInit {
       return false;
     }
     else {
-      return (action.status == 1 || action.status == 2 || action.status == 3);
+      return (action.status == 2 || action.status == 3);
     }
   }
 

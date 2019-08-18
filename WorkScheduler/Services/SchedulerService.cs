@@ -274,7 +274,7 @@ namespace WorkScheduler.Services
             Db.SaveChanges();
         }
 
-        public void EditAction(ActionViewModel action)
+        public void EditAction(ActionViewModel action, string role)
         {
             var foundAction = Db.Actions.FirstOrDefault(a => a.Id == action.Id);
 
@@ -301,6 +301,16 @@ namespace WorkScheduler.Services
             foundAction.Date = action.Date;
             foundAction.Name = action.Name;
             foundAction.ConfirmationFormId = action.ConfirmationForm.Id;
+
+            if(foundAction.Status == ActionStatus.Confirmed || foundAction.Status == ActionStatus.Accepted)
+            {
+                foundAction.Status = ActionStatus.New;
+            }
+
+            if(role == "Администратор" && foundAction.Status == ActionStatus.Accepted)
+            {
+                foundAction.Status = ActionStatus.Confirmed;
+            }
 
             Db.SaveChanges();
 
@@ -517,7 +527,7 @@ namespace WorkScheduler.Services
 
         public async Task AllowConfirm(IEnumerable<int> actionIdsToAllowConfirm)
         {
-            var actionsToAllowConfirm = Db.Actions.Where(a => actionIdsToAllowConfirm.Contains(a.Id));
+            var actionsToAllowConfirm = Db.Actions.Where(a => actionIdsToAllowConfirm.Contains(a.Id) && a.Status != ActionStatus.Accepted && a.Status != ActionStatus.Confirmed);
 
             if (actionIdsToAllowConfirm.Count() > 0)
             {

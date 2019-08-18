@@ -88,11 +88,26 @@ namespace WorkScheduler.Controllers
         [HttpPost("Edit")]
         public IActionResult Edit([FromBody]ActionViewModel action)
         {
+            var role = "";
+
+            if(this.User.IsInRole("Директор"))
+            {
+                role = "Директор";
+            }
+            else if(this.User.IsInRole("Администратор"))
+            {
+                role = "Администратор";
+            }
+            else 
+            {
+                role = "Учитель";
+            }
+
             action.Date = action.Date.AddHours(3);
 
             try
             {
-                SchedulerService.EditAction(action);
+                SchedulerService.EditAction(action, role);
             }
             catch (Exception e)
             {
