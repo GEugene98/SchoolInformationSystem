@@ -11,6 +11,8 @@ import { TicketPack } from '../../shared/models/ticket-pack.model';
 import { BsModalRef } from 'ngx-bootstrap';
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
+import { guid } from '../../shared/guid';
+import { UploadEvent } from '@progress/kendo-angular-upload';
 
 @Component({
   selector: 'app-timeline',
@@ -27,8 +29,13 @@ export class TimelineComponent implements OnInit {
   newTicket: Ticket;
   modalRef: BsModalRef;
 
+  transactionId: string;
+  fileUploadUrl = '/api/File/UploadTemporaryFiles';
+  fileRemoveUrl = '/api/File/RemoveTemporaryFiles';
+
   checklistTicketsOnly: boolean;
 
+  checklistTicketToReply: Ticket;
   currentTicket: Ticket;
   similarTickets: Ticket[];
   showAllSimilar: boolean = false;
@@ -54,6 +61,7 @@ export class TimelineComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.transactionId = guid();
     await this.loadData();
   }
 
@@ -300,6 +308,24 @@ export class TimelineComponent implements OnInit {
     }
   }
 
+  openReplyModal(ticket: Ticket, modal){
+    this.transactionId = guid();
+    this.checklistTicketToReply = Object.assign({}, ticket);
+    this.openModal(modal);
+  }
+
+  async saveReply(){
+    try {
+      await this.schedule.saveReply(this.checklistTicketToReply, this.transactionId);
+      await this.loadData();
+      this.closeModal();
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Детали задания сохранены", life: 5000 });
+    } catch (e) {
+      console.error(e);
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
   async declineTicket(ticket: Ticket){
     try {
       await this.schedule.declineTicket(ticket);
@@ -316,6 +342,10 @@ export class TimelineComponent implements OnInit {
     window.open(`/api/Report/ForTimeline?` +
       `startDay=${this.range[0].getDate()}&startMonth=${this.range[0].getMonth() + 1}&startYear=${this.range[0].getFullYear()}`
       + `&endDay=${this.range[1].getDate()}&endMonth=${this.range[1].getMonth() + 1}&endYear=${this.range[1].getFullYear()}`);
+  }
+
+  downloadFile(fileId){
+    location.href = 'api/File/download?fileId=' + fileId;
   }
 
   currentWeek() {
@@ -340,6 +370,13 @@ export class TimelineComponent implements OnInit {
 
   getTooltip(ticket: Ticket) {
     return `Задание из чеклиста &laquo;${ticket.checklist.name}&raquo; <br/> пользователя <br/> ${ticket.checklist.user.fullName}`;
+  }
+
+  uploadEventHandler(e: UploadEvent) {
+    e.headers = e.headers.append('transaction-id', this.transactionId);
+  }
+  removeEventHandler(e: UploadEvent) {
+    e.headers = e.headers.append('transaction-id', this.transactionId);
   }
 
 }

@@ -173,6 +173,30 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        [HttpPost("SaveReply")]
+        public IActionResult SaveReply([FromBody] TicketViewModel ticket, string transactionId)
+        {
+            var foundTicket = Db.Tickets.FirstOrDefault(t => t.Id == ticket.Id);
+
+            if(foundTicket == null)
+            {
+                return BadRequest("Запись не найдена");
+            }
+
+            foundTicket.ResponseComment = ticket.ResponseComment;
+
+            var schoolId = Db.Users.First(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
+
+            var uploadedFiles = FileService.PutFilesInDb(transactionId, schoolId);
+
+            if(uploadedFiles.Count() != 0)
+            {
+                FileService.BindFilesToTicket(uploadedFiles, foundTicket.Id, TicketFileType.Outgoing);
+            }
+
+            return Ok();
+        }
+
         [HttpPost("EditFromChecklist")]
         public IActionResult EditFromChecklist([FromBody] TicketViewModel ticket)
         {

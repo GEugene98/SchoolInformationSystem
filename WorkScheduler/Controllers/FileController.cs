@@ -70,12 +70,11 @@ namespace WorkScheduler.Controllers
         {
             try
             {
-                //string filePath = fileService.GetFullPath(fileId);
-                //string fileType = "application/octet-stream";
-                //string fileName = Path.GetFileName(filePath);
+                string filePath = FileService.GetFullPath(fileId);
+                string fileName = Path.GetFileName(filePath);
 
-                //return PhysicalFile(filePath, fileType, fileName);
-                return Ok();
+                string fileType = "application/octet-stream";
+                return PhysicalFile(filePath, fileType, fileName);
             }
             catch (Exception ex)
             {

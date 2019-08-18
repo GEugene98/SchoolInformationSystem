@@ -21,6 +21,13 @@ export class ScheduleService {
     return await this.http.get<WorkSchedule[]>('api/Schedule/MyWorkSchedules').toPromise();
   }
 
+  async saveReply(ticket: Ticket, transactionId){
+    const urlParams = new HttpParams()
+      .set('transactionId', transactionId.toString());
+
+    return await this.http.post('api/Ticket/SaveReply', ticket, { params: urlParams }).toPromise();
+  }
+
   async deleteAction(action: Action) {
     const params = new HttpParams()
       .set('actionId', action.id.toString());

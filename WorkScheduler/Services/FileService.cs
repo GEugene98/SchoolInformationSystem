@@ -46,7 +46,7 @@ namespace WorkScheduler.Services
                 {
                     Name = f.Name,
                     Path = Path.Combine(schoolId, $"{DateTime.Now.Year}", transactionId, f.Name),
-                    Extension = f.Extension,
+                    Extension = f.Extension.Replace(".", string.Empty),
                     SizeMb = (f.Length / 1048576)
                 };
 
