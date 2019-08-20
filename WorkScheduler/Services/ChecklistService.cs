@@ -31,12 +31,28 @@ namespace WorkScheduler.Services
                 throw new Exception("Такого чек-листа не существует");
             }
 
-            var tickets = Db.Tickets
+            var ticketsQuery = Db.Tickets
                 .Where(t => t.ChecklistId == id)
                 .Include(t => t.User)
                 .OrderBy(t => t.Date)
                 .ThenBy(t => t.Hours)
-                .ThenBy(t => t.Minutes)
+                .ThenBy(t => t.Minutes);
+
+            var foundFiles = 
+                (
+                    from t in ticketsQuery
+                    join tf in Db.TicketFiles on t.Id equals tf.TicketId
+                    join f in Db.Files on tf.FileId equals f.Id
+                    select new 
+                    {
+                        TicketId = t.Id,
+                        Type = tf.Type,
+                        File = f
+                    }
+                )
+                .ToList();
+
+            var tickets = ticketsQuery
                 .Select(t => new TicketViewModel
                 {
                     Id = t.Id,
@@ -56,7 +72,28 @@ namespace WorkScheduler.Services
                     Hours = t.Hours,
                     Minutes = t.Minutes,
                     Status = t.Status,
-                    IsExpiered = t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date && t.Status != TicketStatus.Done
+                    ResponseComment = t.ResponseComment,
+                    IsExpiered = t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date && t.Status != TicketStatus.Done,
+                    InFiles = foundFiles
+                        .Where(f => f.TicketId == t.Id && f.Type == TicketFileType.Incoming)
+                        .Select (f => new FileViewModel
+                                        {
+                                            Id = f.File.Id,
+                                            Name = f.File.Name,
+                                            SizeMb = f.File.SizeMb,
+                                            Extension = f.File.Extension
+                                        }
+                                ),
+                    OutFiles = foundFiles
+                        .Where(f => f.TicketId == t.Id && f.Type == TicketFileType.Outgoing)
+                        .Select (f => new FileViewModel
+                                        {
+                                            Id = f.File.Id,
+                                            Name = f.File.Name,
+                                            SizeMb = f.File.SizeMb,
+                                            Extension = f.File.Extension
+                                        }
+                                )
                 })
                 .ToList();
 

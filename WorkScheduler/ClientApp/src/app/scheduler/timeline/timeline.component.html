@@ -115,8 +115,12 @@
     </div>
     <div class="modal-body">
         <div>
-          Вложения автора:
-            <table class="table">
+          <h5>Задание:</h5>
+          <p>{{checklistTicketToReply.name}}</p>
+          <br/>
+          <h5>Вложения автора:</h5>
+          <div *ngIf="checklistTicketToReply.inFiles.length == 0" style="text-align: center; margin-top: 25px; font-style: italic;"><span>Автор задания пока не оставил ни одного вложения</span></div>
+            <table class="table" *ngIf="checklistTicketToReply.inFiles.length != 0">
                 <thead>
                   <tr>
                     <th scope="col" style="width: 80%">Файл</th>
@@ -156,28 +160,16 @@
                 </tbody>
               </table>
         </div>
-
+        <br/>
         <div>
-            Ответный комментарий:
+            <h5>Ответный комментарий:</h5>
             <textarea [(ngModel)]="checklistTicketToReply.responseComment" class="form-control" placeholder="Комментарий"></textarea>
         </div>
-
-        <div>
-            Ответные вложения:
-            <kendo-upload [saveUrl]="fileUploadUrl"
-                          [removeUrl]="fileRemoveUrl"
-                          (upload)="uploadEventHandler($event)"
-                          (remove)="removeEventHandler($event)"
-                          (success)="uploaded($event)">
-              <kendo-upload-messages select="Открыть окно выбора файлов"
-                                     uploadSelectedFiles="Загрузить выбранные файлы"
-                                     clearSelectedFiles="Удалить выбранные файлы">
-              </kendo-upload-messages>
-            </kendo-upload>
-          </div>
-
+        <br/>
           <div>
-              <table class="table">
+            <h5>Ответные вложения: </h5>
+          <div *ngIf="checklistTicketToReply.outFiles.length == 0" style="text-align: center; margin-top: 25px; font-style: italic;"><span>Вы не оставили пока ни одного ответного вложения</span></div>
+              <table class="table" *ngIf="checklistTicketToReply.outFiles.length != 0">
                   <thead>
                     <tr>
                       <th scope="col" style="width: 80%">Файл</th>
@@ -216,6 +208,20 @@
                     </tr>
                   </tbody>
                 </table>
+
+                <div>
+                  Добавить вложения:
+                    <kendo-upload [saveUrl]="fileUploadUrl"
+                                  [removeUrl]="fileRemoveUrl"
+                                  (upload)="uploadEventHandler($event)"
+                                  (remove)="removeEventHandler($event)"
+                                  (success)="uploaded($event)">
+                      <kendo-upload-messages select="Открыть окно выбора файлов"
+                                             uploadSelectedFiles="Загрузить выбранные файлы"
+                                             clearSelectedFiles="Удалить выбранные файлы">
+                      </kendo-upload-messages>
+                    </kendo-upload>
+                  </div>
           </div>
   
 

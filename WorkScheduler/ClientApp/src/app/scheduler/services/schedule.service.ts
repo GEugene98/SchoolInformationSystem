@@ -28,6 +28,14 @@ export class ScheduleService {
     return await this.http.post('api/Ticket/SaveReply', ticket, { params: urlParams }).toPromise();
   }
 
+  async saveChecklistTicketDetails(ticket: Ticket, transactionId){
+    const urlParams = new HttpParams()
+      .set('transactionId', transactionId.toString())
+      .set('ticketId', ticket.id.toString());
+
+    return await this.http.get('api/Ticket/SaveChecklistTicketDetails', { params: urlParams }).toPromise();
+  }
+
   async deleteAction(action: Action) {
     const params = new HttpParams()
       .set('actionId', action.id.toString());

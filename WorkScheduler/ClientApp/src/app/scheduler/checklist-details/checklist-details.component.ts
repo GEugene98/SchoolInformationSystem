@@ -29,6 +29,8 @@ export class ChecklistDetailsComponent implements OnInit {
 
   newTicket: Ticket;
 
+  detailsTiclet: Ticket;
+
   transactionId: string;
   fileUploadUrl = '/api/File/UploadTemporaryFiles';
   fileRemoveUrl = '/api/File/RemoveTemporaryFiles';
@@ -84,6 +86,27 @@ export class ChecklistDetailsComponent implements OnInit {
       this.modalRef.hide();
       this.newTicket = new Ticket();
     } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+  openDetails(ticket: Ticket, modal) {
+    this.copy(ticket);
+    this.openModal(modal);
+  }
+
+  downloadFile(fileId){
+    location.href = 'api/File/download?fileId=' + fileId;
+  }
+
+  async saveReply(){
+    try {
+      await this.schedule.saveChecklistTicketDetails(this.newTicket, this.transactionId);
+      await this.loadData();
+      this.closeModal();
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Детали задания сохранены", life: 5000 });
+    } catch (e) {
+      console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
   }

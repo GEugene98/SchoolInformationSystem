@@ -255,13 +255,6 @@ export class TimelineComponent implements OnInit {
   ticketToAccept: Ticket;
 
   async acceptTicket(ticket: Ticket = null) {
-    // if(ticket != null){
-    //   this.ticketToAccept = Object.assign({}, ticket);
-    //   if(this.ticketToAccept.date){
-    //     this.ticketToAccept.date = new Date(this.ticketToAccept.date.toString()); //Костыль для ngx-datepicker'а
-    //   }
-    // }
-
     try {
       if (!ticket.date || !ticket.hours || (!ticket.minutes && ticket.minutes != 0)) {
         this.ticketToAccept = Object.assign({}, ticket);

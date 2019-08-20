@@ -197,6 +197,28 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        [HttpGet("SaveChecklistTicketDetails")]
+        public IActionResult SaveChecklistTicketDetails(long ticketId, string transactionId)
+        {
+            var foundTicket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
+
+            if(foundTicket == null)
+            {
+                return BadRequest("Запись не найдена");
+            }
+
+            var schoolId = Db.Users.First(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
+
+            var uploadedFiles = FileService.PutFilesInDb(transactionId, schoolId);
+
+            if(uploadedFiles.Count() != 0)
+            {
+                FileService.BindFilesToTicket(uploadedFiles, foundTicket.Id, TicketFileType.Incoming);
+            }
+
+            return Ok();
+        }
+
         [HttpPost("EditFromChecklist")]
         public IActionResult EditFromChecklist([FromBody] TicketViewModel ticket)
         {
