@@ -71,9 +71,9 @@ export class TimelineComponent implements OnInit {
     this.filterChecklistTickets();
     this.newTicket = new Ticket();
     this.newTicket.date = this.selectedDate;
+    this.userState.assignedTickets.state = await this.schedule.assignedTickets();
     let notifications = await this.dictionary.getNotifications();
     this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);
-    this.userState.assignedTickets.state = await this.schedule.assignedTickets();
     this.ngxService.stop();
   }
 
@@ -278,7 +278,6 @@ export class TimelineComponent implements OnInit {
       }
       await this.schedule.acceptTicket(ticket);
       await this.loadData();
-      this.userState.assignedTickets.state.splice(this.userState.assignedTickets.state.indexOf(ticket), 1);
       if (this.userState.assignedTickets.state.length == 0) {
         this.closeModal();
       }
@@ -297,7 +296,6 @@ export class TimelineComponent implements OnInit {
       await this.schedule.acceptTicket(this.ticketToAccept);
       await this.loadData();
       this.closeModal();
-      this.userState.assignedTickets.state.splice(this.userState.assignedTickets.state.indexOf(this.ticketToAccept), 1);
       if (this.userState.assignedTickets.state.length == 0) {
         this.closeModal();
       }

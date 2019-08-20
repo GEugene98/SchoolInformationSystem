@@ -302,7 +302,7 @@ namespace WorkScheduler.Services
             foundAction.Name = action.Name;
             foundAction.ConfirmationFormId = action.ConfirmationForm.Id;
 
-            if(foundAction.Status == ActionStatus.Confirmed || foundAction.Status == ActionStatus.Accepted)
+            if((foundAction.Status == ActionStatus.Confirmed || foundAction.Status == ActionStatus.Accepted) && role == "Учитель")
             {
                 foundAction.Status = ActionStatus.New;
             }
