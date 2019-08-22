@@ -108,10 +108,10 @@ namespace WorkScheduler.Services
             };
         }
 
-        public IEnumerable<ChecklistViewModel> GetOtherChecklists(params string[] userIdsToExclude)
+        public IEnumerable<ChecklistViewModel> GetOtherChecklists(int schoolId, params string[] userIdsToExclude)
         {
             var usersHavingChecklists = Db.Users
-                .Where(u => u.Checklists.Any() && !userIdsToExclude.Contains(u.Id));
+                .Where(u => u.Checklists.Any() && !userIdsToExclude.Contains(u.Id) && u.SchoolId == schoolId);
 
             var otherChecklists = new List<ChecklistViewModel>();
 

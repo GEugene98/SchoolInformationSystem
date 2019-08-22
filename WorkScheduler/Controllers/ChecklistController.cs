@@ -84,7 +84,9 @@ namespace WorkScheduler.Controllers
         public IActionResult GetOther()
         {
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
-            var checklists = ChecklistService.GetOtherChecklists(currentUser.Id);
+            var schoolId = (int)currentUser.SchoolId;
+
+            var checklists = ChecklistService.GetOtherChecklists(schoolId, currentUser.Id);
             return Ok(checklists);
         }
     }

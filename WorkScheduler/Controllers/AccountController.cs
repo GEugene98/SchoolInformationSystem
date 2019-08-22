@@ -38,12 +38,27 @@ namespace WorkScheduler.Controllers
                 return BadRequest("Указанной роли пользователя не существует");
             }
 
+            string username;
+            User foundUser;
+
+            Random rnd = new Random();
+
+            do
+            {
+                username = GenerateUsername(model.FirstName, model.LastName) + rnd.Next(0, 10);
+                foundUser = Context.Users.FirstOrDefault(u => u.UserName == username);
+            }
+            while (foundUser != null);
+
+            var schoolId = Context.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId;
+
             User user = new User
             {
-                UserName = GenerateUsername(model.FirstName, model.LastName),
+                UserName = username,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                SurName = model.SurName
+                SurName = model.SurName,
+                SchoolId = schoolId
             };
 
             var password = GeneratePassword();
@@ -143,6 +158,21 @@ namespace WorkScheduler.Controllers
             return Redirect("/");
         }
 
+        [Authorize(Roles = "Директор")]
+        [HttpGet("NewPassword")]
+        public async Task<IActionResult> NewPassword(string userId)
+        {
+            var user = Context.Users.FirstOrDefault(u => u.Id == userId);
+
+            await UserManager.RemovePasswordAsync(user);
+
+            var newPassword = GeneratePassword();
+
+            await UserManager.AddPasswordAsync(user, newPassword);
+
+            return Ok(newPassword);
+        }
+
         [HttpGet("Block")]
         public IActionResult Block(string userId)
         {
@@ -240,9 +270,7 @@ namespace WorkScheduler.Controllers
                 lastName = lastName.Replace(pair.Key, pair.Value);
             }
 
-            Random random = new Random();
-
-            return firstName[0].ToString() + lastName[0] + lastName[1] + lastName[2] + random.Next(1, 9);
+            return firstName[0].ToString() + lastName[0] + lastName[1] + lastName[2];
         }
 
     }

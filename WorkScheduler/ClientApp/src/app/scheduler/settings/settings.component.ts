@@ -29,6 +29,7 @@ export class SettingsComponent implements OnInit {
   firstName: string;
   lastName: string;
   surName: string;
+  email: string;
 
   constructor(private dictionary: DictionaryService,
     private account: AccountService,
@@ -49,14 +50,15 @@ export class SettingsComponent implements OnInit {
   }
 
   async create() {
-    let newUser = new Register();
-    newUser.firstName = this.firstName;
-    newUser.lastName = this.lastName;
-    newUser.surName = this.surName;
-    newUser.role = this.selectedRole.name;
+    let registerModel = new Register();
+    registerModel.firstName = this.firstName;
+    registerModel.lastName = this.lastName;
+    registerModel.surName = this.surName;
+    registerModel.role = this.selectedRole.name;
+    registerModel.email = this.email;
 
     try {
-      var result = await this.account.register(newUser);
+      var result = await this.account.register(registerModel);
       alert(`${result.fullName} Логин: ${result.username} Пароль: ${result.password}`);
       this.clear();
       await this.loadData();
@@ -100,5 +102,14 @@ export class SettingsComponent implements OnInit {
 
   async loadAllActivity() {
     this.allActivity = await this.dictionary.getAllActivity(this.range);
+  }
+
+  async generateNewPassword(){
+    alert('Новый пароль: ' + await this.account.getNewPassword(this.selectedUser.id));
+  }
+
+  async saveChanges(){
+    await this.dictionary.saveUser(this.selectedUser);
+    await this.loadData();
   }
 }

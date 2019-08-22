@@ -34,6 +34,10 @@ export class DictionaryService {
     return await this.http.get<User[]>('api/Dictionary/Users').toPromise();
   }
 
+  async saveUser(user: User) {
+    return await this.http.post('api/Dictionary/SaveUser', user).toPromise();
+  }
+
   async getRoles() {
     return await this.http.get<Dictionary<string>[]>('api/Dictionary/Roles').toPromise();
   }

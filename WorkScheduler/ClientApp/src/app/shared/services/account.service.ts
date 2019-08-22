@@ -19,4 +19,11 @@ export class AccountService {
 
     return await this.http.get('api/Account/Block', { params: params }).toPromise();
   }
+
+  async getNewPassword(userId: string) {
+    const params = new HttpParams()
+      .set('userId', userId.toString());
+
+    return await this.http.get<string>('api/Account/NewPassword', { params: params }).toPromise();
+  }
 }

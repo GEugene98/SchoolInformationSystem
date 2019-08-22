@@ -8,6 +8,8 @@ export class User {
   roles: string[];
   fullName: string;
   activity: string[];
+  role: string;
+  email: string;
 }
 
 export function isUserInRole(user: User, role: string) {

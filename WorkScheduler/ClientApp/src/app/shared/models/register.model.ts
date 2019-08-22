@@ -3,4 +3,5 @@ export class Register {
   lastName: string;
   surName: string;
   role: string;
+  email: string;
 }

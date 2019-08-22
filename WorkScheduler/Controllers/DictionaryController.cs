@@ -176,6 +176,25 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        [HttpPost("SaveUser")]
+        async public Task<IActionResult> SaveUser([FromBody] UserViewModel user)
+        {
+            var foundUser = Db.Users.FirstOrDefault(u => u.Id == user.Id);
+
+            foundUser.FirstName = user.FirstName;
+            foundUser.LastName = user.LastName;
+            foundUser.SurName = user.SurName;
+            foundUser.Email = user.Email;
+
+            var foundBindings = Db.UserRoles.Where(ur => ur.UserId == foundUser.Id);
+            Db.UserRoles.RemoveRange(foundBindings);
+            Db.SaveChanges();
+
+            await UserManager.AddToRoleAsync(foundUser, user.Role);
+
+            return Ok();
+        }
+
         [HttpGet("Users")]
         async public Task<IActionResult> Users()
         {
@@ -197,7 +216,9 @@ namespace WorkScheduler.Controllers
                     LastName = user.LastName,
                     SurName = user.SurName,
                     Name = user.UserName,
-                    Roles = roles
+                    Roles = roles,
+                    Email = user.Email,
+                    Role = roles.FirstOrDefault()
                 };
 
                 u.FullName = u.GetShortNameForm();
