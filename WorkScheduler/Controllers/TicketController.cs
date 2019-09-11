@@ -173,6 +173,15 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        [HttpGet("DeleteFileBinding")]
+        public IActionResult DeleteFileBinding(long fileId, long ticketId, TicketFileType type)
+        {
+            var bindings = Db.TicketFiles.Where(tf => tf.FileId == fileId && tf.TicketId == ticketId && tf.Type == type);
+            Db.TicketFiles.RemoveRange(bindings);
+            Db.SaveChanges();
+            return Ok();
+        }
+
         [HttpPost("SaveReply")]
         public IActionResult SaveReply([FromBody] TicketViewModel ticket, string transactionId)
         {
@@ -186,6 +195,8 @@ namespace WorkScheduler.Controllers
             foundTicket.ResponseComment = ticket.ResponseComment;
 
             var schoolId = Db.Users.First(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
+
+            Db.SaveChanges();
 
             var uploadedFiles = FileService.PutFilesInDb(transactionId, schoolId);
 

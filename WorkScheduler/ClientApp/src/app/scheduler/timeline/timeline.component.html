@@ -204,6 +204,7 @@
                       <td>{{file.sizeMb}} Мб</td>
                       <td style="text-align: center">
                         <a title="Скачать" (click)="downloadFile(file.id)" href="javascript:void(0)"><span style="color: green" class="glyphicon glyphicon-save" aria-hidden="true"></span></a>
+                        <a title="Удалить" href="javascript:void(0)" (click)="deleteFileBinding(file, checklistTicketToReply)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                       </td>
                     </tr>
                   </tbody>

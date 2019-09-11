@@ -50,6 +50,10 @@ export class ChecklistDetailsComponent implements OnInit {
   ngOnInit() {
     this.transactionId = guid();
     this.loadData();
+
+    setInterval(async () => {
+      this.checklist = await this.schedule.getChecklist(this.checklistId);
+    }, 30000); 
   }
 
   async loadData(){
@@ -74,6 +78,16 @@ export class ChecklistDetailsComponent implements OnInit {
     this.newTicket = Object.assign({}, ticket);
     if(this.newTicket.date)
       this.newTicket.date = new Date(this.newTicket.date.toString()); //Костыль для ngx-datepicker'а
+  }
+
+
+  async deleteFileBinding(file, ticket: Ticket) {
+    await this.schedule.deleteFileBinding(file.id, ticket.id, 1);
+
+    var index = ticket.inFiles.indexOf(file);
+    if (index > -1) {
+      ticket.inFiles.splice(index, 1);
+    }
   }
 
   async addTicket(){

@@ -35,7 +35,7 @@ namespace WorkScheduler.Services
 
             var fromMail = serviceMessage ? "app.service-info@yandex.ru" : "school.service-info@yandex.ru";
 
-            MailAddress from = new MailAddress(fromMail, "Информационная система МКОУ \"Ширинская СОШ\"");
+            MailAddress from = new MailAddress(fromMail, "Информационная система школы");
             MailAddress to = new MailAddress(receiverEmail);
             MailMessage message = new MailMessage(from, to);
 
@@ -54,17 +54,16 @@ namespace WorkScheduler.Services
             smtp.Send(message);
         }
 
-        public async Task NotifyToConfirmActions()
+        public async Task NotifyToConfirmActions(int schoolId)
         {
             var subject = "Мероприятия для согласования";
             var content = $@"
             <h3>Здравствуйте, USERNAME!</h3> 
-            <p>Так как в информационной системе школы вы имеете роль администратора, 
-            вам необходимо зайти в программу ""Планирование"", чтобы согласовать или отклонить некоторые мероприятия</p>";
+            <p>Появились новые мероприятия для согласования! Зайдите в программу <a href=""http://school-is.ru/"" target=""_blank"">Планирование</a>, чтобы согласовать или отклонить мероприятия</p>";
 
             var admins = await UserManager.GetUsersInRoleAsync("Администратор");
 
-            var receivers = admins.Where(r => r.GetNotifications && !String.IsNullOrWhiteSpace(r.Email));
+            var receivers = admins.Where(r => r.GetNotifications && !String.IsNullOrWhiteSpace(r.Email) && r.SchoolId == schoolId);
 
             foreach (var user in receivers)
             {
@@ -72,17 +71,16 @@ namespace WorkScheduler.Services
             }
         }
 
-        public async Task NotifyToAcceptActions()
+        public async Task NotifyToAcceptActions(int schoolId)
         {
             var subject = "Мероприятия для утверждения";
             var content = $@"
             <h3>Здравствуйте, USERNAME!</h3> 
-            <p>Так как в информационной системе школы вы имеете роль директора, 
-            вам необходимо зайти в программу ""Планирование"", чтобы утвердить или отклонить некоторые мероприятия</p>";
+            <p>Появились новые мероприятия для утверждения! Зайдите в программу <a href=""http://school-is.ru/"" target=""_blank"">Планирование</a>, чтобы утвердить или отклонить мероприятия</p>";
 
             var directors = await UserManager.GetUsersInRoleAsync("Директор");
 
-            var receivers = directors.Where(r => r.GetNotifications && !String.IsNullOrWhiteSpace(r.Email));
+            var receivers = directors.Where(r => r.GetNotifications && !String.IsNullOrWhiteSpace(r.Email) && r.SchoolId == schoolId);
 
             foreach (var user in receivers)
             {

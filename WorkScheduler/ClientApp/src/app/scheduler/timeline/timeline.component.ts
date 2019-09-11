@@ -63,6 +63,11 @@ export class TimelineComponent implements OnInit {
   async ngOnInit() {
     this.transactionId = guid();
     await this.loadData();
+
+    setInterval(async () => {
+      this.originalPacks = await this.schedule.myTicketPacks(this.range);
+      this.filterChecklistTickets();
+    }, 30000); 
   }
 
   async loadData() {
@@ -130,6 +135,16 @@ export class TimelineComponent implements OnInit {
     }
     return true;
   }
+
+  async deleteFileBinding(file, ticket: Ticket) {
+    await this.schedule.deleteFileBinding(file.id, ticket.id, 2);
+
+    var index = ticket.outFiles.indexOf(file);
+    if (index > -1) {
+      ticket.outFiles.splice(index, 1);
+    }
+  }
+
 
   async delete(ticket: Ticket) {
     if (ticket.hasChecklist) {

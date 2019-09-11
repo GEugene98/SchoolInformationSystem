@@ -525,7 +525,7 @@ namespace WorkScheduler.Services
             return schedule;
         }
 
-        public async Task AllowConfirm(IEnumerable<int> actionIdsToAllowConfirm)
+        public async Task AllowConfirm(IEnumerable<int> actionIdsToAllowConfirm, int schoolId)
         {
             var actionsToAllowConfirm = Db.Actions.Where(a => actionIdsToAllowConfirm.Contains(a.Id) && a.Status != ActionStatus.Accepted && a.Status != ActionStatus.Confirmed);
 
@@ -533,11 +533,11 @@ namespace WorkScheduler.Services
             {
                 await actionsToAllowConfirm.ForEachAsync(a => a.Status = Models.Enums.ActionStatus.NeedConfirm);
                 await Db.SaveChangesAsync();
-                await NotificationService.NotifyToConfirmActions();
+                await NotificationService.NotifyToConfirmActions(schoolId);
             }
         }
 
-        public async Task Confirm(IEnumerable<int> actionIdsToConfirm)
+        public async Task Confirm(IEnumerable<int> actionIdsToConfirm, int schoolId)
         {
             var actionsToConfirm = Db.Actions.Where(a => actionIdsToConfirm.Contains(a.Id) && a.Status != ActionStatus.Accepted);
 
@@ -545,7 +545,7 @@ namespace WorkScheduler.Services
             {
                 await actionsToConfirm.ForEachAsync(a => a.Status = Models.Enums.ActionStatus.Confirmed);
                 await Db.SaveChangesAsync();
-                await NotificationService.NotifyToAcceptActions();
+                await NotificationService.NotifyToAcceptActions(schoolId);
             }
         }
 

@@ -113,7 +113,8 @@ namespace WorkScheduler.Controllers
         [HttpPost("AllowConfirm")]
         public async Task<IActionResult> AllowConfirm([FromBody]IEnumerable<int> actionIds)
         {
-            await SchedulerService.AllowConfirm(actionIds);
+            var schoolId = (int)Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId;
+            await SchedulerService.AllowConfirm(actionIds, schoolId);
             return Ok();
         }
 
@@ -121,7 +122,8 @@ namespace WorkScheduler.Controllers
         [HttpPost("Confirm")]
         public async Task<IActionResult> Confirm([FromBody]IEnumerable<int> actionIds)
         {
-            await SchedulerService.Confirm(actionIds);
+            var schoolId = (int)Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId;
+            await SchedulerService.Confirm(actionIds, schoolId);
             return Ok();
         }
 
