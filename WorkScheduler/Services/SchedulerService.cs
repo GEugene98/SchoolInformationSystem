@@ -539,7 +539,7 @@ namespace WorkScheduler.Services
 
         public async Task Confirm(IEnumerable<int> actionIdsToConfirm)
         {
-            var actionsToConfirm = Db.Actions.Where(a => actionIdsToConfirm.Contains(a.Id));
+            var actionsToConfirm = Db.Actions.Where(a => actionIdsToConfirm.Contains(a.Id) && a.Status != ActionStatus.Accepted);
 
             if (actionsToConfirm.Count() > 0)
             {

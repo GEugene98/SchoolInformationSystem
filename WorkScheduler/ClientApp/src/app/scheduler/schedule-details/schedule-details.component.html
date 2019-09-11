@@ -66,7 +66,7 @@
       <div style="float: right">
         <button type="button" (click)="openExportModal(exportModal)" class="btn btn-info"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Экспортировать в другой план</button>
         <button *ngIf="checkRole('Учитель')" type="button" (click)="confirm()" class="btn btn-warning">Отправить отмеченные мероприятия на согласование</button>
-        <!-- <button *ngIf="checkRole('Администратор')" type="button" (click)="accept()" class="btn btn-warning">Отправить отмеченные мероприятия на утверждение</button> -->
+        <button *ngIf="checkRole('Администратор')" type="button" (click)="accept()" class="btn btn-warning">Отправить отмеченные мероприятия на утверждение</button>
       </div>
     </div>
   </div>
