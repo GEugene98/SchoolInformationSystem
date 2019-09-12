@@ -152,7 +152,9 @@ export class TimelineComponent implements OnInit {
 
   async delete(ticket: Ticket) {
     if (ticket.hasChecklist) {
-      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Удалить запись здесь нельзя, так как она находится в чек-листе. Удалите ее в чек-листе, если он принадлежит Вам.', life: 5000 });
+      await this.schedule.declineTicket(ticket);
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задание отклонено", life: 5000 });
+      await this.loadData();
       return;
     }
 
