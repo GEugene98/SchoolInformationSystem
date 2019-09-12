@@ -137,11 +137,15 @@ export class TimelineComponent implements OnInit {
   }
 
   async deleteFileBinding(file, ticket: Ticket) {
-    await this.schedule.deleteFileBinding(file.id, ticket.id, 2);
+    try {
+      await this.schedule.deleteFileBinding(file.id, ticket.id, 2);
 
-    var index = ticket.outFiles.indexOf(file);
-    if (index > -1) {
-      ticket.outFiles.splice(index, 1);
+      var index = ticket.outFiles.indexOf(file);
+      if (index > -1) {
+        ticket.outFiles.splice(index, 1);
+      }
+    } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
   }
 

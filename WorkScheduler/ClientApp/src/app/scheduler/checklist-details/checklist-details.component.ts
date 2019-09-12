@@ -82,11 +82,16 @@ export class ChecklistDetailsComponent implements OnInit {
 
 
   async deleteFileBinding(file, ticket: Ticket) {
-    await this.schedule.deleteFileBinding(file.id, ticket.id, 1);
+    try {
+      await this.schedule.deleteFileBinding(file.id, ticket.id, 1);
 
-    var index = ticket.inFiles.indexOf(file);
-    if (index > -1) {
-      ticket.inFiles.splice(index, 1);
+      var index = ticket.inFiles.indexOf(file);
+      if (index > -1) {
+        ticket.inFiles.splice(index, 1);
+      }
+
+    } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
   }
 
