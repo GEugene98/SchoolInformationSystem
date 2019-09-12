@@ -31,6 +31,8 @@ namespace WorkScheduler.Services
 
             var tickets = Db.Tickets
                 .Include(t => t.Action)
+                .Include(t => t.Checklist)
+                .Include(t => t.Checklist.User)
                 .Include(t => t.Action.ConfirmationForm)
                 .Include(t => t.Action.WorkSchedule)
                 .Include(t => t.Action.WorkSchedule.Activity)
@@ -123,6 +125,16 @@ namespace WorkScheduler.Services
                     Important = t.Important,
                     HasChecklist = t.ChecklistId != null,
                     IsExpiered = t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date && t.Status != TicketStatus.Done,
+                    Checklist = (t.ChecklistId != null) ? new ChecklistViewModel
+                    {
+                        Id = t.Checklist.Id,
+                        Name = t.Checklist.Name,
+                        User = new UserViewModel
+                        {
+                            Id = t.Checklist.User.Id,
+                            FullName = $"{t.Checklist.User.LastName} {t.Checklist.User.FirstName[0]}.{t.Checklist.User.SurName[0]}."
+                        }
+                    } : null,
                     User = new UserViewModel
                     {
                         Id = t.User.Id,
