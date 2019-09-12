@@ -107,7 +107,16 @@ namespace WorkScheduler.Controllers
         [HttpGet("Actions")]
         public IActionResult GetActions(int workScheduleId)
         {
-            return Ok(SchedulerService.GetActionsFor(workScheduleId));
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            var actions = SchedulerService.GetActionsFor(workScheduleId, currentUser.Id);
+
+            if (actions == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(actions);
         }
 
         [HttpPost("AllowConfirm")]
@@ -157,7 +166,7 @@ namespace WorkScheduler.Controllers
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
             var schedule = SchedulerService.GetSchedule(scheduleId);
             var recievers = new List<User>() { currentUser };
-            var actions = SchedulerService.GetActionsFor(scheduleId);
+            var actions = SchedulerService.GetActionsFor(scheduleId, currentUser.Id);
             NotificationService.SendSchedule(schedule, actions, recievers);
             return Ok();
         }

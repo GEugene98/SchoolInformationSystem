@@ -73,7 +73,11 @@ export class ScheduleDetailsComponent implements OnInit {
     this.currentSchedule = await this.schedule.getSchedule(this.scheduleId);
     this.allActivities = await this.dictionary.getActivities();
     this.allAcademicYears = await this.dictionary.getAcademicYears();
-    this.actions = await this.schedule.getActions(this.scheduleId);
+    try {
+      this.actions = await this.schedule.getActions(this.scheduleId);
+    } catch (e) {
+      location.href = '/scheduler/my-schedule';
+    }
     this.allResponsibles = this.dictionary.getResponsibles();
     this.allConfForms = this.dictionary.getConfForms();
     this.mySchedules = await this.schedule.getMyWorkSchedules();

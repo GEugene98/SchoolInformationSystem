@@ -95,24 +95,28 @@ namespace WorkScheduler.Services
                 .ToList();
         }
 
-        public IEnumerable<ActionViewModel> GetActionsFor(int workScheduleId, int count = 100000)
+        public IEnumerable<ActionViewModel> GetActionsFor(int workScheduleId, string userId)
         {
+            var workSchedule = Db.WorkSchedules
+                .Include(ws => ws.AcademicYear)
+                .Include(ws => ws.Activity)
+                .FirstOrDefault(ws => ws.Id == workScheduleId);
+
+            if (workSchedule.UserId != userId)
+            {
+                return null;
+            }
+
             var actionUsers = Db.ActionUsers
                 .Where(au => au.Action.WorkScheduleId == workScheduleId && au.Action.IsDeleted == false)
                 .Include(au => au.User)
                 .Include(au => au.Action)
                 .ToList();
 
-            var workSchedule = Db.WorkSchedules
-                .Include(ws => ws.AcademicYear)
-                .Include(ws => ws.Activity)
-                .FirstOrDefault(ws => ws.Id == workScheduleId);
-
             return Db.Actions
                 .Include(a => a.ConfirmationForm)
                 .Where(a => a.WorkScheduleId == workScheduleId && a.IsDeleted == false)
                 .OrderBy(a => a.Date)
-                .Take(count)
                 .ToList()
                 .Select(a => new ActionViewModel
                 {
@@ -302,12 +306,12 @@ namespace WorkScheduler.Services
             foundAction.Name = action.Name;
             foundAction.ConfirmationFormId = action.ConfirmationForm.Id;
 
-            if((foundAction.Status == ActionStatus.Confirmed || foundAction.Status == ActionStatus.Accepted) && role == "Учитель")
+            if ((foundAction.Status == ActionStatus.Confirmed || foundAction.Status == ActionStatus.Accepted) && role == "Учитель")
             {
                 foundAction.Status = ActionStatus.New;
             }
 
-            if(role == "Администратор" && foundAction.Status == ActionStatus.Accepted)
+            if (role == "Администратор" && foundAction.Status == ActionStatus.Accepted)
             {
                 foundAction.Status = ActionStatus.Confirmed;
             }
@@ -355,14 +359,15 @@ namespace WorkScheduler.Services
             Db.SaveChanges();
         }
 
-        public void EditSchedule(WorkScheduleViewModel schedule){
+        public void EditSchedule(WorkScheduleViewModel schedule)
+        {
 
             var found = Db.WorkSchedules.FirstOrDefault(ws => ws.Id == schedule.Id);
 
-            if(found == null)
+            if (found == null)
             {
                 throw new Exception("План не найден");
-            } 
+            }
 
             found.Name = schedule.Name;
             found.AcademicYearId = schedule.AcademicYear.Id;

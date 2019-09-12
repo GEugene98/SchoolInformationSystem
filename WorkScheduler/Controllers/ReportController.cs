@@ -49,12 +49,14 @@ namespace WorkScheduler.Controllers
         [HttpGet("ForSchedule")]
         public IActionResult ForSchedule(int scheduleId, int confDay, int confMonth, int confYear, int acpDay, int acpMonth, int acpYear)
         {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
             var confDate = new DateTime(confYear, confMonth, confDay);
             var acpDate = new DateTime(acpYear, acpMonth, acpDay);
 
             try
             {
-                var report = ReportService.GetScheduleReport(scheduleId, confDate, acpDate);
+                var report = ReportService.GetScheduleReport(scheduleId, confDate, acpDate, currentUser.Id);
                 return File(report, "application/pdf");
             }
             catch (Exception ex)
