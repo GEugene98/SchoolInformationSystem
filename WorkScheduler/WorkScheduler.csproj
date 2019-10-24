@@ -72,6 +72,10 @@
     <None Remove="ClientApp\src\app\shared\services\dictionary.service.ts" />
     <None Remove="ClientApp\src\app\shared\services\schedule.service.ts" />
     <None Remove="ClientApp\src\app\shared\services\user.state.ts" />
+    <None Remove="ClientApp\src\app\shared\table\checklist-filter.ts" />
+    <None Remove="ClientApp\src\app\shared\table\sort-direction.ts" />
+    <None Remove="ClientApp\src\app\shared\table\table-request.ts" />
+    <None Remove="ClientApp\src\app\shared\table\table-response.ts" />
     <None Remove="libwkhtmltox.dll" />
   </ItemGroup>
 
@@ -120,6 +124,10 @@
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\dictionary.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\scheduler\services\schedule.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\states\user.state.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\table\checklist\checklist-filter.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\table\sort-direction.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\table\table-request.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\table\table-response.ts" />
   </ItemGroup>
 
   <ItemGroup>

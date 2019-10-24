@@ -17,6 +17,7 @@ namespace WorkScheduler.ViewModels
         public bool Done { get; set; }
         public bool Important { get; set; }
         public DateTime? Date { get; set; }
+        public DateTime? Created { get; set; }
         public byte? Hours { get; set; }
         public byte? Minutes { get; set; }
         public ChecklistViewModel Checklist { get; set; }

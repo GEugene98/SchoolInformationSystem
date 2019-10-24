@@ -9,6 +9,9 @@ import { TicketPack } from "../../shared/models/ticket-pack.model";
 import { tick } from "@angular/core/testing";
 import { Dictionary } from "../../shared/models/dictionary.model";
 import { Checklist } from "../../shared/models/checklist.model";
+import { ChecklistFilter } from "../../shared/table/checklist/checklist-filter";
+import { TableRequest } from "../../shared/table/table-request";
+import { TableResponse } from "../../shared/table/table-response";
 
 @Injectable()
 export class ScheduleService {
@@ -235,11 +238,11 @@ export class ScheduleService {
     return await this.http.get<Checklist[]>('api/Checklist/MyChecklists').toPromise();
   }
 
-  async getChecklist(id: number) {
+  async getChecklist(id: number, requestDetails: TableRequest<ChecklistFilter>) {
     const params = new HttpParams()
       .set('id', id.toString());
 
-    return await this.http.get<Checklist>('api/Checklist/GetById', { params: params }).toPromise();
+    return await this.http.post<TableResponse<Checklist>>('api/Checklist/GetById', requestDetails, { params: params }).toPromise();
   }
 
   async addChecklist(checklist: Checklist) {

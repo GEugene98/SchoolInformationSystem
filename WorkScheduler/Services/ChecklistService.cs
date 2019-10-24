@@ -71,6 +71,7 @@ namespace WorkScheduler.Services
                     Date = t.Date,
                     Hours = t.Hours,
                     Minutes = t.Minutes,
+                    Created = t.Created,
                     Status = t.Status,
                     ResponseComment = t.ResponseComment,
                     IsExpiered = t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date && t.Status != TicketStatus.Done,

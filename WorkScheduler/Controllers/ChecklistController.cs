@@ -3,7 +3,9 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorkScheduler.Services;
+using WorkScheduler.ViewModels;
 using WorkScheduler.ViewModels.Scheduler;
+using WorkScheduler.ViewModels.Scheduler.Filtering;
 
 namespace WorkScheduler.Controllers
 {
@@ -20,11 +22,35 @@ namespace WorkScheduler.Controllers
             ChecklistService = checklistService;
         }
 
-        [HttpGet("GetById")]
-        public IActionResult GetById(int id)
+        [HttpPost("GetById")]
+        public IActionResult GetById(int id, [FromBody]RequestDetails<ChecklistFilter> requestDetails)
         {
             var checklist = ChecklistService.GetChecklistById(id);
-            return Ok(checklist);
+
+            if (requestDetails.Filter != null)
+            {
+                if (!String.IsNullOrWhiteSpace(requestDetails.Filter.Date))
+                    checklist.Tickets.Where(t => t.Date.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Date));
+                if (!String.IsNullOrWhiteSpace(requestDetails.Filter.Created))
+                    checklist.Tickets.Where(t => t.Date.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Created));
+            }
+
+            if (requestDetails.SortDirection == SortDirection.Ascending)
+                checklist.Tickets = checklist.Tickets.OrderBy(t => t.GetType().GetProperty(requestDetails.SortProperty).GetValue(t, null));
+            else
+                checklist.Tickets = checklist.Tickets.OrderByDescending(t => t.GetType().GetProperty(requestDetails.SortProperty).GetValue(t, null));
+
+            var response = new Response<ChecklistViewModel>()
+            {
+                TotalItemCount = checklist.Tickets.Count(),
+                PageCount = checklist.Tickets.Count() / requestDetails.PageSize
+            };
+
+            checklist.Tickets = checklist.Tickets.Skip((requestDetails.PageNumber - 1) * requestDetails.PageSize).Take(requestDetails.PageSize);
+
+            response.Body = checklist;
+
+            return Ok(response);
         }
 
         [HttpPost("Add")]

@@ -11,6 +11,9 @@ import { Title } from '@angular/platform-browser';
 import { NgxUiLoaderService } from 'ngx-ui-loader'
 import { SuccessEvent, UploadEvent } from '@progress/kendo-angular-upload';
 import { guid } from '../../shared/guid';
+import { SortDirection } from '../../shared/table/sort-direction';
+import { ChecklistFilter } from '../../shared/table/checklist/checklist-filter';
+import { TableRequest } from '../../shared/table/table-request';
 
 @Component({
   selector: 'app-checklist-details',
@@ -35,6 +38,14 @@ export class ChecklistDetailsComponent implements OnInit {
   fileUploadUrl = '/api/File/UploadTemporaryFiles';
   fileRemoveUrl = '/api/File/RemoveTemporaryFiles';
 
+  sortProperty: string = 'Created';
+  sortDirection: SortDirection = SortDirection.Descending;
+  filter = new ChecklistFilter();
+
+  currentPage: number = 1;
+  totalPages: number;
+  totalItemCount: number;
+
   constructor(private activateRoute: ActivatedRoute,
     private modalService: BsModalService,
     private dictionary: DictionaryService,
@@ -52,17 +63,39 @@ export class ChecklistDetailsComponent implements OnInit {
     this.loadData();
 
     setInterval(async () => {
-      this.checklist = await this.schedule.getChecklist(this.checklistId);
+      let response = await this.schedule.getChecklist(this.checklistId, this.getRequestDetails());
+      this.checklist = response.body;
+      this.totalItemCount = response.totalItemCount;
+      this.totalPages = response.pageCount;
     }, 30000); 
   }
 
   async loadData(){
     this.ngxService.start();
-    this.checklist = await this.schedule.getChecklist(this.checklistId);
+    let response = await this.schedule.getChecklist(this.checklistId, this.getRequestDetails());
+    this.checklist = response.body;
+    this.totalItemCount = response.totalItemCount;
+    this.totalPages = response.pageCount;
     this.titleService.setTitle(this.checklist.name);
     this.responsibles = this.dictionary.getResponsibles();
     this.newTicket = new Ticket();
     this.ngxService.stop();
+  }
+
+  async sort(sortProperty: string) {
+    this.sortDirection = (this.sortDirection == SortDirection.Ascending) ? SortDirection.Descending : SortDirection.Ascending;
+    this.sortProperty = sortProperty;
+    await this.loadData();
+  }
+
+  getRequestDetails(): TableRequest<ChecklistFilter> {
+    let reqest = new TableRequest<ChecklistFilter>();
+    reqest.filter = this.filter;
+    reqest.pageNumber = this.currentPage;
+    reqest.pageSize = 15;
+    reqest.sortDirection = this.sortDirection;
+    reqest.sortProperty = this.sortProperty;
+    return reqest;
   }
 
   openModal(modal) {

@@ -18,10 +18,17 @@
 <table class="table" *ngIf="checklist.tickets && checklist.tickets.length != 0">
   <thead>
     <tr>
-      <th scope="col" style="width: 8%">Дата</th>
+      <th scope="col" style="width: 8%">
+        <a href="javascript:void(0)" (click)="sort('Created')">Дата создания</a>
+        <input [(ngModel)]="filter.created" (ngModelChange)="loadData()" type="text" class="form-control" />
+      </th>
+      <th scope="col" style="width: 8%">
+        <a href="javascript:void(0)" (click)="sort('Date')">Дата выполнения</a>
+        <input [(ngModel)]="filter.date" (ngModelChange)="loadData()" type="text" class="form-control" />
+      </th>
       <th scope="col" style="width: 5%">Время</th>
-      <th scope="col" style="width: 27%">Наименование</th>
-      <th scope="col" style="width: 30%">Комментарий</th>
+      <th scope="col" style="width: 25%">Наименование</th>
+      <th scope="col" style="width: 25%">Комментарий</th>
       <th scope="col" style="width: 15%">Кому назначена</th>
       <th scope="col" style="width: 7%">Статус</th>
       <th scope="col" style="width: 7%">Действия</th>
@@ -33,6 +40,7 @@
         [class.red]="ticket.isExpiered && ticket.status != 3"
         [class.yellow]="ticket.status == 2"
         [class.green]="ticket.status == 4">
+      <td>{{ticket.created | date : 'dd.MM.yyyy'}}</td>
       <td>{{ticket.date | date : 'dd.MM.yyyy'}}</td>
       <td><span>{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes == 0">0</span></span></td>
       <td>
@@ -65,6 +73,11 @@
     </tr>
   </tbody>
 </table>
+
+<div>
+  <h6>Страница {{currentPage}} из {{totalPages}}</h6>
+  <pagination [totalItems]="totalItemCount" [(ngModel)]="currentPage" (pageChanged)="currentPage = $event.page; loadData()" [maxSize]="5" [itemsPerPage]="15"></pagination>
+</div>
 
 <ng-template #detailsModal>
     <div class="modal-header">
