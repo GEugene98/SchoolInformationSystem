@@ -70,8 +70,8 @@ export class ChecklistDetailsComponent implements OnInit {
     }, 30000); 
   }
 
-  async loadData(){
-    this.ngxService.start();
+  async loadData(showLoader: boolean = true) {
+    if (showLoader) this.ngxService.start();
     let response = await this.schedule.getChecklist(this.checklistId, this.getRequestDetails());
     this.checklist = response.body;
     this.totalItemCount = response.totalItemCount;
@@ -79,7 +79,7 @@ export class ChecklistDetailsComponent implements OnInit {
     this.titleService.setTitle(this.checklist.name);
     this.responsibles = this.dictionary.getResponsibles();
     this.newTicket = new Ticket();
-    this.ngxService.stop();
+    if (showLoader)this.ngxService.stop();
   }
 
   async sort(sortProperty: string) {
@@ -113,6 +113,9 @@ export class ChecklistDetailsComponent implements OnInit {
       this.newTicket.date = new Date(this.newTicket.date.toString()); //Костыль для ngx-datepicker'а
   }
 
+  scrollToTop() {
+    window.scrollTo(0, 0);
+  }
 
   async deleteFileBinding(file, ticket: Ticket) {
     try {

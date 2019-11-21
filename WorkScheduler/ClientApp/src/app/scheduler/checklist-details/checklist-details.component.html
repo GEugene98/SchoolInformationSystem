@@ -15,16 +15,18 @@
 <div style="text-align: center; margin-top: 50px; font-style: italic;"
      *ngIf="!checklist.tickets || checklist.tickets.length == 0"><span>Заданий нет</span></div>
 
+<h6 *ngIf="checklist.tickets && checklist.tickets.length != 0" style="text-align: right">Страница {{currentPage}} из {{totalPages}}</h6>
+
 <table class="table" *ngIf="checklist.tickets && checklist.tickets.length != 0">
   <thead>
     <tr>
       <th scope="col" style="width: 8%">
         <a href="javascript:void(0)" (click)="sort('Created')">Дата создания</a>
-        <input [(ngModel)]="filter.created" (ngModelChange)="loadData()" type="text" class="form-control" />
+        <input [(ngModel)]="filter.created" (ngModelChange)="loadData(false)" type="text" class="form-control" />
       </th>
       <th scope="col" style="width: 8%">
         <a href="javascript:void(0)" (click)="sort('Date')">Дата выполнения</a>
-        <input [(ngModel)]="filter.date" (ngModelChange)="loadData()" type="text" class="form-control" />
+        <input [(ngModel)]="filter.date" (ngModelChange)="loadData(false)" type="text" class="form-control" />
       </th>
       <th scope="col" style="width: 5%">Время</th>
       <th scope="col" style="width: 25%">Наименование</th>
@@ -75,8 +77,7 @@
 </table>
 
 <div>
-  <h6>Страница {{currentPage}} из {{totalPages}}</h6>
-  <pagination [totalItems]="totalItemCount" [(ngModel)]="currentPage" (pageChanged)="currentPage = $event.page; loadData()" [maxSize]="5" [itemsPerPage]="15"></pagination>
+  <pagination nextText="Далее" previousText="Назад" [totalItems]="totalItemCount" [(ngModel)]="currentPage" (pageChanged)="currentPage = $event.page; loadData(); scrollToTop()" [maxSize]="5" [itemsPerPage]="15"></pagination>
 </div>
 
 <ng-template #detailsModal>

@@ -30,9 +30,9 @@ namespace WorkScheduler.Controllers
             if (requestDetails.Filter != null)
             {
                 if (!String.IsNullOrWhiteSpace(requestDetails.Filter.Date))
-                    checklist.Tickets.Where(t => t.Date.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Date));
+                    checklist.Tickets = checklist.Tickets.Where(t => t.Date.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Date));
                 if (!String.IsNullOrWhiteSpace(requestDetails.Filter.Created))
-                    checklist.Tickets.Where(t => t.Date.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Created));
+                    checklist.Tickets = checklist.Tickets.Where(t => t.Date.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Created));
             }
 
             if (requestDetails.SortDirection == SortDirection.Ascending)
@@ -43,7 +43,7 @@ namespace WorkScheduler.Controllers
             var response = new Response<ChecklistViewModel>()
             {
                 TotalItemCount = checklist.Tickets.Count(),
-                PageCount = checklist.Tickets.Count() / requestDetails.PageSize
+                PageCount = (int)Math.Ceiling(((decimal)checklist.Tickets.Count() / (decimal)requestDetails.PageSize))
             };
 
             checklist.Tickets = checklist.Tickets.Skip((requestDetails.PageNumber - 1) * requestDetails.PageSize).Take(requestDetails.PageSize);
