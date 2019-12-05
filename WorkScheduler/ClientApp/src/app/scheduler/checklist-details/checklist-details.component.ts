@@ -106,7 +106,16 @@ export class ChecklistDetailsComponent implements OnInit {
   closeModal() {
     this.modalRef.hide();
   }
-  
+
+  boundaryLinks() {
+    if (this.totalPages >= 5) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
   copy(ticket: Ticket) {
     this.newTicket = Object.assign({}, ticket);
     if(this.newTicket.date)

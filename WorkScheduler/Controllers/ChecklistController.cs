@@ -32,13 +32,13 @@ namespace WorkScheduler.Controllers
                 if (!String.IsNullOrWhiteSpace(requestDetails.Filter.Date))
                     checklist.Tickets = checklist.Tickets.Where(t => t.Date.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Date));
                 if (!String.IsNullOrWhiteSpace(requestDetails.Filter.Created))
-                    checklist.Tickets = checklist.Tickets.Where(t => t.Date.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Created));
+                    checklist.Tickets = checklist.Tickets.Where(t => t.Created.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Created));
             }
 
             if (requestDetails.SortDirection == SortDirection.Ascending)
-                checklist.Tickets = checklist.Tickets.OrderBy(t => t.GetType().GetProperty(requestDetails.SortProperty).GetValue(t, null));
+                checklist.Tickets = checklist.Tickets.OrderBy(t => t.GetType().GetProperty(requestDetails.SortProperty).GetValue(t, null)).ThenBy(t => t.Hours).ThenBy(t => t.Minutes);
             else
-                checklist.Tickets = checklist.Tickets.OrderByDescending(t => t.GetType().GetProperty(requestDetails.SortProperty).GetValue(t, null));
+                checklist.Tickets = checklist.Tickets.OrderByDescending(t => t.GetType().GetProperty(requestDetails.SortProperty).GetValue(t, null)).ThenByDescending(t => t.Hours).ThenByDescending(t => t.Minutes);
 
             var response = new Response<ChecklistViewModel>()
             {

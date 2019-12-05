@@ -12,28 +12,27 @@
 
 <br />
 
-<div style="text-align: center; margin-top: 50px; font-style: italic;"
-     *ngIf="!checklist.tickets || checklist.tickets.length == 0"><span>Заданий нет</span></div>
+
 
 <h6 *ngIf="checklist.tickets && checklist.tickets.length != 0" style="text-align: right">Страница {{currentPage}} из {{totalPages}}</h6>
 
-<table class="table" *ngIf="checklist.tickets && checklist.tickets.length != 0">
+<table class="table" *ngIf="true">
   <thead>
     <tr>
       <th scope="col" style="width: 8%">
-        <a href="javascript:void(0)" (click)="sort('Created')">Дата создания</a>
+        <a href="javascript:void(0)" style="text-decoration: unset; color: #333;" (click)="sort('Created')"><span *ngIf="sortProperty == 'Created'" style="font-size: 10px;"><span *ngIf="sortDirection == 0" class='glyphicon glyphicon-arrow-up'></span><span *ngIf="sortDirection == 1" class='glyphicon glyphicon-arrow-down'></span></span> Дата создания</a>
         <input [(ngModel)]="filter.created" (ngModelChange)="loadData(false)" type="text" class="form-control" />
       </th>
       <th scope="col" style="width: 8%">
-        <a href="javascript:void(0)" (click)="sort('Date')">Дата выполнения</a>
+        <a href="javascript:void(0)" style="text-decoration: unset; color: #333;" (click)="sort('Date')"><span *ngIf="sortProperty == 'Date'" style="font-size: 10px;"><span *ngIf="sortDirection == 0" class='glyphicon glyphicon-arrow-up'></span><span *ngIf="sortDirection == 1" class='glyphicon glyphicon-arrow-down'></span></span> Дата выполнения</a>
         <input [(ngModel)]="filter.date" (ngModelChange)="loadData(false)" type="text" class="form-control" />
       </th>
-      <th scope="col" style="width: 5%">Время</th>
-      <th scope="col" style="width: 25%">Наименование</th>
-      <th scope="col" style="width: 25%">Комментарий</th>
-      <th scope="col" style="width: 15%">Кому назначена</th>
-      <th scope="col" style="width: 7%">Статус</th>
-      <th scope="col" style="width: 7%">Действия</th>
+      <th scope="col" style="width: 5%; vertical-align: text-top; text-align: center">Время</th>
+      <th scope="col" style="width: 25%; vertical-align: text-top; text-align: center">Наименование</th>
+      <th scope="col" style="width: 25%; vertical-align: text-top; text-align: center">Комментарий</th>
+      <th scope="col" style="width: 15%; vertical-align: text-top; text-align: center">Кому назначена</th>
+      <th scope="col" style="width: 7%; vertical-align: text-top; text-align: center">Статус</th>
+      <th scope="col" style="width: 7%; vertical-align: text-top; text-align: center">Действия</th>
     </tr>
   </thead>
   <tbody>
@@ -76,8 +75,11 @@
   </tbody>
 </table>
 
-<div>
-  <pagination nextText="Далее" previousText="Назад" [totalItems]="totalItemCount" [(ngModel)]="currentPage" (pageChanged)="currentPage = $event.page; loadData(); scrollToTop()" [maxSize]="5" [itemsPerPage]="15"></pagination>
+<div style="text-align: center; margin-top: 50px; font-style: italic;"
+     *ngIf="!checklist.tickets || checklist.tickets.length == 0"><span>Заданий нет</span></div>
+
+<div style="text-align: center;">
+  <pagination [boundaryLinks]="boundaryLinks()" firstText="В начало" lastText="В конец" nextText="Далее" previousText="Назад" [totalItems]="totalItemCount" [(ngModel)]="currentPage" (pageChanged)="currentPage = $event.page; loadData(); scrollToTop()" [maxSize]="5" [itemsPerPage]="15"></pagination>
 </div>
 
 <ng-template #detailsModal>
@@ -226,7 +228,7 @@
     </div>
     <br />
     <div>
-      Дата:
+      Дата выполнения:
       <input type="text" placeholder="Щелкните здесь для выбора" class="form-control" [(ngModel)]="newTicket.date"
              AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
     </div>
@@ -291,7 +293,7 @@
     </div>
     <br />
     <div>
-      Дата:
+      Дата выполнения:
       <input type="text"
              placeholder="Щелкните здесь для выбора"
              class="form-control"
