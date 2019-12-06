@@ -33,6 +33,8 @@ namespace WorkScheduler.Controllers
                     checklist.Tickets = checklist.Tickets.Where(t => t.Date.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Date));
                 if (!String.IsNullOrWhiteSpace(requestDetails.Filter.Created))
                     checklist.Tickets = checklist.Tickets.Where(t => t.Created.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Created));
+                if (!String.IsNullOrWhiteSpace(requestDetails.Filter.Name))
+                    checklist.Tickets = checklist.Tickets.Where(t => t.Name.ToUpper().Contains(requestDetails.Filter.Name.ToUpper()));
             }
 
             if (requestDetails.SortDirection == SortDirection.Ascending)

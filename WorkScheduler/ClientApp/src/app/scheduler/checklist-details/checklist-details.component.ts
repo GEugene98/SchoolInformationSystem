@@ -107,7 +107,7 @@ export class ChecklistDetailsComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  boundaryLinks() {
+  showBoundaryLinks() {
     if (this.totalPages >= 5) {
       return true;
     }

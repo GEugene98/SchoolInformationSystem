@@ -27,12 +27,14 @@
         <a href="javascript:void(0)" style="text-decoration: unset; color: #333;" (click)="sort('Date')"><span *ngIf="sortProperty == 'Date'" style="font-size: 10px;"><span *ngIf="sortDirection == 0" class='glyphicon glyphicon-arrow-up'></span><span *ngIf="sortDirection == 1" class='glyphicon glyphicon-arrow-down'></span></span> Дата выполнения</a>
         <input [(ngModel)]="filter.date" (ngModelChange)="loadData(false)" type="text" class="form-control" />
       </th>
-      <th scope="col" style="width: 5%; vertical-align: text-top; text-align: center">Время</th>
-      <th scope="col" style="width: 25%; vertical-align: text-top; text-align: center">Наименование</th>
-      <th scope="col" style="width: 25%; vertical-align: text-top; text-align: center">Комментарий</th>
-      <th scope="col" style="width: 15%; vertical-align: text-top; text-align: center">Кому назначена</th>
-      <th scope="col" style="width: 7%; vertical-align: text-top; text-align: center">Статус</th>
-      <th scope="col" style="width: 7%; vertical-align: text-top; text-align: center">Действия</th>
+      <th scope="col" style="width: 5%; vertical-align: bottom; text-align: center"><span>Время</span></th>
+      <th scope="col" style="width: 25%; vertical-align: bottom; text-align: center"><span>Наименование</span>
+        <input [(ngModel)]="filter.name" (ngModelChange)="loadData(false)" type="text" class="form-control" />
+      </th>
+      <th scope="col" style="width: 25%; vertical-align: bottom; text-align: center"><span>Комментарий</span></th>
+      <th scope="col" style="width: 15%; vertical-align: bottom; text-align: center"><span>Кому назначена</span></th>
+      <th scope="col" style="width: 7%; vertical-align: bottom; text-align: center"><span>Статус</span></th>
+      <th scope="col" style="width: 7%; vertical-align: bottom; text-align: center"><span>Действия</span></th>
     </tr>
   </thead>
   <tbody>
@@ -79,7 +81,7 @@
      *ngIf="!checklist.tickets || checklist.tickets.length == 0"><span>Заданий нет</span></div>
 
 <div style="text-align: center;">
-  <pagination [boundaryLinks]="boundaryLinks()" firstText="В начало" lastText="В конец" nextText="Далее" previousText="Назад" [totalItems]="totalItemCount" [(ngModel)]="currentPage" (pageChanged)="currentPage = $event.page; loadData(); scrollToTop()" [maxSize]="5" [itemsPerPage]="15"></pagination>
+  <pagination [boundaryLinks]="showBoundaryLinks()" firstText="В начало" lastText="В конец" nextText="Далее" previousText="Назад" [totalItems]="totalItemCount" [(ngModel)]="currentPage" (pageChanged)="currentPage = $event.page; loadData(); scrollToTop()" [maxSize]="5" [itemsPerPage]="15"></pagination>
 </div>
 
 <ng-template #detailsModal>
