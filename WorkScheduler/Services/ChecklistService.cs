@@ -73,6 +73,7 @@ namespace WorkScheduler.Services
                     Minutes = t.Minutes,
                     Created = t.Created,
                     Status = t.Status,
+                    Done = t.Done,
                     ResponseComment = t.ResponseComment,
                     IsExpiered = t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date && t.Status != TicketStatus.Done,
                     InFiles = foundFiles

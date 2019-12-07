@@ -70,8 +70,8 @@ export class TimelineComponent implements OnInit {
     }, 30000); 
   }
 
-  async loadData() {
-    this.ngxService.start();
+  async loadData(showLoader: boolean = true) {
+    if (showLoader) this.ngxService.start();
     this.originalPacks = await this.schedule.myTicketPacks(this.range);
     this.filterChecklistTickets();
     this.newTicket = new Ticket();
@@ -79,7 +79,7 @@ export class TimelineComponent implements OnInit {
     this.userState.assignedTickets.state = await this.schedule.assignedTickets();
     let notifications = await this.dictionary.getNotifications();
     this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);
-    this.ngxService.stop();
+    if (showLoader)this.ngxService.stop();
   }
 
   checklistTicketsFilterHandler() {
@@ -253,7 +253,7 @@ export class TimelineComponent implements OnInit {
   async makeDone(ticket: Ticket) {
     try {
       var response = await this.schedule.makeDone(ticket.id, ticket.hasChecklist);
-      await this.loadData();
+      await this.loadData(false);
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
     } catch (e) {
       console.error(e);
@@ -264,7 +264,7 @@ export class TimelineComponent implements OnInit {
   async makeImportant(id) {
     try {
       var response = await this.schedule.makeImportant(id);
-      await this.loadData();
+      await this.loadData(false);
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
     } catch (e) {
       console.error(e);

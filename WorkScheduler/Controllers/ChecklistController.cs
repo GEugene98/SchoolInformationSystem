@@ -34,7 +34,13 @@ namespace WorkScheduler.Controllers
                 if (!String.IsNullOrWhiteSpace(requestDetails.Filter.Created))
                     checklist.Tickets = checklist.Tickets.Where(t => t.Created.GetValueOrDefault().ToShortDateString().Contains(requestDetails.Filter.Created));
                 if (!String.IsNullOrWhiteSpace(requestDetails.Filter.Name))
-                    checklist.Tickets = checklist.Tickets.Where(t => t.Name.ToUpper().Contains(requestDetails.Filter.Name.ToUpper()));
+                    checklist.Tickets = checklist.Tickets.Where(t => t.Name != null && t.Name.ToUpper().Contains(requestDetails.Filter.Name.ToUpper()));
+                if (!String.IsNullOrWhiteSpace(requestDetails.Filter.Comment))
+                    checklist.Tickets = checklist.Tickets.Where(t => t.Comment != null && t.Comment.ToUpper().Contains(requestDetails.Filter.Comment.ToUpper()));
+                if (requestDetails.Filter.Status != null)
+                    checklist.Tickets = checklist.Tickets.Where(t => (int)t.Status == (int)requestDetails.Filter.Status);
+                if (!String.IsNullOrWhiteSpace(requestDetails.Filter.UserId))
+                    checklist.Tickets = checklist.Tickets.Where(t => t.User.Id != null && t.User.Id.ToUpper() == requestDetails.Filter.UserId.ToUpper());
             }
 
             if (requestDetails.SortDirection == SortDirection.Ascending)

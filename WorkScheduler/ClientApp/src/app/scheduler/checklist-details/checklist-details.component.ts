@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Checklist } from '../../shared/models/checklist.model';
 import { ScheduleService } from '../services/schedule.service';
@@ -14,18 +14,21 @@ import { guid } from '../../shared/guid';
 import { SortDirection } from '../../shared/table/sort-direction';
 import { ChecklistFilter } from '../../shared/table/checklist/checklist-filter';
 import { TableRequest } from '../../shared/table/table-request';
+import Debounce from 'debounce-decorator'
 
 @Component({
   selector: 'app-checklist-details',
   templateUrl: './checklist-details.component.html',
-  styleUrls: ['./checklist-details.component.css']
+  styleUrls: ['./checklist-details.component.scss']
 })
-export class ChecklistDetailsComponent implements OnInit {
+export class ChecklistDetailsComponent implements OnInit, OnDestroy {
 
   bsConfig: any;
   modalRef: BsModalRef;
 
   responsibles;
+
+  statuses = [{id: undefined, name: ''},{id: 0, name: 'Не назначено'}, {id: 1, name: 'Назначено'}, {id: 2, name: 'Принято'}, {id: 3, name: 'Отклонено'}, {id: 4, name: 'Готово'}];
 
   checklistId: number;
   checklist: Checklist;
@@ -46,6 +49,8 @@ export class ChecklistDetailsComponent implements OnInit {
   totalPages: number;
   totalItemCount: number;
 
+  refreshIntervalId;
+
   constructor(private activateRoute: ActivatedRoute,
     private modalService: BsModalService,
     private dictionary: DictionaryService,
@@ -62,7 +67,7 @@ export class ChecklistDetailsComponent implements OnInit {
     this.transactionId = guid();
     this.loadData();
 
-    setInterval(async () => {
+    this.refreshIntervalId = setInterval(async () => {
       let response = await this.schedule.getChecklist(this.checklistId, this.getRequestDetails());
       this.checklist = response.body;
       this.totalItemCount = response.totalItemCount;
@@ -70,6 +75,11 @@ export class ChecklistDetailsComponent implements OnInit {
     }, 30000); 
   }
 
+  ngOnDestroy(){
+    clearInterval(this.refreshIntervalId);
+  }
+
+  @Debounce(1500)
   async loadData(showLoader: boolean = true) {
     if (showLoader) this.ngxService.start();
     let response = await this.schedule.getChecklist(this.checklistId, this.getRequestDetails());
@@ -194,6 +204,17 @@ export class ChecklistDetailsComponent implements OnInit {
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задание удалено", life: 5000 });
       await this.loadData();
     } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
+
+  async makeDone(ticket: Ticket) {
+    try {
+      var response = await this.schedule.makeDone(ticket.id, true);
+      await this.loadData(false);
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
+    } catch (e) {
+      console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
   }

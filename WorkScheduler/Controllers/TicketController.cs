@@ -363,14 +363,29 @@ namespace WorkScheduler.Controllers
                     throw new Exception("Запись не найдена");
                 }
 
-                if (ticket.Status == Models.Enums.TicketStatus.Accepted)
+                if (ticket.Done == false && ticket.UserId != null)
                 {
                     ticket.Status = Models.Enums.TicketStatus.Done;
                     ticket.Done = true;
                 }
-                else if (ticket.Status == Models.Enums.TicketStatus.Done)
+                else if(ticket.Done == true && ticket.UserId != null)
                 {
                     ticket.Status = Models.Enums.TicketStatus.Accepted;
+                    ticket.Done = false;
+                }
+                else if(ticket.Status == Models.Enums.TicketStatus.Created && ticket.Done == false && ticket.UserId == null)
+                {
+                    ticket.Status = Models.Enums.TicketStatus.Done;
+                    ticket.Done = true;
+                }
+                else if (ticket.Status == Models.Enums.TicketStatus.Done && ticket.UserId != null)
+                {
+                    ticket.Status = Models.Enums.TicketStatus.Assigned;
+                    ticket.Done = false;
+                }
+                else if (ticket.Status == Models.Enums.TicketStatus.Done && ticket.UserId == null)
+                {
+                    ticket.Status = Models.Enums.TicketStatus.Created;
                     ticket.Done = false;
                 }
 
