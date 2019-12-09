@@ -13,6 +13,9 @@ export class User {
 }
 
 export function isUserInRole(user: User, role: string) {
+  if (!user) {
+    return false;
+  }
   if (user.roles.find(r => r == role)) {
     return true;
   }

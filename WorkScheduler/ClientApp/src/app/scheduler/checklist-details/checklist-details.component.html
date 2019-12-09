@@ -1,5 +1,5 @@
 <div style="word-wrap: break-word;">
-  <h1>Чек-лист: "{{checklist.name}}"</h1>
+  <h1>Чек-лист: "{{checklist?.name}}"</h1>
 </div>
 
 <div class="panel panel-default">
@@ -14,9 +14,9 @@
 
 
 
-<h6 *ngIf="checklist.tickets && checklist.tickets.length != 0" style="text-align: right">Страница {{currentPage}} из {{totalPages}}</h6>
+<h6 *ngIf="checklist?.tickets && checklist?.tickets.length != 0" style="text-align: right">Страница {{currentPage}} из {{totalPages}}</h6>
 
-<table class="table" *ngIf="true">
+<table class="table" >
   <thead>
     <tr>
       <th scope="col" style="width: 8%">
@@ -64,7 +64,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let ticket of checklist.tickets"
+    <tr *ngFor="let ticket of checklist?.tickets"
         [class.blue]="ticket.status == 1"
         [class.red]="ticket.isExpiered && ticket.status != 3"
         [class.yellow]="ticket.status == 2"
@@ -105,9 +105,9 @@
 </table>
 
 <div style="text-align: center; margin-top: 50px; font-style: italic;"
-     *ngIf="!checklist.tickets || checklist.tickets.length == 0"><span>Заданий нет</span></div>
+     *ngIf="!checklist?.tickets || checklist?.tickets.length == 0"><span>Заданий нет</span></div>
 
-<div *ngIf="checklist.tickets && checklist.tickets.length != 0" style="text-align: center;">
+<div *ngIf="checklist?.tickets && checklist?.tickets.length != 0" style="text-align: center;">
   <pagination [boundaryLinks]="showBoundaryLinks()" firstText="В начало" lastText="В конец" nextText="Далее" previousText="Назад" [totalItems]="totalItemCount" [(ngModel)]="currentPage" (pageChanged)="currentPage = $event.page; loadData(true, true)" [maxSize]="5" [itemsPerPage]="15"></pagination>
 </div>
 
