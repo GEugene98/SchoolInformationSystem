@@ -14,6 +14,8 @@ export class NavMenuComponent {
 
   report: string;
 
+  searchText: string;
+
   modalRef: BsModalRef;
 
   constructor(public userState: UserState, private modalService: BsModalService, private problem: ProblemService ) {

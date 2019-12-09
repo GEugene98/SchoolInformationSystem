@@ -2,6 +2,22 @@ li .glyphicon {
   margin-right: 10px;
 }
 
+.search-box:focus {
+  opacity: 1;
+  transition: 0.3s;
+}
+
+.search-box {
+  opacity: 0.6;
+  transition: 0.3s;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.active-search-box {
+  opacity: 1 !important;
+}
+
 .navbar {
   background-color: #f9fcff !important;
 }

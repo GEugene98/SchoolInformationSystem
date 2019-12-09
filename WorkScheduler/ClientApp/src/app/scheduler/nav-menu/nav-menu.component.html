@@ -27,6 +27,10 @@
       <span class='glyphicon glyphicon-stats'></span> Статистика
     </a>
   </li>-->
+        <li>
+          <input class="form-control search-box" type="text" placeholder="Что вы хотите найти?" [(ngModel)]="searchText" [class.active-search-box]="searchText"/>
+        </li>
+
   <li [routerLinkActive]='["link-active"]'>
     <a routerLink='my-schedule' (click)='collapse()'>
       <span class='glyphicon glyphicon-calendar'></span> 
