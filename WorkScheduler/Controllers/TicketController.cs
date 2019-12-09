@@ -135,7 +135,7 @@ namespace WorkScheduler.Controllers
                 Db.Tickets.Add(newTicket);
                 Db.SaveChanges();
 
-                if(uploadedFiles.Count() != 0)
+                if (uploadedFiles.Count() != 0)
                 {
                     FileService.BindFilesToTicket(uploadedFiles, newTicket.Id, TicketFileType.Incoming);
                 }
@@ -161,10 +161,10 @@ namespace WorkScheduler.Controllers
                     newTicket.Date = ticket.Date.Value.AddHours(3);
                 }
 
-                Db.Tickets.Add(newTicket); 
+                Db.Tickets.Add(newTicket);
                 Db.SaveChanges();
 
-                if(uploadedFiles.Count() != 0)
+                if (uploadedFiles.Count() != 0)
                 {
                     FileService.BindFilesToTicket(uploadedFiles, newTicket.Id, TicketFileType.Incoming);
                 }
@@ -187,7 +187,7 @@ namespace WorkScheduler.Controllers
         {
             var foundTicket = Db.Tickets.FirstOrDefault(t => t.Id == ticket.Id);
 
-            if(foundTicket == null)
+            if (foundTicket == null)
             {
                 return BadRequest("Запись не найдена");
             }
@@ -200,7 +200,7 @@ namespace WorkScheduler.Controllers
 
             var uploadedFiles = FileService.PutFilesInDb(transactionId, schoolId);
 
-            if(uploadedFiles.Count() != 0)
+            if (uploadedFiles.Count() != 0)
             {
                 FileService.BindFilesToTicket(uploadedFiles, foundTicket.Id, TicketFileType.Outgoing);
             }
@@ -213,7 +213,7 @@ namespace WorkScheduler.Controllers
         {
             var foundTicket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
 
-            if(foundTicket == null)
+            if (foundTicket == null)
             {
                 return BadRequest("Запись не найдена");
             }
@@ -222,7 +222,7 @@ namespace WorkScheduler.Controllers
 
             var uploadedFiles = FileService.PutFilesInDb(transactionId, schoolId);
 
-            if(uploadedFiles.Count() != 0)
+            if (uploadedFiles.Count() != 0)
             {
                 FileService.BindFilesToTicket(uploadedFiles, foundTicket.Id, TicketFileType.Incoming);
             }
@@ -360,32 +360,52 @@ namespace WorkScheduler.Controllers
 
                 if (ticket == null)
                 {
-                    throw new Exception("Запись не найдена");
+                    throw new Exception("Запись не найдена. Обновите страницу");
                 }
 
-                if (ticket.Done == false && ticket.UserId != null)
+                if (ticket.Status == Models.Enums.TicketStatus.Accepted)
                 {
                     ticket.Status = Models.Enums.TicketStatus.Done;
                     ticket.Done = true;
                 }
-                else if(ticket.Done == true && ticket.UserId != null)
+                else if (ticket.Status == Models.Enums.TicketStatus.Done)
                 {
                     ticket.Status = Models.Enums.TicketStatus.Accepted;
                     ticket.Done = false;
                 }
-                else if(ticket.Status == Models.Enums.TicketStatus.Created && ticket.Done == false && ticket.UserId == null)
+
+                Db.SaveChanges();
+
+                var message = ticket.Done ? "Запись помечена как выполненная" : "Отметка \"Выполнено\" снята";
+
+                return Ok(new { message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+        }
+
+        [HttpGet("MakeDoneFromChecklistDetails")]
+        public IActionResult MakeDoneFromChecklistDetails(long ticketId)
+        {
+            try
+            {
+                var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
+
+                if (ticket == null)
+                {
+                    throw new Exception("Запись не найдена. Обновите страницу");
+                }
+
+                if (!ticket.Done)
                 {
                     ticket.Status = Models.Enums.TicketStatus.Done;
                     ticket.Done = true;
                 }
-                else if (ticket.Status == Models.Enums.TicketStatus.Done && ticket.UserId != null)
+                else
                 {
                     ticket.Status = Models.Enums.TicketStatus.Assigned;
-                    ticket.Done = false;
-                }
-                else if (ticket.Status == Models.Enums.TicketStatus.Done && ticket.UserId == null)
-                {
-                    ticket.Status = Models.Enums.TicketStatus.Created;
                     ticket.Done = false;
                 }
 

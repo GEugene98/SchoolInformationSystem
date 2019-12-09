@@ -80,7 +80,7 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
   }
 
   @Debounce(1500)
-  async loadData(showLoader: boolean = true) {
+  async loadData(showLoader: boolean = true, scrollToTop: boolean = false) {
     if (showLoader) this.ngxService.start();
     let response = await this.schedule.getChecklist(this.checklistId, this.getRequestDetails());
     this.checklist = response.body;
@@ -89,7 +89,8 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
     this.titleService.setTitle(this.checklist.name);
     this.responsibles = this.dictionary.getResponsibles();
     this.newTicket = new Ticket();
-    if (showLoader)this.ngxService.stop();
+    if (showLoader) this.ngxService.stop();
+    if (scrollToTop) window.scrollTo(0, 0);
   }
 
   async sort(sortProperty: string) {
@@ -130,10 +131,6 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
     this.newTicket = Object.assign({}, ticket);
     if(this.newTicket.date)
       this.newTicket.date = new Date(this.newTicket.date.toString()); //Костыль для ngx-datepicker'а
-  }
-
-  scrollToTop() {
-    window.scrollTo(0, 0);
   }
 
   async deleteFileBinding(file, ticket: Ticket) {
@@ -210,10 +207,28 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
 
   async makeDone(ticket: Ticket) {
     try {
-      var response = await this.schedule.makeDone(ticket.id, true);
+      if (ticket.done) {
+        ticket.done = false;
+        ticket.status = 1;
+      }
+      else {
+        ticket.done = true;
+        ticket.status = 4;
+        ticket.isExpiered = false;
+      }
+      var response = await this.schedule.makeDoneFromChecklistDetails(ticket.id);
       await this.loadData(false);
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
+      //this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
     } catch (e) {
+      if (ticket.done) {
+        ticket.done = false;
+        ticket.status = 1;
+      }
+      else {
+        ticket.done = true;
+        ticket.status = 4;
+        ticket.isExpiered = false;
+      }
       console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }

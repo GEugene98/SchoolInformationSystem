@@ -15,6 +15,7 @@ export class Ticket extends Dictionary<number> {
   created: Date;
   hours: number;
   minutes: number;
+  status: number;
   start: Time;
   end: Time;
   hasChecklist: boolean;

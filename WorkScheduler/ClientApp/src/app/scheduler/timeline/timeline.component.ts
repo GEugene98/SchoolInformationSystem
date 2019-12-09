@@ -252,21 +252,46 @@ export class TimelineComponent implements OnInit {
 
   async makeDone(ticket: Ticket) {
     try {
+      if (ticket.done) {
+        ticket.done = false;
+      }
+      else {
+        ticket.done = true;
+      }
+      
       var response = await this.schedule.makeDone(ticket.id, ticket.hasChecklist);
       await this.loadData(false);
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
+      //this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
     } catch (e) {
+      if (ticket.done) {
+        ticket.done = false;
+      }
+      else {
+        ticket.done = true;
+      }
       console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
   }
 
-  async makeImportant(id) {
+  async makeImportant(ticket: Ticket) {
     try {
-      var response = await this.schedule.makeImportant(id);
+      if (ticket.important) {
+        ticket.important = false;
+      }
+      else {
+        ticket.important = true;
+      }
+      var response = await this.schedule.makeImportant(ticket.id);
       await this.loadData(false);
-      this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
+      //this.messageService.add({ severity: 'success', summary: 'Готово', detail: response.message, life: 5000 });
     } catch (e) {
+      if (ticket.important) {
+        ticket.important = false;
+      }
+      else {
+        ticket.important = true;
+      }
       console.error(e);
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }

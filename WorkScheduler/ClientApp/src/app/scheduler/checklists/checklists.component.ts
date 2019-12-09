@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Checklist } from '../../shared/models/checklist.model';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { DictionaryService } from '../../shared/services/dictionary.service';
@@ -59,19 +59,21 @@ export class ChecklistsComponent implements OnInit {
     checklists.forEach(c => {
       c.chartData =
         {
-          labels: ['Назначенные', 'Принятые', 'Готовые'],
+          labels: ['Назначенные', 'Принятые', 'Готовые', 'Просроченные'],
           datasets: [
             {
-              data: [c.assignedCount, c.acceptedCount, c.doneCount],
+              data: [c.assignedCount, c.acceptedCount - c.acceptedExpieredCount, c.doneCount, c.expieredCount],
               backgroundColor: [
                 "#36A2EB",
                 "#FFCE56",
-                "#DCF753"
+                "#DCF753",
+                '#f75472'
               ],
               hoverBackgroundColor: [
                 "#36A2EB",
                 "#FFCE56",
-                "#DCF753"
+                "#DCF753",
+                '#f75472'
               ]
             }
           ],

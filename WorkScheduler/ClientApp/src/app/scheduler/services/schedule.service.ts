@@ -221,6 +221,13 @@ export class ScheduleService {
 
   }
 
+  async makeDoneFromChecklistDetails(ticketId: number) {
+    const params = new HttpParams()
+      .set('ticketId', ticketId.toString());
+
+    return await this.http.get<any>('api/Ticket/MakeDoneFromChecklistDetails', { params: params }).toPromise();
+  }
+
   async makeImportant(ticketId: number) {
     const params = new HttpParams()
       .set('ticketId', ticketId.toString());
