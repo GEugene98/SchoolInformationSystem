@@ -208,15 +208,19 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
-        [HttpGet("SaveChecklistTicketDetails")]
-        public IActionResult SaveChecklistTicketDetails(long ticketId, string transactionId)
+        [HttpPost("SaveChecklistTicketDetails")]
+        public IActionResult SaveChecklistTicketDetails([FromBody] Ticket ticket, string transactionId)
         {
-            var foundTicket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
+            var foundTicket = Db.Tickets.FirstOrDefault(t => t.Id == ticket.Id);
 
             if (foundTicket == null)
             {
                 return BadRequest("Запись не найдена");
             }
+
+            foundTicket.Comment = ticket.Comment;
+
+            Db.SaveChanges();
 
             var schoolId = Db.Users.First(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
 

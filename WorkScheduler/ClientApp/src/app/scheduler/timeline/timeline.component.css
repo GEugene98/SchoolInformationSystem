@@ -11,9 +11,6 @@ textarea {
   display: inline;
 }
 
-.modal-body div {
-  margin-top: 15px;
-}
 
 .deleted-action {
   opacity: 0.4;
