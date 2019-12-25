@@ -75,7 +75,11 @@
       <td>
         <a style="color: black" href="javascript:void(0)" (click)="openDetails(ticket, detailsModal)">{{ticket.name}}</a>
       </td>
-      <td>{{ticket.comment}}</td>
+      <td>
+        <span *ngIf="ticket.comment" (click)="copy(ticket); openFullCommentModal()" style="cursor: pointer;">
+          {{getCutComment(ticket.comment)}}
+        </span>
+      </td>
       <td>
         <span *ngIf="ticket.user.firstName" class="badge">
           {{ticket.user.lastName}} {{ticket.user.firstName[0]}}. {{ticket.user.surName[0]}}.
@@ -355,6 +359,18 @@
 
   </div>
 
+</ng-template>
+
+<ng-template #fullComment>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Полный комментарий</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    {{this.newTicket.comment}}
+  </div>
 </ng-template>
 
 <p-toast [baseZIndex]="1000"></p-toast>

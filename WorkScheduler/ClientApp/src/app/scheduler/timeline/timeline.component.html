@@ -258,8 +258,8 @@
     </div>
     <br>
     <div>
-      Комментарий(не обязательно):
-      <textarea [disabled]='newTicket.hasChecklist && newTicket.checklist?.user.id != userState?.currentUser?.state?.id' [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
+      Комментарий:
+      <textarea style="height: 200px;" [disabled]='newTicket.hasChecklist && newTicket.checklist?.user.id != userState?.currentUser?.state?.id' [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
     </div>
     <br>
     <div style="color: darkgray; text-align: left; font-size: smaller;" *ngIf="newTicket.hasChecklist && newTicket.created != '0001-01-01T00:00:00'">
