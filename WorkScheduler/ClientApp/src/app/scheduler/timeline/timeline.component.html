@@ -244,11 +244,11 @@
   <div class="modal-body">
     <div style="margin-top: -10px">
       Наименование:
-      <input type="text" [(ngModel)]="newTicket.name" class="form-control" placeholder="Название записи">
+      <input [disabled]='newTicket.hasChecklist && newTicket.checklist.user.id != userState?.currentUser?.state?.id' type="text" [(ngModel)]="newTicket.name" class="form-control" placeholder="Название записи">
     </div>
 
     <div>
-      Дата:
+      Дата выполнения:
       <input type="text"
              placeholder="Щелкните здесь для выбора"
              class="form-control"
@@ -265,7 +265,11 @@
 
     <div>
       Комментарий(не обязательно):
-      <textarea [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
+      <textarea [disabled]='newTicket.hasChecklist && newTicket.checklist?.user.id != userState?.currentUser?.state?.id' [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
+    </div>
+
+    <div style="background-color: darkgray; text-align: right;" *ngIf="newTicket.hasChecklist && newTicket.created">
+      Дата создания задания: {{newTicket.created | date : 'dd.MM.yyyy'}}
     </div>
 
     <div style="text-align:center; margin-top: 15px;">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap';
 import { ScheduleService } from '../services/schedule.service';
@@ -19,7 +19,7 @@ import { UploadEvent } from '@progress/kendo-angular-upload';
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.css']
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent implements OnInit, OnDestroy {
 
   range: Date[];
   bsConfig: any;
@@ -28,6 +28,8 @@ export class TimelineComponent implements OnInit {
   selectedDate: Date = new Date();
   newTicket: Ticket;
   modalRef: BsModalRef;
+
+  refreshIntervalId;
 
   transactionId: string;
   fileUploadUrl = '/api/File/UploadTemporaryFiles';
@@ -64,10 +66,14 @@ export class TimelineComponent implements OnInit {
     this.transactionId = guid();
     await this.loadData();
 
-    setInterval(async () => {
+    this.refreshIntervalId = setInterval(async () => {
       this.originalPacks = await this.schedule.myTicketPacks(this.range);
       this.filterChecklistTickets();
     }, 30000); 
+  }
+
+  ngOnDestroy(){
+    clearInterval(this.refreshIntervalId);
   }
 
   async loadData(showLoader: boolean = true) {
@@ -200,10 +206,10 @@ export class TimelineComponent implements OnInit {
   }
 
   openEditModal(modal){  
-    if (this.newTicket.hasChecklist) {
-      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Изменить запись здесь нельзя, так как она находится в чек-листе. Измените ее в чек-листе, если он принадлежит Вам.', life: 5000 });
-      return;
-    }
+    //if (this.newTicket.hasChecklist) {
+      //this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Изменить запись здесь нельзя, так как она находится в чек-листе. Измените ее в чек-листе, если он принадлежит Вам.', life: 5000 });
+      //return;
+    //}
 
     this.openModal(modal);
   }
