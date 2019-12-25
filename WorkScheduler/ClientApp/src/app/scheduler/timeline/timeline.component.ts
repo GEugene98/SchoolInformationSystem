@@ -44,6 +44,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   @ViewChild("deleteAll") deleteAllModal: ElementRef;
   @ViewChild("addWithTime") addWithTimeModal: ElementRef;
+  @ViewChild("fullComment") fullCommentModal: ElementRef;
 
   days: number[] = undefined;
   dateTo: Date = new Date();
@@ -226,6 +227,20 @@ export class TimelineComponent implements OnInit, OnDestroy {
   closeModal() {
     this.modalRef.hide();
     this.showAllSimilar = false;
+  }
+
+
+  getCutComment(comment: string) {
+    if (comment.length < 150) {
+      return comment+'';
+    }
+    return comment.substring(0, 150) + "...";
+  }
+
+  openFullCommentModal() {
+    if (this.getCutComment(this.newTicket.comment) != this.newTicket.comment) {
+      this.modalRef = this.modalService.show(this.fullCommentModal);
+    }
   }
 
   copy(ticket: Ticket) {
