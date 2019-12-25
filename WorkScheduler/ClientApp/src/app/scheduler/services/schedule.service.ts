@@ -42,10 +42,9 @@ export class ScheduleService {
 
   async saveChecklistTicketDetails(ticket: Ticket, transactionId){
     const urlParams = new HttpParams()
-      .set('transactionId', transactionId.toString())
-      .set('ticketId', ticket.id.toString());
+      .set('transactionId', transactionId.toString());
 
-    return await this.http.get('api/Ticket/SaveChecklistTicketDetails', { params: urlParams }).toPromise();
+    return await this.http.post('api/Ticket/SaveChecklistTicketDetails', ticket, { params: urlParams }).toPromise();
   }
 
   async deleteAction(action: Action) {

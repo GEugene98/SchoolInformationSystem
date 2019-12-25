@@ -1,7 +1,4 @@
-
-
 <h1>Мой тайм-лист</h1>
-
 
 <div class="panel panel-default">
   <div class="panel-body">
@@ -31,13 +28,12 @@
       
     </div>
 
-    <div style="margin-top: 60px;width: 280px;">
+    <div style="margin-top: 60px;width: 305px;">
       <input type="checkbox" id="cto" [(ngModel)]="checklistTicketsOnly" (ngModelChange)="checklistTicketsFilterHandler()">
-      <label style="font-weight: normal;" for="cto">Показать только задания из чек-листов</label>
+      <label style="font-weight: normal;" for="cto">Показать только назначенные задания</label>
     </div>
   </div>
 </div>
-
 
 <div style="text-align: center; margin-top: 70px; font-style: italic;" *ngIf="!packs || packs?.length == 0"><span>Выберите период</span></div>
 
@@ -108,18 +104,17 @@
 
 <ng-template #replyModal>
     <div class="modal-header">
-      <h4 class="modal-title pull-left">Детали задания</h4>
+      <h4 style="width: 95%;" class="modal-title pull-left">{{checklistTicketToReply.name}}</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
       <div>
-        <h5>Задание:</h5>
-        <p>{{checklistTicketToReply.name}}</p>
-        <h5>из чек-листа: &laquo;{{checklistTicketToReply.checklist.name}}&raquo; пользователя {{checklistTicketToReply.checklist.user.fullName}}</h5>
-        <br />
-        <h5>Вложения автора:</h5>
+        <p>Чек-лист: &laquo;{{checklistTicketToReply.checklist.name}}&raquo; <br/> Автор: {{checklistTicketToReply.checklist.user.fullName}}</p>
+        <br/>
+        <h4 style="font-size: 15px;">Комментарий и вложения автора:</h4>
+        <span>{{checklistTicketToReply.comment}}</span>
         <div *ngIf="checklistTicketToReply.inFiles.length == 0" style="text-align: center; margin-top: 25px; font-style: italic;"><span>Автор задания пока не оставил ни одного вложения</span></div>
         <table class="table" *ngIf="checklistTicketToReply.inFiles.length != 0">
           <thead>
@@ -160,16 +155,15 @@
             </tr>
           </tbody>
         </table>
+        
       </div>
         <br/>
         <div>
-            <h5>Ответный комментарий:</h5>
-            <textarea [(ngModel)]="checklistTicketToReply.responseComment" class="form-control" placeholder="Комментарий"></textarea>
+            <h4 style="font-size: 15px;">Ваш комментарий и вложения:</h4>
+            <textarea [(ngModel)]="checklistTicketToReply.responseComment" class="form-control" placeholder="Ответный комментарий"></textarea>
         </div>
         <br/>
           <div>
-            <h5>Ответные вложения: </h5>
-          <div *ngIf="checklistTicketToReply.outFiles.length == 0" style="text-align: center; margin-top: 25px; font-style: italic;"><span>Вы не оставили пока ни одного ответного вложения</span></div>
               <table class="table" *ngIf="checklistTicketToReply.outFiles.length != 0">
                   <thead>
                     <tr>
@@ -211,14 +205,13 @@
                   </tbody>
                 </table>
 
-                <div>
-                  Добавить вложения:
+                <div style="margin-top: 5px;">
                     <kendo-upload [saveUrl]="fileUploadUrl"
                                   [removeUrl]="fileRemoveUrl"
                                   (upload)="uploadEventHandler($event)"
                                   (remove)="removeEventHandler($event)"
                                   (success)="uploaded($event)">
-                      <kendo-upload-messages select="Открыть окно выбора файлов"
+                      <kendo-upload-messages select="Добавить вложение"
                                              uploadSelectedFiles="Загрузить выбранные файлы"
                                              clearSelectedFiles="Удалить выбранные файлы">
                       </kendo-upload-messages>
@@ -246,7 +239,7 @@
       Наименование:
       <input [disabled]='newTicket.hasChecklist && newTicket.checklist.user.id != userState?.currentUser?.state?.id' type="text" [(ngModel)]="newTicket.name" class="form-control" placeholder="Название записи">
     </div>
-
+    <br>
     <div>
       Дата выполнения:
       <input type="text"
@@ -257,19 +250,21 @@
              [bsConfig]="bsConfig"
              bsDatepicker>
     </div>
+    <br>
     <div>
       Время начала:
       <input type="text" [(ngModel)]="newTicket.hours" class="clock form-control" placeholder="ЧЧ"> :
       <input type="text" [(ngModel)]="newTicket.minutes" class="clock form-control" placeholder="ММ">
     </div>
-
+    <br>
     <div>
       Комментарий(не обязательно):
       <textarea [disabled]='newTicket.hasChecklist && newTicket.checklist?.user.id != userState?.currentUser?.state?.id' [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
     </div>
-
-    <div style="background-color: darkgray; text-align: right;" *ngIf="newTicket.hasChecklist && newTicket.created">
-      Дата создания задания: {{newTicket.created | date : 'dd.MM.yyyy'}}
+    <br>
+    <div style="color: darkgray; text-align: left; font-size: smaller;" *ngIf="newTicket.hasChecklist && newTicket.created != '0001-01-01T00:00:00'">
+      <span *ngIf="newTicket.checklist?.user.id != userState?.currentUser?.state?.id">Задание было создано {{newTicket.created | date : 'dd.MM.yyyy'}} <br/> в чек-листе  &laquo;{{newTicket.checklist.name}}&raquo; пользователя {{newTicket.checklist.user.fullName}}</span>
+      <span *ngIf="newTicket.checklist?.user.id == userState?.currentUser?.state?.id">Задание было создано {{newTicket.created | date : 'dd.MM.yyyy'}} <br/> в вашем чек-листе &laquo;{{newTicket.checklist.name}}&raquo;</span>
     </div>
 
     <div style="text-align:center; margin-top: 15px;">
@@ -388,11 +383,9 @@
   </div>
 </ng-template>
 
-
-
 <ng-template #addWithTime>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Задайте дату или время</h4>
+    <h4 class="modal-title pull-left">Прием задания</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -420,11 +413,9 @@
 
     <div style="text-align:center; margin-top: 15px;">
       <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
-      <button type="button" (click)="acceptWithNewDateTimeTicket()" class="btn btn-success">Добавить в тайм-лист</button>
+      <button type="button" (click)="acceptWithNewDateTimeTicket()" class="btn btn-success">Принять задание</button>
     </div>
   </div>
 </ng-template>
-
-
 
 <p-toast [baseZIndex]="1000"></p-toast>
