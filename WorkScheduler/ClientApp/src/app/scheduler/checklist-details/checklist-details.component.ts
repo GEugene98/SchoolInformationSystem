@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Checklist } from '../../shared/models/checklist.model';
 import { ScheduleService } from '../services/schedule.service';
@@ -29,6 +29,8 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
   responsibles;
 
   statuses = [{id: undefined, name: ''},{id: 0, name: 'Не назначено'}, {id: 1, name: 'Назначено'}, {id: 2, name: 'Принято'}, {id: 3, name: 'Отклонено'}, {id: 4, name: 'Готово'}];
+
+  @ViewChild("fullComment") fullCommentModal: ElementRef;
 
   checklistId: number;
   checklist: Checklist;
@@ -165,6 +167,21 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
     this.copy(ticket);
     this.openModal(modal);
   }
+
+
+  getCutComment(comment: string) {
+    if (comment.length < 150) {
+      return comment + '';
+    }
+    return comment.substring(0, 150) + "...";
+  }
+
+  openFullCommentModal() {
+    if (this.getCutComment(this.newTicket.comment) != this.newTicket.comment) {
+      this.modalRef = this.modalService.show(this.fullCommentModal);
+    }
+  }
+
 
   downloadFile(fileId){
     location.href = 'api/File/download?fileId=' + fileId;
