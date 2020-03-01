@@ -71,14 +71,14 @@
         
      
       
-        <li *ngIf="checkRole(userState.currentUser?.state, 'Директор')" [routerLinkActive]='["link-active"]'>
+        <!-- <li *ngIf="checkRole(userState.currentUser?.state, 'Директор')" [routerLinkActive]='["link-active"]'>
           <a routerLink='settings' (click)='collapse()'>
             <span class='glyphicon glyphicon-cog'></span> Настройки
           </a>
-        </li>
+        </li> -->
         <li>
-          <a href="javascript:void(0)" (click)='collapse(); logout();'>
-            <span class='glyphicon glyphicon-log-out'></span> Выход
+          <a routerLink='/' (click)='collapse()'>
+            <span class='glyphicon glyphicon-log-out'></span> Выйти из приложения
           </a>
         </li>
       </ul>

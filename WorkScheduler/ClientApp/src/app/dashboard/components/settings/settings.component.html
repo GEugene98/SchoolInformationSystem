@@ -1,10 +1,11 @@
+<div class="container">
 <h1>Настройки</h1>
 
 <tabset>
-  <tab heading="Пользователи системы" id="tab1">
+  <tab heading="Управление доступом" id="tab1">
     <br />
     <button type="button" (click)="openModal(add)" class="btn btn-success"><span class='glyphicon glyphicon-plus'></span> Добавить нового пользователя</button>
-
+    <br />
     <table class="table">
       <thead>
         <tr>
@@ -63,6 +64,8 @@
 
   </tab>
 </tabset>
+
+</div>
 
 <ng-template #edit>
   <div class="modal-header">

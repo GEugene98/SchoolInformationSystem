@@ -14,7 +14,7 @@ import { guid } from '../../shared/guid';
 import { SortDirection } from '../../shared/table/sort-direction';
 import { ChecklistFilter } from '../../shared/table/checklist/checklist-filter';
 import { TableRequest } from '../../shared/table/table-request';
-import Debounce from 'debounce-decorator'
+import Debounce from 'debounce-decorator';
 
 @Component({
   selector: 'app-checklist-details',

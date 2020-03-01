@@ -45,3 +45,7 @@ tr:hover .action-icons {
   opacity: 1;
   transition: 0.5s;
 }
+
+body button {
+  outline: none !important;
+}

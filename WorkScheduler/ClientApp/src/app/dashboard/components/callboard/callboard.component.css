@@ -1,0 +1,81 @@
+.comment {
+    border: none;    
+}
+
+.c-blue {
+    background-color: #f3faff;
+}
+
+.comment-container {
+    min-height: 30vh;
+}
+
+.c-red {
+    background-color: #fff7f3;
+}
+
+.c-green {
+    background-color: #f3fff7;
+}
+
+.c-name {
+    font-weight: 500;
+}
+
+.c-date {
+    font-size: smaller;
+    opacity: 0.9;
+}
+
+.c-text {
+    margin-top: 10px;
+}
+
+.c-field {
+    margin: 15px 0;
+}
+
+.c-field textarea {
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 75px;
+    border: 1px solid rgb(236, 236, 236);
+    border-radius: 3px;
+    outline: none;
+    padding: 10px;
+}
+
+.input-panel {
+    margin-bottom: 15px;
+}
+
+.c-controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+.color-picker {
+    display: flex;
+}
+
+.color-picker div { 
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    margin-right: 5px;
+    border: 1px solid rgb(236, 236, 236);
+}
+
+.checker {
+    color: gray;
+    margin-top: 8px;
+}
+
+.pub {
+    border: 1px solid rgb(236, 236, 236);
+}
+
+.c-controls label {
+    color: #333;
+}

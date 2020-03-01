@@ -1,0 +1,40 @@
+<div class="comment-container">
+  <div>
+
+    <div class="input-panel">
+        <div class="c-field">
+          <textarea [(ngModel)]="futureComment" (ngModelChange)="save()" placeholder="Начните набирать здесь объявление. Его увидят ваши коллеги, когда войдут в систему"></textarea>
+        </div>
+
+        <div *ngIf="futureComment" class="c-controls">
+          <div>
+            <div style="margin-top: 5px">
+              <input type="checkbox" id="em">
+              <label style="font-weight: normal;" for="em">Разослать это объявление на почту</label>
+            </div>
+          </div>
+          <div style="display: inline-flex">
+            <div class="color-picker">
+              <div (click)="changeColor('c-blue')" class="c-blue"><span *ngIf="futureCommentColor == 'c-blue'" class="checker glyphicon glyphicon-ok"></span></div>
+              <div (click)="changeColor('c-green')" class="c-green"><span *ngIf="futureCommentColor == 'c-green'" class="checker glyphicon glyphicon-ok"></span></div>
+              <div (click)="changeColor('c-red')" class="c-red"><span *ngIf="futureCommentColor == 'c-red'" class="checker glyphicon glyphicon-ok"></span></div>
+            </div>
+            <button type="button" class="pub btn btn-default">Опубликовать</button>
+          </div>
+        </div>
+
+    </div>
+
+    <div *ngFor="let i of [0,1,2,3,4,5,6,7,8,9]" class="comment c-green panel panel-default">
+      <div class="panel-body">
+        <div class="c-header">
+          <span class="c-name">О.Н. Столповская</span> <br/>
+          <span class="c-date">Вс 1 марта 2020 </span> <br/>
+        </div>
+        <div class="c-text">
+          Клиент javascript является одним из распространненых типов клиентов в SignalR, который может взаимодействовать с хабом на сервере. Для создания клиента js необходимо добавить в проект специальную библиотеку.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
