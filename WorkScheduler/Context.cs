@@ -39,6 +39,7 @@ namespace WorkScheduler
 
 
         public DbSet<School> Schools { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         //public DbSet<Address> Addresses { get; set; }
         //public DbSet<Certificate> Certificates { get; set; }

@@ -35,6 +35,8 @@ import { ChecklistDetailsComponent } from './scheduler/checklist-details/checkli
 import { OtherChecklistsComponent } from './scheduler/other-checklists/other-checklists.component';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { CallboardComponent } from './dashboard/components/callboard/callboard.component';
+import { CallboardService } from './shared/services/callboard.service';
+import { ToastModule } from 'primeng/toast';
 
 
 defineLocale('ru', ruLocale);
@@ -98,6 +100,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     NgSelectModule,
     TabsModule,
     ChartModule,
+    ToastModule,
     //TabsModule.forRoot(),
     //BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
@@ -113,6 +116,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
   ],
   providers: [
     UserState,
+    CallboardService
   ],
   entryComponents: [
   ],
