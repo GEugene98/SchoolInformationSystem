@@ -78,7 +78,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   async loadData(showLoader: boolean = true) {
-    if (showLoader) this.ngxService.start();
+    // if (showLoader) this.ngxService.start();
     this.originalPacks = await this.schedule.myTicketPacks(this.range);
     this.filterChecklistTickets();
     this.newTicket = new Ticket();
@@ -86,7 +86,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.userState.assignedTickets.state = await this.schedule.assignedTickets();
     let notifications = await this.dictionary.getNotifications();
     this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);
-    if (showLoader)this.ngxService.stop();
+    // if (showLoader)this.ngxService.stop();
   }
 
   checklistTicketsFilterHandler() {

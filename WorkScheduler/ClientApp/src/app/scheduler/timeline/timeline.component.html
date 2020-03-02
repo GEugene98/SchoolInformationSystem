@@ -13,14 +13,14 @@
                [bsConfig]="bsConfig"
                bsDaterangepicker
                placeholder="Выбрать период"
-               style="width: 300px; float: left;"> &nbsp;
+               style="width: 200px; float: left;"> &nbsp;
 
         <button type="button" (click)="openModal(add)" class="btn btn-success top-item"><span class="glyphicon glyphicon-plus"></span> Добавить запись</button>&nbsp;
 
       </div>
       
       <div style="float:right;">
-        <button *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Новые задания</button>
+        <button *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Новые задания ({{userState.assignedTicketCount.state}})</button>
         <button title="Сформировать документ по тайм-листу" type="button" (click)="getDocument()" class="btn btn-primary top-item"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>&nbsp;
         <button title="Отправить там-лист на мою почту" type="button" (click)="sendTimeline()" class="btn btn-info top-item"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>&nbsp;
       </div>

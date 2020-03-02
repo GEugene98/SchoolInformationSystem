@@ -79,3 +79,18 @@
 .c-controls label {
     color: #333;
 }
+
+.c-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.del-btn {
+    opacity: 0.3;
+    transition: 0.5s;
+}
+
+.comment:hover .del-btn {
+    opacity: 0.9;
+    transition: 0.5s;
+}

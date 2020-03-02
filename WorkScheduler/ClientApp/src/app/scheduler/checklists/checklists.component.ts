@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { Checklist } from '../../shared/models/checklist.model';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { DictionaryService } from '../../shared/services/dictionary.service';

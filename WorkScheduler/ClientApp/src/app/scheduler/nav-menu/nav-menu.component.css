@@ -44,7 +44,7 @@ li .glyphicon {
 
 /* Highlighting rules for nav menu items */
 li.link-active a {
-  background-color: rgb(51, 122, 183);
+  background-color: #007ad9c7;
   color: white;
 }
 
