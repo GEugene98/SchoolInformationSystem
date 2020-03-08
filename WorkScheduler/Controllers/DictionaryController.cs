@@ -34,7 +34,7 @@ namespace WorkScheduler.Controllers
         [HttpGet("AcademicYears")]
         public IActionResult AcademicYears()
         {
-            var academicYears = Db.AcademicYears.Select(a => new AcademicYearViewModel
+            var academicYears = Db.AcademicYears.OrderByDescending(a => a.Start).Select(a => new AcademicYearViewModel
             {
                 Id = a.Id,
                 Name = a.Name

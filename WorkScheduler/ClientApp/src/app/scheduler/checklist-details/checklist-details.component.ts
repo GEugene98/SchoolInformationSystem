@@ -15,6 +15,7 @@ import { SortDirection } from '../../shared/table/sort-direction';
 import { ChecklistFilter } from '../../shared/table/checklist/checklist-filter';
 import { TableRequest } from '../../shared/table/table-request';
 import Debounce from 'debounce-decorator';
+import { UserState } from '../../shared/states/user.state';
 
 @Component({
   selector: 'app-checklist-details',
@@ -56,6 +57,7 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
   constructor(private activateRoute: ActivatedRoute,
     private modalService: BsModalService,
     private dictionary: DictionaryService,
+    private userState: UserState,
     private messageService: MessageService,
     private ngxService: NgxUiLoaderService,
     private titleService: Title,
@@ -109,6 +111,10 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
     reqest.sortDirection = this.sortDirection;
     reqest.sortProperty = this.sortProperty;
     return reqest;
+  }
+
+  showAutoAcceptMessage() {
+    return this.newTicket.hours && this.newTicket.minutes && this.newTicket.date && (this.newTicket.userIdsToAssignTicket.indexOf(this.userState.currentUser.state.id) > -1)
   }
 
   openModal(modal) {

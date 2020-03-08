@@ -308,7 +308,7 @@ namespace WorkScheduler.Services
 
             if ((foundAction.Status == ActionStatus.Confirmed || foundAction.Status == ActionStatus.Accepted) && role == "Учитель")
             {
-                foundAction.Status = ActionStatus.New;
+                foundAction.Status = ActionStatus.NeedConfirm;
             }
 
             if (role == "Администратор" && foundAction.Status == ActionStatus.Accepted)

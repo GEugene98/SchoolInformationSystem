@@ -38,18 +38,18 @@ namespace WorkScheduler.Services
                 .Include(t => t.Action.WorkSchedule.Activity)
                 .Where(t => t.UserId == user.Id && t.Date.HasValue && (!t.Status.HasValue || t.Status == TicketStatus.Accepted || t.Status == TicketStatus.Done));
 
-            var actionUsers = 
-                (   
+            var actionUsers =
+                (
                     from t in tickets.Where(t => t.ActionId.HasValue)
-                    join au in Db.ActionUsers.Include(au => au.User) 
-                            on 
-                                (int)t.ActionId 
-                            equals 
-                                au.ActionId 
+                    join au in Db.ActionUsers.Include(au => au.User)
+                            on
+                                (int)t.ActionId
+                            equals
+                                au.ActionId
                     select au
                 )
                 .ToList();
-              
+
 
             if (dateTo == null || dateTo.ToShortDateString() == "01.01.0001")
             {
@@ -69,12 +69,12 @@ namespace WorkScheduler.Services
                 .ThenBy(t => t.Minutes)
                 .GroupBy(t => t.Date.Value.Date);
 
-            var foundFiles = 
+            var foundFiles =
                 (
                     from t in tickets
                     join tf in Db.TicketFiles on t.Id equals tf.TicketId
                     join f in Db.Files on tf.FileId equals f.Id
-                    select new 
+                    select new
                     {
                         TicketId = t.Id,
                         Type = tf.Type,
@@ -126,6 +126,7 @@ namespace WorkScheduler.Services
                     HasChecklist = t.ChecklistId != null,
                     Created = t.Created,
                     IsExpiered = t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date && t.Status != TicketStatus.Done,
+                    ActionIsOutOfDate = t.Action != null ? (t.Date.HasValue ? (t.Date.Value != t.Action.Date) : false) : false,
                     Checklist = (t.ChecklistId != null) ? new ChecklistViewModel
                     {
                         Id = t.Checklist.Id,
@@ -150,6 +151,13 @@ namespace WorkScheduler.Services
                             Id = t.Action.WorkSchedule.Activity.Id,
                             Name = t.Action.WorkSchedule.Activity.Name,
                             Color = t.Action.WorkSchedule.Activity.Color
+                        },
+                        WorkSchedule = new WorkScheduleViewModel
+                        {
+                            User = new UserViewModel
+                            {
+                                Id = t.Action.WorkSchedule.UserId
+                            }
                         },
                         IsDeleted = t.Action.IsDeleted,
                         ConfirmationForm = new ConfirmationFormViewModel
@@ -176,24 +184,22 @@ namespace WorkScheduler.Services
                     ResponseComment = t.ResponseComment,
                     InFiles = foundFiles
                         .Where(f => f.TicketId == t.Id && f.Type == TicketFileType.Incoming)
-                        .Select (f => new FileViewModel
-                                        {
-                                            Id = f.File.Id,
-                                            Name = f.File.Name,
-                                            SizeMb = f.File.SizeMb,
-                                            Extension = f.File.Extension
-                                        }
-                                ),
+                        .Select(f => new FileViewModel
+                        {
+                            Id = f.File.Id,
+                            Name = f.File.Name,
+                            SizeMb = f.File.SizeMb,
+                            Extension = f.File.Extension
+                        }),
                     OutFiles = foundFiles
                         .Where(f => f.TicketId == t.Id && f.Type == TicketFileType.Outgoing)
-                        .Select (f => new FileViewModel
-                                        {
-                                            Id = f.File.Id,
-                                            Name = f.File.Name,
-                                            SizeMb = f.File.SizeMb,
-                                            Extension = f.File.Extension
-                                        }
-                                )
+                        .Select(f => new FileViewModel
+                        {
+                            Id = f.File.Id,
+                            Name = f.File.Name,
+                            SizeMb = f.File.SizeMb,
+                            Extension = f.File.Extension
+                        })
                 });
 
                 var timeGroups = new List<TicketTimeGroup>();
@@ -216,7 +222,7 @@ namespace WorkScheduler.Services
                 var pack = new TicketPackViewModel
                 {
                     Date = group.Key,
-                    DateToShow = FirstUpper(culture.DateTimeFormat.GetDayName(i.DayOfWeek)) + "  " +  group.Key.ToLongDateString(),
+                    DateToShow = FirstUpper(culture.DateTimeFormat.GetDayName(i.DayOfWeek)) + "  " + group.Key.ToLongDateString(),
                     TimeGroups = timeGroups
                 };
 
@@ -229,38 +235,62 @@ namespace WorkScheduler.Services
 
         public IEnumerable<TicketViewModel> GetAssignedTickets(string userId)
         {
+
             var tickets = Db.Tickets
                 .Include(t => t.Checklist)
                 .Include(t => t.Checklist.User)
-                .Where(t => t.UserId == userId && t.ChecklistId != null && t.Status == TicketStatus.Assigned)
-                .ToList()
-                .Select(t => new TicketViewModel
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                    AssignmentComment = t.AssignmentComment,
-                    Important = t.Important,
-                    Date = t.Date,
-                    Hours = t.Hours,
-                    Minutes = t.Minutes,
-                    ResponseComment = t.ResponseComment,
-                    Checklist = new ChecklistViewModel
-                    {
-                        Id = t.Checklist.Id,
-                        Name = t.Checklist.Name,
-                        User = new UserViewModel
-                        {
-                            Id = t.Checklist.User.Id,
-                            Name = t.Checklist.User.UserName,
-                            FullName =  $"{t.Checklist.User.LastName} {t.Checklist.User.FirstName[0]}. {t.Checklist.User.SurName[0]}."
-                        },
-                        Deadline = t.Checklist.Deadline,
-                        Comment = t.Checklist.Comment,
-                        CreatedOn = t.Checklist.CreatedOn
-                    }
-                });
+                .Where(t => t.UserId == userId && t.ChecklistId != null && t.Status == TicketStatus.Assigned);
 
-            return tickets;
+            var foundFiles =
+               (
+                   from t in tickets
+                   join tf in Db.TicketFiles.Where(ticketFile => ticketFile.Type == TicketFileType.Incoming) on t.Id equals tf.TicketId
+                   join f in Db.Files on tf.FileId equals f.Id
+                   select new
+                   {
+                       TicketId = t.Id,
+                       Type = tf.Type,
+                       File = f
+                   }
+               )
+               .ToList();
+
+            var result = tickets.ToList().Select(t => new TicketViewModel
+            {
+                Id = t.Id,
+                Name = t.Name,
+                AssignmentComment = t.AssignmentComment,
+                Important = t.Important,
+                Date = t.Date,
+                Hours = t.Hours,
+                Minutes = t.Minutes,
+                ResponseComment = t.ResponseComment,
+                Checklist = new ChecklistViewModel
+                {
+                    Id = t.Checklist.Id,
+                    Name = t.Checklist.Name,
+                    User = new UserViewModel
+                    {
+                        Id = t.Checklist.User.Id,
+                        Name = t.Checklist.User.UserName,
+                        FullName = $"{t.Checklist.User.LastName} {t.Checklist.User.FirstName[0]}. {t.Checklist.User.SurName[0]}."
+                    },
+                    Deadline = t.Checklist.Deadline,
+                    Comment = t.Checklist.Comment,
+                    CreatedOn = t.Checklist.CreatedOn
+                },
+                InFiles = foundFiles
+                        .Where(f => f.TicketId == t.Id && f.Type == TicketFileType.Incoming)
+                        .Select(f => new FileViewModel
+                        {
+                            Id = f.File.Id,
+                            Name = f.File.Name,
+                            SizeMb = f.File.SizeMb,
+                            Extension = f.File.Extension
+                        })
+            });
+
+            return result;
         }
 
         public int GetAssignedTicketCount(string userId)
@@ -281,7 +311,7 @@ namespace WorkScheduler.Services
             {
                 throw new Exception("Запись не найдена");
             }
-  
+
             ticket.Date = date;
 
             if (ticket.Hours != hours || ticket.Minutes != minutes)

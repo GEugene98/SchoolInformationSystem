@@ -111,7 +111,9 @@ namespace WorkScheduler.Controllers
         public IActionResult AddFromChecklist([FromBody] TicketViewModel ticket)
         {
             string transactionId = Request.Headers["transaction-id"];
-            var schoolId = Db.Users.First(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
+
+            var currentUser = Db.Users.First(u => u.UserName == this.User.Identity.Name);
+            var schoolId = currentUser.SchoolId.ToString();
 
             var uploadedFiles = FileService.PutFilesInDb(transactionId, schoolId);
 
@@ -145,6 +147,13 @@ namespace WorkScheduler.Controllers
 
             foreach (var userId in ticket.UserIdsToAssignTicket)
             {
+                var ticketStatus = TicketStatus.Assigned;
+
+                if (userId == currentUser.Id && ticket.Hours.HasValue && ticket.Minutes.HasValue && ticket.Date.HasValue)
+                {
+                    ticketStatus = TicketStatus.Accepted;
+                }
+
                 var newTicket = new Ticket
                 {
                     Name = ticket.Name,
@@ -152,7 +161,7 @@ namespace WorkScheduler.Controllers
                     Hours = ticket.Hours,
                     Minutes = ticket.Minutes,
                     ChecklistId = ticket.ChecklistId,
-                    Status = TicketStatus.Assigned,
+                    Status = ticketStatus,
                     UserId = userId
                 };
 
@@ -262,13 +271,46 @@ namespace WorkScheduler.Controllers
         [HttpPost("Update")]
         public IActionResult Update([FromBody]TicketViewModel ticket)
         {
-            var foundTicket = Db.Tickets.FirstOrDefault(t => t.Id == ticket.Id);
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            var foundTicket = Db.Tickets.Include(t => t.Action.WorkSchedule).FirstOrDefault(t => t.Id == ticket.Id);
             foundTicket.Name = ticket.Name;
             foundTicket.Comment = ticket.Comment;
             foundTicket.Date = ticket.Date.Value.AddHours(3);
             foundTicket.Done = ticket.Done;
             foundTicket.Hours = ticket.Hours;
             foundTicket.Minutes = ticket.Minutes;
+
+            if (foundTicket.ActionId.HasValue && foundTicket.Action.WorkSchedule.UserId == currentUser.Id && foundTicket.Date.HasValue)
+            {
+                foundTicket.Action.Date = foundTicket.Date.Value;
+
+                var role = "";
+
+                if (this.User.IsInRole("Директор"))
+                {
+                    role = "Директор";
+                }
+                else if (this.User.IsInRole("Администратор"))
+                {
+                    role = "Администратор";
+                }
+                else
+                {
+                    role = "Учитель";
+                }
+
+                if ((foundTicket.Action.Status == ActionStatus.Confirmed || foundTicket.Action.Status == ActionStatus.Accepted) && role == "Учитель")
+                {
+                    foundTicket.Action.Status = ActionStatus.NeedConfirm;
+                }
+
+                if (role == "Администратор" && foundTicket.Action.Status == ActionStatus.Accepted)
+                {
+                    foundTicket.Action.Status = ActionStatus.Confirmed;
+                }
+            }
+
             Db.SaveChanges();
             return Ok();
         }
