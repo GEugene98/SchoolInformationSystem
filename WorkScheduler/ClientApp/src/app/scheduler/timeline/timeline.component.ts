@@ -226,6 +226,13 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(modal);
   }
 
+  ticketToDecline: Ticket;
+
+  openDeclineDialog(modal, ticket: Ticket) {
+    this.ticketToDecline = Object.assign({}, ticket);
+    this.openModal(modal);
+  }
+
   closeModal() {
     this.modalRef.hide();
     this.showAllSimilar = false;
@@ -395,9 +402,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
     }
   }
 
-  async declineTicket(ticket: Ticket){
+  async declineTicket(){
     try {
-      await this.schedule.declineTicket(ticket);
+      await this.schedule.declineTicket(this.ticketToDecline);
       await this.loadData();
       this.closeModal();
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задача отклонена", life: 5000 });

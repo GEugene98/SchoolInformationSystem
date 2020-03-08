@@ -374,24 +374,34 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th scope="col" style="width: 1%"></th>
                     <th scope="col" style="width: 15%">Дата</th>
                     <th scope="col" style="width: 10%">Время</th>
                     <th scope="col" style="width: 65%">Задание</th>
-                    <th scope="col" style="width: 10%; text-align: center">Действия</th>
+                    <th scope="col" style="width: 9%; text-align: center">Действия</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let ticket of userState.assignedTickets.state" [class.expired]="false">
+                    <td><span placement="left" theme="light" z-index="10000" [tooltip]="getTooltip(ticket)" style="color: skyblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></td>
                     <td><span *ngIf="ticket.date">{{ticket.date | date : 'dd.MM.yyyy'}}</span></td>
                     <td><span *ngIf="ticket.hours">{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes < 10">0</span></span></td>
                     <td>{{ticket.name}}</td>
                     <td style="text-align: center">
                         <a title="Принять" href="javascript:void(0)" (click)="acceptTicket(ticket)"><span style="color: green" class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></a>
-                        <a title="Отклонить" href="javascript:void(0)" (click)="declineTicket(ticket)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        <a title="Отклонить" href="javascript:void(0)" (click)="openDeclineDialog(declineModal, ticket)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+</ng-template>
+
+<ng-template #declineModal>
+    <div class="modal-body text-center">
+        <p>Отклонить задание <br /> &laquo;{{ticketToDecline.name}}&raquo; ? </p>
+        <button type="button" class="btn btn-success" (click)="modalRef.hide()">Нет</button>
+        <button type="button" class="btn btn-danger" (click)="modalRef.hide(); declineTicket()">Да</button>
     </div>
 </ng-template>
 
