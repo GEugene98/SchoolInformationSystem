@@ -330,7 +330,7 @@ namespace WorkScheduler.Controllers
 
             if (deleteAll)
             {
-                var similar = Db.Tickets.Where(t => t.Name == ticket.Name && t.UserId == currentUser.Id).ToList();
+                var similar = Db.Tickets.Where(t => t.Name == ticket.Name && t.UserId == currentUser.Id && !t.ActionId.HasValue).ToList();
                 Db.Tickets.RemoveRange(similar);
             }
             else
@@ -500,7 +500,7 @@ namespace WorkScheduler.Controllers
                 var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
                 var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
 
-                var similarTickets = Db.Tickets.Where(t => t.Name == ticket.Name && t.Id != ticket.Id && t.UserId == currentUser.Id);
+                var similarTickets = Db.Tickets.Where(t => t.Name == ticket.Name && t.Id != ticket.Id && t.UserId == currentUser.Id && !t.ActionId.HasValue);
 
                 if (similarTickets.Count() == 0)
                 {
