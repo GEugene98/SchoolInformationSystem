@@ -154,6 +154,8 @@ namespace WorkScheduler.Services
                         },
                         WorkSchedule = new WorkScheduleViewModel
                         {
+                            Id = t.Action.WorkScheduleId,
+                            Name = t.Action.WorkSchedule.Name,
                             User = new UserViewModel
                             {
                                 Id = t.Action.WorkSchedule.UserId

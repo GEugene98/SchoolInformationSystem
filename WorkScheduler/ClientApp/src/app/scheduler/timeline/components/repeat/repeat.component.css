@@ -1,6 +1,7 @@
 .days {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
 
   .days div {

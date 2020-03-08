@@ -236,7 +236,7 @@
 
 <ng-template #edit>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">Изменить запись в тайм-листе</h4>
+        <h4 class="modal-title pull-left">Изменить запись</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -257,8 +257,12 @@
                    [bsConfig]="bsConfig"
                    bsDatepicker>
         </div>
-        <br>
-        <div>
+        <div *ngIf="!newTicket.action.isDeleted && newTicket.action && newTicket.action.workSchedule.user.id == userState.currentUser.state.id" style="margin-top: 15px">
+            <div class="alert alert-info" role="alert">
+                <p>При изменении даты выполнения этого задания изменится дата выполнения связанного мероприятия, так как мероприятие &laquo;{{newTicket.action.name}}&raquo; находится в вашем плане	&laquo;{{newTicket.action.workSchedule.name}}&raquo;</p>
+            </div>
+        </div>
+        <div style="margin-top: 15px">
             Время начала:
             <input type="text" [(ngModel)]="newTicket.hours" class="clock form-control" placeholder="ЧЧ"> :
             <input type="text" [(ngModel)]="newTicket.minutes" class="clock form-control" placeholder="ММ">
@@ -267,12 +271,6 @@
         <div>
             Комментарий:
             <textarea style="height: 200px;" [disabled]='newTicket.hasChecklist && newTicket.checklist?.user.id != userState?.currentUser?.state?.id' [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
-        </div>
-
-        <div *ngIf="!newTicket.action.isDeleted && newTicket.action && newTicket.action.workSchedule.user.id == userState.currentUser.state.id" style="margin-top: 15px">
-            <div class="alert alert-info" role="alert">
-                <strong>При изменении даты выполнения этого задания изменится дата выполнения связанного мероприятия, так как это мероприятие находится в вашем плане</strong>
-            </div>
         </div>
 
         <br>
@@ -292,7 +290,7 @@
 
 <ng-template #add>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">Создать запись в тайм-листе</h4>
+        <h4 class="modal-title pull-left">Создать запись</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -303,7 +301,7 @@
             <input type="text" [(ngModel)]="newTicket.name" class="form-control" placeholder="Название записи">
         </div>
 
-        <div>
+        <div style="margin-top: 10px">
             Дата:
             <input type="text"
                    placeholder="Щелкните здесь для выбора"
@@ -314,7 +312,7 @@
                    bsDatepicker>
         </div>
 
-        <div>
+        <div style="margin-top: 10px">
             Время начала:
             <input type="text" [(ngModel)]="newTicket.hours" class="clock form-control" placeholder="ЧЧ"> :
             <input type="text" [(ngModel)]="newTicket.minutes" class="clock form-control" placeholder="ММ">
@@ -323,9 +321,9 @@
 
         <app-repeat (days)="setDays($event)" (dateTo)="setDateTo($event)" (repeatAction)="setRepeat($event)"></app-repeat>
 
-        <div>
-            Комментарий(не обязательно):
-            <textarea [(ngModel)]="newTicket.comment" class="form-control" placeholder="Комментарий"></textarea>
+        <div style="margin-top: 20px">
+            Комментарий:
+            <textarea [(ngModel)]="newTicket.comment" class="form-control"></textarea>
         </div>
 
         <div style="text-align:center; margin-top: 15px;">
