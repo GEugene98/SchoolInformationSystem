@@ -36,6 +36,11 @@ namespace WorkScheduler.Controllers
             FileService = fileService;
         }
 
+        /// <summary>
+        /// Метод для получения тикетов текущего пользователя в формате для рендеринга тайм листа
+        /// </summary>
+        /// <param name="range">Массив из двух дат - начало и конец</param>
+        /// <returns>Тикеты</returns>
         [HttpPost("MyTickets")]
         public IActionResult MyTickets([FromBody]IEnumerable<DateTime> range)
         {
@@ -46,6 +51,10 @@ namespace WorkScheduler.Controllers
             return Ok(ticketPacks);
         }
 
+        /// <summary>
+        /// Метод для получения тикетов текущего пользователя в статусе "Назначено". Используется с интерфейса тайм-листа 
+        /// </summary>
+        /// <returns>Тикеты</returns>
         [HttpGet("AssignedTickets")]
         public IActionResult AssignedTickets()
         {
@@ -56,6 +65,11 @@ namespace WorkScheduler.Controllers
             return Ok(tickets);
         }
 
+        /// <summary>
+        /// Метод для создания тикета из интерфейса тайм-листа
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <returns></returns>
         [HttpPost("Add")]
         public IActionResult Add([FromBody]TicketViewModel ticket)
         {
@@ -107,6 +121,12 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для создания тикета из интерфейса чек-листа.
+        /// Берет из headers гуид для привязки загруженных файлов к тикету с типом отношения "загружен автором" 
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <returns></returns>
         [HttpPost("AddFromChecklist")]
         public IActionResult AddFromChecklist([FromBody] TicketViewModel ticket)
         {
@@ -182,6 +202,13 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для удаления связи файла с тикетом не трогая сами файлы 
+        /// </summary>
+        /// <param name="fileId"></param>
+        /// <param name="ticketId"></param>
+        /// <param name="type">Тип отношения файла с тикетом (загружен автором тикета или ответный от исполнителя)</param>
+        /// <returns></returns>
         [HttpGet("DeleteFileBinding")]
         public IActionResult DeleteFileBinding(long fileId, long ticketId, TicketFileType type)
         {
@@ -191,6 +218,12 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для сохранения тикета с интерфейса тайм-листа, обновляет ответный комментарий, связывает загруженные файлы с тикетом
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="transactionId">Гуид для связи тикета с уже загруженными для него файлами</param>
+        /// <returns></returns>
         [HttpPost("SaveReply")]
         public IActionResult SaveReply([FromBody] TicketViewModel ticket, string transactionId)
         {
@@ -217,6 +250,12 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для сохранения тикета с интерфейса чек-листов, обновляет комментарий, связывает загруженные файлы с тикетом 
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="transactionId">Гуид для связи тикета с уже загруженными для него файлами</param>
+        /// <returns></returns>
         [HttpPost("SaveChecklistTicketDetails")]
         public IActionResult SaveChecklistTicketDetails([FromBody] Ticket ticket, string transactionId)
         {
@@ -243,6 +282,12 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для обновления тикета с интерфейса чек-листа.
+        /// При этом сбрасывает статус тикета в "Назначено", если у тикета меняется исполнитель
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <returns></returns>
         [HttpPost("EditFromChecklist")]
         public IActionResult EditFromChecklist([FromBody] TicketViewModel ticket)
         {
@@ -268,6 +313,12 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для обновления тикета с интерфейса тайм-листа.
+        /// При этом меняет дату связанного с тикетом мероприятия и делает доп. изменения над ним
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <returns></returns>
         [HttpPost("Update")]
         public IActionResult Update([FromBody]TicketViewModel ticket)
         {
@@ -315,6 +366,12 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для удаления тикета с интерфейса тайм-листа
+        /// </summary>
+        /// <param name="ticketId"></param>
+        /// <param name="deleteAll">Флаг для удаления всех тикетов пользователя с таким же названием</param>
+        /// <returns></returns>
         [HttpDelete("Delete")]
         public IActionResult Delete(long ticketId, bool deleteAll = false)
         {
@@ -343,6 +400,11 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Метод для удаления тикета с интерфейса чек-листа
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("DeleteFromChecklist")]
         public IActionResult DeleteFromChecklist(long id)
         {
@@ -353,6 +415,11 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Отправляет на почту текущего пользователя его таймлист в диапазоне дат
+        /// </summary>
+        /// <param name="range">Массив из двух дат - начало и конец</param>
+        /// <returns>Сообщение о том, что сделано</returns>
         [HttpPost("SendTimeline")]
         public IActionResult SendTimeline([FromBody]IEnumerable<DateTime> range)
         {
@@ -372,6 +439,11 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Ставит или снимает флаг "Готово" в зависимости от текущего состояния
+        /// </summary>
+        /// <param name="ticketId"></param>
+        /// <returns></returns>
         [HttpGet("MakeDone")]
         public IActionResult MakeDone(long ticketId)
         {
@@ -397,6 +469,11 @@ namespace WorkScheduler.Controllers
             }
         }
 
+        /// <summary>
+        /// Метод для изменения флага "Готово" из интерфейса тайм-листа для тикетов, которые являются заданиями из чек-листов
+        /// </summary>
+        /// <param name="ticketId"></param>
+        /// <returns>Сообщение о том, что сделано</returns>
         [HttpGet("MakeDoneChecklistTicket")]
         public IActionResult MakeDoneChecklistTicket(long ticketId)
         {
@@ -432,6 +509,12 @@ namespace WorkScheduler.Controllers
             }
         }
 
+        /// <summary>
+        /// Метод для изменения флага "Готово" из интерфейса чек-листа
+        /// Ставит или снимает флаг "Готово" в зависимости от текущего состояния при этом меняя статус
+        /// </summary>
+        /// <param name="ticketId"></param>
+        /// <returns>Сообщение о том, что сделано</returns>
         [HttpGet("MakeDoneFromChecklistDetails")]
         public IActionResult MakeDoneFromChecklistDetails(long ticketId)
         {
@@ -467,6 +550,11 @@ namespace WorkScheduler.Controllers
             }
         }
 
+        /// <summary>
+        /// Ставит или снимает флаг "Важно" в зависимости от текущего состояния
+        /// </summary>
+        /// <param name="ticketId"></param>
+        /// <returns>Сообщение о том, что сделано</returns>
         [HttpGet("MakeImportant")]
         public IActionResult MakeImportant(long ticketId)
         {
@@ -492,6 +580,11 @@ namespace WorkScheduler.Controllers
             }
         }
 
+        /// <summary>
+        /// Находит и возвращает тикеты пользователя с таким же именем сортируя по дате
+        /// </summary>
+        /// <param name="ticketId"></param>
+        /// <returns>Тикеты с таким же именем</returns>
         [HttpGet("SimilarTickets")]
         public IActionResult SimilarTickets(long ticketId)
         {
@@ -530,6 +623,11 @@ namespace WorkScheduler.Controllers
             }
         }
 
+        /// <summary>
+        /// Меняет статус тикета на "Принято" при этом задавая дату и время
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <returns></returns>
         [HttpPost("AcceptTicket")]
         public IActionResult AcceptTicket([FromBody]TicketViewModel ticket)
         {
@@ -545,6 +643,11 @@ namespace WorkScheduler.Controllers
             }
         }
 
+        /// <summary>
+        /// Меняет статус тикета на "Отклонено" и больше не делает ничего
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("DeclineTicket")]
         public IActionResult DeclineTicket(long id)
         {
