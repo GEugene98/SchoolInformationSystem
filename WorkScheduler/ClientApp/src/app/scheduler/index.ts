@@ -17,7 +17,7 @@ import { DayComponent } from './general-schedule/components/day/day.component';
 import { WeekComponent } from './general-schedule/components/week/week.component';
 import { MonthComponent } from './general-schedule/components/month/month.component';
 import { YearComponent } from './general-schedule/components/year/year.component';
-import { SettingsComponent } from './settings/settings.component';
+import { SettingsComponent } from '../dashboard/components/settings/settings.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { AcceptComponent } from './accept/accept.component';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -55,7 +55,6 @@ defineLocale('ru', ruLocale);
     WeekComponent,
     MonthComponent,
     YearComponent,
-    SettingsComponent,
     ConfirmComponent,
     AcceptComponent,
     ScheduleDetailsComponent,

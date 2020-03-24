@@ -132,7 +132,7 @@ namespace WorkScheduler.Controllers
                     Context.LoginLogs.Add(log);
                     Context.SaveChanges();
                     
-                    return Redirect("/scheduler/timeline");
+                    return Redirect("/"); 
                 }
                 else
                 {
@@ -155,7 +155,7 @@ namespace WorkScheduler.Controllers
         public async Task<IActionResult> Logout()
         {
             await SignInManager.SignOutAsync();
-            return Redirect("/");
+            return Redirect("/api/Account/Login");
         }
 
         [Authorize(Roles = "Директор")]

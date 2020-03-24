@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DictionaryService } from '../../shared/services/dictionary.service';
-import { User } from '../../shared/models/user';
-import { Dictionary } from '../../shared/models/dictionary.model';
-import { AccountService } from '../../shared/services/account.service';
-import { Register } from '../../shared/models/register.model';
+import { DictionaryService } from '../../../shared/services/dictionary.service';
+import { User } from '../../../shared/models/user';
+import { Dictionary } from '../../../shared/models/dictionary.model';
+import { AccountService } from '../../../shared/services/account.service';
+import { Register } from '../../../shared/models/register.model';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { Title } from '@angular/platform-browser';
 

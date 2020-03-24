@@ -27,5 +27,6 @@ namespace WorkScheduler.Models.Identity
         public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual ICollection<Checklist> Checklists { get; set; }
         public virtual ICollection<LoginLog> LoginLogs { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

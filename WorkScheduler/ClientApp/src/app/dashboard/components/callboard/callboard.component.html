@@ -1,0 +1,53 @@
+<div class="comment-container">
+  <div>
+
+    <div class="input-panel">
+        <div class="c-field">
+          <textarea [(ngModel)]="futureComment" (ngModelChange)="save()" placeholder="Начните набирать здесь объявление. Его увидят ваши коллеги, когда войдут в систему"></textarea>
+        </div>
+
+        <div *ngIf="futureComment" class="c-controls">
+          <div>
+            <div style="margin-top: 5px">
+              <input type="checkbox" id="em" [(ngModel)]="notify">
+              <label style="font-weight: normal;" for="em">Разослать это объявление на почту</label>
+            </div>
+          </div>
+          <div style="display: inline-flex">
+            <div class="color-picker">
+              <div (click)="changeColor('c-blue')" class="c-blue"><span *ngIf="futureCommentColor == 'c-blue'" class="checker glyphicon glyphicon-ok"></span></div>
+              <div (click)="changeColor('c-green')" class="c-green"><span *ngIf="futureCommentColor == 'c-green'" class="checker glyphicon glyphicon-ok"></span></div>
+              <div (click)="changeColor('c-red')" class="c-red"><span *ngIf="futureCommentColor == 'c-red'" class="checker glyphicon glyphicon-ok"></span></div>
+            </div>
+            <button type="button" (click)="sendPost()" class="pub btn btn-default">Опубликовать</button>
+          </div>
+        </div>
+
+    </div>
+
+    <div *ngIf="!posts" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
+
+
+    <div *ngFor="let post of posts" class="comment {{post.color}} panel panel-default">
+      <div class="panel-body">
+        <div class="c-header">
+          <div>
+            <span class="c-name">
+              {{post.author.firstName[0]}}. {{post.author.surName[0]}}. {{post.author.lastName}}
+            </span> <br/>
+            <span class="c-date">{{ post.createdAt | date : 'dd.MM.yyyy HH:mm' }}</span> <br/>
+          </div>
+          <div>
+            <a *ngIf="checkRole(userState.currentUser?.state, 'Директор') || checkRole(userState.currentUser?.state, 'Администратор') || post.author.id == userState.currentUser?.state.id" class="del-btn" (click)="deletePost(post.id)" title="Удалить" href="javascript:void(0)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+          </div>
+        </div>
+        <div class="c-text">
+          {{post.text}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<p-toast [baseZIndex]="1000"></p-toast>

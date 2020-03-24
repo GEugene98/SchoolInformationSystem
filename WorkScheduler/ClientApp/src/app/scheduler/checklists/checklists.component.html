@@ -1,12 +1,4 @@
-<h1>Чек-листы</h1>
-
-
-<div *ngIf="!checklists" class="lds-ring">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-</div>
+﻿<h1>Чек-листы</h1>
 
  <div class="panel panel-default">
           <div class="panel-body">
@@ -14,12 +6,15 @@
                   <button type="button" (click)="clear(); openModal(add)" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Создать чек-лист</button>
               </div>
           </div>
-      </div>
+</div>
+
+<div *ngIf="!checklists && !otherChecklists" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
+
 
 <tabset>
   <tab heading="Мои чек-листы" id="tab1">
 
-
+<div *ngIf="checklists.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>У вас пока нет ни одного чек-листа</span></div>
 
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap; margin-left: -5px; margin-top: 15px;">

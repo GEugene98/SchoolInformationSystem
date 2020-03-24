@@ -13,7 +13,7 @@ textarea {
 
 
 .deleted-action {
-  opacity: 0.4;
+  opacity: 0.8;
 }
 
 .badge {
@@ -51,6 +51,15 @@ textarea {
   margin: 16px;
   opacity: 1;
   transition: 0.5s;
+}
+
+.full-comment-textarea {
+  border: none;
+  height: 400px;
+  min-width: 100%;
+  max-width: 100%;
+  outline: none;
+  resize: none;
 }
 
 .top {

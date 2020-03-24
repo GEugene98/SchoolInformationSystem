@@ -15,7 +15,10 @@
   <ItemGroup>
     <PackageReference Include="DinkToPdf" Version="1.0.8" />
     <PackageReference Include="EPPlus.Core" Version="1.5.4" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.App">
+      <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
+      <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
+    </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
@@ -39,6 +42,8 @@
   <Content Remove="$(SpaRoot)**" />
   <None Remove="$(SpaRoot)**" />
   <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  <None Remove="ClientApp\src\app\shared\services\callboard.service.ts" />
+  <None Remove="ClientApp\src\app\shared\models\post.model.ts" />
 </ItemGroup>
 <ItemGroup>
   <Compile Remove="Migrations\20190729083121_Schools.cs" />
@@ -128,6 +133,8 @@
     <TypeScriptCompile Include="ClientApp\src\app\shared\table\sort-direction.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\table\table-request.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\table\table-response.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\services\callboard.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\post.model.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -159,7 +166,7 @@
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
       <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>

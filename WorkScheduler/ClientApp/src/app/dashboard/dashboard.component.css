@@ -1,3 +1,30 @@
 a {
-  font-size: 48px;
+  font-size: 30px;
+}
+
+.dev {
+  opacity: 0.5;
+}
+
+.main-panel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px; 
+  margin: 15px;
+}
+
+.main-panel a {
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.apps {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+
+.apps a span {
+  font-size: 50px;
 }

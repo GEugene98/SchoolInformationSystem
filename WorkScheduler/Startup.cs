@@ -73,6 +73,7 @@ namespace WorkSheduler
                 services.AddScoped<FileService>();
                 services.AddScoped<WorkScheduler.Services.Monitoring.DictionaryService>();
                 services.AddScoped<TalentedChildrenService>();
+                services.AddScoped<CallboardService>();
 
                 var context = new CustomAssemblyLoadContext();
                 context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));

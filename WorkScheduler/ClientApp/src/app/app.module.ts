@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { TabsModule, ModalModule, TimepickerModule } from 'ngx-bootstrap';
+import { TabsModule, ModalModule, TimepickerModule, ButtonsModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -21,7 +21,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SchedulerHomeComponent } from './scheduler/scheduler-home/scheduler-home.component';
 import { MySchedules } from './scheduler/my-schedules/my-schedules.component';
 import { GeneralScheduleComponent } from './scheduler/general-schedule/general-schedule.component';
-import { SettingsComponent } from './scheduler/settings/settings.component';
+import { SettingsComponent } from './dashboard/components/settings/settings.component';
 import { ConfirmComponent } from './scheduler/confirm/confirm.component';
 import { AcceptComponent } from './scheduler/accept/accept.component';
 import { ScheduleDetailsComponent } from './scheduler/schedule-details/schedule-details.component';
@@ -34,18 +34,21 @@ import { ChartModule } from 'primeng/chart';
 import { ChecklistDetailsComponent } from './scheduler/checklist-details/checklist-details.component';
 import { OtherChecklistsComponent } from './scheduler/other-checklists/other-checklists.component';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { CallboardComponent } from './dashboard/components/callboard/callboard.component';
+import { CallboardService } from './shared/services/callboard.service';
+import { ToastModule } from 'primeng/toast';
 
 
 defineLocale('ru', ruLocale);
 
 const routes = [
   { path: '', component: DashboardComponent, pathMatch: 'full' },
+  { path: 'settings', component: SettingsComponent, pathMatch: 'full'  },
   {
     path: 'scheduler', component: SchedulerHomeComponent,
     children: [
       { path: 'my-schedule', component: MySchedules },
       { path: 'general-schedule', component: GeneralScheduleComponent },
-      { path: 'settings', component: SettingsComponent },
       { path: 'confirm', component: ConfirmComponent },
       { path: 'accept', component: AcceptComponent },
       { path: 'timeline', component: TimelineComponent },
@@ -87,6 +90,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
   declarations: [ 
     AppComponent,
     DashboardComponent,
+    SettingsComponent,
+    CallboardComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -95,6 +100,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     NgSelectModule,
     TabsModule,
     ChartModule,
+    ToastModule,
     //TabsModule.forRoot(),
     //BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
@@ -102,10 +108,15 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     SchedulerModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     RouterModule.forRoot(routes),
-    UploadModule
+    UploadModule,
+    TabsModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    ModalModule.forRoot(),
+    ButtonsModule.forRoot()
   ],
   providers: [
     UserState,
+    CallboardService
   ],
   entryComponents: [
   ],

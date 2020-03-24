@@ -29,6 +29,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
   newTicket: Ticket;
   modalRef: BsModalRef;
 
+  checklistTicketToSeeDetails: Ticket;
+
   refreshIntervalId;
 
   transactionId: string;
@@ -78,7 +80,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   async loadData(showLoader: boolean = true) {
-    if (showLoader) this.ngxService.start();
+    // if (showLoader) this.ngxService.start();
     this.originalPacks = await this.schedule.myTicketPacks(this.range);
     this.filterChecklistTickets();
     this.newTicket = new Ticket();
@@ -86,7 +88,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.userState.assignedTickets.state = await this.schedule.assignedTickets();
     let notifications = await this.dictionary.getNotifications();
     this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);
-    if (showLoader)this.ngxService.stop();
+    // if (showLoader)this.ngxService.stop();
   }
 
   checklistTicketsFilterHandler() {
@@ -224,6 +226,13 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(modal);
   }
 
+  ticketToDecline: Ticket;
+
+  openDeclineDialog(modal, ticket: Ticket) {
+    this.ticketToDecline = Object.assign({}, ticket);
+    this.openModal(modal);
+  }
+
   closeModal() {
     this.modalRef.hide();
     this.showAllSimilar = false;
@@ -321,7 +330,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
   ticketToAccept: Ticket;
 
-  async acceptTicket(ticket: Ticket = null) {
+  async acceptTicket(ticket: Ticket = null, closeDetailsModal: boolean = false) {
     try {
       if (!ticket.date || !ticket.hours || (!ticket.minutes && ticket.minutes != 0)) {
         this.ticketToAccept = Object.assign({}, ticket);
@@ -340,6 +349,10 @@ export class TimelineComponent implements OnInit, OnDestroy {
       await this.loadData();
       if (this.userState.assignedTickets.state.length == 0) {
         this.closeModal();
+
+        if (closeDetailsModal) {
+          this.modalRef.hide(); 
+        }
       }
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задача занесена в тайм-лист", life: 5000 });
     } catch (e) {
@@ -366,9 +379,14 @@ export class TimelineComponent implements OnInit, OnDestroy {
     }
   }
 
-  openReplyModal(ticket: Ticket, modal){
+  openReplyModal(ticket: Ticket, modal) {
     this.transactionId = guid();
     this.checklistTicketToReply = Object.assign({}, ticket);
+    this.openModal(modal);
+  }
+
+  openDetailsModal(ticket: Ticket, modal) {
+    this.checklistTicketToSeeDetails = Object.assign({}, ticket);
     this.openModal(modal);
   }
 
@@ -384,9 +402,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
     }
   }
 
-  async declineTicket(ticket: Ticket){
+  async declineTicket(){
     try {
-      await this.schedule.declineTicket(ticket);
+      await this.schedule.declineTicket(this.ticketToDecline);
       await this.loadData();
       this.closeModal();
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Задача отклонена", life: 5000 });

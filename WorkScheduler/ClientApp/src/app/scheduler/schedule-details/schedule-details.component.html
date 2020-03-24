@@ -1,6 +1,6 @@
 <h1>{{currentSchedule?.name}}</h1> 
 
-<div class="panel panel-default">
+<div class="panel panel-default" *ngIf="actions">
   <div class="panel-body">
     <div class="top">
 
@@ -19,7 +19,10 @@
  
 <br/>
 
-<table class="table">
+<div *ngIf="!actions" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
+<div *ngIf="actions.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>В этом плане пока нет ни одного мероприятия</span></div>
+
+<table class="table" *ngIf="actions && actions.length>0">
   <thead>
     <tr>
       <th scope="col"><input type="checkbox" [(ngModel)]="selectedAll" (click)="selection()" /></th>
@@ -60,7 +63,7 @@
   </tbody>
 </table>
 
-<div class="panel panel-default">
+<div class="panel panel-default" *ngIf="actions && actions.length>0">
   <div class="panel-body">
     <div class="bottom-container">
       <div style="float: right">
@@ -264,12 +267,10 @@
     <br>
 
     <div *ngIf="showEditMessage && checkRole('Учитель')" class="alert alert-warning" role="alert">
-      <strong>Статус мероприятия будет изменен на "Новая запись"</strong>
+      <strong>Мероприятие отправится на повторное согласование и утверждение</strong>
       <p>
-        Так как вы пытаетесь изменить утвержденное или согласованное мероприятие, 
-        статус мероприятия после сохранения изменений будет сброшен до статуса "Новая запись".
-        <br>Не забудьте отправить неутвержденные мероприятия на согласование, 
-        чтобы они отображались в сводном плане и попали в формируемую документацию
+        Так как вы пытаетесь изменить утвержденное или согласованное мероприятие, то после сохранения изменений это мероприятие будет отправлено на согласование.
+        <br>Дождитесь статуса "Утверждено", чтобы мероприятие отображалось в сводном плане и попадало в формируемую документацию
       </p>
     </div>
 

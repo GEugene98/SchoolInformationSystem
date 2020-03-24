@@ -1,12 +1,17 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Register } from "../models/register.model";
+import { User } from "../models/user";
 
 @Injectable()
 export class AccountService {
 
   constructor(private http: HttpClient) {
 
+  }
+
+  async getCurrentUser() {
+    return await this.http.get<User>('/api/Account/GetCurrentUserInfo').toPromise();
   }
 
   async register(model: Register) {

@@ -1,10 +1,38 @@
-<div class="container" style="text-align:center">
-  <h1>Здравствуйте! Вы находитесь в информационной системе школы</h1>
-  <h3>Выберите приложение и выполните по необходимости вход для начала работы</h3>
-  <br />
-  <a class="btn btn-outline-info" routerLink="scheduler/timeline" role="button"><span class='glyphicon glyphicon-calendar'></span> <br /> Планирование</a>
-  <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-list-alt'></span> <br /> Мониторинг</a>
-  <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-signal'></span> <br /> Статистика</a>
+<div>
+  <div class="main-panel">
+    <div>
+      <span>
+        <span class='glyphicon glyphicon-user'></span>
+        <span *ngIf="!userState.currentUser.state">Вход не выполнен</span>
+        <span *ngIf="userState.currentUser.state">
+          {{userState.currentUser?.state?.firstName[0]}}.
+          {{userState.currentUser?.state?.surName[0]}}.
+          {{userState.currentUser?.state?.lastName}} ({{userState.currentUser?.state?.roles?.join(', ').toLowerCase()}})
+        </span>
+      </span>
+      <a href="javascript:void(0)" (click)="logout()" *ngIf="userState.currentUser.state" style="font-size: 14px;">выйти</a>
+    </div>
+    
+    <div>
+      <a *ngIf="checkRole(userState.currentUser?.state, 'Директор')" routerLink="settings">Настройки</a>
+    </div>
+
+  </div>
+</div> 
+
+
+
+<div class="container">
+  <div class="apps">
+    <a class="btn btn-outline-info" routerLink="scheduler/timeline" role="button"><span class='glyphicon glyphicon-calendar'></span> <br /> Планирование</a>
+    <a class="btn btn-outline-info" (click)="openModal(docsModal)" role="button"><span class='glyphicon glyphicon-briefcase'></span> <br /> Документация</a>
+    <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-list-alt'></span> <br /> Мониторинг</a>
+    <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-signal'></span> <br /> Статистика</a>
+  </div>
+  <div style="margin-top: 50px;">
+    <app-callboard ></app-callboard>
+  </div>
+  
 </div>
 
 
@@ -16,6 +44,23 @@
     </button>
   </div>
   <div class="modal-body">
-    Приложение находится в стадии разработки
+    К сожалению, это приложение еще проектируется или разрабатывается 
   </div>
+</ng-template>
+
+<ng-template #docsModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Приложение "Документация"</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div style="text-align: center; font-size: 50px; color: #007ad9;"><span class='glyphicon glyphicon-briefcase'></span></div>
+    <p style="text-align: center;">
+      Совсем скоро мы запустим это приложение в работу!<br/><br/>
+    Оно позволит вести журналы входящей/исходящей документации в вашей школе, формировать отчетность по документообороту, а также будет уметь работать с чек-листами в приложении "Планирование" упрощая работу!
+ 
+    </p>
+     </div>
 </ng-template>

@@ -14,6 +14,7 @@ namespace WorkScheduler.ViewModels
         public int ConfirmationFormId { get; set; }
         public ActivityViewModel Activity { get; set; }
         public bool IsDeleted { get; set; }
+        public WorkScheduleViewModel WorkSchedule { get; set; }
 
         public DateTime? EndDate { get; set; }
 
