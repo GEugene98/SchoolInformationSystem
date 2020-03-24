@@ -446,7 +446,7 @@
         </button>
     </div>
     <div class="modal-body">
-        {{this.newTicket.comment}}
+        <textarea readonly class="full-comment-textarea">{{this.newTicket.comment}}</textarea>
     </div>
 </ng-template>
 
@@ -462,7 +462,9 @@
             <p>Чек-лист: &laquo;{{checklistTicketToSeeDetails.checklist.name}}&raquo; <br /> Автор: {{checklistTicketToSeeDetails.checklist.user.fullName}}</p>
             <br />
             <span style="font-size: 15px; font-weight: bold;">Комментарий и вложения автора:</span><br />
-            <span>{{checklistTicketToSeeDetails.comment}}</span>
+            <span>
+                <textarea readonly class="full-comment-textarea">{{checklistTicketToSeeDetails.comment}}</textarea> 
+            </span>
             <div *ngIf="checklistTicketToSeeDetails.inFiles.length == 0" style="text-align: center; margin-top: 25px; font-style: italic;"><span>Автор задания пока не оставил ни одного вложения</span></div>
             <table class="table" *ngIf="checklistTicketToSeeDetails.inFiles.length != 0">
                 <thead>
