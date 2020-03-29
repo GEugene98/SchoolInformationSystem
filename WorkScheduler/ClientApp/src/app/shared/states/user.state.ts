@@ -10,4 +10,5 @@ export class UserState {
   readonly assignedTicketCount = new DataStore<number>();
   readonly schedulesToAccept = new DataStore<number>();
   readonly schedulesToConfirm = new DataStore<number>();
+  readonly unseenChecklistTickets = new DataStore<number>();
 }

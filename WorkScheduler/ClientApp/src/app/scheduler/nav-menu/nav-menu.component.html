@@ -56,7 +56,7 @@
   <li [routerLinkActive]='["link-active"]' *ngIf="checkRole(userState.currentUser?.state, 'Администратор') || checkRole(userState.currentUser?.state, 'Директор')">
     <a routerLink='checklists' (click)='collapse()'>
       <span class='	glyphicon glyphicon-check'></span> 
-      <span>Чек-листы</span>
+      <span>Чек-листы</span> <span *ngIf="userState.unseenChecklistTickets.state != 0" class="badge badge-info">{{userState.unseenChecklistTickets.state}}</span>
     </a>
   </li>
 

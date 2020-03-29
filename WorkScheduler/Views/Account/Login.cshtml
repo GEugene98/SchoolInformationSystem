@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>Вход в ИСШ</title>
     <style>
+
         body {
             font: 1rem 'Fira Sans', sans-serif;
             background-color: white;
@@ -60,11 +61,17 @@
             box-sizing: border-box;
             resize: vertical;
         }
+
+        .footer-container {
+            margin-top: 100px;
+            text-align: center;
+            font-size: smaller;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="~/logo.png" width="400" style="margin-top: 50px;"/>
+        <img src="~/logo.png" width="400" style="margin-top: 50px;" />
         <div style="text-align:center; margin-top: 15px;"><p>Выполните вход для продолжения работы</p></div>
         <div style="margin-top: 15px;" class="elements">
             <form method="post">
@@ -75,7 +82,7 @@
                     <label style="font-size: 14px" for="remember">Сохранить логин и пароль на этом устройстве</label>
                 </div>
 
-                <button  style="margin-top: 15px;" type="submit">Войти</button>
+                <button style="margin-top: 15px;" type="submit">Войти</button>
             </form>
         </div>
         @{
@@ -87,5 +94,7 @@
             }
         }
     </div>
+
+
 </body>
 </html>

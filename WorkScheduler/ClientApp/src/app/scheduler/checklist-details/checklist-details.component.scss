@@ -9,21 +9,34 @@
   }
 
   .blue {
-    background-color: aliceblue;
+    background-color: rgba(240, 248, 255, 0.64);
   }
 
   .yellow {
-    background-color: cornsilk;
+    background-color: rgba(255, 204, 5, 0.12);
   }
 
   .green {
-    background-color: #9acd326e;
+    background-color: #abff001a;
   }
 
   .red {
-    background-color: #ed143d2e !important; 
+    background-color: #ff00000d !important; 
   }
 
   .gray {
     color: gray !important;
   }
+
+  .bold {
+      font-weight: bold;
+  }
+
+.full-comment-textarea {
+  border: none;
+  height: 400px;
+  min-width: 100%;
+  max-width: 100%;
+  outline: none;
+  resize: none;
+}

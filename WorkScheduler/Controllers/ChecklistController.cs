@@ -15,11 +15,13 @@ namespace WorkScheduler.Controllers
     {
         protected Context Db;
         protected ChecklistService ChecklistService;
+        protected TicketService TicketService;
 
-        public ChecklistController(Context context, ChecklistService checklistService)
+        public ChecklistController(Context context, ChecklistService checklistService, TicketService ticketService)
         {
             Db = context;
             ChecklistService = checklistService;
+            TicketService = ticketService;
         }
 
         [HttpPost("GetById")]
@@ -122,6 +124,20 @@ namespace WorkScheduler.Controllers
 
             var checklists = ChecklistService.GetOtherChecklists(schoolId, currentUser.Id);
             return Ok(checklists);
+        }
+
+        [HttpGet("MarkTicketSeen")]
+        public IActionResult MarkTicketSeen(long id)
+        {
+            try
+            {
+                TicketService.MarkSeen(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

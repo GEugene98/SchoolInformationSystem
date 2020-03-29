@@ -10,7 +10,7 @@
         <div *ngFor="let checklist of checklists" class="panel panel-default"
             style="max-width: 440px; min-width: 440px; margin: 5px">
             <div class="panel-heading" style="display: flex; justify-content: space-between">
-                <div style="word-wrap: break-word; width: 90%; font-weight: bold;">{{checklist.name}}</div>
+                <div style="word-wrap: break-word; width: 90%; font-weight: bold;">{{checklist.name}} <span *ngIf="checklist.unseenCount > 0" class="badge badge-info">{{checklist.unseenCount}}</span></div>
             </div>
             <div class="panel-body">
                 <div>

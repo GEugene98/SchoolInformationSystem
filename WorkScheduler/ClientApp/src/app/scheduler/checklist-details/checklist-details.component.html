@@ -69,15 +69,18 @@
   </thead>
   <tbody>
     <tr *ngFor="let ticket of checklist?.tickets"
+        [class.bold]="ticket.notify"
         [class.blue]="ticket.status == 1"
         [class.red]="ticket.isExpiered && ticket.status != 3"
-        [class.yellow]="ticket.status == 2"
+        [class.yellow]="ticket.status == 3"
         [class.green]="ticket.status == 4">
       <td><span *ngIf="ticket.created != '0001-01-01T00:00:00'">{{ticket.created | date : 'dd.MM.yyyy'}}</span></td>
       <td>{{ticket.date | date : 'dd.MM.yyyy'}}</td>
       <td><span *ngIf="ticket.hours">{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes == 0">0</span></span></td>
       <td>
-        <a style="color: black" href="javascript:void(0)" (click)="openDetails(ticket, detailsModal)">{{ticket.name}}</a>
+        <a style="color: black" href="javascript:void(0)" (click)="openDetails(ticket, detailsModal)">
+            <span title="Исполнитель прокомментировал это задание или добавил вложения" *ngIf="ticket.notify" style="color: darkcyan" class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ticket.name}}
+        </a>
       </td>
       <td>
         <span *ngIf="ticket.comment" (click)="copy(ticket); openFullCommentModal()" style="cursor: pointer;">
@@ -381,7 +384,7 @@
     </button>
   </div>
   <div class="modal-body">
-    {{this.newTicket.comment}}
+      <textarea readonly class="full-comment-textarea">{{this.newTicket.comment}}</textarea>
   </div>
 </ng-template>
 

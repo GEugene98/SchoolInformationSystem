@@ -172,6 +172,20 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
   openDetails(ticket: Ticket, modal) {
     this.copy(ticket);
     this.openModal(modal);
+
+    if (ticket.notify) {
+      try {
+        this.schedule.markTicketSeen(ticket.id);
+        ticket.notify = false;
+        if (this.userState.unseenChecklistTickets.state != 0) {
+          this.userState.unseenChecklistTickets.state -= 1;
+        }
+      }
+      catch (e) {
+        this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+      }
+    }
+    
   }
 
 

@@ -234,6 +234,8 @@ namespace WorkScheduler.Controllers
                 return BadRequest("Запись не найдена");
             }
 
+            var differentComments = foundTicket.ResponseComment?.Trim() != ticket.ResponseComment?.Trim();
+
             foundTicket.ResponseComment = ticket.ResponseComment;
 
             var schoolId = Db.Users.First(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
@@ -245,6 +247,12 @@ namespace WorkScheduler.Controllers
             if (uploadedFiles.Count() != 0)
             {
                 FileService.BindFilesToTicket(uploadedFiles, foundTicket.Id, TicketFileType.Outgoing);
+            }
+
+            if (uploadedFiles.Count() != 0 || differentComments)
+            {
+                foundTicket.Notify = true;
+                Db.SaveChanges();
             }
 
             return Ok();

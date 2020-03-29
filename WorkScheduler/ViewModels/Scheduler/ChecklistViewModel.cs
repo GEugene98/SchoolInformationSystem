@@ -20,6 +20,8 @@ namespace WorkScheduler.ViewModels.Scheduler
         public int ExpieredCount { get; set; }
         public int AcceptedExpieredCount { get; set; }
 
+        public int UnseenCount { get; set; }
+
         public IEnumerable<TicketViewModel> Tickets { get; set; }
     }
 }
