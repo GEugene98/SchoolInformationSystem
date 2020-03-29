@@ -545,7 +545,7 @@ namespace WorkScheduler.Services
             {
                 await actionsToAllowConfirm.ForEachAsync(a => a.Status = Models.Enums.ActionStatus.NeedConfirm);
                 await Db.SaveChangesAsync();
-                await NotificationService.NotifyToConfirmActions(schoolId);
+                //await NotificationService.NotifyToConfirmActions(schoolId);
             }
         }
 
@@ -557,7 +557,7 @@ namespace WorkScheduler.Services
             {
                 await actionsToConfirm.ForEachAsync(a => a.Status = Models.Enums.ActionStatus.Confirmed);
                 await Db.SaveChangesAsync();
-                await NotificationService.NotifyToAcceptActions(schoolId);
+                //await NotificationService.NotifyToAcceptActions(schoolId);
             }
         }
 
