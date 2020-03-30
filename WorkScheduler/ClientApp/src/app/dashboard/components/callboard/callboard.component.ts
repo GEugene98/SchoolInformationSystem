@@ -23,7 +23,12 @@ export class CallboardComponent implements OnInit {
 
   async ngOnInit() {
     this.futureComment = window.localStorage.getItem('commentToBeSent');
-    await this.loadPosts();
+
+    setTimeout(async () => {
+      if (this.userState.currentUser.state) {
+        await this.loadPosts();
+      } 
+    }, 2000);
   }
 
   async loadPosts() {
