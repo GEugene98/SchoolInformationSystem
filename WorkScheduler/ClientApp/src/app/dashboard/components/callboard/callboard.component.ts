@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import Debounce from 'debounce-decorator';
 import { CallboardService } from '../../../shared/services/callboard.service';
 import { Post } from '../../../shared/models/post.model';
@@ -11,7 +11,7 @@ import { User, isUserInRole } from '../../../shared/models/user';
   templateUrl: './callboard.component.html',
   styleUrls: ['./callboard.component.css']
 })
-export class CallboardComponent implements OnInit {
+export class CallboardComponent implements OnInit, OnDestroy {
 
   posts: Post[];
 
@@ -19,16 +19,22 @@ export class CallboardComponent implements OnInit {
   futureComment: string;
   notify: boolean;
 
+  refreshIntervalId;
+
   constructor(private callboardService: CallboardService, public userState: UserState, private messageService: MessageService,) { }
 
   async ngOnInit() {
     this.futureComment = window.localStorage.getItem('commentToBeSent');
 
-    setTimeout(async () => {
-      if (this.userState.currentUser.state) {
+    await this.loadPosts();
+
+    this.refreshIntervalId = setInterval(async () => {
         await this.loadPosts();
-      } 
-    }, 2000);
+    }, 30000);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.refreshIntervalId);
   }
 
   async loadPosts() {

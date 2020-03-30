@@ -11,11 +11,10 @@
 <div *ngIf="!checklists && !otherChecklists" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
 
 
-<tabset>
+<tabset *ngIf="checklists || otherChecklists">
   <tab heading="Мои чек-листы" id="tab1">
 
-<div *ngIf="checklists.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>У вас пока нет ни одного чек-листа</span></div>
-
+<div *ngIf="checklists?.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>У вас пока нет ни одного чек-листа</span></div>
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap; margin-left: -5px; margin-top: 15px;">
     <div *ngFor="let checklist of checklists" class="panel panel-default"
