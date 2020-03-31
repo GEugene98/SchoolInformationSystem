@@ -283,6 +283,9 @@ namespace WorkScheduler.Controllers
                 .Where(ws => ws.User.SchoolId == currentUser.SchoolId && ws.Actions.Any(a => a.Status == ActionStatus.NeedConfirm && !a.IsDeleted))
                 .Count();
 
+            var userChecklists = Db.Checklists.Where(c => c.UserId == currentUser.Id);
+            var unseenChecklistTickets = Db.Tickets.Where(t => t.Notify && userChecklists.FirstOrDefault(c => t.ChecklistId == c.Id) != null).Count();
+
             notifications.Add(new DictionaryViewModel<string>
             {
                 Id = "schedulesToAccept",
@@ -293,6 +296,12 @@ namespace WorkScheduler.Controllers
             {
                 Id = "schedulesToConfirm",
                 Name = schedulesToConfirm.ToString()
+            });
+
+            notifications.Add(new DictionaryViewModel<string>
+            {
+                Id = "unseenChecklistTickets",
+                Name = unseenChecklistTickets.ToString()
             });
 
             return Ok(notifications);

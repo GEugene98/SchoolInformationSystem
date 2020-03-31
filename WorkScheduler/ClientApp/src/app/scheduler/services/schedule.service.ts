@@ -294,4 +294,12 @@ export class ScheduleService {
 
     return await this.http.get('api/Ticket/DeclineTicket', { params: params }).toPromise();
   }
+
+  async markTicketSeen(id: number) {
+    const params = new HttpParams()
+      .set('id', id.toString());
+
+    return await this.http.get('api/Checklist/MarkTicketSeen', { params: params }).toPromise();
+  }
+
 }

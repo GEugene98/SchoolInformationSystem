@@ -74,6 +74,7 @@ namespace WorkScheduler.Services
                     Created = t.Created,
                     Status = t.Status,
                     Done = t.Done,
+                    Notify = t.Notify,
                     ResponseComment = t.ResponseComment,
                     IsExpiered = t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date && t.Status != TicketStatus.Done,
                     InFiles = foundFiles
@@ -144,6 +145,9 @@ namespace WorkScheduler.Services
             var acceptedExpiered = checklists
                 .Join(Db.Tickets.Where(t => t.Status == TicketStatus.Accepted && t.Date.HasValue && DateTime.Now.Date > t.Date.Value.Date), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
 
+            var unseen = checklists
+                .Join(Db.Tickets.Where(t => t.Notify), c => c.Id, t => t.ChecklistId, (c, t) => new KeyValuePair<int, long>(c.Id, t.Id)).ToList();
+
             var checklistViewModels = new List<ChecklistViewModel>();
 
             var usersChecklists = checklists.ToList();
@@ -164,6 +168,7 @@ namespace WorkScheduler.Services
                         DoneCount = done.Where(t => t.Key == c.Id).Count(),
                         ExpieredCount = expiered.Where(t => t.Key == c.Id).Count(),
                         AcceptedExpieredCount = acceptedExpiered.Where(t => t.Key == c.Id).Count(),
+                        UnseenCount = unseen.Where(t => t.Key == c.Id).Count(),
                         User = new UserViewModel
                         {
                             Id = c.User.Id,

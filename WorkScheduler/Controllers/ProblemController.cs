@@ -23,7 +23,7 @@ namespace WorkScheduler.Controllers
         {
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
 
-            var message = "Пользователь " + currentUser.LastName + " " + currentUser.FirstName + " " + currentUser.SurName + " сообщает: <br/>" + report;
+            var message = "Пользователь " + currentUser.LastName + " " + currentUser.School.Name + " " + currentUser.Email + " " + currentUser.FirstName + " " + currentUser.SurName + " сообщает: <br/>" + report;
 
             NotificationService.SendProblemReport(message);
 

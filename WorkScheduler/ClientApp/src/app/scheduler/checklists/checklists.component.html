@@ -11,17 +11,16 @@
 <div *ngIf="!checklists && !otherChecklists" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
 
 
-<tabset>
+<tabset *ngIf="checklists || otherChecklists">
   <tab heading="Мои чек-листы" id="tab1">
 
-<div *ngIf="checklists.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>У вас пока нет ни одного чек-листа</span></div>
-
+<div *ngIf="checklists?.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>У вас пока нет ни одного чек-листа</span></div>
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap; margin-left: -5px; margin-top: 15px;">
     <div *ngFor="let checklist of checklists" class="panel panel-default"
         style="max-width: 440px; min-width: 440px; margin: 5px">
         <div class="panel-heading" style="display: flex; justify-content: space-between">
-            <div style="word-wrap: break-word; width: 90%; font-weight: bold;">{{checklist.name}}</div>
+            <div style="word-wrap: break-word; width: 90%; font-weight: bold;">{{checklist.name}} <span *ngIf="checklist.unseenCount > 0" class="badge badge-info">{{checklist.unseenCount}}</span></div>
             <div style="width: 15px; display: inline-block;">
                 <a title="Редактировать" href="javascript:void(0)" (click)="copy(checklist); openModal(edit);">
                     <span style="color: purple" class="glyphicon glyphicon-pencil" aria-hidden="true">

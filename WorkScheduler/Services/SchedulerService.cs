@@ -36,7 +36,7 @@ namespace WorkScheduler.Services
         public IEnumerable<WorkScheduleViewModel> GetWorkSchedules(string userId)
         {
             return Db.WorkSchedules
-                .Where(ws => ws.UserId == userId)
+                .Where(ws => ws.UserId == userId && !ws.IsDeleted)
                 .Select(ws => new WorkScheduleViewModel
                 {
                     Id = ws.Id,
@@ -67,7 +67,7 @@ namespace WorkScheduler.Services
         public IEnumerable<WorkScheduleViewModel> GetFullWorkSchedules(string userId)
         {
             return Db.WorkSchedules
-                .Where(ws => ws.UserId == userId)
+                .Where(ws => ws.UserId == userId && !ws.IsDeleted)
                 .Select(ws => new WorkScheduleViewModel
                 {
                     Id = ws.Id,
@@ -203,12 +203,18 @@ namespace WorkScheduler.Services
 
             try
             {
-                Db.WorkSchedules.Remove(schedule);
+                var actions = Db.Actions.Where(a => a.WorkScheduleId == scheduleId);
+                foreach (var a in actions)
+                {
+                    a.IsDeleted = true;
+                }
+
+                schedule.IsDeleted = true;
                 Db.SaveChanges();
             }
             catch
             {
-                throw new Exception("Невозможно удалить план, так как есть записи в тайм-листе, ссылающиеся на мероприятия из этого плана. Обратитесь к администратору");
+                throw new Exception("Невозможно удалить план. Сообщите, пожалуйста, об этой ошибке");
             }
 
         }
@@ -545,7 +551,7 @@ namespace WorkScheduler.Services
             {
                 await actionsToAllowConfirm.ForEachAsync(a => a.Status = Models.Enums.ActionStatus.NeedConfirm);
                 await Db.SaveChangesAsync();
-                await NotificationService.NotifyToConfirmActions(schoolId);
+                //await NotificationService.NotifyToConfirmActions(schoolId);
             }
         }
 
@@ -557,7 +563,7 @@ namespace WorkScheduler.Services
             {
                 await actionsToConfirm.ForEachAsync(a => a.Status = Models.Enums.ActionStatus.Confirmed);
                 await Db.SaveChangesAsync();
-                await NotificationService.NotifyToAcceptActions(schoolId);
+                //await NotificationService.NotifyToAcceptActions(schoolId);
             }
         }
 

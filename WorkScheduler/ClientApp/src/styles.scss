@@ -63,3 +63,9 @@ body button {
     75%  { content: '...'; }
     100% { content: ''; }
 }
+
+.badge-info {
+  background-color: rgb(92, 184, 92) !important;
+  color: white !important;
+  border: 0.5px solid #e4e4e4;
+}

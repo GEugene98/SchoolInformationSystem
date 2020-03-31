@@ -257,7 +257,7 @@
                    [bsConfig]="bsConfig"
                    bsDatepicker>
         </div>
-        <div *ngIf="!newTicket.action.isDeleted && newTicket.action && newTicket.action.workSchedule.user.id == userState.currentUser.state.id" style="margin-top: 15px">
+        <div *ngIf="!newTicket.action?.isDeleted && newTicket.action && newTicket.action?.workSchedule.user.id == userState.currentUser.state.id" style="margin-top: 15px">
             <div class="alert alert-info" role="alert">
                 <p>При изменении даты выполнения этого задания изменится дата выполнения связанного мероприятия, так как мероприятие &laquo;{{newTicket.action.name}}&raquo; находится в вашем плане	&laquo;{{newTicket.action.workSchedule.name}}&raquo;</p>
             </div>

@@ -300,6 +300,20 @@ namespace WorkScheduler.Services
             return Db.Tickets.Where(t => t.UserId == userId && t.ChecklistId != null && t.Status == TicketStatus.Assigned).Count();
         }
 
+        public void MarkSeen(long ticketId)
+        {
+            var ticket = Db.Tickets.FirstOrDefault(t => t.Id == ticketId);
+
+            if (ticket == null)
+            {
+                throw new Exception("Задание не найдено");
+            }
+
+            ticket.Notify = false;
+
+            Db.SaveChanges();
+        }
+
         public void AcceptTicket(long ticketId, DateTime? date, byte? hours, byte? minutes)
         {
             if (!date.HasValue || !hours.HasValue || !minutes.HasValue)

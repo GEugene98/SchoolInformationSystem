@@ -8,10 +8,10 @@
 
         <div *ngIf="futureComment" class="c-controls">
           <div>
-            <div style="margin-top: 5px">
+            <!--<div style="margin-top: 5px">
               <input type="checkbox" id="em" [(ngModel)]="notify">
               <label style="font-weight: normal;" for="em">Разослать это объявление на почту</label>
-            </div>
+            </div>-->
           </div>
           <div style="display: inline-flex">
             <div class="color-picker">
@@ -38,7 +38,7 @@
             <span class="c-date">{{ post.createdAt | date : 'dd.MM.yyyy HH:mm' }}</span> <br/>
           </div>
           <div>
-            <a *ngIf="checkRole(userState.currentUser?.state, 'Директор') || checkRole(userState.currentUser?.state, 'Администратор') || post.author.id == userState.currentUser?.state.id" class="del-btn" (click)="deletePost(post.id)" title="Удалить" href="javascript:void(0)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+            <a *ngIf="checkRole(userState.currentUser?.state, 'Директор') || checkRole(userState.currentUser?.state, 'Администратор') || post.author?.id == userState.currentUser?.state.id" class="del-btn" (click)="deletePost(post?.id)" title="Удалить" href="javascript:void(0)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
           </div>
         </div>
         <div class="c-text">
