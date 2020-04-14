@@ -26,8 +26,8 @@
   <div class="apps">
     <a class="btn btn-outline-info" routerLink="scheduler/timeline" role="button"><span class='glyphicon glyphicon-calendar'></span> <br /> Планирование</a>
     <a class="btn btn-outline-info" (click)="openModal(docsModal)" role="button"><span class='glyphicon glyphicon-briefcase'></span> <br /> Документация</a>
-    <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-list-alt'></span> <br /> Мониторинг</a>
-    <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-signal'></span> <br /> Статистика</a>
+    <a class="btn btn-outline-info" routerLink="monitoring" role="button"><span class='glyphicon glyphicon-list-alt'></span> <br /> Мониторинг</a>
+    <a class="btn btn-outline-info" routerLink="catalog" role="button"><span class='glyphicon glyphicon-list'></span> <br /> Справочники</a>
   </div>
   <div style="margin-top: 50px;">
     <app-callboard ></app-callboard>

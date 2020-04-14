@@ -37,6 +37,11 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 import { CallboardComponent } from './dashboard/components/callboard/callboard.component';
 import { CallboardService } from './shared/services/callboard.service';
 import { ToastModule } from 'primeng/toast';
+import { MonitoringHomeComponent } from './monitoring/monitoring-home/monitoring-home.component';
+import { MonitoringModule } from './monitoring';
+import { CatalogModule } from './catalog';
+import { CatalogHomeComponent } from './catalog/catalog-home/catalog-home.component';
+import { StudentsComponent } from './catalog/catalogs/students/students.component';
 
 
 defineLocale('ru', ruLocale);
@@ -56,7 +61,13 @@ const routes = [
       { path: 'schedule-details/:id', component: ScheduleDetailsComponent },
       { path: 'checklist-details/:id', component: ChecklistDetailsComponent },
     ]
-  }
+  },
+  {
+    path: 'monitoring', component: MonitoringHomeComponent,
+    children: []
+  },
+  { path: 'catalog', component: CatalogHomeComponent, pathMatch: 'full' },
+  { path: 'catalog/students', component: StudentsComponent, pathMatch: 'full' },
 ];
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig =
@@ -91,7 +102,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     AppComponent,
     DashboardComponent,
     SettingsComponent,
-    CallboardComponent,
+    CallboardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -106,6 +117,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     ModalModule.forRoot(),
     FormsModule,
     SchedulerModule,
+    MonitoringModule,
+    CatalogModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     RouterModule.forRoot(routes),
     UploadModule,

@@ -14,14 +14,16 @@ import { DictionaryService } from "../shared/services/dictionary.service";
 import { MessageService } from "primeng/api";
 import { AccountService } from "../shared/services/account.service";
 import { ProblemService } from "../shared/services/problem.service";
-import { MonitoringHomeComponent } from "./monitoring-home/monitoring-home.component";
 import { RouterModule } from "@angular/router";
+import { CatalogHomeComponent } from "./catalog-home/catalog-home.component";
+import { StudentsComponent } from "./catalogs/students/students.component";
 
 defineLocale('ru', ruLocale);
 
 @NgModule({
   declarations: [
-    MonitoringHomeComponent,
+    CatalogHomeComponent,
+    StudentsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -49,6 +51,6 @@ defineLocale('ru', ruLocale);
   entryComponents: [
   ]
 })
-export class MonitoringModule {
+export class CatalogModule {
 
 }

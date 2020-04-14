@@ -1,0 +1,26 @@
+<div class="container" style="padding-top: 20px">
+
+    <a routerLink="/" style="text-decoration: none;"><span class="glyphicon glyphicon-arrow-left"></span> Вернуться на главную</a>
+
+
+    <h1>Выберите справочник</h1>
+    <p>Если у вас нет доступа к нужному справочнику - запросите к нему доступ у администрации вашей школы</p>
+
+    <div class="list-group catalog-list">
+        <a href="javascript:void(0)"
+           [routerLink]="['//catalog/workers']"
+           class="list-group-item list-group-item-action">
+            <span class='glyphicon glyphicon-user'></span> Сотрудники
+        </a>
+        <a href="javascript:void(0)"
+           [routerLink]="['//catalog/students']"
+           class="list-group-item list-group-item-action">
+            <span class='glyphicon glyphicon-education'></span> Ученики
+        </a>
+        <a href="javascript:void(0)"
+           [routerLink]="['//catalog/classes']"
+           class="list-group-item list-group-item-action">
+            <span class='glyphicon glyphicon-education'></span> Классы
+        </a>
+    </div>
+</div>

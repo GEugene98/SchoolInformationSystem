@@ -40,7 +40,6 @@
 <ItemGroup>
   <!-- Don't publish the SPA source files, but do show them in the project files list -->
   <Content Remove="$(SpaRoot)**" />
-  <None Remove="$(SpaRoot)**" />
   <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   <None Remove="ClientApp\src\app\shared\services\callboard.service.ts" />
   <None Remove="ClientApp\src\app\shared\models\post.model.ts" />
@@ -93,8 +92,11 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\app\monitoring\" />
     <Folder Include="ClientApp\src\app\scheduler\timeline\components\" />
-    <Folder Include="ClientApp\src\app\statistic\" />
     <Folder Include="ViewModels\Monitoring\TalentedChildren\" />
+    <Folder Include="ClientApp\src\app\monitoring\monitorings\" />
+    <Folder Include="ClientApp\src\app\monitoring\services\" />
+    <Folder Include="ClientApp\src\app\catalog\" />
+    <Folder Include="ClientApp\src\app\catalog\catalogs\" />
   </ItemGroup>
 
   <ItemGroup>
