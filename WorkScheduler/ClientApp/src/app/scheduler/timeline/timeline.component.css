@@ -88,3 +88,12 @@ textarea {
 .red-text {
   color: #b73333 !important;
 }
+
+
+.done-report {
+  color: #006500;
+}
+
+.undone-report {
+  color: rgb(184, 0, 0);
+}
