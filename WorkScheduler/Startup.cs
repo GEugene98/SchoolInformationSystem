@@ -42,10 +42,6 @@ namespace WorkSheduler
             {
                 services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-                ////Only for deploying
-                //var context = new CustomAssemblyLoadContext();
-                //context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
-
                 services.AddDbContext<WorkScheduler.Context>(options =>
                     options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -75,8 +71,8 @@ namespace WorkSheduler
                 services.AddScoped<TalentedChildrenService>();
                 services.AddScoped<CallboardService>();
 
-                var context = new CustomAssemblyLoadContext();
-                context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+                //var context = new CustomAssemblyLoadContext();
+                //context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
 
                 services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 

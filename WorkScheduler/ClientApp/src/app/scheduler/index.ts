@@ -43,6 +43,8 @@ import { ChecklistDetailsComponent } from './checklist-details/checklist-details
 import { OtherChecklistsComponent } from './other-checklists/other-checklists.component';
 import { ProblemService } from '../shared/services/problem.service';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { ProtocolsComponent } from './protocols/protocols.component';
+import { ProtocolDetailsComponent } from './protocols/components/protocol-details/protocol-details.component';
 defineLocale('ru', ruLocale); 
 
 @NgModule({
@@ -64,7 +66,9 @@ defineLocale('ru', ruLocale);
     RepeatComponent,
     ChecklistsComponent,
     ChecklistDetailsComponent,
-    OtherChecklistsComponent
+    OtherChecklistsComponent,
+    ProtocolsComponent,
+    ProtocolDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

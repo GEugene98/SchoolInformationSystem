@@ -1,0 +1,55 @@
+.protocol-header {
+    text-align: center;
+}
+
+.protocol-container {
+    text-align: center;
+    font-family:'Times New Roman', Times, serif;
+    font-size: 14pt;
+    margin-top: 20px;
+    outline: none;
+}
+
+.protocol-body {
+    text-align: left;
+}
+
+.protocol-element {
+    margin: 10px;
+}
+
+.protocol-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.underheader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.protocol-field {
+    margin-top: 15px;
+}
+
+.protocol-element input {
+  width: 600px;
+  border: 1px solid rgb(236, 236, 236);
+  border-radius: 3px;
+  outline: none;
+}
+
+  .protocol-field textarea {
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 250px;
+    border: 1px solid rgb(236, 236, 236);
+    border-radius: 3px;
+    outline: none;
+    padding: 10px;
+  }
+
+.protocol-footer {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}

@@ -44,7 +44,10 @@
           {{user.lastName}} {{user.firstName[0]}}. {{user.surName[0]}}.
         </span> &nbsp;
       </td>
-      <td>{{action.confirmationForm.name}}</td>
+      <td>
+        <span *ngIf="action.confirmationForm.id != 2">{{action.confirmationForm.name}}</span>
+        <a *ngIf="action.confirmationForm.id == 2" href="javascript:void(0)">{{action.confirmationForm.name}}</a>
+      </td>
       <td>
         <span style="color: blue" *ngIf="action.status == 0">Новая запись</span>
         <span style="color: black" *ngIf="action.status == 1">На согласовании</span>

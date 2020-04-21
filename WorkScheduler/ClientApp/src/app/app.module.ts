@@ -37,6 +37,8 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 import { CallboardComponent } from './dashboard/components/callboard/callboard.component';
 import { CallboardService } from './shared/services/callboard.service';
 import { ToastModule } from 'primeng/toast';
+import { ProtocolsComponent } from './scheduler/protocols/protocols.component';
+import { ProtocolDetailsComponent } from './scheduler/protocols/components/protocol-details/protocol-details.component';
 
 
 defineLocale('ru', ruLocale);
@@ -48,6 +50,7 @@ const routes = [
     path: 'scheduler', component: SchedulerHomeComponent,
     children: [
       { path: 'my-schedule', component: MySchedules },
+      { path: 'protocols', component: ProtocolsComponent },
       { path: 'general-schedule', component: GeneralScheduleComponent },
       { path: 'confirm', component: ConfirmComponent },
       { path: 'accept', component: AcceptComponent },
@@ -55,6 +58,7 @@ const routes = [
       { path: 'checklists', component: ChecklistsComponent },
       { path: 'schedule-details/:id', component: ScheduleDetailsComponent },
       { path: 'checklist-details/:id', component: ChecklistDetailsComponent },
+      { path: 'protocol-details/:id', component: ProtocolDetailsComponent },
     ]
   }
 ];
@@ -91,7 +95,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     AppComponent,
     DashboardComponent,
     SettingsComponent,
-    CallboardComponent,
+    CallboardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
