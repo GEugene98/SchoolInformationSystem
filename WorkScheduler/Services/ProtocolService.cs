@@ -150,7 +150,7 @@ namespace WorkScheduler.Services
             return GetProtocol(newProtocol.Id);
         }
 
-        public ProtocolViewModel GetProtocol(int protocolId)
+        public ProtocolViewModel GetProtocol(int protocolId, int? schoolId = null)
         {
             var protocol = Db.Protocols.Include(p => p.Action).FirstOrDefault(p => p.Id == protocolId);
 
@@ -159,7 +159,7 @@ namespace WorkScheduler.Services
                 return null;
             }
 
-            return new ProtocolViewModel
+            var result = new ProtocolViewModel
             {
                 Id = protocol.Id,
                 Name = protocol.Name,
@@ -169,7 +169,6 @@ namespace WorkScheduler.Services
                 Chairman = protocol.Chairman,
                 CreatedAt = protocol.CreatedAt,
                 Decided = protocol.Decided,
-                Header = protocol.Header,
                 Listen = protocol.Listen,
                 Secretary = protocol.Secretary,
                 Speaked = protocol.Speaked,
@@ -180,6 +179,14 @@ namespace WorkScheduler.Services
                     Date = protocol.Action.Date
                 }
             };
+
+            if (schoolId.HasValue)
+            {
+                var school = Db.Schools.FirstOrDefault(s => s.Id == schoolId);
+                result.Header = school.DocumentHeaderHTML;
+            }
+
+            return result;
         }
 
         public void DeleteProtocol(int protocolId)

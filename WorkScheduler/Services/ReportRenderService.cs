@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkScheduler.ViewModels;
+using WorkScheduler.ViewModels.Scheduler;
 
 namespace WorkScheduler.Services
 {
@@ -168,6 +169,22 @@ namespace WorkScheduler.Services
             return template.Replace("%TABLE_CONTENT%", tableContent);
         }
 
-        
+        public string GetProtocolHTML(ProtocolViewModel protocol)
+        {
+            var template = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "assets", "protocol-template.html"));
+            template = template.Replace("%HEADER%", $"{protocol.Header.Replace("\n", "<br />")}");
+            template = template.Replace("%DATE%", $"{protocol.Action.Date.ToLongDateString()}");
+            template = template.Replace("%NUMBER%", $"{protocol.Number.Replace("\n", "<br />")}");
+            template = template.Replace("%NAME%", $"{protocol.Name.Replace("\n", "<br />")}");
+            template = template.Replace("%CHAIRMAN%", $"{protocol.Chairman.Replace("\n", "<br />")}");
+            template = template.Replace("%SECRETARY%", $"{protocol.Secretary.Replace("\n", "<br />")}");
+            template = template.Replace("%ATTENDED%", $"{protocol.Attended.Replace("\n", "<br />")}");
+            template = template.Replace("%AGENDA%", $"{protocol.Agenda.Replace("\n", "<br />")}");
+            template = template.Replace("%LISTEN%", $"{protocol.Listen.Replace("\n", "<br />")}");
+            template = template.Replace("%SPEAKED%", $"{protocol.Speaked.Replace("\n", "<br />")}");
+            template = template.Replace("%DECIDED%", $"{protocol.Decided.Replace("\n", "<br />")}");
+
+            return template;
+        }
     }
 }

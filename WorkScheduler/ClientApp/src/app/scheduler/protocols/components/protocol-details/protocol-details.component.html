@@ -4,7 +4,7 @@
             <a routerLink="//scheduler/protocols" style="text-decoration: none;"><span class="glyphicon glyphicon-arrow-left"></span> Вернуться к протоколам</a>
         </div>
         <div>
-            <button [disabled]="!protocol" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Вывести документ</button>
+            <button [disabled]="!protocol" (click)="getDocument()" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Вывести документ</button>
         </div>
     </div>
 

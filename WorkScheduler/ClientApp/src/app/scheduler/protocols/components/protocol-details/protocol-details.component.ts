@@ -34,4 +34,15 @@ export class ProtocolDetailsComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
   }
+
+  async getDocument() {
+    try {
+      await this.scheduleService.saveProtocol(this.protocol);
+      window.open(`/api/Report/Protocol?` + `protocolId=${this.protocol.id}`);
+    }
+    catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+    
+  }
 }
