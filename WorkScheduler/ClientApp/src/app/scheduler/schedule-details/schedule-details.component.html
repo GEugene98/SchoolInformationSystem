@@ -86,6 +86,28 @@
         </button>
     </div>
     <div class="modal-body">
+        Форма подтверждения выполнения:
+        <ng-select [items]="allConfForms | async"
+                   bindLabel="name"
+                   bindValue="id"
+                   placeholder="Щелкните здесь для выбора"
+                   [(ngModel)]="selectedConfFormId"
+                   [clearable]="false">
+        </ng-select>
+        <br>
+
+        Мероприятие<span *ngIf="selectedConfFormId == 2"> (выберите из предложенных вариантов)</span>:<br>
+
+        <div *ngIf="selectedConfFormId == 2" style="margin: 5px">
+            <span *ngFor="let name of actionNames" class="badge" (click)="selectActionName(name)" style="background-color: #90a3b5; font-size: 14px; cursor: pointer; margin: 8px" [class.selected-bage]="name == selectedName">
+              {{name}}
+            </span>
+        </div>
+
+        <input *ngIf="selectedConfFormId != 2" type="text" [(ngModel)]="selectedName" class="form-control" placeholder="Название мероприятия">
+
+        <br>
+
         Дата проведения:
         <input type="text"
                placeholder="Щелкните здесь для выбора"
@@ -95,18 +117,19 @@
                [bsConfig]="bsConfig"
                bsDatepicker>
         <br>
-        Конец (не обязательно):
-        <input type="text"
-               placeholder="Щелкните здесь для выбора. Это поле можно оставить пустым"
-               class="form-control"
-               [(ngModel)]="selectedEndDate"
-               AUTOCOMPLETE="off"
-               [bsConfig]="bsConfig"
-               bsDatepicker>
+
+            Продублировать мероприятие до указанной даты:
+            <input type="text"
+                   placeholder="Щелкните здесь для выбора. Это поле можно оставить пустым"
+                   class="form-control"
+                   [(ngModel)]="selectedEndDate"
+                   AUTOCOMPLETE="off"
+                   [bsConfig]="bsConfig"
+                   bsDatepicker>
+   
+        
         <br>
-        Мероприятие:
-        <input type="text" [(ngModel)]="selectedName" class="form-control" placeholder="Название мероприятия">
-        <br>
+
         Ответственные:
         <ng-select [items]="allResponsibles | async"
                    [disabled]="checkRole('Учитель')"
@@ -118,13 +141,7 @@
                    [(ngModel)]="selectedResponsibles">
         </ng-select>
         <br>
-        Форма подтверждения выполнения:
-        <ng-select [items]="allConfForms | async"
-                   bindLabel="name"
-                   bindValue="id"
-                   [(ngModel)]="selectedConfFormId"
-                   [clearable]="false">
-        </ng-select>
+
         <br>
 
         <div style="text-align:center; margin-top: 15px;">

@@ -44,6 +44,7 @@ export class ScheduleDetailsComponent implements OnInit {
   mySchedules: WorkSchedule[];
   targetScheduleId: number;
   replace: boolean = false;
+  actionNames: string[];
 
   showEditMessage: boolean = false;
 
@@ -73,6 +74,7 @@ export class ScheduleDetailsComponent implements OnInit {
     this.currentSchedule = await this.schedule.getSchedule(this.scheduleId);
     this.allActivities = await this.dictionary.getActivities();
     this.allAcademicYears = await this.dictionary.getAcademicYears();
+    this.actionNames = await this.dictionary.getActionNames();
     try {
       this.actions = await this.schedule.getActions(this.scheduleId);
     } catch (e) {
@@ -102,6 +104,10 @@ export class ScheduleDetailsComponent implements OnInit {
     finally{
       this.ngxService.stop();
     }
+  }
+
+  selectActionName(name: string) {
+    this.selectedName = name;
   }
 
   openExportModal(modal){
@@ -350,5 +356,6 @@ export class ScheduleDetailsComponent implements OnInit {
 
   createProtocol() {
     this.router.navigate(['//scheduler/protocol-details/' + this.actionIdToOpenProtocol]);
+    this.closeModal();
   }
 }

@@ -136,6 +136,24 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        
+        [HttpGet("ActionNames")]
+        public IActionResult ActionNames()
+        {
+            var result = Db.Users.Include(u => u.School).FirstOrDefault(u => u.UserName == this.User.Identity.Name).School.ActionNamesToMakeProtocolJSON;
+            return Ok(result);
+        }
+
+        [HttpGet("UpdateActionNames")]
+        public IActionResult UpdateActionNames(string actionNames)
+        {
+            var school = Db.Users.Include(u => u.School).FirstOrDefault(u => u.UserName == this.User.Identity.Name).School;
+            school.ActionNamesToMakeProtocolJSON = actionNames;
+            Db.SaveChanges();
+
+            return Ok();
+        }
+
         [HttpGet("EditActivity")]
         public IActionResult EditActivity(ActivityViewModel activity)
         {

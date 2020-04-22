@@ -53,3 +53,19 @@
     margin-top: 20px;
     margin-bottom: 50px;
 }
+
+input::-webkit-input-placeholder {
+  color: rgb(214, 214, 214);
+}
+
+input::-moz-placeholder {
+  color: rgb(214, 214, 214);
+}
+
+textarea::-webkit-input-placeholder {
+  color: rgb(214, 214, 214);
+}
+
+textarea::-moz-placeholder {
+  color: rgb(214, 214, 214);
+}

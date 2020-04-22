@@ -311,6 +311,13 @@ export class ScheduleService {
     return await this.http.get<ProtocolInfo[]>('api/Protocol/MyProtocols', { params: params }).toPromise();
   }
 
+  async getAllProtocols(year: number) {
+    const params = new HttpParams()
+      .set('year', year.toString());
+
+    return await this.http.get<ProtocolInfo[]>('api/Protocol/AllProtocols', { params: params }).toPromise();
+  }
+
   async GetProtocol(protocolId: number) {
     const params = new HttpParams()
       .set('protocolId', protocolId.toString());
@@ -330,5 +337,16 @@ export class ScheduleService {
       .set('actionId', actionId.toString());
 
     return await this.http.get<boolean>('api/Protocol/Exists', { params: params }).toPromise();
+  }
+
+  async saveProtocol(protocol: Protocol) {
+    return await this.http.post('api/Protocol/Save', protocol).toPromise();
+  }
+
+  async deleteProtocol(protocolId: number) {
+    const params = new HttpParams()
+      .set('protocolId', protocolId.toString());
+
+    return await this.http.delete('api/Protocol/Delete', { params: params }).toPromise();
   }
 }

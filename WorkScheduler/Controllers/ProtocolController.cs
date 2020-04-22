@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorkScheduler.Services;
+using WorkScheduler.ViewModels.Scheduler;
 
 namespace WorkScheduler.Controllers
 {
@@ -31,6 +32,14 @@ namespace WorkScheduler.Controllers
             return Ok(result);
         }
 
+        [HttpGet("AllProtocols")]
+        public IActionResult AllProtocols(int year)
+        {
+            var schoolId = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId;
+            var result = ProtocolService.GetFullProtocolList((int)schoolId, year);
+            return Ok(result);
+        }
+
         [HttpGet("GetOrCreate")]
         public IActionResult GetOrCreate(int actionId)
         {
@@ -43,6 +52,13 @@ namespace WorkScheduler.Controllers
         {
             var result = ProtocolService.GetProtocol(protocolId);
             return Ok(result);
+        }
+
+        [HttpPost("Save")]
+        public IActionResult Save([FromBody]ProtocolViewModel protocol)
+        {
+            ProtocolService.UpdateProtocol(protocol);
+            return Ok();
         }
 
         [HttpDelete("Delete")]

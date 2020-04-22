@@ -18,6 +18,9 @@ export class SettingsComponent implements OnInit {
 
   selectedUser: User;
 
+  nameToAdd: string;
+  actionNames: string[];
+
   allActivity: string[];
   range: Date[];
 
@@ -47,6 +50,7 @@ export class SettingsComponent implements OnInit {
   async loadData() {
     this.users = await this.dictionary.getUsers();
     this.allRoles = await this.dictionary.getRoles();
+    this.actionNames = await this.dictionary.getActionNames();
   }
 
   async create() {
@@ -111,5 +115,21 @@ export class SettingsComponent implements OnInit {
   async saveChanges(){
     await this.dictionary.saveUser(this.selectedUser);
     await this.loadData();
+  }
+
+  async createActionName() {
+    this.actionNames.push(this.nameToAdd);
+    this.nameToAdd = undefined;
+
+    await this.dictionary.updateActionNames(JSON.stringify(this.actionNames));
+  }
+
+  async deleteActionName(name: string) {
+    var index = this.actionNames.indexOf(name);
+    if (index > -1) {
+      this.actionNames.splice(index, 1);
+    }
+
+    await this.dictionary.updateActionNames(JSON.stringify(this.actionNames));
   }
 }

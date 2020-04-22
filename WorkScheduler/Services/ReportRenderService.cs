@@ -167,5 +167,7 @@ namespace WorkScheduler.Services
 
             return template.Replace("%TABLE_CONTENT%", tableContent);
         }
+
+        
     }
 }

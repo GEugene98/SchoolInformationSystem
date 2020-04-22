@@ -20,7 +20,7 @@
 </div>
 
 <div *ngIf="!academicYearsToShow" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
-<div *ngIf="academicYearsToShow.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>У вас пока нет ни одного плана</span></div>
+<div *ngIf="academicYearsToShow && academicYearsToShow.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>У вас пока нет ни одного плана</span></div>
 
 <ng-template #add>
   <div class="modal-header">

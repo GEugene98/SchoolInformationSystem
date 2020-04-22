@@ -12,8 +12,9 @@ export class ProtocolsComponent implements OnInit {
 
   selectedYear: number = 2020;
   protocols: ProtocolInfo[];
+  allProtocols: ProtocolInfo[];
 
-  constructor(private scheduleServise: ScheduleService, private messageService: MessageService) { }
+  constructor(private scheduleService: ScheduleService, private messageService: MessageService) { }
 
   async ngOnInit() {
     await this.loadData();
@@ -21,11 +22,17 @@ export class ProtocolsComponent implements OnInit {
 
   async loadData() {
     try {
-      this.protocols = await this.scheduleServise.getMyProtocols(this.selectedYear);
+      this.protocols = await this.scheduleService.getMyProtocols(this.selectedYear);
+      this.allProtocols = await this.scheduleService.getAllProtocols(this.selectedYear);
     }
     catch(e) {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
+  }
+
+  async deleteProtocol(protocolId: number) {
+    await this.scheduleService.deleteProtocol(protocolId);
+    await this.loadData();
   }
 
 }

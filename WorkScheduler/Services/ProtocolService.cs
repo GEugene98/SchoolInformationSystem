@@ -13,20 +13,18 @@ namespace WorkScheduler.Services
     public class ProtocolService
     {
         protected Context Db;
-        private static CyrNounCollection cyrNounCollection;
-        private static CyrAdjectiveCollection cyrAdjectiveCollection;
+        private Logger Logger;
 
         public ProtocolService(Context context)
         {
             Db = context;
+            Logger = Logger.GetInstance();
 
-            cyrNounCollection = new CyrNounCollection();
-            cyrAdjectiveCollection = new CyrAdjectiveCollection();
         }
 
         public List<ProtocolInfo> GetProtocolList(string userId, int year)
         {
-            return Db.Protocols
+            var result = Db.Protocols
                 .Where(p => p.Action.WorkSchedule.UserId == userId && p.Action.Date.Year == year)
                 .Select(p => new ProtocolInfo
                     {
@@ -34,10 +32,62 @@ namespace WorkScheduler.Services
                         Number = p.Number,
                         ActionName = p.Action.Name,
                         ActionDate = p.Action.Date,
-                        ActionId = p.ActionId
+                        ActionId = p.ActionId,
+                        CreatedAt = p.CreatedAt
                     }
                 )
+                .OrderBy(p => p.ActionName)
+                .ThenBy(p => p.Number)
                 .ToList();
+
+            return result;
+        }
+
+        public List<ProtocolInfo> GetFullProtocolList(int schoolId, int year)
+        {
+            var result = Db.Protocols
+                .Where(p => p.Action.WorkSchedule.User.SchoolId == schoolId && p.Action.Date.Year == year)
+                .Select(p => new ProtocolInfo
+                {
+                    Id = p.Id,
+                    Number = p.Number,
+                    ActionName = p.Action.Name,
+                    ActionDate = p.Action.Date,
+                    ActionId = p.ActionId,
+                    CreatedAt = p.CreatedAt,
+                    ScheduleOwner = p.Action.WorkSchedule.User.LastName + " " + p.Action.WorkSchedule.User.FirstName[0] + ". " + p.Action.WorkSchedule.User.SurName[0] + "."
+                }
+                )
+                .OrderBy(p => p.ActionName)
+                .ThenBy(p => p.Number)
+                .ToList();
+
+            return result;
+        }
+
+        public void UpdateProtocol(ProtocolViewModel protocol)
+        {
+            var protocolNumber = 0;
+            if (!int.TryParse(protocol.Number, out protocolNumber))
+            {
+                throw new Exception("Номером протокола может являться только число");
+            }
+
+
+            var foundProtocol = Db.Protocols.FirstOrDefault(p => p.Id == protocol.Id);
+
+
+            foundProtocol.Name = protocol.Name;
+            foundProtocol.Number = protocol.Number;
+            foundProtocol.Agenda = protocol.Agenda;
+            foundProtocol.Attended = protocol.Attended;
+            foundProtocol.Chairman = protocol.Chairman;
+            foundProtocol.Decided = protocol.Decided;
+            foundProtocol.Listen = protocol.Listen;
+            foundProtocol.Secretary = protocol.Secretary;
+            foundProtocol.Speaked = protocol.Speaked;
+
+            Db.SaveChanges();
         }
 
         public ProtocolViewModel GetProtocolOrCreate(int actionId)
@@ -49,23 +99,49 @@ namespace WorkScheduler.Services
                 return GetProtocol((int)protocolId);
             }
 
-            var action = Db.Actions.FirstOrDefault(a => a.Id == actionId);
+            var action = Db.Actions.Include(a => a.WorkSchedule.User).FirstOrDefault(a => a.Id == actionId);
 
-            var lastNumber = Db.Protocols
-                .Where(p => p.Action.Name.Trim().ToLower() == action.Name.Trim().ToLower()
-                       && action.Date.Year == action.Date.Year
+            var lastNumber = 0;
+
+            var protocols = Db.Protocols
+                .Where(p => p.Action.Name == action.Name
+                       && p.Action.Date.Year == action.Date.Year
                        && p.Action.WorkSchedule.User.SchoolId == action.WorkSchedule.User.SchoolId)
-                .OrderBy(p => p.Number)
-                .Last().Number;
+                .ToList();
 
-            var cyrPhrase = new CyrPhrase(cyrNounCollection, cyrAdjectiveCollection);
-            CyrResult cyrResult = cyrPhrase.Decline(action.Name, GetConditionsEnum.Strict);
+            if (protocols.Count() != 0)
+            {
+                var lNumber = protocols
+                                .OrderBy(p => p.Number)
+                                .LastOrDefault()
+                                .Number;
 
+                lastNumber = Convert.ToInt32(lNumber);
+            }
+
+            var protocolName = action.Name;
+
+            try
+            {
+                var cyrNounCollection = new CyrNounCollection();
+                var cyrAdjectiveCollection = new CyrAdjectiveCollection();
+
+                var cyrPhrase = new CyrPhrase(cyrNounCollection, cyrAdjectiveCollection);
+                CyrResult cyrResult = cyrPhrase.Decline(action.Name, GetConditionsEnum.Similar);
+
+                protocolName = cyrResult.Genitive;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString());
+            }
+            
             var newProtocol = new Protocol
             {
                 ActionId = actionId,
-                Name = cyrResult.Genitive,
-                Number = (Convert.ToInt32(lastNumber) + 1).ToString(),
+                Name = protocolName,
+                Number = (lastNumber + 1).ToString(),
+                CreatedAt = DateTime.Now
             };
 
             Db.Protocols.Add(newProtocol);
@@ -100,7 +176,8 @@ namespace WorkScheduler.Services
                 Action = new ActionViewModel
                 {
                     Id = protocol.Action.Id,
-                    Name = protocol.Action.Name
+                    Name = protocol.Action.Name,
+                    Date = protocol.Action.Date
                 }
             };
         }

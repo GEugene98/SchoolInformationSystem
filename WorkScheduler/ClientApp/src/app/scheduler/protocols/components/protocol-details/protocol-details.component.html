@@ -4,24 +4,26 @@
             <a routerLink="//scheduler/protocols" style="text-decoration: none;"><span class="glyphicon glyphicon-arrow-left"></span> Вернуться к протоколам</a>
         </div>
         <div>
-            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Вывести документ</button>
+            <button [disabled]="!protocol" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Вывести документ</button>
         </div>
     </div>
 
-    <div class="protocol-container">
+    <div *ngIf="!protocol" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Пожалуйста, подождите</span></div>
+
+    <div *ngIf="protocol" class="protocol-container">
         <!--<div class="protocol-header protocol-element">
-        Муниципальное казенное общеобразовательное учреждение<br />
-        «Ширинская средняя общеобразовательная школа»<br />
-        (МКОУ «Ширинская СОШ»)
-    </div>-->
+            Муниципальное казенное общеобразовательное учреждение<br />
+            «Ширинская средняя общеобразовательная школа»<br />
+            (МКОУ «Ширинская СОШ»)
+        </div>-->
 
         <div class="protocol-element" style="margin-top: 50px; margin-bottom: 50px">
-            ПРОТОКОЛ {{actionId}}
+            ПРОТОКОЛ
         </div>
 
         <div class="protocol-element underheader">
             <div>
-                25 мая 2020 г.
+                {{protocol.action.date | date : 'dd.MM.yyyy'}}
             </div>
             <div>
                 № <input type="text" placeholder="1" style="width: 65px" [(ngModel)]="protocol.number" />
@@ -42,7 +44,7 @@
             </div>
 
             <div class="protocol-field" style="display: flex;">
-                Присутствовали: <input type="text" placeholder="17 человек" style="margin-left: 5px;" [(ngModel)]="protocol.attended" />
+                Присутствовали: <input type="text" placeholder="N человек" style="margin-left: 5px;" [(ngModel)]="protocol.attended" />
             </div>
 
             <div class="protocol-element" style="margin-top: 25px; text-align: center">
@@ -102,11 +104,14 @@
                     </div>
                 </div>-->
 
-            </div>
         </div>
-
-        <div style="margin: 50px; text-align: center">
-            <button type="button" class="btn btn-success" style="font-size: 17px">Сохранить протокол</button>
-        </div>
-
     </div>
+
+    <div *ngIf="protocol" style="margin: 50px; text-align: center">
+        <button type="button" class="btn btn-success" style="font-size: 17px" (click)="saveProtocol()">Сохранить протокол</button>
+    </div>
+
+</div>
+
+
+<p-toast [baseZIndex]="1000"></p-toast>
