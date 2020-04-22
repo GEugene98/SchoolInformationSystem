@@ -1,15 +1,26 @@
 <h1>Протоколы меропритяий</h1>
 <br/>
+<div style="display: flex; justify-content: flex-end">
+    <ng-select [items]="[2019, 2020, 2021]"
+               [(ngModel)]="selectedYear"
+               appendTo="body"
+               [clearable]="false"
+               style="width: 100px">
+    </ng-select>
+</div>
 <div>
     <tabset>
         <tab heading="Из моих планов">
-            <div style="text-align: center; margin-top: 50px; font-style: italic;">
-              <span>Для мероприятий из ваших личных планов пока не было создано ни одного протокола. <br/>
-                Перейдите в личный план, выберите мероприятие, для которого нужно создать протокол и нажмите на слово "Протокол".<br /><br />
-                Протоколы можно создавать только для мероприятий, у которых установлена форма подтверждения выполнения "Протокол",<br /> а также название мероприятия при его создании или редактировании выбрано из выпадающего списка
-              </span>
+            <div *ngIf="!protocols" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
+            <div *ngIf="protocols.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;">
+                <span>
+                    Для мероприятий из ваших личных планов пока не было создано ни одного протокола. <br />
+                    Перейдите в личный план, выберите мероприятие, для которого нужно создать протокол и нажмите на слово "Протокол".<br /><br />
+                    Протоколы можно создавать только для мероприятий, у которых установлена форма подтверждения выполнения "Протокол",<br /> а также название мероприятия при его создании или редактировании выбрано из выпадающего списка
+                </span>
             </div>
-            <div class="my-protocols-container">
+
+            <div *ngIf="protocols && protocols.length != 0" class="my-protocols-container">
                 <table class="table">
                     <thead>
                         <tr>
@@ -21,31 +32,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>09.08.20</td>
-                            <td>Общешкольное собрание</td>
-                            <td>08.08.20</td>
+                        <tr *ngFor="let protocol of protocols">
+                            <th>{{protocol.number}}</th>
+                            <td>{{protocol.createdAt | date : 'dd.MM.yyyy' }}</td>
+                            <td>{{protocol.actionName}}</td>
+                            <td>{{protocol.actionDate | date : 'dd.MM.yyyy' }}</td>
                             <td>
-                                <a href="javascript:void(0)" [routerLink]="['//scheduler/protocol-details', 1]">Перейти к протоколу</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <td>09.08.20</td>
-                            <td>Общешкольное собрание</td>
-                            <td>08.08.20</td>
-                            <td>
-                                <a href="javascript:void(0)">Перейти к протоколу</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>3</th>
-                            <td>09.08.20</td>
-                            <td>Общешкольное собрание</td>
-                            <td>08.08.20</td>
-                            <td>
-                                <a href="javascript:void(0)">Перейти к протоколу</a>
+                                <a href="javascript:void(0)" [routerLink]="['//scheduler/protocol-details', protocol.id]">Перейти к протоколу</a>
                             </td>
                         </tr>
                     </tbody>

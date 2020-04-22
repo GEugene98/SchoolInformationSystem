@@ -23,6 +23,41 @@ namespace WorkScheduler.Controllers
             Logger = Logger.GetInstance();
         }
 
+        [HttpGet("MyProtocols")]
+        public IActionResult MyProtocols(int year)
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+            var result = ProtocolService.GetProtocolList(currentUser.Id, year);
+            return Ok(result);
+        }
+
+        [HttpGet("GetOrCreate")]
+        public IActionResult GetOrCreate(int actionId)
+        {
+            var result = ProtocolService.GetProtocolOrCreate(actionId);
+            return Ok(result);
+        }
+
+        [HttpGet("Get")]
+        public IActionResult GetProtocol(int protocolId)
+        {
+            var result = ProtocolService.GetProtocol(protocolId);
+            return Ok(result);
+        }
+
+        [HttpDelete("Delete")]
+        public IActionResult Delete(int protocolId)
+        {
+            ProtocolService.DeleteProtocol(protocolId);
+            return Ok();
+        }
+
+        [HttpGet("Exists")]
+        public IActionResult Exists(int actionId)
+        {
+            var result = ProtocolService.ProtocolExists(actionId);
+            return Ok(result);
+        }
 
     }
 }

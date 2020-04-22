@@ -1,372 +1,393 @@
-<h1>{{currentSchedule?.name}}</h1> 
+<h1>{{currentSchedule?.name}}</h1>
 
 <div class="panel panel-default" *ngIf="actions">
-  <div class="panel-body">
-    <div class="top">
+    <div class="panel-body">
+        <div class="top">
 
-      <div style="float: left">
-        <button type="button" (click)="openModal(add)" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Добавить мероприятие</button>
-        <button title="Изменить параметры плана" type="button" (click)="openModal(editScheduleModal)" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
-      </div>
+            <div style="float: left">
+                <button type="button" (click)="openModal(add)" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Добавить мероприятие</button>
+                <button title="Изменить параметры плана" type="button" (click)="openModal(editScheduleModal)" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
+            </div>
 
-      <div style="float: right">
-        <button title="Сформировать документ по плану" type="button" (click)="openModal(generateDocConf)" class="btn btn-primary"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>
-        <button title="Отправить план на мою почту" type="button" (click)="sendSchedule()" class="btn btn-info"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
-      </div>
+            <div style="float: right">
+                <button title="Сформировать документ по плану" type="button" (click)="openModal(generateDocConf)" class="btn btn-primary"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>
+                <button title="Отправить план на мою почту" type="button" (click)="sendSchedule()" class="btn btn-info"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
- 
-<br/>
+
+<br />
 
 <div *ngIf="!actions" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
 <div *ngIf="actions?.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>В этом плане пока нет ни одного мероприятия</span></div>
 
 <table class="table" *ngIf="actions && actions.length>0">
-  <thead>
-    <tr>
-      <th scope="col"><input type="checkbox" [(ngModel)]="selectedAll" (click)="selection()" /></th>
-      <th scope="col">Дата</th>
-      <th scope="col">Мероприятие</th>
-      <th scope="col">Ответственные</th>
-      <th scope="col">Форма подтверждения</th>
-      <th scope="col">Статус</th>
-      <th scope="col">Действия</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let action of actions">
-      <td><input type="checkbox" [(ngModel)]="action.selected" (ngModelChange)="select()"/></td>
-      <td>{{action.date | date : 'dd.MM.yyyy'}}</td>
-      <td>{{action.name}}</td>
-      <td>
-        <span *ngFor="let user of action.responsibles" class="badge">
-          {{user.lastName}} {{user.firstName[0]}}. {{user.surName[0]}}.
-        </span> &nbsp;
-      </td>
-      <td>
-        <span *ngIf="action.confirmationForm.id != 2">{{action.confirmationForm.name}}</span>
-        <a *ngIf="action.confirmationForm.id == 2" href="javascript:void(0)">{{action.confirmationForm.name}}</a>
-      </td>
-      <td>
-        <span style="color: blue" *ngIf="action.status == 0">Новая запись</span>
-        <span style="color: black" *ngIf="action.status == 1">На согласовании</span>
-        <span style="color: mediumorchid" *ngIf="action.status == 2">Согласовано</span>
-        <span style="color: green" *ngIf="action.status == 3">Утверждено</span>
-        <span style="color: red" *ngIf="action.status == 4">Отклонено при согласовании</span>
-        <span style="color: red" *ngIf="action.status == 5">Отклонено при утверждении</span>
-      </td>
-      <td>
-        <div class="action-icons" style="text-align: center">
-          <a title="Редактировать" href="javascript:void(0)" (click)="copy(action); openModal(edit);"><span style="color: purple" class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-          <a [class.disabledLink]="isActionFreezed(action)" title="Удалить" href="javascript:void(0)" (click)="delete(action)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-        </div>
-      </td>
-    </tr>
-  </tbody>
+    <thead>
+        <tr>
+            <th scope="col"><input type="checkbox" [(ngModel)]="selectedAll" (click)="selection()" /></th>
+            <th scope="col">Дата</th>
+            <th scope="col">Мероприятие</th>
+            <th scope="col">Ответственные</th>
+            <th scope="col">Форма подтверждения</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let action of actions">
+            <td><input type="checkbox" [(ngModel)]="action.selected" (ngModelChange)="select()" /></td>
+            <td>{{action.date | date : 'dd.MM.yyyy'}}</td>
+            <td>{{action.name}}</td>
+            <td>
+                <span *ngFor="let user of action.responsibles" class="badge">
+                    {{user.lastName}} {{user.firstName[0]}}. {{user.surName[0]}}.
+                </span> &nbsp;
+            </td>
+            <td>
+                <span *ngIf="action.confirmationForm.id != 2">{{action.confirmationForm.name}}</span>
+                <a *ngIf="action.confirmationForm.id == 2" href="javascript:void(0)" (click)="checkProtocol(action.id, createProtocolModal)">{{action.confirmationForm.name}}</a>
+            </td>
+            <td>
+                <span style="color: blue" *ngIf="action.status == 0">Новая запись</span>
+                <span style="color: black" *ngIf="action.status == 1">На согласовании</span>
+                <span style="color: mediumorchid" *ngIf="action.status == 2">Согласовано</span>
+                <span style="color: green" *ngIf="action.status == 3">Утверждено</span>
+                <span style="color: red" *ngIf="action.status == 4">Отклонено при согласовании</span>
+                <span style="color: red" *ngIf="action.status == 5">Отклонено при утверждении</span>
+            </td>
+            <td>
+                <div class="action-icons" style="text-align: center">
+                    <a title="Редактировать" href="javascript:void(0)" (click)="copy(action); openModal(edit);"><span style="color: purple" class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                    <a [class.disabledLink]="isActionFreezed(action)" title="Удалить" href="javascript:void(0)" (click)="delete(action)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 <div class="panel panel-default" *ngIf="actions && actions.length>0">
-  <div class="panel-body">
-    <div class="bottom-container">
-      <div style="float: right">
-        <button type="button" (click)="openExportModal(exportModal)" class="btn btn-info"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Экспортировать в другой план</button>
-        <button *ngIf="checkRole('Учитель')" type="button" (click)="confirm()" class="btn btn-warning">Отправить отмеченные мероприятия на согласование</button>
-        <button *ngIf="checkRole('Администратор')" type="button" (click)="accept()" class="btn btn-warning">Отправить отмеченные мероприятия на утверждение</button>
-      </div>
+    <div class="panel-body">
+        <div class="bottom-container">
+            <div style="float: right">
+                <button type="button" (click)="openExportModal(exportModal)" class="btn btn-info"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> Экспортировать в другой план</button>
+                <button *ngIf="checkRole('Учитель')" type="button" (click)="confirm()" class="btn btn-warning">Отправить отмеченные мероприятия на согласование</button>
+                <button *ngIf="checkRole('Администратор')" type="button" (click)="accept()" class="btn btn-warning">Отправить отмеченные мероприятия на утверждение</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <ng-template #add>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Добавить мероприятие</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    Дата проведения:
-    <input type="text"
-           placeholder="Щелкните здесь для выбора"
-           class="form-control"
-           [(ngModel)]="selectedDate"
-           AUTOCOMPLETE="off"
-           [bsConfig]="bsConfig"
-           bsDatepicker>
-    <br>
-    Конец (не обязательно):
-    <input type="text"
-           placeholder="Щелкните здесь для выбора. Это поле можно оставить пустым"
-           class="form-control"
-           [(ngModel)]="selectedEndDate"
-           AUTOCOMPLETE="off"
-           [bsConfig]="bsConfig"
-           bsDatepicker>
-    <br>
-    Мероприятие:
-    <input type="text" [(ngModel)]="selectedName" class="form-control" placeholder="Название мероприятия">
-    <br>
-    Ответственные:
-    <ng-select [items]="allResponsibles | async"
-               [disabled]="checkRole('Учитель')"
-               [multiple]="true"
-               [closeOnSelect]="false"
-               [searchable]="true"
-               bindLabel="fullName"
-               placeholder="Выберите как минимум одного"
-               [(ngModel)]="selectedResponsibles">
-    </ng-select>
-    <br>
-    Форма подтверждения выполнения:
-    <ng-select [items]="allConfForms | async"
-               bindLabel="name"
-               bindValue="id"
-               [(ngModel)]="selectedConfFormId"
-               [clearable]="false">
-    </ng-select>
-    <br>
-
-    <div style="text-align:center; margin-top: 15px;">
-      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
-      <button type="button" (click)="createAction()" class="btn btn-success">Добавить</button>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Добавить мероприятие</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
+    <div class="modal-body">
+        Дата проведения:
+        <input type="text"
+               placeholder="Щелкните здесь для выбора"
+               class="form-control"
+               [(ngModel)]="selectedDate"
+               AUTOCOMPLETE="off"
+               [bsConfig]="bsConfig"
+               bsDatepicker>
+        <br>
+        Конец (не обязательно):
+        <input type="text"
+               placeholder="Щелкните здесь для выбора. Это поле можно оставить пустым"
+               class="form-control"
+               [(ngModel)]="selectedEndDate"
+               AUTOCOMPLETE="off"
+               [bsConfig]="bsConfig"
+               bsDatepicker>
+        <br>
+        Мероприятие:
+        <input type="text" [(ngModel)]="selectedName" class="form-control" placeholder="Название мероприятия">
+        <br>
+        Ответственные:
+        <ng-select [items]="allResponsibles | async"
+                   [disabled]="checkRole('Учитель')"
+                   [multiple]="true"
+                   [closeOnSelect]="false"
+                   [searchable]="true"
+                   bindLabel="fullName"
+                   placeholder="Выберите как минимум одного"
+                   [(ngModel)]="selectedResponsibles">
+        </ng-select>
+        <br>
+        Форма подтверждения выполнения:
+        <ng-select [items]="allConfForms | async"
+                   bindLabel="name"
+                   bindValue="id"
+                   [(ngModel)]="selectedConfFormId"
+                   [clearable]="false">
+        </ng-select>
+        <br>
 
-  </div>
+        <div style="text-align:center; margin-top: 15px;">
+            <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+            <button type="button" (click)="createAction()" class="btn btn-success">Добавить</button>
+        </div>
+
+    </div>
 
 </ng-template>
 
 <ng-template #generateDocConf>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Сформировать документ?</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>В документ будут внесены только мероприятия, имеющие на данный момент статус <b style="color: green">утверждено</b>.</p>
-    <p>Если ваши мероприятия не имеют статус утверждено и вам необходимо сформировать документ, отметьте галочками мероприятия, затем нажмите кнопку <b style="color: darkorange">"Отправить отмеченные мероприятия на согласование"</b> и дождитесь статуса утверждено. В случае отказа внесите необходимые изменения и отправьте снова</p>
-    <div style="text-align:center; margin-top: 15px;">
-      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
-      <button type="button" (click)="next()" class="btn btn-success">Продолжить</button>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Сформировать документ?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-  </div>
+    <div class="modal-body">
+        <p>В документ будут внесены только мероприятия, имеющие на данный момент статус <b style="color: green">утверждено</b>.</p>
+        <p>Если ваши мероприятия не имеют статус утверждено и вам необходимо сформировать документ, отметьте галочками мероприятия, затем нажмите кнопку <b style="color: darkorange">"Отправить отмеченные мероприятия на согласование"</b> и дождитесь статуса утверждено. В случае отказа внесите необходимые изменения и отправьте снова</p>
+        <div style="text-align:center; margin-top: 15px;">
+            <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+            <button type="button" (click)="next()" class="btn btn-success">Продолжить</button>
+        </div>
+    </div>
 
 </ng-template>
 
 <ng-template #exportModal>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Экспорт мероприятий в другой план</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Выберите план, в который будет выполнен экспорт выбранных мероприятий:</p>
-
-    <ng-select [items]="mySchedules"
-               bindLabel="name"
-               bindValue="id"
-               groupBy="academicYearName"
-               [(ngModel)]="targetScheduleId"
-               [clearable]="false">
-    </ng-select>
-
-    <div *ngIf="targetScheduleId">
-      <div class="alert alert-info" role="alert" style="margin-top: 15px">
-        <strong>После экспорта мероприятия останутся в обоих планах.</strong>
-        <p>Если мероприятия нужно экспортировать, а после <span style="color: mediumpurple;">удалить</span> из текущего плана, отметьте галочкой "Переместить мероприятия"</p>
-        <p>Если учебный год плана, в который выполняется экспорт позднее, чем учебный год текущего плана, даты экспортируемых мероприятий будут смещены на один год вперед</p>
-      </div>
-
-      <div>
-        <input type="checkbox" id="rpl" [(ngModel)]="replace">
-        <label style="font-weight: normal;" for="rpl">Переместить мероприятия</label>
-      </div>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Экспорт мероприятий в другой план</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
+    <div class="modal-body">
+        <p>Выберите план, в который будет выполнен экспорт выбранных мероприятий:</p>
 
-    <div style="text-align:center; margin-top: 15px;">
-      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
-      <button type="button" (click)="export()" class="btn btn-success">Экспорт</button>
+        <ng-select [items]="mySchedules"
+                   bindLabel="name"
+                   bindValue="id"
+                   groupBy="academicYearName"
+                   [(ngModel)]="targetScheduleId"
+                   [clearable]="false">
+        </ng-select>
+
+        <div *ngIf="targetScheduleId">
+            <div class="alert alert-info" role="alert" style="margin-top: 15px">
+                <strong>После экспорта мероприятия останутся в обоих планах.</strong>
+                <p>Если мероприятия нужно экспортировать, а после <span style="color: mediumpurple;">удалить</span> из текущего плана, отметьте галочкой "Переместить мероприятия"</p>
+                <p>Если учебный год плана, в который выполняется экспорт позднее, чем учебный год текущего плана, даты экспортируемых мероприятий будут смещены на один год вперед</p>
+            </div>
+
+            <div>
+                <input type="checkbox" id="rpl" [(ngModel)]="replace">
+                <label style="font-weight: normal;" for="rpl">Переместить мероприятия</label>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top: 15px;">
+            <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+            <button type="button" (click)="export()" class="btn btn-success">Экспорт</button>
+        </div>
     </div>
-  </div>
 
 </ng-template>
 
 <ng-template #selectDate>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Укажите дату согласования и утверждения</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Эти даты используются только для вставки в грифы документа</p> <br />
-    Дата согласования:
-    <input type="text"
-           placeholder="Щелкните здесь для выбора"
-           class="form-control"
-           [(ngModel)]="confirmDate"
-           AUTOCOMPLETE="off"
-           [bsConfig]="bsConfig"
-           bsDatepicker>
-    <br>
-    Дата утверждения:
-    <input type="text"
-           placeholder="Щелкните здесь для выбора"
-           class="form-control"
-           [(ngModel)]="acceptDate"
-           AUTOCOMPLETE="off"
-           [bsConfig]="bsConfig"
-           bsDatepicker>
-    <br>
-    <div style="text-align:center; margin-top: 15px;">
-      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
-      <button type="button" (click)="getDocument()" class="btn btn-success">Сформировать документ</button>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Укажите дату согласования и утверждения</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
+    <div class="modal-body">
+        <p>Эти даты используются только для вставки в грифы документа</p> <br />
+        Дата согласования:
+        <input type="text"
+               placeholder="Щелкните здесь для выбора"
+               class="form-control"
+               [(ngModel)]="confirmDate"
+               AUTOCOMPLETE="off"
+               [bsConfig]="bsConfig"
+               bsDatepicker>
+        <br>
+        Дата утверждения:
+        <input type="text"
+               placeholder="Щелкните здесь для выбора"
+               class="form-control"
+               [(ngModel)]="acceptDate"
+               AUTOCOMPLETE="off"
+               [bsConfig]="bsConfig"
+               bsDatepicker>
+        <br>
+        <div style="text-align:center; margin-top: 15px;">
+            <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+            <button type="button" (click)="getDocument()" class="btn btn-success">Сформировать документ</button>
+        </div>
 
-  </div>
+    </div>
 
 </ng-template>
 
 <ng-template #edit>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Редактировать мероприятие</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    Дата:
-    <input type="text"
-           placeholder="Щелкните здесь для выбора"
-           class="form-control"
-           [(ngModel)]="editedAction.date"
-           AUTOCOMPLETE="off"
-           [bsConfig]="bsConfig"
-           bsDatepicker>
-    <br>
-    Мероприятие:
-    <input type="text" [(ngModel)]="editedAction.name" class="form-control" placeholder="Название мероприятия">
-    <br>
-    Ответственные:
-    <ng-select [items]="allResponsibles | async"
-               [disabled]="checkRole('Учитель')"
-               [multiple]="true"
-               [closeOnSelect]="false"
-               [searchable]="true"
-               bindLabel="fullName"
-               placeholder="Выберите как минимум одного"
-               [(ngModel)]="editedAction.responsibles">
-    </ng-select>
-    <br>
-    Форма подтверждения выполнения:
-    <ng-select [items]="allConfForms | async"
-               bindLabel="name"
-               bindValue="id"
-               [(ngModel)]="editedAction.confirmationForm.id"
-               [clearable]="false">
-    </ng-select>
-    <br>
-
-    <div *ngIf="showEditMessage && checkRole('Учитель')" class="alert alert-warning" role="alert">
-      <strong>Мероприятие отправится на повторное согласование и утверждение</strong>
-      <p>
-        Так как вы пытаетесь изменить утвержденное или согласованное мероприятие, то после сохранения изменений это мероприятие будет отправлено на согласование.
-        <br>Дождитесь статуса "Утверждено", чтобы мероприятие отображалось в сводном плане и попадало в формируемую документацию
-      </p>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Редактировать мероприятие</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
+    <div class="modal-body">
+        Дата:
+        <input type="text"
+               placeholder="Щелкните здесь для выбора"
+               class="form-control"
+               [(ngModel)]="editedAction.date"
+               AUTOCOMPLETE="off"
+               [bsConfig]="bsConfig"
+               bsDatepicker>
+        <br>
+        Мероприятие:
+        <input type="text" [(ngModel)]="editedAction.name" class="form-control" placeholder="Название мероприятия">
+        <br>
+        Ответственные:
+        <ng-select [items]="allResponsibles | async"
+                   [disabled]="checkRole('Учитель')"
+                   [multiple]="true"
+                   [closeOnSelect]="false"
+                   [searchable]="true"
+                   bindLabel="fullName"
+                   placeholder="Выберите как минимум одного"
+                   [(ngModel)]="editedAction.responsibles">
+        </ng-select>
+        <br>
+        Форма подтверждения выполнения:
+        <ng-select [items]="allConfForms | async"
+                   bindLabel="name"
+                   bindValue="id"
+                   [(ngModel)]="editedAction.confirmationForm.id"
+                   [clearable]="false">
+        </ng-select>
+        <br>
 
-    <div *ngIf="showEditMessage && checkRole('Администратор')" class="alert alert-warning" role="alert">
-      <strong>Статус мероприятия будет изменен на "Согласовано"</strong>
-      <p>
-        Так как вы пытаетесь изменить утвержденное мероприятие, 
-        статус мероприятия после сохранения изменений будет сброшен до статуса "Согласовано" и отправлен на утверждение. 
-        Дождитесь утверждения мероприятия директором.
-      </p>
+        <div *ngIf="showEditMessage && checkRole('Учитель')" class="alert alert-warning" role="alert">
+            <strong>Мероприятие отправится на повторное согласование и утверждение</strong>
+            <p>
+                Так как вы пытаетесь изменить утвержденное или согласованное мероприятие, то после сохранения изменений это мероприятие будет отправлено на согласование.
+                <br>Дождитесь статуса "Утверждено", чтобы мероприятие отображалось в сводном плане и попадало в формируемую документацию
+            </p>
+        </div>
+
+        <div *ngIf="showEditMessage && checkRole('Администратор')" class="alert alert-warning" role="alert">
+            <strong>Статус мероприятия будет изменен на "Согласовано"</strong>
+            <p>
+                Так как вы пытаетесь изменить утвержденное мероприятие,
+                статус мероприятия после сохранения изменений будет сброшен до статуса "Согласовано" и отправлен на утверждение.
+                Дождитесь утверждения мероприятия директором.
+            </p>
+        </div>
+
+        <div style="text-align:center; margin-top: 15px;">
+            <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+            <button type="button" (click)="applyChanges()" class="btn btn-success">Сохранить</button>
+        </div>
+
     </div>
-
-    <div style="text-align:center; margin-top: 15px;">
-      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
-      <button type="button" (click)="applyChanges()" class="btn btn-success">Сохранить</button>
-    </div>
-
-  </div>
 
 </ng-template>
 
 <ng-template #del>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Удалить мероприятие?</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div style="text-align:center; margin-top: 15px;">
-      <button type="button" (click)="closeModal()" class="btn btn-danger">Нет</button>
-      <button type="button" (click)="some()" class="btn btn-success">Да</button>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Удалить мероприятие?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-  </div>
+    <div class="modal-body">
+        <div style="text-align:center; margin-top: 15px;">
+            <button type="button" (click)="closeModal()" class="btn btn-danger">Нет</button>
+            <button type="button" (click)="some()" class="btn btn-success">Да</button>
+        </div>
+    </div>
 
 </ng-template>
 
 <ng-template #delSchedule>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Удалить план?</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    Отменить действие будет невозможно. Продолжить?
-    <div style="text-align:center; margin-top: 15px;">
-      <button type="button" (click)="closeModal()" class="btn btn-danger">Нет</button>
-      <button type="button" (click)="deleteSchedule()" class="btn btn-success">Да</button>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Удалить план?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-  </div>
+    <div class="modal-body">
+        Отменить действие будет невозможно. Продолжить?
+        <div style="text-align:center; margin-top: 15px;">
+            <button type="button" (click)="closeModal()" class="btn btn-danger">Нет</button>
+            <button type="button" (click)="deleteSchedule()" class="btn btn-success">Да</button>
+        </div>
+    </div>
 
 </ng-template>
 
 <ng-template #editScheduleModal>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Изменить параметры плана</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    Наименование:
-    <input class="form-control" [(ngModel)]="editedSchedule.name" placeholder="Наименование">
-    <br/>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Изменить параметры плана</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Наименование:
+        <input class="form-control" [(ngModel)]="editedSchedule.name" placeholder="Наименование">
+        <br />
 
-    Направление деятельности:
-    <ng-select [items]="allActivities"
-               bindLabel="name"
-               bindValue="id"
-               [(ngModel)]="editedSchedule.activity.id"
-               [clearable]="false">
-    </ng-select>
+        Направление деятельности:
+        <ng-select [items]="allActivities"
+                   bindLabel="name"
+                   bindValue="id"
+                   [(ngModel)]="editedSchedule.activity.id"
+                   [clearable]="false">
+        </ng-select>
 
-    <br />
+        <br />
 
-    Учебный год:
-    <ng-select [items]="allAcademicYears"
-               bindLabel="name"
-               bindValue="id"
-               [(ngModel)]="editedSchedule.academicYear.id"
-               [clearable]="false">
-    </ng-select>
-    <br>
+        Учебный год:
+        <ng-select [items]="allAcademicYears"
+                   bindLabel="name"
+                   bindValue="id"
+                   [(ngModel)]="editedSchedule.academicYear.id"
+                   [clearable]="false">
+        </ng-select>
+        <br>
 
 
-    <div style="text-align:center; margin-top: 15px;">
-      <button type="button" (click)="modalRef.hide(); openModal(delSchedule)" class="btn btn-danger">Удалить план</button>
-      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
-      <button type="button" (click)="editSchedule()" class="btn btn-success">Сохранить</button>
+        <div style="text-align:center; margin-top: 15px;">
+            <button type="button" (click)="modalRef.hide(); openModal(delSchedule)" class="btn btn-danger">Удалить план</button>
+            <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+            <button type="button" (click)="editSchedule()" class="btn btn-success">Сохранить</button>
+        </div>
+
+    </div>
+</ng-template>
+
+
+<ng-template #createProtocolModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Создать протокол?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Для этого мероприятия еще не было создно протокола.<br/>
+        Если Вы нажмете кнопку "Продолжить" - будет сформирован протокол и присвоен номер документу, затем Вы попадете на странцу редактирования протокола.<br />
+        В дальнейшем Вы сможете найти протокол этого мероприятия в разделе "Протоколы меропритяий" или нажав на слово "Протокол" в плане мероприятий также, как вы сделали это сейчас.<br />
+
+        <div style="text-align:center; margin-top: 15px;">
+            <button type="button" (click)="closeModal()" class="btn btn-default">Создать протокол в другой раз</button>
+            <button type="button" (click)="createProtocol()" class="btn btn-success">Продолжить</button>
+        </div>
     </div>
 
-  </div>
 </ng-template>
 
 <p-toast [baseZIndex]="1000"></p-toast>

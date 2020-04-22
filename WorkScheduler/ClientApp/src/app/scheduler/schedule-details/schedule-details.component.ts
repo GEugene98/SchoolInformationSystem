@@ -334,4 +334,21 @@ export class ScheduleDetailsComponent implements OnInit {
       + `&acpDay=${this.acceptDate.getDate()}&acpMonth=${this.acceptDate.getMonth() + 1}&acpYear=${this.acceptDate.getFullYear()}`);
     this.closeModal();
   }
+
+  actionIdToOpenProtocol: number;
+
+  async checkProtocol(actionId: number, modal) {
+    let exists = await this.schedule.protocolExists(actionId);
+    if (exists) {
+      this.router.navigate(['//scheduler/protocol-details/' + actionId]);
+    }
+    else {
+      this.openModal(modal);
+      this.actionIdToOpenProtocol = actionId;
+    }
+  }
+
+  createProtocol() {
+    this.router.navigate(['//scheduler/protocol-details/' + this.actionIdToOpenProtocol]);
+  }
 }

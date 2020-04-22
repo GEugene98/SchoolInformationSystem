@@ -16,7 +16,7 @@
     </div>-->
 
         <div class="protocol-element" style="margin-top: 50px; margin-bottom: 50px">
-            ПРОТОКОЛ
+            ПРОТОКОЛ {{actionId}}
         </div>
 
         <div class="protocol-element underheader">
@@ -24,25 +24,25 @@
                 25 мая 2020 г.
             </div>
             <div>
-                № <input type="text" value="1" style="width: 65px" />
+                № <input type="text" placeholder="1" style="width: 65px" [(ngModel)]="protocol.number" />
             </div>
         </div>
 
         <div class="protocol-body protocol-element">
             <div class="protocol-field">
-                заседания <input type="text" value="Педагогического совета" />
+                заседания <input type="text" placeholder="Педагогического совета" [(ngModel)]="protocol.name" />
             </div>
 
             <div class="protocol-field">
-                Председатель - <input type="text" value="Фамилия И.О." />
+                Председатель - <input type="text" placeholder="Фамилия И.О." [(ngModel)]="protocol.chairman" />
             </div>
 
             <div class="protocol-field">
-                Секретарь - <input type="text" value="Фамилия И.О." />
+                Секретарь - <input type="text" placeholder="Фамилия И.О." [(ngModel)]="protocol.secretary" />
             </div>
 
             <div class="protocol-field" style="display: flex;">
-                Присутствовали: <input type="text" value="17 человек" style="margin-left: 5px;" />
+                Присутствовали: <input type="text" placeholder="17 человек" style="margin-left: 5px;" [(ngModel)]="protocol.attended" />
             </div>
 
             <div class="protocol-element" style="margin-top: 25px; text-align: center">
@@ -50,7 +50,7 @@
             </div>
 
             <div class="protocol-field">
-                <textarea placeholder="1.     Первая повестка ..."></textarea>
+                <textarea placeholder="1.     Первая повестка ..." [(ngModel)]="protocol.agenda"></textarea>
             </div>
 
             <div class="protocol-element" style="margin-top: 25px; text-align: left">
@@ -58,7 +58,7 @@
             </div>
 
             <div class="protocol-field">
-                <textarea placeholder="Фамилия И.О. - текст доклада ..."></textarea>
+                <textarea placeholder="Фамилия И.О. - текст доклада ..." [(ngModel)]="protocol.listen"></textarea>
             </div>
 
             <div class="protocol-element" style="margin-top: 25px; text-align: left">
@@ -66,7 +66,7 @@
             </div>
 
             <div class="protocol-field">
-                <textarea placeholder="Фамилия И.О. - краткая запись выступления ..."></textarea>
+                <textarea placeholder="Фамилия И.О. - краткая запись выступления ..." [(ngModel)]="protocol.speaked"></textarea>
             </div>
 
             <div class="protocol-element" style="margin-top: 25px; text-align: left">
@@ -74,7 +74,7 @@
             </div>
 
             <div class="protocol-field">
-                <textarea placeholder="1.1     Решение по первой повестке ..."></textarea>
+                <textarea placeholder="1.1     Решение по первой повестке ..." [(ngModel)]="protocol.decided"></textarea>
             </div>
 
             <!--<div class="protocol-footer">

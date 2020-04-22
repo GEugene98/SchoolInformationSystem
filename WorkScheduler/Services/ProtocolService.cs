@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cyriller;
 using Cyriller.Model;
@@ -21,6 +22,22 @@ namespace WorkScheduler.Services
 
             cyrNounCollection = new CyrNounCollection();
             cyrAdjectiveCollection = new CyrAdjectiveCollection();
+        }
+
+        public List<ProtocolInfo> GetProtocolList(string userId, int year)
+        {
+            return Db.Protocols
+                .Where(p => p.Action.WorkSchedule.UserId == userId && p.Action.Date.Year == year)
+                .Select(p => new ProtocolInfo
+                    {
+                        Id = p.Id,
+                        Number = p.Number,
+                        ActionName = p.Action.Name,
+                        ActionDate = p.Action.Date,
+                        ActionId = p.ActionId
+                    }
+                )
+                .ToList();
         }
 
         public ProtocolViewModel GetProtocolOrCreate(int actionId)
@@ -99,6 +116,12 @@ namespace WorkScheduler.Services
 
             Db.Protocols.Remove(protocol);
             Db.SaveChanges();
+        }
+
+        public bool ProtocolExists(int actionId)
+        {
+            var protocol = Db.Protocols.FirstOrDefault(p => p.ActionId == actionId);
+            return protocol != null;
         }
     }
 }

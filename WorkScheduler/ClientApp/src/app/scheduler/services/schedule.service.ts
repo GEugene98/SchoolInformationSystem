@@ -12,6 +12,8 @@ import { Checklist } from "../../shared/models/checklist.model";
 import { ChecklistFilter } from "../../shared/table/checklist/checklist-filter";
 import { TableRequest } from "../../shared/table/table-request";
 import { TableResponse } from "../../shared/table/table-response";
+import { Protocol } from "../../shared/models/protocol.model";
+import { ProtocolInfo } from "../../shared/models/protocol-info.model";
 
 @Injectable()
 export class ScheduleService {
@@ -302,4 +304,31 @@ export class ScheduleService {
     return await this.http.get('api/Checklist/MarkTicketSeen', { params: params }).toPromise();
   }
 
+  async getMyProtocols(year: number) {
+    const params = new HttpParams()
+      .set('year', year.toString());
+
+    return await this.http.get<ProtocolInfo[]>('api/Protocol/MyProtocols', { params: params }).toPromise();
+  }
+
+  async GetProtocol(protocolId: number) {
+    const params = new HttpParams()
+      .set('protocolId', protocolId.toString());
+
+    return await this.http.get<Protocol>('api/Protocol/Get', { params: params }).toPromise();
+  }
+
+  async getOrCreateProtocol(actionId: number) {
+    const params = new HttpParams()
+      .set('actionId', actionId.toString());
+
+    return await this.http.get<Protocol>('api/Protocol/GetOrCreate', { params: params }).toPromise();
+  }
+  
+  async protocolExists(actionId: number) {
+    const params = new HttpParams()
+      .set('actionId', actionId.toString());
+
+    return await this.http.get<boolean>('api/Protocol/Exists', { params: params }).toPromise();
+  }
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ScheduleService } from '../../../services/schedule.service';
+import { Protocol } from '../../../../shared/models/protocol.model';
 
 @Component({
   selector: 'app-protocol-details',
@@ -8,12 +10,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProtocolDetailsComponent implements OnInit {
 
-  protocolId: number;
+  actionId: number;
+  protocol: Protocol;
 
-  constructor(private activateRoute: ActivatedRoute) { }
+  constructor(private activateRoute: ActivatedRoute, private scheduleService: ScheduleService) { }
 
-  ngOnInit() {
-    this.protocolId = this.activateRoute.snapshot.params['id'];
+  async ngOnInit() {
+    this.actionId = this.activateRoute.snapshot.params['id'];
+    await this.loadData();
+  }
+
+  async loadData() {
+    this.protocol = await this.scheduleService.getOrCreateProtocol(this.actionId);
   }
 
 }
