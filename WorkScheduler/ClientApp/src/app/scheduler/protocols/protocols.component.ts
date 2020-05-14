@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ScheduleService } from '../services/schedule.service';
 import { ProtocolInfo } from '../../shared/models/protocol-info.model';
 import { MessageService } from 'primeng/api';
+import { isUserInRole, User } from '../../shared/models/user';
+import { UserState } from '../../shared/states/user.state';
 
 @Component({
   selector: 'app-protocols',
@@ -14,7 +16,7 @@ export class ProtocolsComponent implements OnInit {
   protocols: ProtocolInfo[];
   allProtocols: ProtocolInfo[];
 
-  constructor(private scheduleService: ScheduleService, private messageService: MessageService) { }
+  constructor(private scheduleService: ScheduleService, private messageService: MessageService, private userState: UserState) { }
 
   async ngOnInit() {
     await this.loadData();
@@ -33,6 +35,10 @@ export class ProtocolsComponent implements OnInit {
   async deleteProtocol(protocolId: number) {
     await this.scheduleService.deleteProtocol(protocolId);
     await this.loadData();
+  }
+
+  checkRole(user: User, role: string) {
+    return isUserInRole(user, role);
   }
 
 }

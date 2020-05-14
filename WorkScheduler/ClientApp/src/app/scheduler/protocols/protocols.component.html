@@ -51,7 +51,7 @@
 
             </div>
         </tab>
-        <tab heading="Все протоколы школы">
+        <tab heading="Все протоколы школы" *ngIf="checkRole(userState.currentUser?.state, 'Директор')">
             <div *ngIf="!allProtocols" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
             <div *ngIf="allProtocols && allProtocols.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;">
                 <span>
