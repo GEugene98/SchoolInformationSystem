@@ -10,10 +10,5 @@ export class Protocol {
   chairman: string;
   secretary: string;
   attended: string;
-  agenda: string;
-  listen: string;
-  speaked: string;
-  decided: string;
-
   protocolContentJSON: string;
 }

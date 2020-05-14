@@ -13,9 +13,6 @@ namespace WorkScheduler.ViewModels.Scheduler
         public string Chairman { get; set; }
         public string Secretary { get; set; }
         public string Attended { get; set; }
-        public string Agenda { get; set; }
-        public string Listen { get; set; }
-        public string Speaked { get; set; }
-        public string Decided { get; set; }
+        public string ProtocolContentJSON { get; set; }
     }
 }

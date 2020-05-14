@@ -5,8 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using WorkScheduler.ViewModels;
 using WorkScheduler.ViewModels.Scheduler;
+using WorkScheduler.ViewModels.Scheduler.Rendering;
 
 namespace WorkScheduler.Services
 {
@@ -179,12 +181,34 @@ namespace WorkScheduler.Services
             template = template.Replace("%CHAIRMAN%", $"{protocol.Chairman.Replace("\n", "<br />")}");
             template = template.Replace("%SECRETARY%", $"{protocol.Secretary.Replace("\n", "<br />")}");
             template = template.Replace("%ATTENDED%", $"{protocol.Attended.Replace("\n", "<br />")}");
-            template = template.Replace("%AGENDA%", $"{protocol.Agenda.Replace("\n", "<br />")}");
-            template = template.Replace("%LISTEN%", $"{protocol.Listen.Replace("\n", "<br />")}");
-            template = template.Replace("%SPEAKED%", $"{protocol.Speaked.Replace("\n", "<br />")}");
-            template = template.Replace("%DECIDED%", $"{protocol.Decided.Replace("\n", "<br />")}");
+            //template = template.Replace("%AGENDA%", $"{protocol.Agenda.Replace("\n", "<br />")}");
+            //template = template.Replace("%LISTEN%", $"{protocol.Listen.Replace("\n", "<br />")}");
+            //template = template.Replace("%SPEAKED%", $"{protocol.Speaked.Replace("\n", "<br />")}");
+            //template = template.Replace("%DECIDED%", $"{protocol.Decided.Replace("\n", "<br />")}");
+
+            var parsed = JsonConvert.DeserializeObject<List<Agenda>>(protocol.ProtocolContentJSON);
+
+            var agendaTable = "<br /><table>";
+
+            foreach (var agenda in parsed)
+            {
+                agendaTable +=
+                    $"<tr>" +
+                        $"<td style=\"width: 10%; vertical-align: text-top;\">{parsed.IndexOf(agenda) + 1}</td>" +
+                        $"<td style=\"width: 60 %\">{agenda.Content}</td>" +
+                        $"<td style=\"width: 30%; vertical-align: text-top;\">{agenda.Author.FullName} <br /> {agenda.Author.Position}</td>" +
+                    $"</tr>";
+            }
+
+            agendaTable += "</table><br />";
+
+
+
+
+            template = template.Replace("%CONTENT%", agendaTable);
+
 
             return template;
-        }
+        } 
     }
 }

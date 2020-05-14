@@ -79,13 +79,10 @@ namespace WorkScheduler.Services
 
             foundProtocol.Name = protocol.Name;
             foundProtocol.Number = protocol.Number;
-            foundProtocol.Agenda = protocol.Agenda;
             foundProtocol.Attended = protocol.Attended;
             foundProtocol.Chairman = protocol.Chairman;
-            foundProtocol.Decided = protocol.Decided;
-            foundProtocol.Listen = protocol.Listen;
             foundProtocol.Secretary = protocol.Secretary;
-            foundProtocol.Speaked = protocol.Speaked;
+            foundProtocol.ProtocolContentJSON = protocol.ProtocolContentJSON;
 
             Db.SaveChanges();
         }
@@ -164,14 +161,11 @@ namespace WorkScheduler.Services
                 Id = protocol.Id,
                 Name = protocol.Name,
                 Number = protocol.Number,
-                Agenda = protocol.Agenda,
                 Attended = protocol.Attended,
                 Chairman = protocol.Chairman,
                 CreatedAt = protocol.CreatedAt,
-                Decided = protocol.Decided,
-                Listen = protocol.Listen,
                 Secretary = protocol.Secretary,
-                Speaked = protocol.Speaked,
+                ProtocolContentJSON = protocol.ProtocolContentJSON,
                 Action = new ActionViewModel
                 {
                     Id = protocol.Action.Id,

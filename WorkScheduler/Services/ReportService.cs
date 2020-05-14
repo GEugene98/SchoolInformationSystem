@@ -157,7 +157,7 @@ namespace WorkScheduler.Services
                 HtmlContent = html,
                 WebSettings = { DefaultEncoding = "utf-8" },
                 //HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
-                //FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Report Footer" }
+                FooterSettings = { FontName = "Times New Roman", FontSize = 10, Line = false, Center = "[page]" }
             };
 
             var pdf = new HtmlToPdfDocument()

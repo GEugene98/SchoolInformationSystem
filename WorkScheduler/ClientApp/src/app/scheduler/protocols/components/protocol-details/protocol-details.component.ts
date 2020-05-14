@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ScheduleService } from '../../../services/schedule.service';
 import { Protocol } from '../../../../shared/models/protocol.model';
@@ -11,12 +11,14 @@ import { DictionaryService } from '../../../../shared/services/dictionary.servic
   templateUrl: './protocol-details.component.html',
   styleUrls: ['./protocol-details.component.css']
 })
-export class ProtocolDetailsComponent implements OnInit {
+export class ProtocolDetailsComponent implements OnInit, OnDestroy {
 
   actionId: number;
   protocol: Protocol;
 
   allResponsibles;
+
+  autosaveIntervalId;
 
   protocolContent: Agenda[] = [new Agenda()];
 
@@ -25,11 +27,27 @@ export class ProtocolDetailsComponent implements OnInit {
   async ngOnInit() {
     this.actionId = this.activateRoute.snapshot.params['id'];
     await this.loadData();
+
+    this.autosaveIntervalId = setInterval(async () => {
+      try {
+        this.protocol.protocolContentJSON = JSON.stringify(this.protocolContent);
+        await this.scheduleService.saveProtocol(this.protocol);
+      }
+      catch {
+        this.messageService.add({ severity: 'warn', summary: 'Вероятно, пропало соединение с интернетом', detail: "Не переживайте, последний раз протокол был сохранен автоматически 40 секунд назад. Обновите страницу", life: 20000 });
+      }
+    }, 40000);
+
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.autosaveIntervalId);
   }
 
   async loadData() {
-    this.protocol = await this.scheduleService.getOrCreateProtocol(this.actionId);
     this.allResponsibles = this.dictionary.getResponsibles();
+    this.protocol = await this.scheduleService.getOrCreateProtocol(this.actionId);
+    this.protocolContent = JSON.parse(this.protocol.protocolContentJSON);
   }
 
   async saveProtocol() {
