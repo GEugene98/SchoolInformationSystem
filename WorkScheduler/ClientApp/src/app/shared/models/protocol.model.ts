@@ -14,4 +14,6 @@ export class Protocol {
   listen: string;
   speaked: string;
   decided: string;
+
+  protocolContentJSON: string;
 }

@@ -14,19 +14,19 @@ import { Title } from '@angular/platform-browser';
 })
 export class SettingsComponent implements OnInit {
 
-  users: User[];
+  users: User[] = [];
 
   selectedUser: User;
 
   nameToAdd: string;
-  actionNames: string[];
+  actionNames: string[] = [];
 
-  allActivity: string[];
+  allActivity: string[] = [];
   range: Date[];
 
   modalRef: BsModalRef;
 
-  allRoles: Dictionary<string>[];
+  allRoles: Dictionary<string>[] = [];
 
   selectedRole: Dictionary<string>;
   firstName: string;
@@ -50,7 +50,13 @@ export class SettingsComponent implements OnInit {
   async loadData() {
     this.users = await this.dictionary.getUsers();
     this.allRoles = await this.dictionary.getRoles();
-    this.actionNames = await this.dictionary.getActionNames();
+    let actionNamesResponse = await this.dictionary.getActionNames();
+    if (actionNamesResponse) {
+      this.actionNames = actionNamesResponse;
+    }
+    else {
+      this.actionNames = [];
+    }
   }
 
   async create() {
@@ -118,7 +124,8 @@ export class SettingsComponent implements OnInit {
   }
 
   async createActionName() {
-    this.actionNames.push(this.nameToAdd);
+    debugger
+    this.actionNames.push(Object.assign({}, this.nameToAdd));
     this.nameToAdd = undefined;
 
     await this.dictionary.updateActionNames(JSON.stringify(this.actionNames));

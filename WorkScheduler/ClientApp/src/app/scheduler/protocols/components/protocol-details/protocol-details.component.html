@@ -51,32 +51,71 @@
                 ПОВЕСТКА ДНЯ:
             </div>
 
-            <div class="protocol-field">
-                <textarea placeholder="1.     Первая повестка ..." [(ngModel)]="protocol.agenda"></textarea>
+            <div class="protocol-field agenda-table">
+                <table style="width: 100%">
+                    <tr *ngFor="let agenda of protocolContent">
+                        <td style="width: 10%; vertical-align: text-top;">{{protocolContent.indexOf(agenda) + 1}} <br /> <a href="javascript:void(0)" style="font-size: 12px;" class="delete-row" (click)="delAgenda(agenda)">(удалить строку)</a></td>
+                        <td style="width: 60%"><textarea placeholder="Текст" [(ngModel)]="agenda.content" style="width: 100%; resize: none"></textarea></td>
+                        <td style="width: 30%; vertical-align: text-top;">
+                            <ng-select [items]="allResponsibles | async"
+                                       [multiple]="false"
+                                       [closeOnSelect]="true"
+                                       [searchable]="true"
+                                       bindLabel="fullName"
+                                       placeholder="Фамилия И.О."
+                                       [(ngModel)]="agenda.author">
+                            </ng-select>
+                            <input *ngIf="agenda.author" type="text" placeholder="Введите должность" [(ngModel)]="agenda.author.position" style="width: 100%"/>
+                        </td>
+                    </tr>
+                </table>
+
+                <a href="javascript:void(0)" style="text-decoration: none; margin-top: 20px; font-size: 15px;" (click)="addAgenda()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить выступление</a>
             </div>
 
-            <div class="protocol-element" style="margin-top: 25px; text-align: left">
-                СЛУШАЛИ:
-            </div>
-
-            <div class="protocol-field">
-                <textarea placeholder="Фамилия И.О. - текст доклада ..." [(ngModel)]="protocol.listen"></textarea>
-            </div>
-
-            <div class="protocol-element" style="margin-top: 25px; text-align: left">
-                ВЫСТУПИЛИ:
-            </div>
-
-            <div class="protocol-field">
-                <textarea placeholder="Фамилия И.О. - краткая запись выступления ..." [(ngModel)]="protocol.speaked"></textarea>
-            </div>
-
-            <div class="protocol-element" style="margin-top: 25px; text-align: left">
-                РЕШИЛИ (ПОСТАНОВИЛИ):
-            </div>
-
-            <div class="protocol-field">
-                <textarea placeholder="1.1     Решение по первой повестке ..." [(ngModel)]="protocol.decided"></textarea>
+            <div *ngFor="let agenda of protocolContent">
+                <div class="protocol-element" style="margin-top: 25px; text-align: left">
+                    {{protocolContent.indexOf(agenda) + 1}}. СЛУШАЛИ:
+                </div>
+                <div *ngFor="let listen of agenda.listen">
+                    <ng-select [items]="allResponsibles | async"
+                               [multiple]="false"
+                               [closeOnSelect]="true"
+                               [searchable]="true"
+                               bindLabel="fullName"
+                               placeholder="Фамилия И.О."
+                               [(ngModel)]="listen.user">
+                    </ng-select>
+                    <div class="protocol-field">
+                        <textarea placeholder="Введите текст" [(ngModel)]="listen.content"></textarea>
+                    </div>
+                </div>
+                <a href="javascript:void(0)" style="text-decoration: none; margin-top: 20px; font-size: 15px;" (click)="addListen(agenda)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить выступающего</a>
+                <div class="protocol-element" style="margin-top: 25px; text-align: left">
+                    ВЫСТУПИЛИ:
+                </div>
+                <div *ngFor="let speaked of agenda.speaked">
+                    <ng-select [items]="allResponsibles | async"
+                               [multiple]="false"
+                               [closeOnSelect]="true"
+                               [searchable]="true"
+                               bindLabel="fullName"
+                               placeholder="Фамилия И.О."
+                               [(ngModel)]="speaked.user">
+                    </ng-select>
+                    <div class="protocol-field">
+                        <textarea placeholder="Введите текст" [(ngModel)]="speaked.content"></textarea>
+                    </div>
+                </div>
+                <a href="javascript:void(0)" style="text-decoration: none; margin-top: 20px; font-size: 15px;" (click)="addSpeaked(agenda)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить выступающего</a>
+                <div>
+                    <div class="protocol-element" style="margin-top: 25px; text-align: left">
+                        РЕШИЛИ (ПОСТАНОВИЛИ):
+                    </div>
+                    <div class="protocol-field">
+                        <textarea placeholder="Введите текст" [(ngModel)]="agenda.decided"></textarea>
+                    </div>
+                </div>
             </div>
 
             <!--<div class="protocol-footer">

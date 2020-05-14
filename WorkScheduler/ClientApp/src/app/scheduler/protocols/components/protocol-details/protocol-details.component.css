@@ -69,3 +69,29 @@ textarea::-webkit-input-placeholder {
 textarea::-moz-placeholder {
   color: rgb(214, 214, 214);
 }
+
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+td {
+    padding: 5px;
+}
+
+.agenda-table input, .agenda-table textarea {
+  border: none;
+}
+
+.delete-row {
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.agenda-table tr:hover .delete-row {
+  opacity: 1;
+  transition: 0.5s;
+}

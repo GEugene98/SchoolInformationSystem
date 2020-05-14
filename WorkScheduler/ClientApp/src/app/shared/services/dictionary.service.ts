@@ -66,10 +66,7 @@ export class DictionaryService {
   }
 
   async updateActionNames(actionNames) {
-    const params = new HttpParams()
-      .set('actionNames', actionNames.toString());
-
-    return await this.http.get('api/Dictionary/UpdateActionNames', { params: params }).toPromise();
+    return await this.http.post('api/Dictionary/UpdateActionNames', { actionNames: actionNames.toString() }).toPromise();
   }
 
   //async getActivities() {

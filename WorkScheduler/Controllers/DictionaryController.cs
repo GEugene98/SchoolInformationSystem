@@ -144,8 +144,8 @@ namespace WorkScheduler.Controllers
             return Ok(result);
         }
 
-        [HttpGet("UpdateActionNames")]
-        public IActionResult UpdateActionNames(string actionNames)
+        [HttpPost("UpdateActionNames")]
+        public IActionResult UpdateActionNames([FromBody]string actionNames)
         {
             var school = Db.Users.Include(u => u.School).FirstOrDefault(u => u.UserName == this.User.Identity.Name).School;
             school.ActionNamesToMakeProtocolJSON = actionNames;
