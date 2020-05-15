@@ -30,6 +30,7 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.1.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.2" />
+    <PackageReference Include="Miyconst.Cyriller" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,7 +41,6 @@
 <ItemGroup>
   <!-- Don't publish the SPA source files, but do show them in the project files list -->
   <Content Remove="$(SpaRoot)**" />
-  <None Remove="$(SpaRoot)**" />
   <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   <None Remove="ClientApp\src\app\shared\services\callboard.service.ts" />
   <None Remove="ClientApp\src\app\shared\models\post.model.ts" />
@@ -95,6 +95,7 @@
     <Folder Include="ClientApp\src\app\scheduler\timeline\components\" />
     <Folder Include="ClientApp\src\app\statistic\" />
     <Folder Include="ViewModels\Monitoring\TalentedChildren\" />
+    <Folder Include="ViewModels\Scheduler\Rendering\" />
   </ItemGroup>
 
   <ItemGroup>

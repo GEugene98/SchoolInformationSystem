@@ -14,16 +14,19 @@ import { Title } from '@angular/platform-browser';
 })
 export class SettingsComponent implements OnInit {
 
-  users: User[];
+  users: User[] = [];
 
   selectedUser: User;
 
-  allActivity: string[];
+  nameToAdd: string;
+  actionNames: string[] = [];
+
+  allActivity: string[] = [];
   range: Date[];
 
   modalRef: BsModalRef;
 
-  allRoles: Dictionary<string>[];
+  allRoles: Dictionary<string>[] = [];
 
   selectedRole: Dictionary<string>;
   firstName: string;
@@ -47,6 +50,13 @@ export class SettingsComponent implements OnInit {
   async loadData() {
     this.users = await this.dictionary.getUsers();
     this.allRoles = await this.dictionary.getRoles();
+    let actionNamesResponse = await this.dictionary.getActionNames();
+    if (actionNamesResponse) {
+      this.actionNames = actionNamesResponse;
+    }
+    else {
+      this.actionNames = new Array<string>();
+    }
   }
 
   async create() {
@@ -111,5 +121,21 @@ export class SettingsComponent implements OnInit {
   async saveChanges(){
     await this.dictionary.saveUser(this.selectedUser);
     await this.loadData();
+  }
+
+  async createActionName() {
+    this.actionNames.push(this.nameToAdd);
+    this.nameToAdd = undefined;
+
+    await this.dictionary.updateActionNames(JSON.stringify(this.actionNames));
+  }
+
+  async deleteActionName(name: string) {
+    var index = this.actionNames.indexOf(name);
+    if (index > -1) {
+      this.actionNames.splice(index, 1);
+    }
+
+    await this.dictionary.updateActionNames(JSON.stringify(this.actionNames));
   }
 }

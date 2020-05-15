@@ -14,6 +14,7 @@ namespace WorkScheduler.ViewModels
         public string FullName { get; set; }
         public string Role { get; set; }
         public string Email { get; set; }
+        public string Position { get; set; }
 
         public IEnumerable<string> Roles { get; set; }
         public IEnumerable<string> Activity { get; set; }

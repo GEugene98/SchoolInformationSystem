@@ -5,7 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using WorkScheduler.ViewModels;
+using WorkScheduler.ViewModels.Scheduler;
+using WorkScheduler.ViewModels.Scheduler.Rendering;
 
 namespace WorkScheduler.Services
 {
@@ -167,5 +170,74 @@ namespace WorkScheduler.Services
 
             return template.Replace("%TABLE_CONTENT%", tableContent);
         }
+
+        public string GetProtocolHTML(ProtocolViewModel protocol)
+        {
+            var template = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "assets", "protocol-template.html"));
+            template = template.Replace("%HEADER%", $"{protocol.Header.Replace("\n", "<br />")}");
+            template = template.Replace("%DATE%", $"{protocol.Action.Date.ToLongDateString()}");
+            template = template.Replace("%NUMBER%", $"{protocol.Number.Replace("\n", "<br />")}");
+            template = template.Replace("%NAME%", $"{protocol.Name.Replace("\n", "<br />")}");
+            template = template.Replace("%CHAIRMAN%", $"{protocol.Chairman.Replace("\n", "<br />")}");
+            template = template.Replace("%SECRETARY%", $"{protocol.Secretary.Replace("\n", "<br />")}");
+            template = template.Replace("%ATTENDED%", $"{protocol.Attended.Replace("\n", "<br />")}");
+
+            var parsed = JsonConvert.DeserializeObject<List<Agenda>>(protocol.ProtocolContentJSON);
+
+            var agendaTable = "<br /><table>";
+
+            foreach (var agenda in parsed)
+            {
+                agendaTable +=
+                    $"<tr>" +
+                        $"<td style=\"width: 10%; vertical-align: text-top;\">{parsed.IndexOf(agenda) + 1}</td>" +
+                        $"<td style=\"width: 60 %\">{agenda.Content}</td>" +
+                        $"<td style=\"width: 30%; vertical-align: text-top;\">{agenda.Author.FullName} <br /> {agenda.Author.Position}</td>" +
+                    $"</tr>";
+            }
+
+            agendaTable += "</table><br />";
+
+            var innerContents = "<div>";
+
+            foreach (var agenda in parsed)
+            {
+                if (agenda.Listen != null)
+                {
+                    innerContents +=
+                        $"<br />{parsed.IndexOf(agenda) + 1}. СЛУШАЛИ:<br />";
+
+                    foreach (var item in agenda.Listen)
+                    {
+                        innerContents +=
+                            $"{item.User?.FullName} <br /> <p>{item.Content}</p> <br />";
+                    }
+                }
+
+                if (agenda.Speaked != null)
+                {
+                    innerContents +=
+                        $"ВЫСТУПИЛИ:<br />";
+
+                    foreach (var item in agenda.Speaked)
+                    {
+                        innerContents +=
+                            $"{item.User?.FullName} <br /> <p>{item.Content}</p> <br />";
+                    }
+                }
+
+                if (agenda.Decided != null)
+                {
+                    innerContents +=
+                        $"РЕШИЛИ (ПОСТАНОВИЛИ):<br /> <p>{agenda.Decided}</p> </div>";
+                }
+
+            }
+
+            template = template.Replace("%CONTENT%", agendaTable + innerContents);
+
+
+            return template;
+        } 
     }
 }

@@ -12,5 +12,7 @@ namespace WorkScheduler.Models.Shared
         public string ShortName { get; set; }
         public string Email { get; set; }
         public virtual ICollection<User> Users { get; set; }
+        public string DocumentHeaderHTML { get; set; }
+        public string ActionNamesToMakeProtocolJSON { get; set; }
     }
 }

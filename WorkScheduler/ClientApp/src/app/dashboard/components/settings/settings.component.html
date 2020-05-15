@@ -6,69 +6,94 @@
 <h1>Настройки</h1>
 
 <tabset>
-  <tab heading="Управление доступом" id="tab1">
-    <br />
-    <button type="button" (click)="openModal(add)" class="btn btn-success"><span class='glyphicon glyphicon-plus'></span> Добавить нового пользователя</button>
-    <br />
-    <div *ngIf="!users" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
+    <tab heading="Управление доступом" id="tab1">
+        <br />
+        <button type="button" (click)="openModal(add)" class="btn btn-success"><span class='glyphicon glyphicon-plus'></span> Добавить нового пользователя</button>
+        <br />
+        <div *ngIf="!users" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
 
-    <table class="table" *ngIf="users">
-      <thead>
-        <tr>
-          <th scope="col">ФИО</th>
-          <th scope="col">Логин</th>
-          <th scope="col">Роль</th>
-          <th style="text-align: center;" scope="col">Действия</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{user.lastName}} {{user.firstName}} {{user.surName}}</td>
-          <td>
-            {{user.name}}
-          </td>
-          <td>
-            <span *ngFor="let role of user?.roles" class="badge">
-              {{role}}
-            </span> &nbsp;
-          </td>
-          <td>
-            <div style="text-align: center">
-              <a title="Посмотреть активность" href="javascript:void(0)" (click)="copy(user); loadActivity(user); openModal(userActivity);"><span style="color: blueviolet" class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>&nbsp;
-              <a title="Редактировать" href="javascript:void(0)" (click)="copy(user); openModal(edit);"><span style="color: purple" class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-              <a  title="Удалить" href="javascript:void(0)" (click)="delete(user)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+        <table class="table" *ngIf="users">
+            <thead>
+                <tr>
+                    <th scope="col">ФИО</th>
+                    <th scope="col">Логин</th>
+                    <th scope="col">Роль</th>
+                    <th style="text-align: center;" scope="col">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{user.lastName}} {{user.firstName}} {{user.surName}}</td>
+                    <td>
+                        {{user.name}}
+                    </td>
+                    <td>
+                        <span *ngFor="let role of user?.roles" class="badge">
+                            {{role}}
+                        </span> &nbsp;
+                    </td>
+                    <td>
+                        <div style="text-align: center">
+                            <a title="Посмотреть активность" href="javascript:void(0)" (click)="copy(user); loadActivity(user); openModal(userActivity);"><span style="color: blueviolet" class="glyphicon glyphicon-stats" aria-hidden="true"></span></a>&nbsp;
+                            <a title="Редактировать" href="javascript:void(0)" (click)="copy(user); openModal(edit);"><span style="color: purple" class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                            <a title="Удалить" href="javascript:void(0)" (click)="delete(user)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </tab>
+    <tab heading="Журнал активности" id="tab3">
+        <br />
+
+        <div style="text-align: left">
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="range"
+                   (ngModelChange)="loadAllActivity()"
+                   AUTOCOMPLETE="off"
+                   [bsConfig]="bsConfig"
+                   bsDaterangepicker
+                   placeholder="Выбрать период"
+                   style="width: 300px; float: left;"> &nbsp;
+        </div>
+        <br /> <br />
+        <div *ngIf="allActivity && allActivity.length != 0">
+            <p *ngFor="let a of allActivity">
+                {{a}}
+            </p>
+        </div>
+        <br />
+
+        <div style="text-align: center; font-style: italic;" *ngIf="!allActivity || allActivity.length == 0"><span>Нет данных об активности пользователей за выбранный период</span></div>
+
+    </tab>
+    <tab heading="Настройка мероприятий" id="tab4">
+        <br />
+        <div>
+            <h4>
+                Список мероприятий, для которых возможно создание протоколов:
+            </h4>
+
+            <p>
+                Укажите формы мероприятий, требующих оформления протоколом, для автоматического формирования порядкового номера протокола с начала календарного года
+            </p>
+
+            <div style="display: flex">
+                <input type="text" [(ngModel)]="nameToAdd" class="form-control" placeholder="Добавить форму мероприятия" style="width: 350px; margin-top:20px; margin-bottom: 15px">
+                <button class="btn btn-success" style="margin: 19px;" type="button" (click)="createActionName()"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
 
-  </tab>
-  <tab heading="Журнал активности" id="tab3">
-    <br />
+            <ul style="padding-left: 15px;">
+                <li *ngFor="let name of actionNames">
+                    {{name}}
+                    <a class="action-icons" href="javascript:void(0)" style="color: red" (click)="deleteActionName(name)">  (удалить)</a>
+                </li>
+            </ul>
 
-    <div style="text-align: left">
-      <input type="text"
-             class="form-control"
-             [(ngModel)]="range"
-             (ngModelChange)="loadAllActivity()"
-             AUTOCOMPLETE="off"
-             [bsConfig]="bsConfig"
-             bsDaterangepicker
-             placeholder="Выбрать период"
-             style="width: 300px; float: left;"> &nbsp;
-    </div>
-    <br /> <br />
-    <div *ngIf="allActivity && allActivity.length != 0">
-      <p *ngFor="let a of allActivity">
-        {{a}}
-      </p>
-    </div>
-    <br />
-
-    <div style="text-align: center; font-style: italic;" *ngIf="!allActivity || allActivity.length == 0"><span>Нет данных об активности пользователей за выбранный период</span></div>
-
-  </tab>
+        </div>
+    </tab>
 </tabset>
 
 </div>

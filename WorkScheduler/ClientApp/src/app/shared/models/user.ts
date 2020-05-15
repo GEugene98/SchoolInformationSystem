@@ -10,6 +10,7 @@ export class User {
   activity: string[];
   role: string;
   email: string;
+  position: string;
 }
 
 export function isUserInRole(user: User, role: string) {

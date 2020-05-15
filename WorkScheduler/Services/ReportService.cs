@@ -17,13 +17,15 @@ namespace WorkScheduler.Services
         protected CultureInfo culture = CultureInfo.GetCultureInfo("ru-RU");
         protected SchedulerService SchedulerService;
         protected TicketService TicketService;
+        protected ProtocolService ProtocolService;
         protected ReportRenderService RenderService;
         protected IConverter Converter;
 
-        public ReportService(SchedulerService schedulerService, IConverter converter, ReportRenderService renderService, TicketService ticketService)
+        public ReportService(SchedulerService schedulerService, IConverter converter, ReportRenderService renderService, TicketService ticketService, ProtocolService protocolService)
         {
             SchedulerService = schedulerService;
             TicketService = ticketService;
+            ProtocolService = protocolService;
             RenderService = renderService;
             Converter = converter;
         }
@@ -118,11 +120,44 @@ namespace WorkScheduler.Services
 
             var objectSettings = new ObjectSettings
             {
-                //PagesCount = true,
+                //PagesCount = true,0
                 HtmlContent = html,
                 WebSettings = { DefaultEncoding = "utf-8" },
                 //HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
                 //FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Report Footer" }
+            };
+
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = globalSettings,
+                Objects = { objectSettings }
+            };
+
+            return Converter.Convert(pdf);
+        }
+
+        public byte[] GetProtocolReport(int protcolId, int schoolId)
+        {
+            var protocol = ProtocolService.GetProtocol(protcolId, schoolId);
+
+            var html = RenderService.GetProtocolHTML(protocol);
+
+            var globalSettings = new GlobalSettings
+            {
+                ColorMode = ColorMode.Grayscale,
+                Orientation = Orientation.Portrait,
+                PaperSize = PaperKind.A4,
+                Margins = new MarginSettings { Unit = Unit.Centimeters, Left = 3, Top = 1, Right = 1, Bottom = 1.5 },
+                DocumentTitle = $"Протокол заседания {protocol.Name}"
+            };
+
+            var objectSettings = new ObjectSettings
+            {
+                //PagesCount = true,0
+                HtmlContent = html,
+                WebSettings = { DefaultEncoding = "utf-8" },
+                //HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
+                FooterSettings = { FontName = "Times New Roman", FontSize = 10, Line = false, Center = "[page]" }
             };
 
             var pdf = new HtmlToPdfDocument()
