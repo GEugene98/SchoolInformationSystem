@@ -10,5 +10,6 @@ namespace WorkScheduler.ViewModels.Scheduler
         public DateTime ActionDate { get; set; }
         public int ActionId { get; set; }
         public string ScheduleOwner { get; set; }
+        public int ScheduleId { get; set; }
     }
 }

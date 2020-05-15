@@ -66,7 +66,7 @@ export class DictionaryService {
   }
 
   async updateActionNames(actionNames) {
-    return await this.http.post('api/Dictionary/UpdateActionNames', { actionNames: actionNames.toString() }).toPromise();
+    return await this.http.post('api/Dictionary/UpdateActionNames', { body: actionNames.toString() }).toPromise();
   }
 
   //async getActivities() {

@@ -1,4 +1,4 @@
-<h1>{{currentSchedule?.name}}</h1>
+<h1 *ngIf="currentSchedule">{{currentSchedule?.name}} ({{currentSchedule?.academicYear.name}} учебный год)</h1>
 
 <div class="panel panel-default" *ngIf="actions">
     <div class="panel-body">
@@ -86,7 +86,7 @@
         </button>
     </div>
     <div class="modal-body">
-        Форма подтверждения выполнения:
+        Форма подтверждения выполнения (ФП):
         <ng-select [items]="allConfForms | async"
                    bindLabel="name"
                    bindValue="id"
@@ -96,13 +96,18 @@
         </ng-select>
         <br>
 
-        Мероприятие<span *ngIf="selectedConfFormId == 2"> (выберите из предложенных вариантов)</span>:<br>
+        Мероприятие<span *ngIf="selectedConfFormId == 2"> (выберите из предложенных вариантов или измените ФП)</span>:<br>
 
-        <div *ngIf="selectedConfFormId == 2" style="margin: 5px">
-            <span *ngFor="let name of actionNames" class="badge" (click)="selectActionName(name)" style="background-color: #90a3b5; font-size: 14px; cursor: pointer; margin: 8px" [class.selected-bage]="name == selectedName">
-              {{name}}
-            </span>
-        </div>
+
+            <ng-select [items]="actionNames"
+                   bindLabel="name"
+                   *ngIf="selectedConfFormId == 2"
+                   bindValue="name"
+                   placeholder="Начните писать или щелкните здесь для выбора"
+                   [(ngModel)]="selectedName"
+                   [clearable]="true">
+            </ng-select>
+
 
         <input *ngIf="selectedConfFormId != 2" type="text" [(ngModel)]="selectedName" class="form-control" placeholder="Название мероприятия">
 

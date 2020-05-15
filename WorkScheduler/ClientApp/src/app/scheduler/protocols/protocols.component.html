@@ -35,7 +35,10 @@
                     <tbody>
                         <tr *ngFor="let protocol of protocols">
                             <th>{{protocol.number}}</th>
-                            <td>{{protocol.actionName}}</td>
+                            <td>
+                                <span *ngIf="!protocol.scheduleId" >{{protocol.actionName}}</span>
+                                <a *ngIf="protocol.scheduleId" href="javascript:void(0)" routerLink="/scheduler/schedule-details/{{protocol.scheduleId}}">{{protocol.actionName}}</a>
+                            </td>
                             <td>{{protocol.actionDate | date : 'dd.MM.yyyy' }}</td>
                             <td>{{protocol.createdAt | date : 'dd.MM.yyyy' }}</td>
                             <td>

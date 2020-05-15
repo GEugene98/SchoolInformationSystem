@@ -47,7 +47,9 @@ export class ProtocolDetailsComponent implements OnInit, OnDestroy {
   async loadData() {
     this.allResponsibles = this.dictionary.getResponsibles();
     this.protocol = await this.scheduleService.getOrCreateProtocol(this.actionId);
-    this.protocolContent = JSON.parse(this.protocol.protocolContentJSON);
+    if (this.protocol.protocolContentJSON) {
+      this.protocolContent = JSON.parse(this.protocol.protocolContentJSON);
+    }
   }
 
   async saveProtocol() {

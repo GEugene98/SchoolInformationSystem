@@ -4,6 +4,7 @@ import { ProtocolInfo } from '../../shared/models/protocol-info.model';
 import { MessageService } from 'primeng/api';
 import { isUserInRole, User } from '../../shared/models/user';
 import { UserState } from '../../shared/states/user.state';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-protocols',
@@ -16,7 +17,7 @@ export class ProtocolsComponent implements OnInit {
   protocols: ProtocolInfo[];
   allProtocols: ProtocolInfo[];
 
-  constructor(private scheduleService: ScheduleService, private messageService: MessageService, private userState: UserState) { }
+  constructor(private scheduleService: ScheduleService, private messageService: MessageService, private userState: UserState, private router: Router) { }
 
   async ngOnInit() {
     await this.loadData();

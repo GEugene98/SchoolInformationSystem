@@ -136,7 +136,7 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
-        
+
         [HttpGet("ActionNames")]
         public IActionResult ActionNames()
         {
@@ -145,13 +145,18 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpPost("UpdateActionNames")]
-        public IActionResult UpdateActionNames([FromBody]string actionNames)
+        public IActionResult UpdateActionNames([FromBody]FuckingPOSTBody<string> actionNames)
         {
             var school = Db.Users.Include(u => u.School).FirstOrDefault(u => u.UserName == this.User.Identity.Name).School;
-            school.ActionNamesToMakeProtocolJSON = actionNames;
+            school.ActionNamesToMakeProtocolJSON = actionNames.Body;
             Db.SaveChanges();
 
             return Ok();
+        }
+
+        public class FuckingPOSTBody<TBody>
+        {
+            public TBody Body { get; set; }
         }
 
         [HttpGet("EditActivity")]

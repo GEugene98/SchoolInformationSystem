@@ -95,7 +95,7 @@
     <Folder Include="ClientApp\src\app\scheduler\timeline\components\" />
     <Folder Include="ClientApp\src\app\statistic\" />
     <Folder Include="ViewModels\Monitoring\TalentedChildren\" />
-    <Folder Include="ClientApp\src\app\scheduler\protocols\components\" />
+    <Folder Include="ViewModels\Scheduler\Rendering\" />
   </ItemGroup>
 
   <ItemGroup>

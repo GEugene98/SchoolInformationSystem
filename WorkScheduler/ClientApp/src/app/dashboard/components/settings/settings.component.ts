@@ -55,7 +55,7 @@ export class SettingsComponent implements OnInit {
       this.actionNames = actionNamesResponse;
     }
     else {
-      this.actionNames = [];
+      this.actionNames = new Array<string>();
     }
   }
 
@@ -124,8 +124,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async createActionName() {
-    debugger
-    this.actionNames.push(Object.assign({}, this.nameToAdd));
+    this.actionNames.push(this.nameToAdd);
     this.nameToAdd = undefined;
 
     await this.dictionary.updateActionNames(JSON.stringify(this.actionNames));

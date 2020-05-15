@@ -5,5 +5,6 @@ export class ProtocolInfo {
   actionName: string;
   actionDate: string;
   actionId: number;
+  scheduleId: number;
   scheduleOwner: string;
 }

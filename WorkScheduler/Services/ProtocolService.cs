@@ -33,7 +33,8 @@ namespace WorkScheduler.Services
                         ActionName = p.Action.Name,
                         ActionDate = p.Action.Date,
                         ActionId = p.ActionId,
-                        CreatedAt = p.CreatedAt
+                        CreatedAt = p.CreatedAt,
+                        ScheduleId = p.Action.WorkScheduleId
                     }
                 )
                 .OrderBy(p => p.ActionName)
