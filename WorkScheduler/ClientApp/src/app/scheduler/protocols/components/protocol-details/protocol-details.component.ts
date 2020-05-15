@@ -90,4 +90,12 @@ export class ProtocolDetailsComponent implements OnInit, OnDestroy {
     agenda.speaked.push(new InnerContent());
   }
 
+  delListen(agenda: Agenda, listen: InnerContent) {
+    agenda.listen.splice(agenda.listen.indexOf(listen), 1);
+  }
+
+  delSpeaked(agenda: Agenda, speaked: InnerContent) {
+    agenda.speaked.splice(agenda.speaked.indexOf(speaked), 1);
+  }
+
 }

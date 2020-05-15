@@ -86,6 +86,7 @@
                                placeholder="Фамилия И.О."
                                [(ngModel)]="listen.user">
                     </ng-select>
+                    <a href="javascript:void(0)" style="font-size: 12px;" class="delete-listen-row" (click)="delListen(agenda, listen)">(удалить выступающего)</a>
                     <div class="protocol-field">
                         <textarea placeholder="Введите текст" [(ngModel)]="listen.content"></textarea>
                     </div>
@@ -103,6 +104,7 @@
                                placeholder="Фамилия И.О."
                                [(ngModel)]="speaked.user">
                     </ng-select>
+                    <a href="javascript:void(0)" style="font-size: 12px;" class="delete-speaked-row" (click)="delSpeaked(agenda, speaked)">(удалить выступающего)</a>
                     <div class="protocol-field">
                         <textarea placeholder="Введите текст" [(ngModel)]="speaked.content"></textarea>
                     </div>
