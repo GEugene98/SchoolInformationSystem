@@ -61,6 +61,14 @@ export class DictionaryService {
     return await this.http.get<Dictionary<string>[]>('api/Dictionary/Notifications').toPromise();
   }
 
+  async getActionNames() {
+    return await this.http.get<string[]>('api/Dictionary/ActionNames').toPromise();
+  }
+
+  async updateActionNames(actionNames) {
+    return await this.http.post('api/Dictionary/UpdateActionNames', { body: actionNames.toString() }).toPromise();
+  }
+
   //async getActivities() {
   //  return await this.http.get<Activity[]>('api/Dictionary/Activities').toPromise();
   //}

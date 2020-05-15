@@ -44,6 +44,7 @@ export class ScheduleDetailsComponent implements OnInit {
   mySchedules: WorkSchedule[];
   targetScheduleId: number;
   replace: boolean = false;
+  actionNames: string[];
 
   showEditMessage: boolean = false;
 
@@ -73,6 +74,7 @@ export class ScheduleDetailsComponent implements OnInit {
     this.currentSchedule = await this.schedule.getSchedule(this.scheduleId);
     this.allActivities = await this.dictionary.getActivities();
     this.allAcademicYears = await this.dictionary.getAcademicYears();
+    this.actionNames = await this.dictionary.getActionNames();
     try {
       this.actions = await this.schedule.getActions(this.scheduleId);
     } catch (e) {
@@ -102,6 +104,10 @@ export class ScheduleDetailsComponent implements OnInit {
     finally{
       this.ngxService.stop();
     }
+  }
+
+  selectActionName(name: string) {
+    this.selectedName = name;
   }
 
   openExportModal(modal){
@@ -332,6 +338,24 @@ export class ScheduleDetailsComponent implements OnInit {
       + `scheduleId=${this.scheduleId}`
       + `&confDay=${this.confirmDate.getDate()}&confMonth=${this.confirmDate.getMonth() + 1}&confYear=${this.confirmDate.getFullYear()}`
       + `&acpDay=${this.acceptDate.getDate()}&acpMonth=${this.acceptDate.getMonth() + 1}&acpYear=${this.acceptDate.getFullYear()}`);
+    this.closeModal();
+  }
+
+  actionIdToOpenProtocol: number;
+
+  async checkProtocol(actionId: number, modal) {
+    let exists = await this.schedule.protocolExists(actionId);
+    if (exists) {
+      this.router.navigate(['//scheduler/protocol-details/' + actionId]);
+    }
+    else {
+      this.openModal(modal);
+      this.actionIdToOpenProtocol = actionId;
+    }
+  }
+
+  createProtocol() {
+    this.router.navigate(['//scheduler/protocol-details/' + this.actionIdToOpenProtocol]);
     this.closeModal();
   }
 }

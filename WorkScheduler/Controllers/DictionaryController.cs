@@ -136,6 +136,29 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+
+        [HttpGet("ActionNames")]
+        public IActionResult ActionNames()
+        {
+            var result = Db.Users.Include(u => u.School).FirstOrDefault(u => u.UserName == this.User.Identity.Name).School.ActionNamesToMakeProtocolJSON;
+            return Ok(result);
+        }
+
+        [HttpPost("UpdateActionNames")]
+        public IActionResult UpdateActionNames([FromBody]FuckingPOSTBody<string> actionNames)
+        {
+            var school = Db.Users.Include(u => u.School).FirstOrDefault(u => u.UserName == this.User.Identity.Name).School;
+            school.ActionNamesToMakeProtocolJSON = actionNames.Body;
+            Db.SaveChanges();
+
+            return Ok();
+        }
+
+        public class FuckingPOSTBody<TBody>
+        {
+            public TBody Body { get; set; }
+        }
+
         [HttpGet("EditActivity")]
         public IActionResult EditActivity(ActivityViewModel activity)
         {

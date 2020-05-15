@@ -1,0 +1,84 @@
+<html>
+<head>
+</head>
+<style>
+    body {
+        font-size: 45pt;
+    }
+    table, th, td {
+        border: 1px solid black;
+        font-size: 45pt;
+    }
+
+    td {
+        padding: 5px;
+    }
+
+    p {
+        text-align: justify;
+    }
+</style>
+<body>
+    <div style="text-align: center;">
+        %HEADER%
+    </div>
+
+    <div style="margin-top: 50px; margin-bottom: 50px; text-align: center;">
+        ПРОТОКОЛ
+    </div>
+
+    <div style="margin: 10px; display: flex; justify-content: space-between;">
+        <div>
+            %DATE%
+        </div>
+        <div>
+            № %NUMBER%
+        </div>
+
+        <div style="margin-top: 15px;">
+            заседания %NAME%
+        </div>
+        <div style="margin-top: 15px;">
+            Председатель %CHAIRMAN%
+        </div>
+        <div style="margin-top: 15px;">
+            Секретарь %SECRETARY%
+        </div>
+        <div style="margin-top: 15px;">
+            Присутствовали: %ATTENDED%
+        </div>
+
+        <div style="margin-top: 25px; text-align: center">
+            ПОВЕСТКА ДНЯ:
+        </div>
+
+        %CONTENT%
+
+        <div style="margin-top: 20px; margin-bottom: 50px;">
+            <div style="width: 100%; margin-top: 15px; display: flex; justify-content: space-between">
+                <div style="width: 50px">
+                    Председатель
+                </div>
+                <div style="width: 50px">
+                    Подпись
+                </div>
+                <div style="width: 50px">
+                    %CHAIRMAN%
+                </div>
+            </div>
+            <div style="width: 100%; margin-top: 15px; display: flex; justify-content: space-between">
+                <div style="width: 50px">
+                    Секретарь
+                </div>
+                <div>
+                    Подпись
+                </div>
+                <div>
+                    %SECRETARY%
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

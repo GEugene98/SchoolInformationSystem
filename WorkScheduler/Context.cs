@@ -22,6 +22,7 @@ namespace WorkScheduler
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<LoginLog> LoginLogs { get; set; }
         public DbSet<Checklist> Checklists { get; set; }
+        public DbSet<Protocol> Protocols { get; set; }
 
         //Monitoring
         public DbSet<Student> Students { get; set; }

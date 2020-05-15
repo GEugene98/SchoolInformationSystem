@@ -1,0 +1,103 @@
+<h1>Протоколы меропритяий</h1>
+<br />
+<div style="display: flex; justify-content: flex-end">
+    <ng-select [items]="[2018, 2019, 2020, 2021, 2022]"
+               [(ngModel)]="selectedYear"
+               appendTo="body"
+               [clearable]="false"
+               (ngModelChange)="loadData()"
+               style="width: 100px">
+    </ng-select>
+</div>
+<div>
+    <tabset>
+        <tab heading="Из моих планов">
+            <div *ngIf="!protocols" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
+            <div *ngIf="protocols && protocols.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;">
+                <span>
+                    Для мероприятий из ваших личных планов пока не было создано ни одного протокола в выбранном году. <br />
+                    Перейдите в личный план, выберите мероприятие, для которого нужно создать протокол и нажмите на слово "Протокол".<br /><br />
+                    Протоколы можно создавать только для мероприятий, у которых установлена форма подтверждения выполнения "Протокол"
+                </span>
+            </div>
+
+            <div *ngIf="protocols && protocols.length != 0" class="my-protocols-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Номер протокола</th>
+                            <th scope="col">Мероприятие</th>
+                            <th scope="col">Дата мероприятия</th>
+                            <th scope="col">Протокол создан</th>
+                            <th scope="col">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let protocol of protocols">
+                            <th>{{protocol.number}}</th>
+                            <td>
+                                <span *ngIf="!protocol.scheduleId" >{{protocol.actionName}}</span>
+                                <a *ngIf="protocol.scheduleId" href="javascript:void(0)" routerLink="/scheduler/schedule-details/{{protocol.scheduleId}}">{{protocol.actionName}}</a>
+                            </td>
+                            <td>{{protocol.actionDate | date : 'dd.MM.yyyy' }}</td>
+                            <td>{{protocol.createdAt | date : 'dd.MM.yyyy' }}</td>
+                            <td>
+                                <div class="action-icons">
+                                    <a href="javascript:void(0)" [routerLink]="['//scheduler/protocol-details', protocol.actionId]">Перейти к протоколу</a>
+                                    <a href="javascript:void(0)" style="color: red" (click)="deleteProtocol(protocol.id)">Удалить</a>
+                                </div>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </tab>
+        <tab heading="Все протоколы школы" *ngIf="checkRole(userState.currentUser?.state, 'Директор')">
+            <div *ngIf="!allProtocols" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
+            <div *ngIf="allProtocols && allProtocols.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;">
+                <span>
+                    В вашей школе пока нет ни одного протокола. <br />
+                    Перейдите в личный план, выберите мероприятие, для которого нужно создать протокол и нажмите на слово "Протокол".<br /><br />
+                    Протоколы можно создавать только для мероприятий, у которых установлена форма подтверждения выполнения "Протокол"
+                </span>
+            </div>
+
+            <div *ngIf="allProtocols && allProtocols.length != 0" class="my-protocols-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Номер протокола</th>
+                            <th scope="col">Мероприятие</th>
+                            <th scope="col">Автор</th>
+                            <th scope="col">Дата мероприятия</th>
+                            <th scope="col">Протокол создан</th>
+                            <th scope="col">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let protocol of allProtocols">
+                            <th>{{protocol.number}}</th>
+                            <td>{{protocol.actionName}}</td>
+                            <td>{{protocol.scheduleOwner}}</td>
+                            <td>{{protocol.actionDate | date : 'dd.MM.yyyy' }}</td>
+                            <td>{{protocol.createdAt | date : 'dd.MM.yyyy' }}</td>
+                            <td>
+                                <div class="action-icons">
+                                    <a href="javascript:void(0)" [routerLink]="['//scheduler/protocol-details', protocol.actionId]">Перейти к протоколу</a>
+                                    <a href="javascript:void(0)" style="color: red" (click)="deleteProtocol(protocol.id)">Удалить</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </tab>
+    </tabset>
+</div>
+
+
+
+<p-toast [baseZIndex]="1000"></p-toast>

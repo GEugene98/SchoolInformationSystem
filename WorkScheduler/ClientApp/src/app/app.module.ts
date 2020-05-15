@@ -42,7 +42,8 @@ import { MonitoringModule } from './monitoring';
 import { CatalogModule } from './catalog';
 import { CatalogHomeComponent } from './catalog/catalog-home/catalog-home.component';
 import { StudentsComponent } from './catalog/catalogs/students/students.component';
-
+import { ProtocolsComponent } from './scheduler/protocols/protocols.component';
+import { ProtocolDetailsComponent } from './scheduler/protocols/components/protocol-details/protocol-details.component';
 
 defineLocale('ru', ruLocale);
 
@@ -53,6 +54,7 @@ const routes = [
     path: 'scheduler', component: SchedulerHomeComponent,
     children: [
       { path: 'my-schedule', component: MySchedules },
+      { path: 'protocols', component: ProtocolsComponent },
       { path: 'general-schedule', component: GeneralScheduleComponent },
       { path: 'confirm', component: ConfirmComponent },
       { path: 'accept', component: AcceptComponent },
@@ -60,6 +62,7 @@ const routes = [
       { path: 'checklists', component: ChecklistsComponent },
       { path: 'schedule-details/:id', component: ScheduleDetailsComponent },
       { path: 'checklist-details/:id', component: ChecklistDetailsComponent },
+      { path: 'protocol-details/:id', component: ProtocolDetailsComponent },
     ]
   },
   {

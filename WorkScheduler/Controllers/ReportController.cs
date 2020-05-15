@@ -86,5 +86,22 @@ namespace WorkScheduler.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("Protocol")]
+        public IActionResult Protocol(int protocolId)
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            try
+            {
+                var report = ReportService.GetProtocolReport(protocolId, (int)currentUser.SchoolId);
+                return File(report, "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString());
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

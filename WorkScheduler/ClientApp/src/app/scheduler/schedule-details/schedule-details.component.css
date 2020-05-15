@@ -1,5 +1,5 @@
 .badge {
-  background-color: darkcyan !important;
+  background-color: darkcyan;
 }
 .freezed {
   background-color: gainsboro;
@@ -30,4 +30,8 @@
 
 .bottom-container {
   width: 100%;
+}
+
+.selected-bage {
+  background-color: #66bb64 !important;
 }

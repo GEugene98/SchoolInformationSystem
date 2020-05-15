@@ -30,6 +30,7 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.1.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.2" />
+    <PackageReference Include="Miyconst.Cyriller" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -97,6 +98,7 @@
     <Folder Include="ClientApp\src\app\monitoring\services\" />
     <Folder Include="ClientApp\src\app\catalog\" />
     <Folder Include="ClientApp\src\app\catalog\catalogs\" />
+    <Folder Include="ViewModels\Scheduler\Rendering\" />
   </ItemGroup>
 
   <ItemGroup>

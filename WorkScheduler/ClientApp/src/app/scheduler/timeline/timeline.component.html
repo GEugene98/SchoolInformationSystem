@@ -17,11 +17,12 @@
 
                 <button type="button" (click)="openModal(add)" class="btn btn-success top-item"><span class="glyphicon glyphicon-plus"></span> Добавить запись</button>&nbsp;
 
-            </div>
+            </div>  
 
             <div style="float:right;">
                 <button *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Новые задания ({{userState.assignedTicketCount.state}})</button>
-                <button title="Сформировать документ по тайм-листу" type="button" (click)="getDocument()" class="btn btn-primary top-item"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>&nbsp;
+                <button title="Сформировать отчет по тайм-листу" type="button" (click)="getDocument()" class="btn btn-primary top-item"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>&nbsp;
+                <button title="Открыть сводку" type="button" (click)="openModal(report)" class="btn btn-primary top-item"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>&nbsp;
                 <button title="Отправить там-лист на мою почту" type="button" (click)="sendTimeline()" class="btn btn-info top-item"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>&nbsp;
             </div>
 
@@ -105,6 +106,32 @@
         </tbody>
     </table>
 </div>
+
+<ng-template #report>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Сводка</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div *ngFor="let pack of packs">
+            <h5>{{pack.dateToShow}}</h5>
+            <div *ngFor="let timeGroup of pack?.timeGroups">
+                <ul>
+                    <li *ngFor="let ticket of timeGroup.tickets" [class.done-report]="ticket.done" [class.undone-report]="!ticket.done" style="margin-bottom: 10px; matgin-top: 10px;">
+                        <span *ngIf="!ticket.action">{{ticket.name}}</span>
+                        <span *ngIf="ticket.action && ticket.name">{{ticket.name}} в рамках мероприятия "{{ticket.action.name}}"</span>
+                        <span *ngIf="ticket.action && !ticket.name">{{ticket.action.name}}</span>
+                    </li>
+                </ul>
+            </div>
+            <br />
+        </div>
+
+    </div>
+</ng-template>
 
 <ng-template #replyModal>
     <div class="modal-header">

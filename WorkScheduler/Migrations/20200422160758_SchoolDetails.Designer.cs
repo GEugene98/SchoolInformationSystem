@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WorkScheduler;
@@ -9,9 +10,10 @@ using WorkScheduler;
 namespace WorkScheduler.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20200422160758_SchoolDetails")]
+    partial class SchoolDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -395,21 +397,27 @@ namespace WorkScheduler.Migrations
 
                     b.Property<int>("ActionId");
 
+                    b.Property<string>("Agenda");
+
                     b.Property<string>("Attended");
 
                     b.Property<string>("Chairman");
 
                     b.Property<DateTime>("CreatedAt");
 
+                    b.Property<string>("Decided");
+
                     b.Property<string>("Header");
+
+                    b.Property<string>("Listen");
 
                     b.Property<string>("Name");
 
                     b.Property<string>("Number");
 
-                    b.Property<string>("ProtocolContentJSON");
-
                     b.Property<string>("Secretary");
+
+                    b.Property<string>("Speaked");
 
                     b.HasKey("Id");
 
