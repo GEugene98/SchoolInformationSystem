@@ -181,10 +181,6 @@ namespace WorkScheduler.Services
             template = template.Replace("%CHAIRMAN%", $"{protocol.Chairman.Replace("\n", "<br />")}");
             template = template.Replace("%SECRETARY%", $"{protocol.Secretary.Replace("\n", "<br />")}");
             template = template.Replace("%ATTENDED%", $"{protocol.Attended.Replace("\n", "<br />")}");
-            //template = template.Replace("%AGENDA%", $"{protocol.Agenda.Replace("\n", "<br />")}");
-            //template = template.Replace("%LISTEN%", $"{protocol.Listen.Replace("\n", "<br />")}");
-            //template = template.Replace("%SPEAKED%", $"{protocol.Speaked.Replace("\n", "<br />")}");
-            //template = template.Replace("%DECIDED%", $"{protocol.Decided.Replace("\n", "<br />")}");
 
             var parsed = JsonConvert.DeserializeObject<List<Agenda>>(protocol.ProtocolContentJSON);
 
@@ -202,10 +198,43 @@ namespace WorkScheduler.Services
 
             agendaTable += "</table><br />";
 
+            var innerContents = "<div>";
 
+            foreach (var agenda in parsed)
+            {
+                if (agenda.Listen != null)
+                {
+                    innerContents +=
+                        $"<br />{parsed.IndexOf(agenda) + 1}. СЛУШАЛИ:<br />";
 
+                    foreach (var item in agenda.Listen)
+                    {
+                        innerContents +=
+                            $"{item.User?.FullName} <br /> <p>{item.Content}</p> <br />";
+                    }
+                }
 
-            template = template.Replace("%CONTENT%", agendaTable);
+                if (agenda.Speaked != null)
+                {
+                    innerContents +=
+                        $"ВЫСТУПИЛИ:<br />";
+
+                    foreach (var item in agenda.Speaked)
+                    {
+                        innerContents +=
+                            $"{item.User?.FullName} <br /> <p>{item.Content}</p> <br />";
+                    }
+                }
+
+                if (agenda.Decided != null)
+                {
+                    innerContents +=
+                        $"РЕШИЛИ (ПОСТАНОВИЛИ):<br /> <p>{agenda.Decided}</p> </div>";
+                }
+
+            }
+
+            template = template.Replace("%CONTENT%", agendaTable + innerContents);
 
 
             return template;
