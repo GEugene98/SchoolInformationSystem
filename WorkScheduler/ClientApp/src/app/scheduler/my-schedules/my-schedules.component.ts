@@ -9,6 +9,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { Message } from 'primeng/api';
 import { ScheduleService } from '../services/schedule.service';
 import { Title } from '@angular/platform-browser';
+import { UserState } from '../../shared/states/user.state';
 
 @Component({
   selector: 'app-my-schedules-component',
@@ -24,9 +25,12 @@ export class MySchedules {
   name: string;
   selectedActivityId: number;
 
+  otherSchedules: [];
+
   constructor(private modalService: BsModalService,
     private dictionary: DictionaryService,
     private messageService: MessageService,
+    private userState: UserState,
     private titleService: Title,
     private schedule: ScheduleService) {
     this.loadData();
@@ -38,6 +42,21 @@ export class MySchedules {
     this.allActivities = await this.dictionary.getActivities();
     this.allAcademicYears = await this.dictionary.getAcademicYears();
     await this.loadSchedules();
+
+    if (this.userState.currentUser.state.canSeeAllSchedules) {
+      let response = await this.schedule.getOtherWorkSchedules();
+      let groupped = [];
+      response.forEach(s => {
+        let name = s[0].user.lastName + ' ' + s[0].user.firstName[0] + '. ' + s[0].user.surName[0] + '. ';
+        groupped.push({ name: name, schedules: _.groupBy(s, 'academicYear.name') });
+       });
+      this.otherSchedules = groupped;
+    }
+  }
+
+
+  getKeys(obj) {
+    return Object.keys(obj)
   }
 
   async loadSchedules() {

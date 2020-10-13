@@ -1,4 +1,4 @@
-<h1>Мои планы</h1>
+<h1>Планы мероприятий</h1>
 
 <div class="panel panel-default">
   <div class="panel-body">
@@ -7,20 +7,37 @@
 </div>
 
 
-<div *ngFor="let academicYear of academicYearsToShow">
-  <h3>{{academicYear.name}} учебный год</h3>
-  <div class="list-group">
-    <a *ngFor="let schedule of academicYear.workSchedules"
-       href="javascript:void(0)"
-       [routerLink]="['//scheduler/schedule-details', schedule.id]"
-       class="list-group-item list-group-item-action c{{schedule.activity.color}}">
-      {{schedule.name}} ({{schedule.activity.name}})
-    </a>
-  </div>
-</div>
+<tabset>
+    <tab heading="Мои планы">
+        <div *ngFor="let academicYear of academicYearsToShow">
+            <h3>{{academicYear.name}} учебный год</h3>
+            <div class="list-group">
+                <a *ngFor="let schedule of academicYear.workSchedules"
+                   href="javascript:void(0)"
+                   [routerLink]="['//scheduler/schedule-details', schedule.id]"
+                   class="list-group-item list-group-item-action c{{schedule.activity.color}}">
+                    {{schedule.name}} ({{schedule.activity.name}})
+                </a>
+            </div>
+        </div>
 
-<div *ngIf="!academicYearsToShow" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
-<div *ngIf="academicYearsToShow && academicYearsToShow.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>У вас пока нет ни одного плана</span></div>
+        <div *ngIf="!academicYearsToShow" style="text-align: center; margin-top: 50px; font-style: italic;"><span class="loading">Загрузка</span></div>
+        <div *ngIf="academicYearsToShow && academicYearsToShow.length == 0" style="text-align: center; margin-top: 50px; font-style: italic;"><span>У вас пока нет ни одного плана</span></div>
+    </tab>
+    <tab heading="Планы других пользователей" *ngIf="userState.currentUser?.state?.canSeeAllSchedules">
+        <div *ngFor="let group of otherSchedules">
+            <h4>{{group.name}}</h4>
+                <div *ngFor="let key of getKeys(group.schedules)" style="margin-left: 25px">
+                    {{key}}
+                    <div *ngFor="let schedule of group.schedules[key]" style="margin-left: 25px">
+                        <a class="c{{schedule.activity.color}}" href="javascript:void(0)" [routerLink]="['//scheduler/schedule-details', schedule.id]">{{schedule.name}}</a>
+                    </div>
+                </div>
+        </div>
+    </tab>
+</tabset>
+
+
 
 <ng-template #add>
   <div class="modal-header">

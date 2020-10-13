@@ -63,9 +63,9 @@ namespace WorkScheduler.Services
             return Converter.Convert(pdf);
         }
 
-        public byte[] GetScheduleReport(int scheduleId, DateTime confirmDate, DateTime acceptDate, string userId)
+        public byte[] GetScheduleReport(int scheduleId, DateTime confirmDate, DateTime acceptDate, User user)
         {
-            var actions = SchedulerService.GetActionsFor(scheduleId, userId)
+            var actions = SchedulerService.GetActionsFor(scheduleId, user)
                 .Where(a => a.Status == Models.Enums.ActionStatus.Accepted);
 
             if (actions == null || actions.Count() == 0)

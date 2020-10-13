@@ -76,6 +76,18 @@ namespace WorkScheduler.Controllers
                     await UserManager.AddToRoleAsync(user, role.Name);
                 }
 
+                if (await UserManager.IsInRoleAsync(user, "Администратор"))
+                {
+                    user.CanUseChecklists = user.CanConfirm = true;
+                }
+
+                if (await UserManager.IsInRoleAsync(user, "Директор"))
+                {
+                    user.CanSeeAllProtocols = user.CanSeeAllSchedules = user.CanSeeAllChecklists = user.CanUseChecklists = user.CanAccept = true;
+                }
+
+                Context.SaveChanges();
+
                 return Ok(new
                 {
                     FullName = $"{user.LastName} {user.FirstName} {user.SurName}",
@@ -83,7 +95,7 @@ namespace WorkScheduler.Controllers
                     Password = password,
                     Roles = string.Join(", ", roles.Select(r => r.Name))
                 }
-                );
+                );        
             }
             else
             {
@@ -244,6 +256,8 @@ namespace WorkScheduler.Controllers
                 default:
                     break;
             }
+
+            Context.Users.Update(user);
 
             Context.SaveChanges();
 

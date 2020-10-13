@@ -26,6 +26,10 @@ export class ScheduleService {
     return await this.http.get<WorkSchedule[]>('api/Schedule/MyWorkSchedules').toPromise();
   }
 
+  async getOtherWorkSchedules() {
+    return await this.http.get<[]>('api/Schedule/OtherWorkSchedules').toPromise();
+  }
+
   async saveReply(ticket: Ticket, transactionId){
     const urlParams = new HttpParams()
       .set('transactionId', transactionId.toString());

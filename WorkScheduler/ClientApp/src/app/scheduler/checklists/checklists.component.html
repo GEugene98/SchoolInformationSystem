@@ -63,7 +63,7 @@
     </div>
 </div>
   </tab>
-  <tab *ngIf="checkRole(userState.currentUser?.state, 'Директор')" heading="Чек-листы других пользователей" id="tab2">
+  <tab *ngIf="userState.currentUser?.state.canSeeAllChecklists" heading="Чек-листы других пользователей" id="tab2">
       <div *ngIf="otherChecklistKeys" style="margin-top: 20px">
           <div  *ngFor="let key of otherChecklistKeys">
               <app-other-checklists [checklists]="getOtherChecklistArrayByKey(key)"

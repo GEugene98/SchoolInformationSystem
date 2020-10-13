@@ -174,13 +174,13 @@ namespace WorkScheduler.Services
         public string GetProtocolHTML(ProtocolViewModel protocol)
         {
             var template = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "assets", "protocol-template.html"));
-            template = template.Replace("%HEADER%", $"{protocol.Header.Replace("\n", "<br />")}");
+            template = template.Replace("%HEADER%", $"{protocol.Header?.Replace("\n", "<br />")}");
             template = template.Replace("%DATE%", $"{protocol.Action.Date.ToLongDateString()}");
-            template = template.Replace("%NUMBER%", $"{protocol.Number.Replace("\n", "<br />")}");
-            template = template.Replace("%NAME%", $"{protocol.Name.Replace("\n", "<br />")}");
-            template = template.Replace("%CHAIRMAN%", $"{protocol.Chairman.Replace("\n", "<br />")}");
-            template = template.Replace("%SECRETARY%", $"{protocol.Secretary.Replace("\n", "<br />")}");
-            template = template.Replace("%ATTENDED%", $"{protocol.Attended.Replace("\n", "<br />")}");
+            template = template.Replace("%NUMBER%", $"{protocol.Number?.Replace("\n", "<br />")}");
+            template = template.Replace("%NAME%", $"{protocol.Name?.Replace("\n", "<br />")}");
+            template = template.Replace("%CHAIRMAN%", $"{protocol.Chairman?.Replace("\n", "<br />")}");
+            template = template.Replace("%SECRETARY%", $"{protocol.Secretary?.Replace("\n", "<br />")}");
+            template = template.Replace("%ATTENDED%", $"{protocol.Attended?.Replace("\n", "<br />")}");
 
             var parsed = JsonConvert.DeserializeObject<List<Agenda>>(protocol.ProtocolContentJSON);
 
@@ -192,7 +192,7 @@ namespace WorkScheduler.Services
                     $"<tr>" +
                         $"<td style=\"width: 10%; vertical-align: text-top;\">{parsed.IndexOf(agenda) + 1}</td>" +
                         $"<td style=\"width: 60 %\">{agenda.Content}</td>" +
-                        $"<td style=\"width: 30%; vertical-align: text-top;\">{agenda.Author.FullName} <br /> {agenda.Author.Position}</td>" +
+                        $"<td style=\"width: 30%; vertical-align: text-top;\">{agenda.Author?.FullName} <br /> {agenda.Author?.Position}</td>" +
                     $"</tr>";
             }
 
@@ -202,7 +202,7 @@ namespace WorkScheduler.Services
 
             foreach (var agenda in parsed)
             {
-                if (agenda.Listen != null)
+                if (agenda?.Listen != null)
                 {
                     innerContents +=
                         $"<br />{parsed.IndexOf(agenda) + 1}. СЛУШАЛИ:<br />";

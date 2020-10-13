@@ -64,6 +64,39 @@ namespace WorkScheduler.Services
                 .ToList();
         }
 
+        public IEnumerable<IGrouping<string, WorkScheduleViewModel>> GetOtherWorkSchedules(string userIdToExclude, int schoolId)
+        {
+            return Db.WorkSchedules
+                .Where(ws => ws.UserId != userIdToExclude && !ws.IsDeleted && ws.User.SchoolId == schoolId)
+                .Select(ws => new WorkScheduleViewModel
+                {
+                    Id = ws.Id,
+                    Name = ws.Name,
+                    AcademicYear = new AcademicYearViewModel
+                    {
+                        Id = ws.AcademicYear.Id,
+                        Name = ws.AcademicYear.Name
+                    },
+                    Activity = new ActivityViewModel
+                    {
+                        Id = ws.Activity.Id,
+                        Name = ws.Activity.Name,
+                        Color = ws.Activity.Color
+                    },
+                    User = new UserViewModel
+                    {
+                        Id = ws.User.Id,
+                        Name = ws.User.UserName,
+                        FirstName = ws.User.FirstName,
+                        LastName = ws.User.LastName,
+                        SurName = ws.User.SurName
+                    }
+                })
+                .OrderBy(r => r.User.LastName)
+                .ToList()
+                .GroupBy(r => r.User.Id);
+        }
+
         public IEnumerable<WorkScheduleViewModel> GetFullWorkSchedules(string userId)
         {
             return Db.WorkSchedules
@@ -95,14 +128,15 @@ namespace WorkScheduler.Services
                 .ToList();
         }
 
-        public IEnumerable<ActionViewModel> GetActionsFor(int workScheduleId, string userId)
+        public IEnumerable<ActionViewModel> GetActionsFor(int workScheduleId, User currentUser)
         {
             var workSchedule = Db.WorkSchedules
                 .Include(ws => ws.AcademicYear)
+                .Include(ws => ws.User)
                 .Include(ws => ws.Activity)
                 .FirstOrDefault(ws => ws.Id == workScheduleId);
 
-            if (workSchedule.UserId != userId)
+            if (!(workSchedule.User.SchoolId == currentUser.SchoolId && currentUser.CanSeeAllSchedules))
             {
                 return null;
             }

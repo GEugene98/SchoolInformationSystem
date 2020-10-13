@@ -241,7 +241,14 @@ namespace WorkScheduler.Controllers
                     Name = user.UserName,
                     Roles = roles,
                     Email = user.Email,
-                    Role = roles.FirstOrDefault()
+                    Role = roles.FirstOrDefault(),
+
+                    CanAccept = user.CanAccept,
+                    CanConfirm = user.CanConfirm,
+                    CanSeeAllChecklists = user.CanSeeAllChecklists,
+                    CanSeeAllProtocols = user.CanSeeAllProtocols,
+                    CanSeeAllSchedules = user.CanSeeAllSchedules,
+                    CanUseChecklists = user.CanUseChecklists
                 };
 
                 u.FullName = u.GetShortNameForm();
@@ -249,7 +256,7 @@ namespace WorkScheduler.Controllers
                 userViewModels.Add(u);
             }
 
-            return Ok(userViewModels);
+            return Ok(userViewModels.OrderBy(u => u.LastName));
         }
 
         [Authorize(Roles = "Директор")]

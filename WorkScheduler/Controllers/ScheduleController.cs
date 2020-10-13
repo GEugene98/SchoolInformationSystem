@@ -104,12 +104,25 @@ namespace WorkScheduler.Controllers
             return Ok(SchedulerService.GetWorkSchedules(currentUser.Id));
         }
 
+        [HttpGet("OtherWorkSchedules")]
+        public IActionResult OtherWorkSchedules()
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            if (!currentUser.CanSeeAllSchedules)
+            {
+                return BadRequest();
+            }
+
+            return Ok(SchedulerService.GetOtherWorkSchedules(currentUser.Id, currentUser.SchoolId.Value));
+        }
+
         [HttpGet("Actions")]
         public IActionResult GetActions(int workScheduleId)
         {
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
 
-            var actions = SchedulerService.GetActionsFor(workScheduleId, currentUser.Id);
+            var actions = SchedulerService.GetActionsFor(workScheduleId, currentUser);
 
             if (actions == null)
             {
@@ -166,7 +179,7 @@ namespace WorkScheduler.Controllers
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
             var schedule = SchedulerService.GetSchedule(scheduleId);
             var recievers = new List<User>() { currentUser };
-            var actions = SchedulerService.GetActionsFor(scheduleId, currentUser.Id);
+            var actions = SchedulerService.GetActionsFor(scheduleId, currentUser);
             NotificationService.SendSchedule(schedule, actions, recievers);
             return Ok();
         }

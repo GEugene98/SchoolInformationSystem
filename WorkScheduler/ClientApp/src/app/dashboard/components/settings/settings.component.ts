@@ -6,6 +6,7 @@ import { AccountService } from '../../../shared/services/account.service';
 import { Register } from '../../../shared/models/register.model';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { Title } from '@angular/platform-browser';
+import { UserState } from '../../../shared/states/user.state';
 
 @Component({
   selector: 'app-settings',
@@ -37,6 +38,7 @@ export class SettingsComponent implements OnInit {
   constructor(private dictionary: DictionaryService,
     private account: AccountService,
     private modalService: BsModalService,
+    public userState: UserState,
     private titleService: Title) {
     this.titleService.setTitle('Настройки');
     this.range = new Array<Date>();

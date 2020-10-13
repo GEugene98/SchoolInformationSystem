@@ -56,7 +56,7 @@ namespace WorkScheduler.Controllers
 
             try
             {
-                var report = ReportService.GetScheduleReport(scheduleId, confDate, acpDate, currentUser.Id);
+                var report = ReportService.GetScheduleReport(scheduleId, confDate, acpDate, currentUser);
                 return File(report, "application/pdf");
             }
             catch (Exception ex)

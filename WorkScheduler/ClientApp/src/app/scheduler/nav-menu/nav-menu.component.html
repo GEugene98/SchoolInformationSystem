@@ -42,12 +42,12 @@
               </a> 
           </li>
 
-          <li *ngIf="checkRole(userState.currentUser?.state, 'Администратор')" [routerLinkActive]='["link-active"]'>
+          <li *ngIf="userState.currentUser?.state?.canConfirm" [routerLinkActive]='["link-active"]'>
               <a routerLink='confirm' (click)='collapse()'>
                   <span class='glyphicon glyphicon-ok'></span> Планы для согласования <span *ngIf="userState.schedulesToConfirm.state != 0" class="badge badge-info">{{userState.schedulesToConfirm.state}}</span>
               </a>
           </li>
-          <li *ngIf="checkRole(userState.currentUser?.state, 'Директор')" [routerLinkActive]='["link-active"]'>
+          <li *ngIf="userState.currentUser?.state?.canAccept" [routerLinkActive]='["link-active"]'>
               <a routerLink='accept' (click)='collapse()'>
                   <span class='glyphicon glyphicon-ok'></span> Планы для утверждения <span *ngIf="userState.schedulesToAccept.state != 0" class="badge badge-info">{{userState.schedulesToAccept.state}}</span>
               </a>
@@ -59,7 +59,7 @@
               </a>
           </li>
 
-          <li [routerLinkActive]='["link-active"]' *ngIf="checkRole(userState.currentUser?.state, 'Администратор') || checkRole(userState.currentUser?.state, 'Директор')">
+          <li [routerLinkActive]='["link-active"]' *ngIf="userState.currentUser?.state?.canUseChecklists">
               <a routerLink='checklists' (click)='collapse()'>
                   <span class='	glyphicon glyphicon-check'></span>
                   <span>Чек-листы</span> <span *ngIf="userState.unseenChecklistTickets.state != 0" class="badge badge-info">{{userState.unseenChecklistTickets.state}}</span>

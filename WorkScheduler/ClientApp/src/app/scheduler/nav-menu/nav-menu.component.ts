@@ -16,7 +16,7 @@ export class NavMenuComponent {
 
   modalRef: BsModalRef;
 
-  constructor(public userState: UserState, private modalService: BsModalService, private problem: ProblemService ) {
+  constructor(public userState: UserState, private modalService: BsModalService, private problem: ProblemService) {
   }
 
   collapse() {
