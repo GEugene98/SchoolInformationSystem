@@ -27,7 +27,7 @@ export class ScheduleService {
   }
 
   async getOtherWorkSchedules() {
-    return await this.http.get<[]>('api/Schedule/OtherWorkSchedules').toPromise();
+    return await this.http.get<any>('api/Schedule/OtherWorkSchedules').toPromise();
   }
 
   async saveReply(ticket: Ticket, transactionId){

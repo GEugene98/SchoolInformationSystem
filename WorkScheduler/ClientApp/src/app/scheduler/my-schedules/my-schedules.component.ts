@@ -10,6 +10,7 @@ import { Message } from 'primeng/api';
 import { ScheduleService } from '../services/schedule.service';
 import { Title } from '@angular/platform-browser';
 import { UserState } from '../../shared/states/user.state';
+import _ = require('lodash');
 
 @Component({
   selector: 'app-my-schedules-component',
@@ -25,7 +26,7 @@ export class MySchedules {
   name: string;
   selectedActivityId: number;
 
-  otherSchedules: [];
+  otherSchedules : any;
 
   constructor(private modalService: BsModalService,
     private dictionary: DictionaryService,
