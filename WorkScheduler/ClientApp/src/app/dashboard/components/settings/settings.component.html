@@ -18,6 +18,12 @@
                     <th scope="col">ФИО</th>
                     <th scope="col">Логин</th>
                     <th scope="col">Роль</th>
+                    <th scope="col" width="9%">Согласование мероприятий</th>
+                    <th scope="col" width="9%">Утверждение мероприятий</th>
+                    <th scope="col" width="9%">Ведение чек-листов</th>
+                    <th scope="col" width="9%"><span title="Возможность видеть и редактировать чек-листы всех сотрудников" aria-hidden="true">Чек-листы школы</span></th>
+                    <th scope="col" width="9%"><span title="Возможность видеть и редактировать все протоколы мероприятий в школе" aria-hidden="true">Протоколы школы</span></th>
+                    <th scope="col" width="9%"><span title="Возможность видеть и редактировать планы мероприятий всех сотрудников" aria-hidden="true">Планы школы</span></th>
                     <th style="text-align: center;" scope="col">Действия</th>
                 </tr>
             </thead>
@@ -28,9 +34,27 @@
                         {{user.name}}
                     </td>
                     <td>
-                        <span *ngFor="let role of user?.roles" class="badge">
+                        <span *ngFor="let role of user?.roles">
                             {{role}}
                         </span> &nbsp;
+                    </td>
+                    <td style="text-align: center">
+                        <input type="checkbox" [(ngModel)]="user.canConfirm" (ngModelChange)="setPermission(user, 'CanConfirm', user.canConfirm)"/>
+                    </td>
+                    <td style="text-align: center">
+                        <input type="checkbox" [(ngModel)]="user.canAccept" (ngModelChange)="setPermission(user, 'CanAccept', user.canAccept)"/>
+                    </td>
+                    <td style="text-align: center">
+                        <input type="checkbox" [(ngModel)]="user.canUseChecklists" (ngModelChange)="setPermission(user, 'CanUseChecklists', user.canUseChecklists)"/>
+                    </td>
+                    <td style="text-align: center">
+                        <input type="checkbox" [(ngModel)]="user.canSeeAllChecklists" (ngModelChange)="setPermission(user, 'CanSeeAllChecklists', user.canSeeAllChecklists)"/>
+                    </td>
+                    <td style="text-align: center">
+                        <input type="checkbox" [(ngModel)]="user.canSeeAllProtocols" (ngModelChange)="setPermission(user, 'CanSeeAllProtocols', user.canSeeAllProtocols)"/>
+                    </td>
+                    <td style="text-align: center">
+                        <input type="checkbox" [(ngModel)]="user.canSeeAllSchedules" (ngModelChange)="setPermission(user, 'CanSeeAllSchedules', user.canSeeAllSchedules)"/>
                     </td>
                     <td>
                         <div style="text-align: center">

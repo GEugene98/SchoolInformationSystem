@@ -85,6 +85,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.filterChecklistTickets();
     this.newTicket = new Ticket();
     this.newTicket.date = this.selectedDate;
+    this.newTicket.hours = this.newTicket.minutes = 0;
     this.userState.assignedTickets.state = await this.schedule.assignedTickets();
     let notifications = await this.dictionary.getNotifications();
     this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);

@@ -39,7 +39,7 @@ import { CallboardService } from './shared/services/callboard.service';
 import { ToastModule } from 'primeng/toast';
 import { ProtocolsComponent } from './scheduler/protocols/protocols.component';
 import { ProtocolDetailsComponent } from './scheduler/protocols/components/protocol-details/protocol-details.component';
-
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 defineLocale('ru', ruLocale);
 
@@ -105,6 +105,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     TabsModule,
     ChartModule,
     ToastModule,
+    //TooltipModule.forChild(),
     //TabsModule.forRoot(),
     //BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),

@@ -18,6 +18,15 @@ export class AccountService {
     return await this.http.post<any>('api/Account/Register', model).toPromise();
   }
 
+  async setPermission(userId: string, permission: string, value: boolean) {
+    const params = new HttpParams()
+      .set('userId', userId)
+      .set('permission', permission)
+      .set('value', value.toString());
+
+    return await this.http.get('/api/Account/SetPermission', { params: params }).toPromise();
+  }
+
   async block(userId: string) {
     const params = new HttpParams()
       .set('userId', userId.toString());

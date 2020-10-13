@@ -11,6 +11,13 @@ export class User {
   role: string;
   email: string;
   position: string;
+
+  canAccept: boolean; 
+  canConfirm: boolean; 
+  canUseChecklists: boolean; 
+  canSeeAllChecklists: boolean; 
+  canSeeAllProtocols: boolean; 
+  canSeeAllSchedules: boolean;  
 }
 
 export function isUserInRole(user: User, role: string) {

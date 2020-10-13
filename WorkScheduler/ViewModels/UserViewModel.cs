@@ -16,6 +16,13 @@ namespace WorkScheduler.ViewModels
         public string Email { get; set; }
         public string Position { get; set; }
 
+        public bool CanAccept { get; set; } 
+        public bool CanConfirm { get; set; } 
+        public bool CanUseChecklists { get; set; } 
+        public bool CanSeeAllChecklists { get; set; } 
+        public bool CanSeeAllProtocols { get; set; } 
+        public bool CanSeeAllSchedules { get; set; } 
+
         public IEnumerable<string> Roles { get; set; }
         public IEnumerable<string> Activity { get; set; }
     }

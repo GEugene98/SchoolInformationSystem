@@ -200,12 +200,54 @@ namespace WorkScheduler.Controllers
                 LastName = currentUser.LastName,
                 SurName = currentUser.SurName,
                 Name = currentUser.UserName,
-                Roles = await UserManager.GetRolesAsync(currentUser)
+                Roles = await UserManager.GetRolesAsync(currentUser),
+
+                CanAccept = currentUser.CanAccept,
+                CanConfirm = currentUser.CanConfirm,
+                CanSeeAllChecklists = currentUser.CanSeeAllChecklists,
+                CanSeeAllProtocols = currentUser.CanSeeAllProtocols,
+                CanSeeAllSchedules = currentUser.CanSeeAllSchedules,
+                CanUseChecklists = currentUser.CanUseChecklists
             };
 
             userModel.FullName = userModel.GetShortNameForm();
 
             return Ok(userModel);
+        }
+
+        [Authorize(Roles = "Директор,Администратор")]
+        [HttpGet("SetPermission")]
+        public IActionResult SetPermission(string userId, string permission, bool value)
+        {
+            var user = Context.Users.FirstOrDefault(u => u.Id == userId);
+
+            switch (permission)
+            {
+                case "CanAccept":
+                    user.CanAccept = value;
+                    break;
+                case "CanConfirm":
+                    user.CanConfirm = value;
+                    break;
+                case "CanSeeAllChecklists":
+                    user.CanSeeAllChecklists = value;
+                    break;
+                case "CanSeeAllProtocols":
+                    user.CanSeeAllProtocols = value;
+                    break;
+                case "CanSeeAllSchedules":
+                    user.CanSeeAllSchedules = value;
+                    break;
+                case "CanUseChecklists":
+                    user.CanUseChecklists = value;
+                    break;
+                default:
+                    break;
+            }
+
+            Context.SaveChanges();
+
+            return Ok();
         }
 
         protected string GeneratePassword()

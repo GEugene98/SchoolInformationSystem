@@ -19,6 +19,13 @@ namespace WorkScheduler.Models.Identity
         public string SurName { get; set; }
         public bool GetNotifications { get; set; }
 
+        public bool CanAccept { get; set; }
+        public bool CanConfirm { get; set; }
+        public bool CanUseChecklists { get; set; }
+        public bool CanSeeAllChecklists { get; set; }
+        public bool CanSeeAllProtocols { get; set; }
+        public bool CanSeeAllSchedules { get; set; }
+
         public int? SchoolId { get; set; }
         public School School { get; set; }
 
