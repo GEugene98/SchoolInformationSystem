@@ -7,15 +7,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TabsModule, ModalModule, TimepickerModule, ButtonsModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
-
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ruLocale } from 'ngx-bootstrap/locale';
 import { UserState } from './shared/states/user.state';
-import { DictionaryService } from './shared/services/dictionary.service';
-import { AccountService } from './shared/services/account.service';
-import { MessageService } from 'primeng/api';
 import { SchedulerModule } from './scheduler';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SchedulerHomeComponent } from './scheduler/scheduler-home/scheduler-home.component';
@@ -27,19 +22,21 @@ import { AcceptComponent } from './scheduler/accept/accept.component';
 import { ScheduleDetailsComponent } from './scheduler/schedule-details/schedule-details.component';
 import { TimelineComponent } from './scheduler/timeline/timeline.component';
 import { NgxUiLoaderModule, NgxUiLoaderConfig } from 'ngx-ui-loader';
-import { ActionComponent } from './scheduler/action/action.component';
-import { ConfirmAcceptScheduleComponent } from './scheduler/confirm-accept-schedule/confirm-accept-schedule.component';
 import { ChecklistsComponent } from './scheduler/checklists/checklists.component';
 import { ChartModule } from 'primeng/chart';
 import { ChecklistDetailsComponent } from './scheduler/checklist-details/checklist-details.component';
-import { OtherChecklistsComponent } from './scheduler/other-checklists/other-checklists.component';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { CallboardComponent } from './dashboard/components/callboard/callboard.component';
 import { CallboardService } from './shared/services/callboard.service';
 import { ToastModule } from 'primeng/toast';
 import { ProtocolsComponent } from './scheduler/protocols/protocols.component';
 import { ProtocolDetailsComponent } from './scheduler/protocols/components/protocol-details/protocol-details.component';
-import { TooltipModule } from 'ng2-tooltip-directive';
+import { RegisterModule } from './register';
+import { RegisterMainComponent } from './register/register-main/register-main.component';
+import { AdditionalComponent } from './register/additional/additional.component';
+import { FreeTimeComponent } from './register/free-time/free-time.component';
+import { RegisterSettingsComponent } from './register/register-settings/register-settings.component';
+import { RegisterScheduleComponent } from './register/register-schedule/register-schedule.component';
 
 defineLocale('ru', ruLocale);
 
@@ -59,6 +56,15 @@ const routes = [
       { path: 'schedule-details/:id', component: ScheduleDetailsComponent },
       { path: 'checklist-details/:id', component: ChecklistDetailsComponent },
       { path: 'protocol-details/:id', component: ProtocolDetailsComponent },
+    ]
+  },
+  {
+    path: 'register', component: RegisterMainComponent,
+    children: [
+      { path: 'additional', component: AdditionalComponent },
+      { path: 'free-time', component: FreeTimeComponent },
+      { path: 'settings', component: RegisterSettingsComponent },
+      { path: 'schedule', component: RegisterScheduleComponent }
     ]
   }
 ];
@@ -111,6 +117,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     ModalModule.forRoot(),
     FormsModule,
     SchedulerModule,
+    RegisterModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     RouterModule.forRoot(routes),
     UploadModule,

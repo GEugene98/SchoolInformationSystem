@@ -28,3 +28,7 @@ a {
 .apps a span {
   font-size: 50px;
 }
+
+.apps a {
+  color: #333;
+}

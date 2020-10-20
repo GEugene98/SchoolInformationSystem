@@ -96,6 +96,7 @@
     <Folder Include="ClientApp\src\app\statistic\" />
     <Folder Include="ViewModels\Monitoring\TalentedChildren\" />
     <Folder Include="ViewModels\Scheduler\Rendering\" />
+    <Folder Include="ClientApp\src\app\register\" />
   </ItemGroup>
 
   <ItemGroup>

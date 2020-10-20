@@ -3,7 +3,7 @@ li .glyphicon {
 }
 
 .navbar {
-  background-color: #f9fcff !important;
+  background-color: #f8fcff !important;
 }
 
 .navbar-brand {
@@ -46,6 +46,9 @@ li .glyphicon {
 li.link-active a {
   background-color: #007ad9c7;
   color: white;
+}
+li.link-active span {
+  color: white !important;
 }
 
 /* Keep the nav menu independent of scrolling and on top of other items */

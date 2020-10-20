@@ -10,8 +10,8 @@
     </div>
     <div class='clearfix'></div>
     <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
-      <div style="text-align: center;">
-        <h3>
+      <div style="font-size: 18px; margin: 15px;">
+        <span>
           <span class='glyphicon glyphicon-user'></span>
           <span *ngIf="!userState.currentUser.state">Вход не выполнен</span>
           <span *ngIf="userState.currentUser.state">
@@ -19,8 +19,13 @@
             {{userState.currentUser?.state?.surName[0]}}.
             {{userState.currentUser?.state?.lastName}}
           </span>
-        </h3>
+        </span>
+        <a href="javascript:void(0)" (click)="logout()" *ngIf="userState.currentUser.state" style="font-size: 14px;">выйти из системы</a>
       </div>
+
+      <h3 style="margin: 20px;">
+        Планирование
+      </h3>
 
       <ul class='nav navbar-nav'>
           <!--<li [routerLinkActive]='["link-active"]'>
@@ -30,45 +35,45 @@
     </li>-->
           <li [routerLinkActive]='["link-active"]'>
               <a routerLink='my-schedule' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-calendar'></span>
+                  <span class='glyphicon glyphicon-calendar' style="color: darkslateblue;"></span>
                   <span>Планы</span>
               </a>
           </li>
 
           <li [routerLinkActive]='["link-active"]'>
               <a routerLink='protocols' (click)='collapse()'>
-                  <span class='glyphicon glyphicon glyphicon-inbox'></span>
+                  <span class='glyphicon glyphicon glyphicon-inbox' style="color: forestgreen;"></span>
                   <span>Протоколы мероприятий</span>
               </a> 
           </li>
 
           <li *ngIf="userState.currentUser?.state?.canConfirm" [routerLinkActive]='["link-active"]'>
               <a routerLink='confirm' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-ok'></span> Планы для согласования <span *ngIf="userState.schedulesToConfirm.state != 0" class="badge badge-info">{{userState.schedulesToConfirm.state}}</span>
+                  <span class='glyphicon glyphicon-ok' style="color: cornflowerblue;"></span> Планы для согласования <span *ngIf="userState.schedulesToConfirm.state != 0" class="badge badge-info">{{userState.schedulesToConfirm.state}}</span>
               </a>
           </li>
           <li *ngIf="userState.currentUser?.state?.canAccept" [routerLinkActive]='["link-active"]'>
               <a routerLink='accept' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-ok'></span> Планы для утверждения <span *ngIf="userState.schedulesToAccept.state != 0" class="badge badge-info">{{userState.schedulesToAccept.state}}</span>
+                  <span class='glyphicon glyphicon-ok' style="color: coral;"></span> Планы для утверждения <span *ngIf="userState.schedulesToAccept.state != 0" class="badge badge-info">{{userState.schedulesToAccept.state}}</span>
               </a>
           </li>
 
           <li [routerLinkActive]='["link-active"]'>
               <a routerLink='general-schedule' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-th'></span> Сводный план
+                  <span class='glyphicon glyphicon-th' style="color: purple;"></span> Сводный план
               </a>
           </li>
 
           <li [routerLinkActive]='["link-active"]' *ngIf="userState.currentUser?.state?.canUseChecklists">
               <a routerLink='checklists' (click)='collapse()'>
-                  <span class='	glyphicon glyphicon-check'></span>
+                  <span class='	glyphicon glyphicon-check' style="color: tomato;"></span>
                   <span>Чек-листы</span> <span *ngIf="userState.unseenChecklistTickets.state != 0" class="badge badge-info">{{userState.unseenChecklistTickets.state}}</span>
               </a>
           </li>
 
           <li [routerLinkActive]='["link-active"]'>
               <a routerLink='timeline' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-time'></span>
+                  <span class='glyphicon glyphicon-time' style="color: teal;"></span>
                   <span>Тайм-лист</span>
                   <span *ngIf="userState.assignedTicketCount.state != 0" class="badge badge-info">{{userState.assignedTicketCount.state}}</span>
               </a>
@@ -84,7 +89,7 @@
     </li> -->
           <li>
               <a routerLink='/' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-log-out'></span> Выйти из приложения
+                  <span class='glyphicon glyphicon-log-out'></span> К другим приложениям
               </a>
           </li>
       </ul>

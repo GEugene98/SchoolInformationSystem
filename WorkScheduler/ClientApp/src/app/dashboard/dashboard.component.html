@@ -7,10 +7,10 @@
         <span *ngIf="userState.currentUser.state">
           {{userState.currentUser?.state?.firstName[0]}}.
           {{userState.currentUser?.state?.surName[0]}}.
-          {{userState.currentUser?.state?.lastName}} ({{userState.currentUser?.state?.roles?.join(', ').toLowerCase()}})
+          {{userState.currentUser?.state?.lastName}}
         </span>
       </span>
-      <a href="javascript:void(0)" (click)="logout()" *ngIf="userState.currentUser.state" style="font-size: 14px;">выйти</a>
+      <a href="javascript:void(0)" (click)="logout()" *ngIf="userState.currentUser.state" style="font-size: 14px;">выйти из системы</a>
     </div>
     
     <div>
@@ -23,12 +23,13 @@
 
 
 <div class="container">
-  <div class="apps">
-    <a class="btn btn-outline-info" routerLink="scheduler/timeline" role="button"><span class='glyphicon glyphicon-calendar'></span> <br /> Планирование</a>
-    <a class="btn btn-outline-info" (click)="openModal(docsModal)" role="button"><span class='glyphicon glyphicon-briefcase'></span> <br /> Документация</a>
-    <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-list-alt'></span> <br /> Мониторинг</a>
-    <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-signal'></span> <br /> Статистика</a>
-  </div>
+    <div class="apps">
+        <a class="btn btn-outline-info" routerLink="scheduler/timeline" role="button" ><span style="color: #007ad9c7" class='glyphicon glyphicon-calendar'></span> <br /> Планирование</a>
+        <a class="btn btn-outline-info" routerLink="register" role="button"><span style="color: #83d400c7" class='glyphicon glyphicon-book'></span> <br /> Журналы ДО/ВД</a>
+        <a class="btn btn-outline-info" (click)="openModal(docsModal)" role="button"><span class='glyphicon glyphicon-briefcase'></span> <br /> Документация</a>
+        <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-list-alt'></span> <br /> Мониторинг</a>
+        <a class="btn btn-outline-info" (click)="openModal(developModal)" role="button"><span class='glyphicon glyphicon-signal'></span> <br /> Статистика</a>
+    </div>
   <div style="margin-top: 50px;">
     <app-callboard ></app-callboard>
   </div>
