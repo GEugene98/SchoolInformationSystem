@@ -37,6 +37,8 @@ import { AdditionalComponent } from './register/additional/additional.component'
 import { FreeTimeComponent } from './register/free-time/free-time.component';
 import { RegisterSettingsComponent } from './register/register-settings/register-settings.component';
 import { RegisterScheduleComponent } from './register/register-schedule/register-schedule.component';
+import { RegisterParamsComponent } from './register/shared/register-params/register-params.component';
+import { RegisterTableComponent } from './register/shared/register-table/register-table.component';
 
 defineLocale('ru', ruLocale);
 
@@ -63,7 +65,7 @@ const routes = [
     children: [
       { path: 'additional', component: AdditionalComponent },
       { path: 'free-time', component: FreeTimeComponent },
-      { path: 'settings', component: RegisterSettingsComponent },
+      { path: 'register-settings', component: RegisterSettingsComponent },
       { path: 'schedule', component: RegisterScheduleComponent }
     ]
   }
@@ -101,7 +103,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     AppComponent,
     DashboardComponent,
     SettingsComponent,
-    CallboardComponent
+    CallboardComponent,
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
