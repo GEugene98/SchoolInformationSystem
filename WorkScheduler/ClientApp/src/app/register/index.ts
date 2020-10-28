@@ -23,6 +23,9 @@ import { RegisterSettingsComponent } from './register-settings/register-settings
 import { FreeTimeComponent } from './free-time/free-time.component';
 import { AdditionalComponent } from './additional/additional.component';
 import { RegisterMainComponent } from './register-main/register-main.component';
+import { RegisterParamsComponent } from './shared/register-params/register-params.component';
+import { RegisterTableComponent } from './shared/register-table/register-table.component';
+import { RegisterPlaningComponent } from './shared/register-planing/register-planing.component';
 
 defineLocale('ru', ruLocale);
 
@@ -32,7 +35,10 @@ defineLocale('ru', ruLocale);
     FreeTimeComponent,
     RegisterSettingsComponent,
     RegisterScheduleComponent,
-    RegisterMainComponent
+    RegisterMainComponent,
+    RegisterParamsComponent,
+    RegisterTableComponent,
+    RegisterPlaningComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
