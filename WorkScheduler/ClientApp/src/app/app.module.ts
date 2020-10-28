@@ -39,6 +39,7 @@ import { RegisterSettingsComponent } from './register/register-settings/register
 import { RegisterScheduleComponent } from './register/register-schedule/register-schedule.component';
 import { RegisterParamsComponent } from './register/shared/register-params/register-params.component';
 import { RegisterTableComponent } from './register/shared/register-table/register-table.component';
+import { RegisterPlaningComponent } from './register/shared/register-planing/register-planing.component';
 
 defineLocale('ru', ruLocale);
 
