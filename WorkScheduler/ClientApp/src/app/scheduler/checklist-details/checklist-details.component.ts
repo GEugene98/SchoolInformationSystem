@@ -20,7 +20,7 @@ import { UserState } from '../../shared/states/user.state';
 @Component({
   selector: 'app-checklist-details',
   templateUrl: './checklist-details.component.html',
-  styleUrls: ['./checklist-details.component.scss']
+  styleUrls: ['./checklist-details.component.css']
 })
 export class ChecklistDetailsComponent implements OnInit, OnDestroy {
 

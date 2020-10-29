@@ -15,7 +15,7 @@ import _ = require('lodash');
 @Component({
   selector: 'app-my-schedules-component',
   templateUrl: './my-schedules.component.html',
-  styleUrls: ['./my-schedules.component.scss']
+  styleUrls: ['./my-schedules.component.css']
 })
 export class MySchedules {
   modalRef: BsModalRef;
