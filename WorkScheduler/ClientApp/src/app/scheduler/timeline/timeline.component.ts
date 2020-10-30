@@ -60,7 +60,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     private ngxService: NgxUiLoaderService,
     private titleService: Title,
     private userState: UserState) {
-    this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
+    this.bsConfig = { rangeInputFormat: 'DD.MM.YYYY', locale: 'ru' };
     this.titleService.setTitle('Тайм-лист');
     this.currentWeek();
   }
