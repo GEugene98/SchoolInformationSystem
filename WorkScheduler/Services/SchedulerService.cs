@@ -136,10 +136,10 @@ namespace WorkScheduler.Services
                 .Include(ws => ws.Activity)
                 .FirstOrDefault(ws => ws.Id == workScheduleId);
 
-            if (!(workSchedule.User.SchoolId == currentUser.SchoolId && currentUser.CanSeeAllSchedules))
-            {
-                return null;
-            }
+            //if (!(workSchedule.User.SchoolId == currentUser.SchoolId && currentUser.CanSeeAllSchedules))
+            //{
+            //    return null;
+            //}
 
             var actionUsers = Db.ActionUsers
                 .Where(au => au.Action.WorkScheduleId == workScheduleId && au.Action.IsDeleted == false)
