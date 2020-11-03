@@ -75,3 +75,14 @@ body button {
 th, h1, h2, h3, h4, h5 {
   cursor: default !important; 
 }
+
+.tabs {
+  margin-top: 20px;
+}
+
+.pane {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+  margin-top: 15px;
+}

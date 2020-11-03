@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { TabsModule, ModalModule, TimepickerModule, ButtonsModule } from 'ngx-bootstrap';
+import { TabsModule, ModalModule, ButtonsModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -37,10 +37,14 @@ import { AdditionalComponent } from './register/additional/additional.component'
 import { FreeTimeComponent } from './register/free-time/free-time.component';
 import { RegisterSettingsComponent } from './register/register-settings/register-settings.component';
 import { RegisterScheduleComponent } from './register/register-schedule/register-schedule.component';
-import { RegisterParamsComponent } from './register/shared/register-params/register-params.component';
-import { RegisterTableComponent } from './register/shared/register-table/register-table.component';
-import { RegisterPlaningComponent } from './register/shared/register-planing/register-planing.component';
+import { RegisterGpdComponent } from './register/register-gpd/register-gpd.component';
+import { MonitoringsMainComponent } from './monitoring/monitorings-main/monitorings-main.component';
+import { MonitoringModule } from './monitoring';
+import { ListsComponent } from './monitoring/lists/lists.component';
+import { StudentsComponent } from './monitoring/lists/students/students.component';
+import { ClassesComponent } from './monitoring/lists/classes/classes.component';
 
+ 
 defineLocale('ru', ruLocale);
 
 const routes = [
@@ -66,9 +70,15 @@ const routes = [
     children: [
       { path: 'additional', component: AdditionalComponent },
       { path: 'free-time', component: FreeTimeComponent },
+      { path: 'gpd', component: RegisterGpdComponent },
       { path: 'register-settings', component: RegisterSettingsComponent },
       { path: 'schedule', component: RegisterScheduleComponent }
     ]
+  },
+  {   path: 'monitorings', component: MonitoringsMainComponent,
+      children: [
+        { path: 'lists', component: ListsComponent }
+      ]
   }
 ];
 
@@ -105,7 +115,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     DashboardComponent,
     SettingsComponent,
     CallboardComponent,
-    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -115,6 +124,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     TabsModule,
     ChartModule,
     ToastModule,
+    MonitoringModule,
     //TooltipModule.forChild(),
     //TabsModule.forRoot(),
     //BsDatepickerModule.forRoot(),
