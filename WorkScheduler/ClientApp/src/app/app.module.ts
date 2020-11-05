@@ -37,11 +37,9 @@ import { AdditionalComponent } from './register/additional/additional.component'
 import { FreeTimeComponent } from './register/free-time/free-time.component';
 import { RegisterSettingsComponent } from './register/register-settings/register-settings.component';
 import { RegisterScheduleComponent } from './register/register-schedule/register-schedule.component';
-<<<<<<< Updated upstream
 import { RegisterParamsComponent } from './register/shared/register-params/register-params.component';
 import { RegisterTableComponent } from './register/shared/register-table/register-table.component';
 import { RegisterPlaningComponent } from './register/shared/register-planing/register-planing.component';
-=======
 import { RegisterGpdComponent } from './register/register-gpd/register-gpd.component';
 import { MonitoringsMainComponent } from './monitoring/monitorings-main/monitorings-main.component';
 import { MonitoringModule } from './monitoring';
@@ -49,7 +47,6 @@ import { ListsComponent } from './monitoring/lists/lists.component';
 import { StudentsComponent } from './monitoring/lists/students/students.component';
 import { ClassesComponent } from './monitoring/lists/classes/classes.component';
 import { RegisterTableSettingsComponent } from './register/shared/register-table-settings/register-table-settings.component';
->>>>>>> Stashed changes
 
 defineLocale('ru', ruLocale);
 
@@ -115,11 +112,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     DashboardComponent,
     SettingsComponent,
     CallboardComponent,
-<<<<<<< Updated upstream
-    
-=======
     RegisterTableSettingsComponent,
->>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
