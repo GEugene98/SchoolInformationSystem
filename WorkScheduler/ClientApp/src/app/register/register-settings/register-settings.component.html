@@ -1,3 +1,48 @@
-<p>
-  register-settings works!
-</p>
+<div>
+  <h1>Администрирование</h1>   
+  <div class="tabs">
+    <tabset>
+      <tab heading="ДО">
+        Выберите учебный год:
+          <ng-select [items]="[2019,2020,2021,2022]"
+                      style="width: 500px;"
+                      placeholder="Щелкните здесь для выбора"
+                         
+                      [clearable]="true">
+          </ng-select>
+        <div class="pane">
+          <button type="button" class="btn btn-primary">Добавить объединение</button>
+        </div>
+        <!-- <app-register-table-settings></app-register-table-settings> -->
+      </tab>
+
+
+      <tab heading="ВД">
+        Выберите учебный год:
+          <ng-select [items]="[2019,2020,2021,2022]"
+                      style="width: 500px;"
+                      placeholder="Щелкните здесь для выбора"
+                         
+                      [clearable]="true">
+          </ng-select>
+        <div class="pane">
+          <button type="button" class="btn btn-primary">Добавить объединение</button>
+        </div>
+      </tab>
+
+
+      <tab heading="ГПД">
+        Выберите учебный год:
+          <ng-select [items]="[2019,2020,2021,2022]"
+                      style="width: 500px;"
+                      placeholder="Щелкните здесь для выбора"
+                         
+                      [clearable]="true">
+          </ng-select>
+        <div class="pane">
+          <button type="button" class="btn btn-primary">Добавить объединение</button>
+        </div>
+      </tab>
+    </tabset>
+  </div>
+</div>
