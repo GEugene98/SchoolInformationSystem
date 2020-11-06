@@ -18,31 +18,20 @@ import { AccountService } from '../shared/services/account.service';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { ProblemService } from '../shared/services/problem.service';
 import { UploadModule } from '@progress/kendo-angular-upload';
-import { RegisterScheduleComponent } from './register-schedule/register-schedule.component';
-import { RegisterSettingsComponent } from './register-settings/register-settings.component';
-import { FreeTimeComponent } from './free-time/free-time.component';
-import { AdditionalComponent } from './additional/additional.component';
-import { RegisterMainComponent } from './register-main/register-main.component';
-import { RegisterParamsComponent } from './shared/register-params/register-params.component';
-import { RegisterTableComponent } from './shared/register-table/register-table.component';
-import { RegisterPlaningComponent } from './shared/register-planing/register-planing.component';
-import { RegisterTableSettingsComponent } from './shared/register-table-settings/register-table-settings.component';
-import { RegisterGpdComponent } from './register-gpd/register-gpd.component';
+import { MonitoringsMainComponent } from './monitorings-main/monitorings-main.component';
+import { ListsComponent } from './lists/lists.component';
+import { ClassesComponent } from './lists/classes/classes.component';
+import { StudentsComponent } from './lists/students/students.component';
+import { AccordionModule } from 'primeng/accordion';
 
 defineLocale('ru', ruLocale);
 
 @NgModule({
   declarations: [
-    AdditionalComponent,
-    FreeTimeComponent,
-    RegisterGpdComponent,
-    RegisterSettingsComponent,
-    RegisterScheduleComponent,
-    RegisterMainComponent,
-    RegisterParamsComponent,
-    RegisterTableComponent,
-    RegisterPlaningComponent,
-    RegisterTableSettingsComponent
+      MonitoringsMainComponent,
+      ListsComponent,
+      StudentsComponent,
+      ClassesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -61,6 +50,7 @@ defineLocale('ru', ruLocale);
     FormsModule,
     RouterModule.forChild([]),
     UploadModule,
+    AccordionModule,
     PaginationModule.forRoot()
   ],
   providers: [
@@ -73,6 +63,6 @@ defineLocale('ru', ruLocale);
   entryComponents: [
   ]
 })
-export class RegisterModule {
+export class MonitoringModule {
 
 }

@@ -15,5 +15,6 @@ namespace WorkScheduler.Models.Monitoring.Shared
         public bool IsDeleted { get; set; }
 
         public virtual ICollection<ClassStudent> ClassStudents { get; set; }
+        public virtual ICollection<GroupStudent> GroupStudents { get; set; }
     }
 }

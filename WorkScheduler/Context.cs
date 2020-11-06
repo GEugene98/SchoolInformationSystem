@@ -29,6 +29,9 @@ namespace WorkScheduler
         public DbSet<Class> Classes { get; set; }
         public DbSet<ClassStudent> ClassStudents { get; set; }
 
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<GroupStudent> GroupStudents { get; set; }
+
         public DbSet<StudentAchivment> StudentAchivments { get; set; }
         public DbSet<AchivmentLevel> AchivmentLevels { get; set; }
         public DbSet<AchivmentResult> AchivmentResults { get; set; }
@@ -106,6 +109,19 @@ namespace WorkScheduler
                 .HasOne(cs => cs.Student)
                 .WithMany(s => s.ClassStudents)
                 .HasForeignKey(cs => cs.StudentId);
+
+            modelBuilder.Entity<GroupStudent>()
+                .HasKey(gs => new { gs.GroupId, gs.StudentId });
+
+            modelBuilder.Entity<GroupStudent>()
+                .HasOne(gs => gs.Group)
+                .WithMany(g => g.GroupStudents)
+                .HasForeignKey(gs => gs.GroupId);
+
+            modelBuilder.Entity<GroupStudent>()
+                .HasOne(gs => gs.Student)
+                .WithMany(s => s.GroupStudents)
+                .HasForeignKey(gs => gs.StudentId);
         }
     }
 }

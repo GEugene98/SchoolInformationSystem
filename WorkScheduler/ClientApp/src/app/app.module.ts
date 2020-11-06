@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { TabsModule, ModalModule, TimepickerModule, ButtonsModule } from 'ngx-bootstrap';
+import { TabsModule, ModalModule, ButtonsModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -47,6 +47,7 @@ import { ListsComponent } from './monitoring/lists/lists.component';
 import { StudentsComponent } from './monitoring/lists/students/students.component';
 import { ClassesComponent } from './monitoring/lists/classes/classes.component';
 
+ 
 defineLocale('ru', ruLocale);
 
 const routes = [
@@ -72,9 +73,15 @@ const routes = [
     children: [
       { path: 'additional', component: AdditionalComponent },
       { path: 'free-time', component: FreeTimeComponent },
+      { path: 'gpd', component: RegisterGpdComponent },
       { path: 'register-settings', component: RegisterSettingsComponent },
       { path: 'schedule', component: RegisterScheduleComponent }
     ]
+  },
+  {   path: 'monitorings', component: MonitoringsMainComponent,
+      children: [
+        { path: 'lists', component: ListsComponent }
+      ]
   }
 ];
 
@@ -120,6 +127,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     TabsModule,
     ChartModule,
     ToastModule,
+    MonitoringModule,
     //TooltipModule.forChild(),
     //TabsModule.forRoot(),
     //BsDatepickerModule.forRoot(),
