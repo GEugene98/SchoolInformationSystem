@@ -41,9 +41,6 @@ import { RegisterGpdComponent } from './register/register-gpd/register-gpd.compo
 import { MonitoringsMainComponent } from './monitoring/monitorings-main/monitorings-main.component';
 import { MonitoringModule } from './monitoring';
 import { ListsComponent } from './monitoring/lists/lists.component';
-import { StudentsComponent } from './monitoring/lists/students/students.component';
-import { ClassesComponent } from './monitoring/lists/classes/classes.component';
-
  
 defineLocale('ru', ruLocale);
 
@@ -114,7 +111,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     AppComponent,
     DashboardComponent,
     SettingsComponent,
-    CallboardComponent,
+    CallboardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
