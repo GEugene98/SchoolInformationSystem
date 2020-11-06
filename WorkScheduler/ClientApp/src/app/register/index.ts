@@ -26,6 +26,7 @@ import { RegisterMainComponent } from './register-main/register-main.component';
 import { RegisterParamsComponent } from './shared/register-params/register-params.component';
 import { RegisterTableComponent } from './shared/register-table/register-table.component';
 import { RegisterPlaningComponent } from './shared/register-planing/register-planing.component';
+import { RegisterTableSettingsComponent } from './shared/register-table-settings/register-table-settings.component';
 
 defineLocale('ru', ruLocale);
 
@@ -39,6 +40,7 @@ defineLocale('ru', ruLocale);
     RegisterParamsComponent,
     RegisterTableComponent,
     RegisterPlaningComponent,
+    RegisterTableSettingsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

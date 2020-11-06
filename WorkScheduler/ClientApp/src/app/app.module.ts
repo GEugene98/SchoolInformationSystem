@@ -46,7 +46,6 @@ import { MonitoringModule } from './monitoring';
 import { ListsComponent } from './monitoring/lists/lists.component';
 import { StudentsComponent } from './monitoring/lists/students/students.component';
 import { ClassesComponent } from './monitoring/lists/classes/classes.component';
-import { RegisterTableSettingsComponent } from './register/shared/register-table-settings/register-table-settings.component';
 
 defineLocale('ru', ruLocale);
 
@@ -111,8 +110,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     AppComponent,
     DashboardComponent,
     SettingsComponent,
-    CallboardComponent,
-    RegisterTableSettingsComponent,
+    CallboardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
