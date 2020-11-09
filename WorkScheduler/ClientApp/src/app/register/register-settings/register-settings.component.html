@@ -3,6 +3,7 @@
   <div class="tabs">
     <tabset>
       <tab heading="ДО">
+        <td>
         Выберите учебный год:
           <ng-select [items]="[2019,2020,2021,2022]"
                       style="width: 500px;"
@@ -10,13 +11,12 @@
                          
                       [clearable]="true">
           </ng-select>
+        </td>
         <div class="pane">
           <button type="button" class="btn btn-primary">Добавить объединение</button>
         </div>
-        <!-- <app-register-table-settings></app-register-table-settings> -->
+        <app-register-table-settings></app-register-table-settings>
       </tab>
-
-
       <tab heading="ВД">
         Выберите учебный год:
           <ng-select [items]="[2019,2020,2021,2022]"
@@ -28,9 +28,8 @@
         <div class="pane">
           <button type="button" class="btn btn-primary">Добавить объединение</button>
         </div>
+        <app-register-table-settings></app-register-table-settings>
       </tab>
-
-
       <tab heading="ГПД">
         Выберите учебный год:
           <ng-select [items]="[2019,2020,2021,2022]"
@@ -42,6 +41,7 @@
         <div class="pane">
           <button type="button" class="btn btn-primary">Добавить объединение</button>
         </div>
+        <app-register-table-settings></app-register-table-settings>
       </tab>
     </tabset>
   </div>

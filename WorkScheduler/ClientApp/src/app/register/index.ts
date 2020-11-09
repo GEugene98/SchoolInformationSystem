@@ -28,6 +28,8 @@ import { RegisterTableComponent } from './shared/register-table/register-table.c
 import { RegisterPlaningComponent } from './shared/register-planing/register-planing.component';
 import { RegisterGpdComponent } from './register-gpd/register-gpd.component';
 import { RegisterTableSettingsComponent } from './shared/register-table-settings/register-table-settings.component';
+import { RegisterTableSettingsComponent } from './shared/register-table-settings/register-table-settings.component';
+import { RegisterGpdComponent } from './register-gpd/register-gpd.component';
 
 defineLocale('ru', ruLocale);
 
