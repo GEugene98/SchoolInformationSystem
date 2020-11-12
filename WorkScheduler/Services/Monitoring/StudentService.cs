@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using WorkScheduler.Models.Monitoring.Shared;
+using WorkScheduler.ViewModels;
 using WorkScheduler.ViewModels.Monitoring.Shared;
 
 namespace WorkScheduler.Services.Monitoring
@@ -16,7 +18,7 @@ namespace WorkScheduler.Services.Monitoring
             Db = context;
         }
 
-        public int CreateStudent(StudentViewModel student, int? classId)
+        public int CreateStudent(StudentViewModel student, int? classId = null)
         {
             var newStudent = new Student
             {
@@ -66,13 +68,13 @@ namespace WorkScheduler.Services.Monitoring
                 Db.ClassStudents.Remove(cStudent);
             }
 
-            var cs = new ClassStudent
+            var newCs = new ClassStudent
             {
                 ClassId = classId,
                 StudentId = studentId
             };
 
-            Db.ClassStudents.Add(cs);
+            Db.ClassStudents.Add(newCs);
 
             Db.SaveChanges();
         }
@@ -120,23 +122,71 @@ namespace WorkScheduler.Services.Monitoring
 
         public IEnumerable<StudentViewModel> GetStudentsWithoutClass(int schoolId)
         {
-            var classStudents = Db.ClassStudents.Where(cs => cs.Student.SchoolId == schoolId);
+            var allStudents = Db.Students
+                .Where(s => s.SchoolId == schoolId)
+                .ToList();
 
+            var studentsWithClass = Db.ClassStudents
+                .Where(cs => cs.Student.SchoolId == schoolId)
+                .Select(cs => cs.Student)
+                .ToList();
 
-            return
-                Db.Students
-                    .Where(s => s.SchoolId == schoolId)
-                    .OrderBy(s => s.LastName)
-                    .Select(s => new StudentViewModel
+            return allStudents
+                .Where(s => studentsWithClass.FirstOrDefault(swc => swc.Id == s.Id) == null)
+                .OrderBy(s => s.LastName)
+                .Select(s => new StudentViewModel
+                {
+                     Id = s.Id,
+                     SchoolId = s.SchoolId,
+                     FirstName = s.FirstName,
+                     LastName = s.LastName,
+                     SurName = s.SurName
+                });
+        }
+
+        public IEnumerable<ClassVievModel> GetStudentsByClasses(int academicYearId, int schoolId)
+        {
+            var studentsQuery = Db.Students.Where(s => s.SchoolId == schoolId);
+            var classStudentQuery = Db.ClassStudents;
+            var classQuery =
+                Db.Classes
+                .Include(c => c.AcademicYear)
+                .Where(c => c.AcademicYearId == academicYearId && c.SchoolId == schoolId);
+
+            var joinResult =
+                from s in studentsQuery
+                join cs in classStudentQuery on s.Id equals cs.StudentId
+                join c in classQuery on cs.ClassId equals c.Id
+                select new { Student = s, Class = c };
+
+            var classes = new List<ClassVievModel>();
+            var groups = joinResult.GroupBy(r => r.Class);
+
+            foreach (var group in groups)
+            {
+                var classViewModel = new ClassVievModel
+                {
+                    Id = group.Key.Id,
+                    Name = group.Key.Name,
+                    AcademicYear = new DictionaryViewModel<int>
                     {
-                        Id = s.Id,
-                        SchoolId = s.SchoolId,
-                        FirstName = s.FirstName,
-                        LastName = s.LastName,
-                        SurName = s.SurName
-                    }
-                            )
-                    .ToList();
+                        Id = group.Key.AcademicYear.Id,
+                        Name = group.Key.AcademicYear.Name
+                    },
+                    Students = group.Select(g => new StudentViewModel
+                    {
+                        Id = g.Student.Id,
+                        FirstName = g.Student.FirstName,
+                        LastName = g.Student.LastName,
+                        SurName = g.Student.SurName,
+                        IsDeleted = g.Student.IsDeleted
+                    })
+                };
+
+                classes.Add(classViewModel);
+            }
+
+            return classes;
         }
 
         public void AchiveStudent(int studentId)

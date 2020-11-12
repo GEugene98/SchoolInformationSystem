@@ -12,22 +12,13 @@ namespace WorkScheduler.Controllers
     {
         protected Context Db;
         protected ClassService ClassService;
+        protected StudentService StudentService;
 
-        public ClassController(Context context, ClassService classService)
+        public ClassController(Context context, ClassService classService, StudentService studentService)
         {
             Db = context;
             ClassService = classService;
-        }
-
-        [HttpGet("GetClasses")]
-        public IActionResult GetClasses(int academicYearId)
-        {
-            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
-            var schoolId = (int)currentUser.SchoolId;
-
-            var classes = ClassService.GetStudentsByClasses(academicYearId, schoolId);
-
-            return Ok(classes);
+            StudentService = studentService;
         }
 
         [HttpPost("CreateClass")]
@@ -36,9 +27,14 @@ namespace WorkScheduler.Controllers
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
             var schoolId = (int)currentUser.SchoolId;
 
-            
+            var classId = ClassService.CreateClass(classModel.AcademicYearId, schoolId, classModel.Name);
 
-            return Ok(classes);
+            if (classModel.Students.Count() > 0)
+            {
+                StudentService.PutStudentsToClass(classModel.Students.Select(s => s.Id), classId);
+            }
+
+            return Ok();
         }
     }
 }
