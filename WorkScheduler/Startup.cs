@@ -60,21 +60,36 @@ namespace WorkSheduler
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(180);
                 });
 
-                services.AddScoped<SchedulerService>();
-                services.AddScoped<TicketService>();
+
+
+                //Shared
                 services.AddScoped<ReportService>();
-                services.AddScoped<NotificationService>();
-                services.AddScoped<ReportRenderService>();
-                services.AddScoped<ChecklistService>();
-                services.AddScoped<FileService>();
-                services.AddScoped<WorkScheduler.Services.Monitoring.DictionaryService>();
-                services.AddScoped<TalentedChildrenService>();
                 services.AddScoped<CallboardService>();
-                services.AddScoped<ProtocolService>();
+                services.AddScoped<FileService>();
+                services.AddScoped<ReportRenderService>();
+                services.AddScoped<NotificationService>();
                 services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
-                var context = new CustomAssemblyLoadContext();
-                context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+
+                //Scheduler
+                services.AddScoped<SchedulerService>();
+                services.AddScoped<TicketService>();
+                services.AddScoped<ChecklistService>();
+                services.AddScoped<ProtocolService>();
+
+
+                //Monitoring
+                services.AddScoped<ClassService>();
+
+
+                //Register
+
+
+
+
+                
+                //var context = new CustomAssemblyLoadContext();
+                //context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
 
                 // In production, the Angular files will be served from this directory
                 services.AddSpaStaticFiles(configuration =>
@@ -118,16 +133,16 @@ namespace WorkSheduler
 
                 app.UseSpa(spa =>
                 {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
+                    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                    // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "ClientApp";
+                    spa.Options.SourcePath = "ClientApp";
 
                     if (env.IsDevelopment())
                     {
                         spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
-                    //spa.UseAngularCliServer(npmScript: "start");
-                }
+                        //spa.UseAngularCliServer(npmScript: "start");
+                    }
                 });
             }
             catch(Exception ex)
