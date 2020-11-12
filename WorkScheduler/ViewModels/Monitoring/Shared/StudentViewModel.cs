@@ -14,6 +14,8 @@ namespace WorkScheduler.ViewModels.Monitoring.Shared
 
         public bool IsDeleted { get; set; }
 
+        public int SchoolId { get; set; }
+
         public ClassVievModel Class { get; set; }
     }
 }

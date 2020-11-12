@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using WorkScheduler.Models.Base;
 using WorkScheduler.Models.Monitoring.Shared;
+using WorkScheduler.Models.Register;
 
 namespace WorkScheduler.Models
 {
@@ -12,5 +13,7 @@ namespace WorkScheduler.Models
 
         public virtual ICollection<WorkSchedule> WorkSchedules { get; set; }
         public virtual ICollection<Class> Classes { get; set; }
+        public virtual ICollection<Association> Associations { get; set; }
+        public virtual ICollection<PlaningRecord> PlaningRecords { get; set; }
     }
 }

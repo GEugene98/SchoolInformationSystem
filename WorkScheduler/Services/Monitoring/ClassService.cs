@@ -8,11 +8,11 @@ using WorkScheduler.ViewModels.Monitoring.Shared;
 
 namespace WorkScheduler.Services.Monitoring
 {
-    public class DictionaryService
+    public class ClassService
     {
         protected Context Db;
 
-        public DictionaryService(Context context)
+        public ClassService(Context context)
         {
             Db = context;
         }
@@ -66,42 +66,30 @@ namespace WorkScheduler.Services.Monitoring
             return classModel;
         }
 
-        //public IEnumerable<StudentViewModel> GetStudents()
-        //{
-        //    var studentsQuery = Db.Students;
-        //    var classStudentQuery = Db.ClassStudents;
-        //    var classQuery =
-        //        Db.Classes
-        //        .Include(c => c.AcademicYear)
-        //        .Where(c => c.AcademicYearId == academicYearId);
 
-        //    var joinResult =
-        //        from s in studentsQuery
-        //        join cs in classStudentQuery on s.Id equals cs.StudentId
-        //        join c in classQuery on cs.ClassId equals c.Id
-        //        select new { Student = s, Class = c };
-
-        //    return Db.Students.Where(s => !s.IsDeleted)
-        //        .ToList()
-        //        .Select(s => new StudentViewModel
-        //        {
-        //            Id = s.Id,
-        //            Class = new ClassVievModel
-        //            {
-
-        //            } 
-        //        })
-        //        ;
-        //}
-
-        public IEnumerable<ClassVievModel> GetStudentsByClasses(int academicYearId)
+        public int CreateClass(int academicYearId, int schoolId, string name)
         {
-            var studentsQuery = Db.Students;
+            var newClass = new Class
+            {
+                Name = name,
+                AcademicYearId = academicYearId,
+                SchoolId = schoolId
+            };
+
+            Db.Classes.Add(newClass);
+            Db.SaveChanges();
+
+            return newClass.Id;
+        }
+
+        public IEnumerable<ClassVievModel> GetStudentsByClasses(int academicYearId, int schoolId)
+        {
+            var studentsQuery = Db.Students.Where(s => s.SchoolId == schoolId);
             var classStudentQuery = Db.ClassStudents;
             var classQuery =
                 Db.Classes
                 .Include(c => c.AcademicYear)
-                .Where(c => c.AcademicYearId == academicYearId);
+                .Where(c => c.AcademicYearId == academicYearId && c.SchoolId == schoolId);
 
             var joinResult =
                 from s in studentsQuery
@@ -138,6 +126,34 @@ namespace WorkScheduler.Services.Monitoring
 
             return classes;
         }
+
+        //public IEnumerable<StudentViewModel> GetStudents()
+        //{
+        //    var studentsQuery = Db.Students;
+        //    var classStudentQuery = Db.ClassStudents;
+        //    var classQuery =
+        //        Db.Classes
+        //        .Include(c => c.AcademicYear)
+        //        .Where(c => c.AcademicYearId == academicYearId);
+
+        //    var joinResult =
+        //        from s in studentsQuery
+        //        join cs in classStudentQuery on s.Id equals cs.StudentId
+        //        join c in classQuery on cs.ClassId equals c.Id
+        //        select new { Student = s, Class = c };
+
+        //    return Db.Students.Where(s => !s.IsDeleted)
+        //        .ToList()
+        //        .Select(s => new StudentViewModel
+        //        {
+        //            Id = s.Id,
+        //            Class = new ClassVievModel
+        //            {
+
+        //            } 
+        //        })
+        //        ;
+        //}
 
     }
 }
