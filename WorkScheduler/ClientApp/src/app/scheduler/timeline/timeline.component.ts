@@ -22,6 +22,7 @@ import { UploadEvent } from '@progress/kendo-angular-upload';
 export class TimelineComponent implements OnInit, OnDestroy {
 
   range: Date[];
+  rangeBsConfig: any;
   bsConfig: any;
   packs: TicketPack[];
   originalPacks: TicketPack[];
@@ -60,7 +61,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
     private ngxService: NgxUiLoaderService,
     private titleService: Title,
     private userState: UserState) {
-    this.bsConfig = { rangeInputFormat: 'DD.MM.YYYY', locale: 'ru' };
+    this.rangeBsConfig = { rangeInputFormat: 'DD.MM.YYYY', locale: 'ru' };
+    this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
     this.titleService.setTitle('Тайм-лист');
     this.currentWeek();
   }
