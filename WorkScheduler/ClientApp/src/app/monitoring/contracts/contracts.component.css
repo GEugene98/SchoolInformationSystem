@@ -1,0 +1,10 @@
+.columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .columns div {
+    margin-right: 10px;
+  }
+  

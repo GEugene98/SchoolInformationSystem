@@ -44,6 +44,8 @@ import { RegisterGpdComponent } from './register/register-gpd/register-gpd.compo
 import { MonitoringsMainComponent } from './monitoring/monitorings-main/monitorings-main.component';
 import { MonitoringModule } from './monitoring';
 import { ListsComponent } from './monitoring/lists/lists.component';
+import { ContractsComponent } from './monitoring/contracts/contracts.component';
+
  
 defineLocale('ru', ruLocale);
 
@@ -77,7 +79,8 @@ const routes = [
   },
   {   path: 'monitorings', component: MonitoringsMainComponent,
       children: [
-        { path: 'lists', component: ListsComponent }
+        { path: 'lists', component: ListsComponent },
+        { path: 'contracts', component: ContractsComponent }
       ]
   }
 ];
