@@ -44,6 +44,7 @@ import { RegisterGpdComponent } from './register/register-gpd/register-gpd.compo
 import { MonitoringsMainComponent } from './monitoring/monitorings-main/monitorings-main.component';
 import { MonitoringModule } from './monitoring';
 import { ListsComponent } from './monitoring/lists/lists.component';
+import { PersonnelComponent } from './monitoring/personnel/personnel.component';
  
 defineLocale('ru', ruLocale);
 
@@ -77,7 +78,8 @@ const routes = [
   },
   {   path: 'monitorings', component: MonitoringsMainComponent,
       children: [
-        { path: 'lists', component: ListsComponent }
+        { path: 'lists', component: ListsComponent },
+        { path: 'personnel', component: PersonnelComponent }
       ]
   }
 ];
@@ -114,7 +116,10 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     AppComponent,
     DashboardComponent,
     SettingsComponent,
-    CallboardComponent
+    CallboardComponent,
+    
+    
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -138,7 +143,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     TabsModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
   ],
   providers: [
     UserState,

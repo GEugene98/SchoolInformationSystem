@@ -1,0 +1,90 @@
+<h1>Кадры</h1>
+
+<p>
+    <a href="javascript:void(0)" (click)="showCheckBox()">
+        <h4>Выбрать колонки для отображения</h4>
+    </a>
+</p>
+
+<div *ngIf = "showAll">
+    <form>
+        <div class = "columns">
+            <div>
+                <p><input name="TableNumber" type="checkbox" [(ngModel)]="TableNumber">Табельный номер</p>
+            </div>
+            <div>
+                <p><input name="FullName" type="checkbox" [(ngModel)]="FullName">Ф.И.О.</p>
+            </div>
+            <div>
+                <p><input name="Birthday" type="checkbox" [(ngModel)]="Birthday">Дата рождения</p>
+            </div>
+            <div>
+                <p><input name="Age" type="checkbox" [(ngModel)]="Age">Возраст</p>
+            </div>
+            <div>
+                <p><input name="Sex" type="checkbox" [(ngModel)]="Sex">Пол</p>
+            </div>
+            <div>
+                <p><input name="Passport" type="checkbox" [(ngModel)]="Passport">Паспортные данные</p>
+            </div>
+            <div>
+                <p><input name="Snils" type="checkbox" [(ngModel)]="Snils">Снилс</p>
+            </div>
+            <div>
+                <p><input name="Inn" type="checkbox" [(ngModel)]="Inn">ИНН</p>
+            </div>
+            <div>
+                <p><input name="Education" type="checkbox" [(ngModel)]="Education">Образование</p>
+            </div>
+            <div>
+                <p><input name="Diploma" type="checkbox" [(ngModel)]="Diploma">Диплом</p>
+            </div>
+            <div>
+                <p><input name="Retraining" type="checkbox" [(ngModel)]="Retraining">Профпереподготовка</p>
+            </div>
+            <div>
+                <p><input name="Attestation" type="checkbox" [(ngModel)]="Attestation">Аттестация</p>
+            </div>
+            <div>
+                <p><input name="Category" type="checkbox" [(ngModel)]="Category">Категория</p>
+            </div>
+            <div>
+                <p><input name="RefresherCourses" type="checkbox" [(ngModel)]="RefresherCourses">Курсы повышения квалификации </p>
+            </div>
+            <div>
+                <p><input name="Awards" type="checkbox" [(ngModel)]="Awards">Награды</p>
+            </div>
+            <div>
+                <p><input name="Position" type="checkbox" [(ngModel)]="Position">Должность</p>
+            </div>
+            <div>
+                <p><input name="CategoryWorker" type="checkbox" [(ngModel)]="CategoryWorker">Категория работника</p>
+            </div>
+            <div>
+                <p><input name="WorkPeriod" type="checkbox" [(ngModel)]="WorkPeriod">Периоды работы</p>
+            </div>
+            <div>
+                <p><input name="Experience" type="checkbox" [(ngModel)]="Experience">Стаж работы</p>
+            </div>
+            <div>
+                <p><input name="HomeAdress" type="checkbox" [(ngModel)]="HomeAdress">Домашний адрес</p>
+            </div>
+            <div>
+                <p><input name="PhoneNumber" type="checkbox" [(ngModel)]="PhoneNumber">Номер телефона</p>
+            </div>
+            <div>
+                <p><input name="Email" type="checkbox" [(ngModel)]="Email">E-mail</p>
+            </div>
+            <div>
+                <p><input name="MilitaryRegistration" type="checkbox" [(ngModel)]="MilitaryRegistration">Воинский учет</p>
+            </div>
+            <div>
+                <p><input name="Holiday" type="checkbox" [(ngModel)]="Holiday">Отпуск</p>
+            </div>
+            <div>
+                <p><input name="WorkActivity" type="checkbox" [(ngModel)]="WorkActivity">Трудовая деятельность</p>
+            </div>
+        </div>
+    </form>
+</div>
+

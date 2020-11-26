@@ -23,6 +23,7 @@ import { ListsComponent } from './lists/lists.component';
 import { ClassesComponent } from './lists/classes/classes.component';
 import { StudentsComponent } from './lists/students/students.component';
 import { AccordionModule } from 'primeng/accordion';
+import { PersonnelComponent } from './personnel/personnel.component';
 
 defineLocale('ru', ruLocale);
 
@@ -31,7 +32,8 @@ defineLocale('ru', ruLocale);
       MonitoringsMainComponent,
       ListsComponent,
       StudentsComponent,
-      ClassesComponent
+      ClassesComponent,
+      PersonnelComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -52,6 +54,7 @@ defineLocale('ru', ruLocale);
     UploadModule,
     AccordionModule,
     PaginationModule.forRoot()
+    
   ],
   providers: [
     UserState,
