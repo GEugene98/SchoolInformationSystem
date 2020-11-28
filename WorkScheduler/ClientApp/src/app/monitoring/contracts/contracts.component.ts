@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Contract } from '../models/contract.model';
 
 @Component({
   selector: 'app-contracts',
@@ -8,17 +9,54 @@ import { Component, OnInit } from '@angular/core';
 export class ContractsComponent implements OnInit {
   showAll: boolean;
 
+  data: Contract[] = [
+    new Contract(),
+    new Contract(),
+    new Contract(),
+    new Contract(),
+  ];
 
-  organization: boolean = false;
-  contractNumber: boolean = false;
-  dateSigning: boolean = false;
-  signedBy: boolean = false;
-  subject: boolean = false;
-  contractSum: boolean = false;
-  status: boolean = false;
-  controlDate: boolean = false;
-  
-  list: string[] = ["Привет", "Пока"]; 
+  columns = [
+    {
+      name: "Организация",
+      visibility: true,
+      variable: "organization"
+    },
+    {
+      name: "№ договора",
+      visibility: true,
+      variable: "contractNumber"
+    },
+    {
+      name: "Дата подписания, срок действия",
+      visibility: false
+    },
+    {
+      name: "Предмет договора",
+      visibility: false,
+      variable: "subject"
+    },
+    {
+      name: "Кем подписан",
+      visibility: false
+    },
+    {
+      name: "Сумма договора",
+      visibility: false
+    },
+    {
+      name: "Статус",
+      visibility: false
+    },
+    {
+      name: "Дата контроля",
+      visibility: false
+    },
+    {
+      name: "Комментарий",
+      visibility: false
+    }
+  ];
 
   constructor() { }
 
@@ -26,20 +64,19 @@ export class ContractsComponent implements OnInit {
 
   }
 
+  getPropertyValue(object, fieldName) {
+    fieldName.split('.').forEach(function(token) {
+      if (object) object = object[token];
+    });
+    return object;
+  }
+
   showAllHandler(){
     this.showAll = !this.showAll;
   }
 
-  columnsChanged() {
-    var selectedColumns: number[] = []
-
-    if (this.organization) selectedColumns.push(0);
-    if (this.contractNumber) selectedColumns.push(1);
-    if (this.dateSigning) selectedColumns.push(2);
-    if (this.signedBy) selectedColumns.push(3);
-    if (this.subject) selectedColumns.push(4);
-    if (this.contractSum) selectedColumns.push(5);
-    if (this.status) selectedColumns.push(6);
-    if (this.controlDate) selectedColumns.push(7);
+  getVisibleColumns(){
+    return this.columns.filter(i => i.visibility);
   }
+
 }
