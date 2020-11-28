@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contracts.component.css']
 })
 export class ContractsComponent implements OnInit {
-
   showAll: boolean;
 
 
@@ -19,11 +18,12 @@ export class ContractsComponent implements OnInit {
   status: boolean = false;
   controlDate: boolean = false;
   
-  
+  list: string[] = ["Привет", "Пока"]; 
 
   constructor() { }
 
   ngOnInit() {
+
   }
 
   showAllHandler(){

@@ -4,46 +4,51 @@
   <form>
     <div class="columns">
       <div>
-        <p><input name="organization" type="checkbox" [(ngModel)]="organization">Организация-партнёр</p>
+        <p><input name="organization" type="checkbox" [(ngModel)]="organization" (ngModelChange)="columnsChanged()">Организация-партнёр</p>
       </div>
       <div>
-        <p><input name="contractNumber" type="checkbox" [(ngModel)]="contractNumber">№ договора</p>
+        <p><input name="contractNumber" type="checkbox" [(ngModel)]="contractNumber" (ngModelChange)="columnsChanged()">№ договора</p>
       </div>
       <div>
-        <p><input name="dateSigning" type="checkbox" [(ngModel)]="dateSigning">Дата подписания, срок действия</p>
+        <p><input name="dateSigning" type="checkbox" [(ngModel)]="dateSigning" (ngModelChange)="columnsChanged()">Дата подписания, срок действия</p>
       </div>
       <div>
-        <p><input name="signedBy" type="checkbox" [(ngModel)]="signedBy">Предмет договора</p>
+        <p><input name="signedBy" type="checkbox" [(ngModel)]="signedBy" (ngModelChange)="columnsChanged()">Предмет договора</p>
       </div>
       <div>
-        <p><input name="subject" type="checkbox" [(ngModel)]="subject">Кем подписан</p>
+        <p><input name="subject" type="checkbox" [(ngModel)]="subject" (ngModelChange)="columnsChanged()">Кем подписан</p>
       </div>
       <div>
-        <p><input name="contractSum" type="checkbox" [(ngModel)]="contractSum">Сумма договора</p>
+        <p><input name="contractSum" type="checkbox" [(ngModel)]="contractSum" (ngModelChange)="columnsChanged()">Сумма договора</p>
       </div>
       <div>
-        <p><input name="status" type="checkbox" [(ngModel)]="status">Статус</p>
+        <p><input name="status" type="checkbox" [(ngModel)]="status" (ngModelChange)="columnsChanged()">Статус</p>
       </div>
       <div>
-        <p><input name="controlDate" type="checkbox" [(ngModel)]="controlDate">Дата контроля</p>
+        <p><input name="controlDate" type="checkbox" [(ngModel)]="controlDate" (ngModelChange)="columnsChanged()">Дата контроля</p>
       </div>
     </div>
   </form>
 </div>
-<!-- <table class="table">
+
+
+<table class="table">
   <thead>
     <tr>
-      <th scope="col">Организация-партнёр</th>
-      <th scope="col">№ договора</th>
-      <th scope="col">Дата подписания, срок действия</th>
-      <th scope="col">Предмет договора</th>
-      <th scope="col">Кем подписан</th>
-      <th scope="col">Сумма договора</th>
-      <th scope="col">Статус (подготовлен, на подписании, в исполнении, завершён)</th>
-      <th scope="col">Дата контроля (указать замечания после проверки)</th>
+      <th *ngFor = "let item of list" scope="col">{{item}}</th>
     </tr>
   </thead>
-  <tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<!-- <tbody>
     <tr>
       <td>ООО "Алкир"</td>
       <td>5065</td>
@@ -54,5 +59,12 @@
       <td>завершён</td>
       <td>14.02.2020</td>
     </tr>
-  </tbody>
-</table> -->
+  </tbody> -->
+<!-- <th scope="col">Организация-партнёр</th>
+      <th scope="col">№ договора</th>
+      <th scope="col">Дата подписания, срок действия</th>
+      <th scope="col">Предмет договора</th>
+      <th scope="col">Кем подписан</th>
+      <th scope="col">Сумма договора</th>
+      <th scope="col">Статус (подготовлен, на подписании, в исполнении, завершён)</th>
+      <th scope="col">Дата контроля (указать замечания после проверки)</th> -->
