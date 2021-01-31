@@ -106,15 +106,13 @@ namespace WorkScheduler.Services.Monitoring
         {
             return
                 Db.Students
-                    .Where(s => s.SchoolId == schoolId)
+                    .Where(s => s.SchoolId == schoolId && !s.IsDeleted)
                     .OrderBy(s => s.LastName)
                     .Select(s => new StudentViewModel
                                     {
                                         Id = s.Id,
                                         SchoolId = s.SchoolId,
-                                        FirstName = s.FirstName,
-                                        LastName = s.LastName,
-                                        SurName = s.SurName
+                                        FullName = s.LastName + " " + s.FirstName + " " + s.SurName,
                                     }
                             )
                     .ToList();

@@ -24,6 +24,7 @@ import { ClassesComponent } from './lists/classes/classes.component';
 import { StudentsComponent } from './lists/students/students.component';
 import { AccordionModule } from 'primeng/accordion';
 import { ContractsComponent } from './contracts/contracts.component';
+import { StudentService } from './services/student.service';
 
 defineLocale('ru', ruLocale);
 
@@ -60,7 +61,8 @@ defineLocale('ru', ruLocale);
     DictionaryService,
     MessageService,
     AccountService,
-    ProblemService
+    ProblemService,
+    StudentService
   ],
   entryComponents: [
   ]

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorkScheduler.Services.Monitoring;
 using WorkScheduler.ViewModels.Monitoring.Shared;
 
 namespace WorkScheduler.Controllers
 {
+    [Authorize]
+    [Route("api/[controller]")]
     public class StudentController : Controller
     {
         protected Context Db;
@@ -19,8 +22,8 @@ namespace WorkScheduler.Controllers
             StudentService = studentService;
         }
 
-        [HttpGet("GetStudents")]
-        public IActionResult GetStudents(int academicYearId)
+        [HttpGet("GetStudentsByClasses")]
+        public IActionResult GetStudentsByClasses(int academicYearId)
         {
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
             var schoolId = (int)currentUser.SchoolId;
@@ -28,6 +31,17 @@ namespace WorkScheduler.Controllers
             var classes = StudentService.GetStudentsByClasses(academicYearId, schoolId);
 
             return Ok(classes);
+        }
+
+        [HttpGet("GetStudents")]
+        public IActionResult GetStudents()
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+            var schoolId = (int)currentUser.SchoolId;
+
+            var students = StudentService.GetAllStudents(schoolId);
+
+            return Ok(students);
         }
 
         [HttpPost("CreateStudent")]

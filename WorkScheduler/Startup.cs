@@ -80,6 +80,7 @@ namespace WorkSheduler
 
                 //Monitoring
                 services.AddScoped<ClassService>();
+                services.AddScoped<StudentService>();
 
 
                 //Register
