@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Student } from "../../shared/models/student";
+import { Class } from "../models/class.model";
 
 @Injectable()
 export class ClassService {
@@ -9,8 +10,8 @@ export class ClassService {
 
     }
 
-    async getClasses() {
-        return await this.http.get<Student[]>('api/Student/GetStudents').toPromise();
+    async createClass(newClass: Class) {
+        return await this.http.post('api/Class/CreateClass', newClass).toPromise();
     }
 
 }

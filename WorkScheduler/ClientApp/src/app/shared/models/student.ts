@@ -7,4 +7,5 @@ export class Student {
     // surName: string;
     fullName: string;
     school: School;
+    birthday: Date;
 }

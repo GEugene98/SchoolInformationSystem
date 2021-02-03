@@ -25,7 +25,8 @@ namespace WorkScheduler.Services.Monitoring
                 FirstName = student.FirstName,
                 LastName = student.LastName,
                 SurName = student.SurName,
-                SchoolId = student.SchoolId
+                SchoolId = student.SchoolId,
+                Birthday = student.Birthday
             };
 
             Db.Students.Add(newStudent);
@@ -79,9 +80,9 @@ namespace WorkScheduler.Services.Monitoring
             Db.SaveChanges();
         }
 
-        public void PutStudentsToClass(IEnumerable<int> studentIds, int classId)
+        public void PutStudentsToClass(IEnumerable<int> studentIds, int classId, int academicYearId)
         {
-            var cStudents = Db.ClassStudents.Where(cs => studentIds.Contains(cs.StudentId));
+            var cStudents = Db.ClassStudents.Where(cs => studentIds.Contains(cs.StudentId) && cs.Class.AcademicYearId == academicYearId);
 
             if (cStudents.Count() > 0)
             {
@@ -160,6 +161,21 @@ namespace WorkScheduler.Services.Monitoring
             var classes = new List<ClassVievModel>();
             var groups = joinResult.GroupBy(r => r.Class);
 
+            classes = classQuery.Select(c => new ClassVievModel
+            {
+                Id = c.Id,
+                Name = c.Name,
+                AcademicYear = new DictionaryViewModel<int>
+                {
+                    Id = c.AcademicYear.Id,
+                    Name = c.AcademicYear.Name
+                },
+            })
+            .ToList();
+
+
+            var classesWithStudents = new List<ClassVievModel>();
+
             foreach (var group in groups)
             {
                 var classViewModel = new ClassVievModel
@@ -182,10 +198,13 @@ namespace WorkScheduler.Services.Monitoring
                     })
                 };
 
-                classes.Add(classViewModel);
+                classesWithStudents.Add(classViewModel);
             }
 
-            return classes;
+            var classesWithStudentsIds = classesWithStudents.Select(c => c.Id);
+            classes = classes.Where(c => !classesWithStudentsIds.Contains(c.Id)).Union(classesWithStudents).ToList();
+
+            return classes.OrderBy(c => c.Name);
         }
 
         public void AchiveStudent(int studentId)

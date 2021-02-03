@@ -13,8 +13,8 @@
 
 <div *ngFor="let class of classesWithStudents">
   <h3>{{class.name}}</h3> 
-  <button type="button" (click)="openModal(addStudents)" class="btn btn-link top-item"><span class="glyphicon glyphicon-plus"></span> Добавить учеников </button>&nbsp;
-      <div>
+  <button type="button" (click)="classIdToBindStudents = class.id; openModal(addStudents)" class="btn btn-link top-item"><span class="glyphicon glyphicon-plus"></span> Добавить учеников </button>&nbsp;
+      <div *ngIf="class.students && class.students.length > 0">
         <table class="table">
           <thead>
             <tr>
@@ -28,7 +28,7 @@
               <td>{{student.fullName}}</td>
               <td>вкакуак</td>
               <td>
-                <a title="Исключить из класса в выбранном учебном году" href="javascript:void(0)"><span style="color: rgb(255, 150, 45)" class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></a>
+                <a title="Убрать из списка класса в выбранном учебном году" href="javascript:void(0)"><span style="color: rgb(255, 150, 45)" class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></a>
               </td>
             </tr>
           </tbody>
@@ -51,7 +51,7 @@
 
       <div style="text-align:center; margin-top: 15px;">
           <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
-          <button type="button" (click)="addTicket()" class="btn btn-success">Создать класс</button>
+          <button type="button" (click)="createClass()" class="btn btn-success">Создать класс</button>
       </div>
   </div>
 

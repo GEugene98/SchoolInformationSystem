@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorkScheduler.Services.Monitoring;
 using WorkScheduler.ViewModels.Monitoring.Shared;
 
 namespace WorkScheduler.Controllers
 {
+    [Authorize]
+    [Route("api/[controller]")]
     public class ClassController : Controller
     {
         protected Context Db;
@@ -29,9 +32,9 @@ namespace WorkScheduler.Controllers
 
             var classId = ClassService.CreateClass(classModel.AcademicYearId, schoolId, classModel.Name);
 
-            if (classModel.Students.Count() > 0)
+            if (classModel.Students != null && classModel.Students.Count() > 0)
             {
-                StudentService.PutStudentsToClass(classModel.Students.Select(s => s.Id), classId);
+                StudentService.PutStudentsToClass(classModel.Students.Select(s => s.Id), classId, classModel.AcademicYearId);
             }
 
             return Ok();

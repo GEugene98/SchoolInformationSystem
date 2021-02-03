@@ -21,4 +21,12 @@ export class StudentService {
         return await this.http.get<Class[]>('api/Student/GetStudentsByClasses', { params: params }).toPromise();
     }
 
+    async putStudentsToClass(studentIds, classId, academicYearId) {
+        const params = new HttpParams()
+            .set('classId', classId.toString())
+            .set('academicYearId', academicYearId.toString());
+
+        return await this.http.post('api/Student/PutStudentsToClass', studentIds, { params: params } ).toPromise();
+    }
+
 }

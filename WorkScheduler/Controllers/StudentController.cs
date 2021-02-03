@@ -44,6 +44,13 @@ namespace WorkScheduler.Controllers
             return Ok(students);
         }
 
+        [HttpPost("PutStudentsToClass")]
+        public IActionResult PutStudentsToClass([FromBody] IEnumerable<int> studentIds, int classId, int academicYearId)
+        {
+            StudentService.PutStudentsToClass(studentIds, classId, academicYearId);
+            return Ok();
+        }
+
         [HttpPost("CreateStudent")]
         public IActionResult CreateStudent([FromBody]StudentViewModel student)
         {
