@@ -2,9 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { indexOf } from 'lodash';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { Observable } from 'rxjs';
 import { AcademicYear } from '../../../shared/models/academic-year.model';
 import { Student } from '../../../shared/models/student';
 import { DictionaryService } from '../../../shared/services/dictionary.service';
+import { Class } from '../../models/class.model';
 import { StudentService } from '../../services/student.service';
 
 @Component({
@@ -17,6 +19,9 @@ export class ClassesComponent implements OnInit {
   modalRef: BsModalRef;
   selectedAcademicYear: AcademicYear;
   allAcademicYears: AcademicYear[];
+  allStudents: Student[] = [];
+  studentsToAdd: Student[] = [];
+  classesWithStudents: Class[] = [];
   
   constructor(private modalService: BsModalService, private dictionary: DictionaryService, private student: StudentService) { }
 
@@ -25,8 +30,12 @@ export class ClassesComponent implements OnInit {
   }
 
   async loadData(){
+    this.allStudents = await this.student.getStudents();
     this.allAcademicYears = await this.dictionary.getAcademicYears();
-    this.allStudents = await this.student.GetStudents();
+  }
+
+  async academicYearChanged() {
+    this.classesWithStudents = await this.student.getStudentsByClasses(this.selectedAcademicYear.id);
   }
 
   openModal(modal) {
@@ -38,31 +47,11 @@ export class ClassesComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  //Модалка для добавления учеников
-  @ViewChild(NgSelectComponent) studentsSelect: NgSelectComponent;
-  allStudents : Student[] = [];
-  studentsToAdd: Student[] = [];
-  foundStudent: Student;
-
-  addFoundStudentToAddList(){
-    if(this.foundStudent && this.studentsToAdd.indexOf(this.foundStudent) == -1){
-      this.studentsToAdd.push(this.foundStudent);
-    }
-    setTimeout(() => {
-      this.foundStudent = null;
-    })
-    
-  }
-
-  excludeStudentFromAddList(student: Student){
-    const index = this.studentsToAdd.indexOf(student);
-    if (index > -1) {
-      this.studentsToAdd.splice(index, 1);
-    }
+  updateStudentsToAdd(students: Student[]) {
+    this.studentsToAdd = students;
   }
 
   bindStudentsToClass() {
 
   }
-  //-------------------------------
 }

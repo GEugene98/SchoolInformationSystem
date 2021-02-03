@@ -25,6 +25,7 @@ import { StudentsComponent } from './lists/students/students.component';
 import { AccordionModule } from 'primeng/accordion';
 import { ContractsComponent } from './contracts/contracts.component';
 import { StudentService } from './services/student.service';
+import { StudentSelectorComponent } from './lists/components/student-selector/student-selector.component';
 
 defineLocale('ru', ruLocale);
 
@@ -34,7 +35,8 @@ defineLocale('ru', ruLocale);
       ListsComponent,
       StudentsComponent,
       ClassesComponent,
-      ContractsComponent
+      ContractsComponent,
+      StudentSelectorComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

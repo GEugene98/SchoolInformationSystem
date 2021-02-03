@@ -177,7 +177,8 @@ namespace WorkScheduler.Services.Monitoring
                         FirstName = g.Student.FirstName,
                         LastName = g.Student.LastName,
                         SurName = g.Student.SurName,
-                        IsDeleted = g.Student.IsDeleted
+                        IsDeleted = g.Student.IsDeleted,
+                        FullName = g.Student.LastName + " " + g.Student.FirstName + " " + g.Student.SurName
                     })
                 };
 

@@ -3,15 +3,16 @@
     style="width: 500px"
     placeholder="Выберите учебный год"
     bindLabel="name"
-    [(ngModel)]="selectedAcademicYear"               
+    [(ngModel)]="selectedAcademicYear"  
+    (ngModelChange)="academicYearChanged()"                
     [clearable]="true">
   </ng-select>
 
   <button type="button" [disabled]="!selectedAcademicYear" (click)="openModal(add)" class="btn btn-success top-item"><span class="glyphicon glyphicon-plus"></span> Создать класс в {{selectedAcademicYear?.name}} учебном году</button>&nbsp;
 </div>
 
-<div>
-  <h3>1 класс</h3> 
+<div *ngFor="let class of classesWithStudents">
+  <h3>{{class.name}}</h3> 
   <button type="button" (click)="openModal(addStudents)" class="btn btn-link top-item"><span class="glyphicon glyphicon-plus"></span> Добавить учеников </button>&nbsp;
       <div>
         <table class="table">
@@ -23,8 +24,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Иванов </td>
+            <tr *ngFor="let student of class.students">
+              <td>{{student.fullName}}</td>
               <td>вкакуак</td>
               <td>
                 <a title="Исключить из класса в выбранном учебном году" href="javascript:void(0)"><span style="color: rgb(255, 150, 45)" class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></a>
@@ -34,8 +35,6 @@
         </table>
       </div>
 </div>
-
-
 
 <ng-template #add>
   <div class="modal-header"> 
@@ -68,23 +67,10 @@
   </div>
   <div class="modal-body">
       
-    <div style="display: flex">
-      <ng-select [items]="allStudents"
-          style="width: 100%"
-          placeholder="Начните вводить фамилию имя или отчество для поиска ученика"
-          bindLabel="fullName"
-          [(ngModel)]="foundStudent" 
-          (ngModelChange)="addFoundStudentToAddList()"              
-          [clearable]="true">
-      </ng-select>
-    </div>
-
-      <ol style="padding-left: 15px; padding-top: 15px;">
-          <li *ngFor="let student of studentsToAdd">
-              {{student.fullName}}
-              <a class="action-icons" href="javascript:void(0)" style="color: rgb(255, 159, 49)" (click)="excludeStudentFromAddList(student)">  (не добавлять)</a>
-          </li>
-      </ol>
+    <app-student-selector 
+        [allStudents]="allStudents"
+        (selectedStudentsChanged)="updateStudentsToAdd($event)">
+    </app-student-selector>
 
       <div style="text-align:center; margin-top: 15px;" *ngIf="this.studentsToAdd.length > 0">
           <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>

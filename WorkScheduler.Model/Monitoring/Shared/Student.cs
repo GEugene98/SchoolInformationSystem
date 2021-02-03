@@ -13,6 +13,7 @@ namespace WorkScheduler.Models.Monitoring.Shared
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string SurName { get; set; }
+        public DateTime? Birthday { get; set; }
 
         public bool IsDeleted { get; set; }
 

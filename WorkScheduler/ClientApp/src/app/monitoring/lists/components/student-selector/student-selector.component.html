@@ -1,0 +1,17 @@
+<div style="display: flex">
+  <ng-select [items]="allStudents"
+      style="width: 100%"
+      placeholder="Начните вводить фамилию имя или отчество для поиска ученика"
+      bindLabel="fullName"
+      [(ngModel)]="foundStudent" 
+      (ngModelChange)="addFoundStudentToSelectList()"              
+      [clearable]="true">
+  </ng-select>
+</div>
+
+<ol style="padding-left: 15px; padding-top: 15px;">
+    <li *ngFor="let student of selectedStudents">
+        {{student.fullName}}
+        <a class="action-icons" href="javascript:void(0)" style="color: rgb(255, 159, 49)" (click)="excludeStudentFromSelectList(student)">  (не добавлять)</a>
+    </li>
+</ol>

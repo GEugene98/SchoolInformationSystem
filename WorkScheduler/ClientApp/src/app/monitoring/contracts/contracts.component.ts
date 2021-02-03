@@ -29,7 +29,8 @@ export class ContractsComponent implements OnInit {
     },
     {
       name: "Дата подписания, срок действия",
-      visibility: false
+      visibility: false,
+      variable: "dateSigning"
     },
     {
       name: "Предмет договора",
