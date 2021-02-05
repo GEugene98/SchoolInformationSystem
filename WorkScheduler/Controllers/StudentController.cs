@@ -56,6 +56,7 @@ namespace WorkScheduler.Controllers
         {
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
             var schoolId = (int)currentUser.SchoolId;
+            student.SchoolId = schoolId;
 
             StudentService.CreateStudent(student);
 

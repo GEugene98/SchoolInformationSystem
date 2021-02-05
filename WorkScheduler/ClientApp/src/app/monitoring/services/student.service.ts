@@ -29,4 +29,8 @@ export class StudentService {
         return await this.http.post('api/Student/PutStudentsToClass', studentIds, { params: params } ).toPromise();
     }
 
+    async createStudent(student: Student) {
+        return await this.http.post('api/Student/CreateStudent', student).toPromise();
+    }    
+
 }

@@ -1,9 +1,8 @@
-<button type="button" (click)="openModal(add)" class="btn btn-success top-item"><span class="glyphicon glyphicon-plus"></span> Зарегистрировать нового ученика</button>&nbsp;
+<button type="button" (click)="openModal(add)" class="btn btn-success top-item" style="float: right; margin: 10px 0;"><span class="glyphicon glyphicon-plus"></span> Зарегистрировать нового ученика</button>&nbsp;
 
-<table class="table">
+<table class="table" *ngIf="students && students.length > 0">
   <thead>
     <tr>
-        <th scope="col">ID</th>
         <th scope="col">Номер дела</th>
         <th scope="col">ФИО</th>
         <th scope="col">Дата рождения</th>
@@ -11,14 +10,59 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Иванов </td>
-      <td>Иванов </td>
-      <td>Иванов </td>
-      <td>вкакуак</td>
+    <tr *ngFor="let student of students">
+      <td>{{student.number}}</td>
+      <td>{{student.lastName}} {{student.firstName}} {{student.surName}}</td>
+      <td>{{student.birthday | date : 'dd.MM.yyyy'}}</td>
       <td>
         <a title="Архивировать" href="javascript:void(0)"><span style="color: rgb(212, 173, 0)" class="glyphicon glyphicon-compressed" aria-hidden="true"></span></a>
       </td>
     </tr>
   </tbody>
 </table>
+
+
+<ng-template #add>
+  <div class="modal-header"> 
+      <h4 class="modal-title pull-left">Зарегистрировать нового ученика</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <div style="margin-top: -10px" class="field-box">
+        <div>  
+          Номер дела:
+          <input type="text" [(ngModel)]="studentToCreate.number" class="form-control" placeholder="Номер">
+        </div>
+        <div>
+          Фамилия:
+          <input type="text" [(ngModel)]="studentToCreate.lastName" class="form-control" placeholder="Иванов">
+        </div>
+        <div>
+          Имя:
+          <input type="text" [(ngModel)]="studentToCreate.firstName" class="form-control" placeholder="Иван">
+        </div>
+        <div>
+          Отчество:
+          <input type="text" [(ngModel)]="studentToCreate.surName" class="form-control" placeholder="Иванович">
+        </div>
+        <div>
+            Дата рождения:
+            <input type="text"
+                   placeholder="Щелкните здесь для выбора даты"
+                   class="form-control"
+                   [(ngModel)]="studentToCreate.birthday"
+                   AUTOCOMPLETE="off"
+                   [bsConfig]="bsConfig"
+                   bsDatepicker>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top: 15px;">
+          <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+          <button type="button" (click)="createStudent()" class="btn btn-success">Зарегистрировать</button>
+      </div>
+  </div>
+
+</ng-template>

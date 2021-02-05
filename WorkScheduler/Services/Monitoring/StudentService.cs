@@ -26,7 +26,8 @@ namespace WorkScheduler.Services.Monitoring
                 LastName = student.LastName,
                 SurName = student.SurName,
                 SchoolId = student.SchoolId,
-                Birthday = student.Birthday
+                Birthday = student.Birthday,
+                Number = student.Number
             };
 
             Db.Students.Add(newStudent);
@@ -114,6 +115,11 @@ namespace WorkScheduler.Services.Monitoring
                                         Id = s.Id,
                                         SchoolId = s.SchoolId,
                                         FullName = s.LastName + " " + s.FirstName + " " + s.SurName,
+                                        FirstName = s.FirstName,
+                                        LastName = s.LastName,
+                                        SurName = s.SurName,
+                                        Birthday = s.Birthday,
+                                        Number = s.Number
                                     }
                             )
                     .ToList();
