@@ -81,6 +81,7 @@ namespace WorkSheduler
                 //Monitoring
                 services.AddScoped<ClassService>();
                 services.AddScoped<StudentService>();
+                services.AddScoped<ContractService>();
 
 
                 //Register
@@ -88,7 +89,7 @@ namespace WorkSheduler
 
 
 
-                
+
                 //var context = new CustomAssemblyLoadContext();
                 //context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
 

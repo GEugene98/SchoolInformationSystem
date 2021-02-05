@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WorkScheduler.Models.Base;
 using WorkScheduler.Models.Identity;
+using WorkScheduler.Models.Monitoring;
 using WorkScheduler.Models.Monitoring.Shared;
 using WorkScheduler.Models.Register;
 
@@ -22,5 +23,7 @@ namespace WorkScheduler.Models.Shared
         public virtual ICollection<Group> Groups { get; set; }
         public virtual ICollection<Class> Classes { get; set; }
         public virtual ICollection<Association> Associations { get; set; }
+        public virtual ICollection<Contract> Contracts { get; set; }
+
     }
 }

@@ -38,6 +38,8 @@ namespace WorkScheduler
         public DbSet<Student> Students { get; set; }
         public DbSet<ClassStudent> ClassStudents { get; set; }
         public DbSet<Class> Classes { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
 
 
         //Register

@@ -11,5 +11,6 @@
 
   <ItemGroup>
     <Folder Include="Register\" />
+    <Folder Include="Monitoring\Enums\" />
   </ItemGroup>
 </Project>
