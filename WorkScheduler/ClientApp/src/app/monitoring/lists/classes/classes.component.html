@@ -18,17 +18,19 @@
         <table class="table">
           <thead>
             <tr>
-                <th scope="col">ФИО</th>
-                <th scope="col">Дата рождения</th>
-                <th scope="col">Действия</th>
+                <th scope="col" style="width: 5%">#</th>
+                <th scope="col" style="width: 45%">ФИО</th>
+                <th scope="col" style="width: 25%">Дата рождения</th>
+                <th scope="col" style="width: 25%">Действия</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let student of class.students">
+              <td>{{class.students.indexOf(student) + 1}}</td>
               <td>{{student.fullName}}</td>
-              <td>вкакуак</td>
+              <td>{{student.birthday | date : 'dd.MM.yyyy'}}</td>
               <td>
-                <a title="Убрать из списка класса в выбранном учебном году" href="javascript:void(0)"><span style="color: rgb(255, 150, 45)" class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></a>
+                <a title="Убрать из списка класса в выбранном учебном году" (click)="excludeStudentFromClass(student.id, class.id)" href="javascript:void(0)"><span style="color: rgb(255, 150, 45)" class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></a>
               </td>
             </tr>
           </tbody>
@@ -67,7 +69,7 @@
   <div class="modal-body">
       
     <app-student-selector 
-        [allStudents]="allStudents"
+        [allStudents]="studentService.students"
         (selectedStudentsChanged)="updateStudentsToAdd($event)">
     </app-student-selector>
 

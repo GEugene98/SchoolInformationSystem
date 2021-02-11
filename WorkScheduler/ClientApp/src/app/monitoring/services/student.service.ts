@@ -6,6 +6,8 @@ import { Class } from "../models/class.model";
 @Injectable()
 export class StudentService {
     
+    public students: Student[];
+
     constructor(private http: HttpClient) {
 
     }
@@ -14,11 +16,23 @@ export class StudentService {
         return await this.http.get<Student[]>('api/Student/GetStudents').toPromise();
     }
 
+    async loadStudents() {
+        this.students = await this.http.get<Student[]>('api/Student/GetStudents').toPromise();
+    }
+
     async getStudentsByClasses(academicYearId: number) {
         const params = new HttpParams()
             .set('academicYearId', academicYearId.toString());
 
         return await this.http.get<Class[]>('api/Student/GetStudentsByClasses', { params: params }).toPromise();
+    }
+
+    async excludeFromClass(studentId: number, classId: number) {
+        const params = new HttpParams()
+            .set('studentId', studentId.toString())
+            .set('classId', classId.toString());
+
+        return await this.http.get('api/Student/ExcludeFromClass', { params: params }).toPromise();
     }
 
     async putStudentsToClass(studentIds, classId, academicYearId) {

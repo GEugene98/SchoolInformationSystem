@@ -63,7 +63,10 @@
                                        [searchable]="true"
                                        bindLabel="fullName"
                                        placeholder="Фамилия И.О."
-                                       [(ngModel)]="agenda.author">
+                                       [(ngModel)]="agenda.author"
+                                       addTagText="Добавить " 
+                                       [addTag]="true"
+                                       >
                             </ng-select>
                             <input *ngIf="agenda.author" type="text" placeholder="Введите должность" [(ngModel)]="agenda.author.position" style="width: 100%"/>
                         </td>
@@ -84,7 +87,9 @@
                                [searchable]="true"
                                bindLabel="fullName"
                                placeholder="Фамилия И.О."
-                               [(ngModel)]="listen.user">
+                               [(ngModel)]="listen.user"
+                               addTagText="Добавить " 
+                               [addTag]="true">
                     </ng-select>
                     <a href="javascript:void(0)" style="font-size: 12px;" class="delete-listen-row" (click)="delListen(agenda, listen)">(удалить выступающего)</a>
                     <div class="protocol-field">
@@ -102,6 +107,8 @@
                                [searchable]="true"
                                bindLabel="fullName"
                                placeholder="Фамилия И.О."
+                               addTagText="Добавить " 
+                               [addTag]="true"
                                [(ngModel)]="speaked.user">
                     </ng-select>
                     <a href="javascript:void(0)" style="font-size: 12px;" class="delete-speaked-row" (click)="delSpeaked(agenda, speaked)">(удалить выступающего)</a>

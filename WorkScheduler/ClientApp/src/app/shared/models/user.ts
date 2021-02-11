@@ -1,16 +1,18 @@
+export class Man {
+  fullName: string;
+  position: string;
+}
 
-export class User {
+export class User extends Man {
   id: string;
   username: string;
   firstName: string;
   lastName: string;
   surName: string;
   roles: string[];
-  fullName: string;
   activity: string[];
   role: string;
   email: string;
-  position: string;
 
   canAccept: boolean; 
   canConfirm: boolean; 

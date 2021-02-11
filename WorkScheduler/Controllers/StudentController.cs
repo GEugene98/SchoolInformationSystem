@@ -51,6 +51,13 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        [HttpGet("ExcludeFromClass")]
+        public IActionResult ExcludeFromClass(int studentId, int classId)
+        {
+            StudentService.ExcludeFromClass(studentId, classId);
+            return Ok();
+        }
+
         [HttpPost("CreateStudent")]
         public IActionResult CreateStudent([FromBody]StudentViewModel student)
         {

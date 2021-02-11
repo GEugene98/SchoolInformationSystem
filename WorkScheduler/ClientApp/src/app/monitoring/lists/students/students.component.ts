@@ -13,9 +13,8 @@ export class StudentsComponent implements OnInit {
   bsConfig: any;
   modalRef: BsModalRef;
   studentToCreate: Student = new Student();
-  students: Student[];
 
-  constructor(private modalService: BsModalService, private student: StudentService) { 
+  constructor(private modalService: BsModalService, private studentService: StudentService) { 
     this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
   }
 
@@ -24,17 +23,18 @@ export class StudentsComponent implements OnInit {
   }
 
   async loadData() {
-    this.students = await this.student.getStudents();
-    console.log(this.students)
+    //this.students = await this.studentService.getStudents();
+    await this.studentService.loadStudents();
   }
 
   async createStudent() {
-    await this.student.createStudent(this.studentToCreate);
+    await this.studentService.createStudent(this.studentToCreate);
     this.closeModal();
     await this.loadData();
   }
 
   openModal(modal) {
+    this.studentToCreate = new Student();
     this.modalRef = this.modalService.show(modal);
   }
 

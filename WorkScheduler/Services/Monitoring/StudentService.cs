@@ -48,9 +48,9 @@ namespace WorkScheduler.Services.Monitoring
             return newStudent.Id;
         }
 
-        public void ExcludeFromClass(int studentId)
+        public void ExcludeFromClass(int studentId, int classId)
         {
-            var cStudent = Db.ClassStudents.FirstOrDefault(cs => cs.StudentId == studentId);
+            var cStudent = Db.ClassStudents.FirstOrDefault(cs => cs.StudentId == studentId && cs.ClassId == classId);
 
             if (cStudent == null)
             {
@@ -200,8 +200,9 @@ namespace WorkScheduler.Services.Monitoring
                         LastName = g.Student.LastName,
                         SurName = g.Student.SurName,
                         IsDeleted = g.Student.IsDeleted,
-                        FullName = g.Student.LastName + " " + g.Student.FirstName + " " + g.Student.SurName
-                    })
+                        FullName = g.Student.LastName + " " + g.Student.FirstName + " " + g.Student.SurName,
+                        Birthday = g.Student.Birthday
+                    }).OrderBy(s => s.FullName)
                 };
 
                 classesWithStudents.Add(classViewModel);
