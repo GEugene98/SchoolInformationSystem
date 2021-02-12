@@ -54,6 +54,7 @@ export class RegisterTableSettingsComponent implements OnInit {
 
   async createAssociation(){
     this.newAssociation.groups = _.union(this.newGroups, this.selectedGroupsToCreateAssociation);
+    this.newAssociation.type = this.associationType;
     await this.associationService.createAssotiation(this.newAssociation, this.selectedAcademicYear.id);
     await this.loadData();
     this.closeModal();
@@ -68,6 +69,7 @@ export class RegisterTableSettingsComponent implements OnInit {
   closeModal() {
     this.modalRef.hide();
   }
+
 
   getStudentsInGroup(group: Group) {
     var str = "";

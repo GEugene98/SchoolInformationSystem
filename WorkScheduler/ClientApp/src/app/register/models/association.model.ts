@@ -5,6 +5,6 @@ import { Group } from "./group.model";
 
 export class Association extends Dictionary<number>{
     academicYear: AcademicYear;
-    associationType: AssociationType;
+    type: AssociationType;
     groups: Group[];
 }
