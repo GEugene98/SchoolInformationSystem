@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Contract } from '../models/contract.model';
+import { ContractService } from '../services/contract.service';
 
 @Component({
   selector: 'app-contracts',
@@ -9,12 +10,7 @@ import { Contract } from '../models/contract.model';
 export class ContractsComponent implements OnInit {
   showAll: boolean;
 
-  data: Contract[] = [
-    new Contract(),
-    new Contract(),
-    new Contract(),
-    new Contract(),
-  ];
+  data: Contract[] = [];
 
   columns = [
     {
@@ -25,12 +21,12 @@ export class ContractsComponent implements OnInit {
     {
       name: "№ договора",
       visibility: true,
-      variable: "contractNumber"
+      variable: "number"
     },
     {
       name: "Дата подписания, срок действия",
       visibility: false,
-      variable: "dateSigning"
+      variable: "signingData"
     },
     {
       name: "Предмет договора",
@@ -39,30 +35,35 @@ export class ContractsComponent implements OnInit {
     },
     {
       name: "Кем подписан",
-      visibility: false
+      visibility: false,
+      variable: "signedBy"
     },
     {
       name: "Сумма договора",
-      visibility: false
+      visibility: false,
+      variable: "sum"
     },
     {
       name: "Статус",
-      visibility: false
+      visibility: false,
+      variable: "ContractStatus"
     },
     {
       name: "Дата контроля",
-      visibility: false
+      visibility: false,
+      variable: "controlDate"
     },
     {
       name: "Комментарий",
-      visibility: false
+      visibility: false,
+      variable: "comment"
     }
   ];
 
-  constructor() { }
+  constructor( private contract: ContractService) { }
 
-  ngOnInit() {
-
+  async ngOnInit() {
+    this.data = await this.contract.getContracts();
   }
 
   getPropertyValue(object, fieldName) {
