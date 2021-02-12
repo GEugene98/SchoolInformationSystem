@@ -22,7 +22,7 @@
     <tr *ngFor="let association of associations">
       <td>{{association.name}}</td>
       <td>
-        <span class="badge" *ngFor="let group of association.groups">
+        <span class="badge" *ngFor="let group of association.groups" [title]="getStudentsInGroup(group)" style="cursor: default">
           {{group.name}}
         </span> &nbsp;
       </td>

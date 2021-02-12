@@ -86,8 +86,6 @@ namespace WorkScheduler.Services.Register
 
             if (association.Groups != null && association.Groups.Count > 0)
             {
-                var ags = new List<AssociationGroup>();
-
                 foreach (var item in association.Groups)
                 {
                     int groupId;
@@ -114,12 +112,31 @@ namespace WorkScheduler.Services.Register
                         groupId = newGroup.Id;
                     }
 
-                    ags.Add(new AssociationGroup { AssociationId = newAssociation.Id, GroupId = groupId });
+                    var newAssotiationGroup = new AssociationGroup { AssociationId = newAssociation.Id, GroupId = groupId };
+
+                    Db.AssociationGroups.Add(newAssotiationGroup);
+                    Db.SaveChanges();
+
+                    if (item.Students != null && item.Students.Count > 0)
+                    {
+                        var gss = new List<GroupStudent>();
+
+                        foreach (var st in item.Students)
+                        {
+                            if (Db.GroupStudents.FirstOrDefault(gs => gs.StudentId == st.Id && gs.GroupId == groupId) == null)
+                            {
+                                gss.Add(new GroupStudent { GroupId = groupId, StudentId = st.Id });
+                            }
+                        }
+
+                        Db.GroupStudents.AddRange(gss);
+                        Db.SaveChanges();
+                    }
 
                 }
 
-                Db.AssociationGroups.AddRange(ags);
-                Db.SaveChanges();
+                
+
 
             }
            

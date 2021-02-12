@@ -8,6 +8,7 @@ import { AssociationType } from '../../models/enums/association-type.enum';
 import { Group } from '../../models/group.model';
 import { AssociationService } from '../../services/association.service';
 import { GroupService } from '../../services/group.service';
+import _ = require('lodash');
 
 @Component({
   selector: 'app-register-table-settings',
@@ -52,7 +53,7 @@ export class RegisterTableSettingsComponent implements OnInit {
   }
 
   async createAssociation(){
-    this.newAssociation.groups = this.newGroups;
+    this.newAssociation.groups = _.union(this.newGroups, this.selectedGroupsToCreateAssociation);
     await this.associationService.createAssotiation(this.newAssociation, this.selectedAcademicYear.id);
     await this.loadData();
     this.closeModal();
@@ -60,12 +61,20 @@ export class RegisterTableSettingsComponent implements OnInit {
 
   openModal(modal) {
     this.newAssociation = new Association();
-    this.newGroups = [];
+    this.newGroups = []; this.selectedGroupsToCreateAssociation = [];
     this.modalRef = this.modalService.show(modal);
   }
 
   closeModal() {
     this.modalRef.hide();
+  }
+
+  getStudentsInGroup(group: Group) {
+    var str = "";
+    group.students.forEach(element => {
+      str += element.fullName + '\n'
+    });
+    return str;
   }
 
 }
