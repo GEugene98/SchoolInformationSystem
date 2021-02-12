@@ -28,6 +28,11 @@ import { RegisterTableComponent } from './shared/register-table/register-table.c
 import { RegisterPlaningComponent } from './shared/register-planing/register-planing.component';
 import { RegisterGpdComponent } from './register-gpd/register-gpd.component';
 import { RegisterTableSettingsComponent } from './shared/register-table-settings/register-table-settings.component';
+import { GroupService } from './services/group.service';
+import { AssociationService } from './services/association.service';
+import { CreateGroupComponent } from './shared/create-group/create-group.component';
+import { StudentSelectorComponent } from '../monitoring/lists/components/student-selector/student-selector.component';
+import { SharedModule } from '../shared.module';
 
 defineLocale('ru', ruLocale);
 
@@ -42,9 +47,11 @@ defineLocale('ru', ruLocale);
     RegisterParamsComponent,
     RegisterTableComponent,
     RegisterPlaningComponent,
-    RegisterTableSettingsComponent
+    RegisterTableSettingsComponent,
+    CreateGroupComponent,
   ],
   imports: [
+    SharedModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     MatDialogModule,
@@ -68,7 +75,9 @@ defineLocale('ru', ruLocale);
     DictionaryService,
     MessageService,
     AccountService,
-    ProblemService
+    ProblemService,
+    GroupService,
+    AssociationService
   ],
   entryComponents: [
   ]

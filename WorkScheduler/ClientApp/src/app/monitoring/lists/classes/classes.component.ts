@@ -20,7 +20,6 @@ export class ClassesComponent implements OnInit {
   modalRef: BsModalRef;
   selectedAcademicYear: AcademicYear;
   allAcademicYears: AcademicYear[];
-  //allStudents: Student[] = [];
   studentsToAdd: Student[] = [];
   classesWithStudents: Class[] = [];
   newClass: Class = new Class();
@@ -36,7 +35,6 @@ export class ClassesComponent implements OnInit {
   }
 
   async loadData(){
-    //this.allStudents = await this.studentService.getStudents();
     this.allAcademicYears = await this.dictionary.getAcademicYears();
     this.selectedAcademicYear = this.allAcademicYears[0];
     await this.academicYearChanged();

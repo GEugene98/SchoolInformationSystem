@@ -1,4 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { StudentService } from '../../../monitoring/services/student.service';
+import { AcademicYear } from '../../../shared/models/academic-year.model';
+import { Student } from '../../../shared/models/student';
+import { Association } from '../../models/association.model';
+import { AssociationType } from '../../models/enums/association-type.enum';
+import { Group } from '../../models/group.model';
+import { AssociationService } from '../../services/association.service';
+import { GroupService } from '../../services/group.service';
 
 @Component({
   selector: 'app-register-table-settings',
@@ -7,9 +16,56 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterTableSettingsComponent implements OnInit {
 
-  constructor() { }
+  @Input() allAcademicYears: AcademicYear[];
+  @Input() associationType: AssociationType;
+  @Input() students: Student[];
+  
+  associations: Association[];
 
-  ngOnInit() {
+  allGroupsByTypeAndYear: Group[];
+  selectedGroupsToCreateAssociation: Group[];
+  newGroups: Group[] = [];
+
+  selectedAcademicYear: AcademicYear;
+  newAssociation: Association;
+  modalRef: BsModalRef;
+  
+  constructor(private groupService: GroupService, private associationService: AssociationService, private modalService: BsModalService) { }
+
+  async ngOnInit() {
+    await this.loadData();
+  }
+
+  async academicYearChanged(){
+    await this.loadData();
+  }
+
+  async loadData() {
+    if(this.selectedAcademicYear){
+      this.associations = await this.associationService.getAssotiations(this.associationType, this.selectedAcademicYear.id);
+      this.allGroupsByTypeAndYear = await this.groupService.getGroups(this.associationType, this.selectedAcademicYear.id);
+    }
+  }
+
+  createGroup(){
+    this.newGroups.push(new Group());
+  }
+
+  async createAssociation(){
+    this.newAssociation.groups = this.newGroups;
+    await this.associationService.createAssotiation(this.newAssociation, this.selectedAcademicYear.id);
+    await this.loadData();
+    this.closeModal();
+  }
+
+  openModal(modal) {
+    this.newAssociation = new Association();
+    this.newGroups = [];
+    this.modalRef = this.modalService.show(modal);
+  }
+
+  closeModal() {
+    this.modalRef.hide();
   }
 
 }

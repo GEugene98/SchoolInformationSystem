@@ -98,6 +98,7 @@
     <Folder Include="ViewModels\Scheduler\Rendering\" />
     <Folder Include="ClientApp\src\app\register\" />
     <Folder Include="Services\Register\" />
+    <Folder Include="ViewModels\Register\" />
   </ItemGroup>
 
   <ItemGroup>

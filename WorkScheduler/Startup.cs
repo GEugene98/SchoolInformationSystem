@@ -22,6 +22,7 @@ using WorkScheduler;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.Services;
 using WorkScheduler.Services.Monitoring;
+using WorkScheduler.Services.Register;
 
 namespace WorkSheduler
 {
@@ -85,8 +86,8 @@ namespace WorkSheduler
 
 
                 //Register
-
-
+                services.AddScoped<AssociationService>();
+                services.AddScoped<GroupService>();
 
 
 

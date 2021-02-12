@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { StudentService } from '../../monitoring/services/student.service';
+import { AcademicYear } from '../../shared/models/academic-year.model';
+import { DictionaryService } from '../../shared/services/dictionary.service';
 
 @Component({
   selector: 'app-register-settings',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterSettingsComponent implements OnInit {
 
-  constructor() { }
+  allAcademicYears: AcademicYear[];
+  
+  constructor(private dictionary: DictionaryService, private studentService: StudentService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.loadData();
+  }
+
+  async loadData() {
+    this.allAcademicYears = await this.dictionary.getAcademicYears();
+    await this.studentService.loadStudents();
+  }
+
+
+  academicYearChanged() {
+    
   }
 
 }
