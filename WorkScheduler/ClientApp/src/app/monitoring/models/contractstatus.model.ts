@@ -1,4 +1,4 @@
-enum ContractStatus {
+export enum ContractStatus {
     ready,
     onSigning,
     inProgress,

@@ -4,7 +4,10 @@
     justify-content: center;
   }
 
-  .columns div {
+.columns div {
     margin-right: 10px;
   }
   
+.field-box div {
+    margin: 10px 0
+}

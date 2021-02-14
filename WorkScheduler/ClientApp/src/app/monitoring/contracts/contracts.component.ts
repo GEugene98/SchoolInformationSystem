@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Contract } from '../models/contract.model';
 import { ContractService } from '../services/contract.service';
 
@@ -8,7 +9,12 @@ import { ContractService } from '../services/contract.service';
   styleUrls: ['./contracts.component.css']
 })
 export class ContractsComponent implements OnInit {
+
+  bsConfig: any;
   showAll: boolean;
+  modalRef: BsModalRef;
+  contractToCreate: Contract = new Contract();
+
 
   data: Contract[] = [];
 
@@ -60,7 +66,10 @@ export class ContractsComponent implements OnInit {
     }
   ];
 
-  constructor( private contract: ContractService) { }
+  constructor( private contract: ContractService, 
+    private modalService: BsModalService) {
+      this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
+     }
 
   async ngOnInit() {
     this.data = await this.contract.getContracts();
@@ -79,6 +88,18 @@ export class ContractsComponent implements OnInit {
 
   getVisibleColumns(){
     return this.columns.filter(i => i.visibility);
+  }
+
+  async createContract(){
+    
+  }
+
+  openModal(modal) {
+    this.modalRef = this.modalService.show(modal);
+  }
+
+  closeModal() {
+    this.modalRef.hide();
   }
 
 }

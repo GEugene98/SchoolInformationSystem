@@ -1,4 +1,5 @@
 import { User } from "../../shared/models/user";
+import { ContractStatus } from "./contractstatus.model";
 import { Organization } from "./organization.model";
 
 export class Contract {
