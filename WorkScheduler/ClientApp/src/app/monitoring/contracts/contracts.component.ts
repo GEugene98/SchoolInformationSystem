@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { MessageService } from 'primeng/api';
 import { Contract } from '../models/contract.model';
+import { ContractStatus } from '../models/contractstatus.model';
 import { ContractService } from '../services/contract.service';
 
 @Component({
@@ -16,7 +18,7 @@ export class ContractsComponent implements OnInit {
   contractToCreate: Contract = new Contract();
 
 
-  data: Contract[] = [];
+  contracts: Contract[] = [];
 
   columns = [
     {
@@ -67,12 +69,18 @@ export class ContractsComponent implements OnInit {
   ];
 
   constructor( private contract: ContractService, 
-    private modalService: BsModalService) {
+    private modalService: BsModalService,
+    private messageService: MessageService) {
       this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
+      
      }
 
   async ngOnInit() {
-    this.data = await this.contract.getContracts();
+    await this.loadData();
+  }
+
+  async loadData(){
+    this.contracts = await this.contract.getContracts();
   }
 
   getPropertyValue(object, fieldName) {
@@ -88,6 +96,17 @@ export class ContractsComponent implements OnInit {
 
   getVisibleColumns(){
     return this.columns.filter(i => i.visibility);
+  }
+
+  async delete(contractId: number){
+    debugger
+    try {
+      await this.contract.deleteContract(contractId);
+      this.messageService.add({severity: 'success', summary: 'Готово', detail: "Задание удалено", life: 5000 });
+      await this.loadData();
+    } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
   }
 
   async createContract(){
