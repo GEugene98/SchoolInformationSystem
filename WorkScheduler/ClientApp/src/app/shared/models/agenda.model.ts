@@ -1,9 +1,9 @@
-import { User } from "./user";
+import { Man, User } from "./user";
 
 // Повестка дня
 export class Agenda {
   content: string;
-  author: User;
+  author: Man;
   listen: InnerContent[] = [new InnerContent()];
   speaked: InnerContent[] = [new InnerContent()];
   decided: string;
@@ -12,5 +12,5 @@ export class Agenda {
 //Слушали, Выступили
 export class InnerContent {
   content: string;
-  user: User;
+  user: Man;
 }

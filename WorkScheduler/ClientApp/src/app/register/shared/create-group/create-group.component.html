@@ -1,0 +1,5 @@
+<input type="text" [(ngModel)]="group.name" class="form-control" placeholder="Введите наименование группы, например, младшая группа секции по волейболу" style="margin-bottom: 5px;">
+<app-student-selector 
+        [allStudents]="students"
+        (selectedStudentsChanged)="updateStudentsToAdd($event)">
+</app-student-selector>

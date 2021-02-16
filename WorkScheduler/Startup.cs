@@ -22,6 +22,7 @@ using WorkScheduler;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.Services;
 using WorkScheduler.Services.Monitoring;
+using WorkScheduler.Services.Register;
 
 namespace WorkSheduler
 {
@@ -85,13 +86,13 @@ namespace WorkSheduler
 
 
                 //Register
+                services.AddScoped<AssociationService>();
+                services.AddScoped<GroupService>();
 
 
 
-
-
-                //var context = new CustomAssemblyLoadContext();
-                //context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+                var context = new CustomAssemblyLoadContext();
+                context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
 
                 // In production, the Angular files will be served from this directory
                 services.AddSpaStaticFiles(configuration =>

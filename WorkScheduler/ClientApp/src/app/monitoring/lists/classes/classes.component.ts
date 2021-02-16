@@ -20,7 +20,6 @@ export class ClassesComponent implements OnInit {
   modalRef: BsModalRef;
   selectedAcademicYear: AcademicYear;
   allAcademicYears: AcademicYear[];
-  allStudents: Student[] = [];
   studentsToAdd: Student[] = [];
   classesWithStudents: Class[] = [];
   newClass: Class = new Class();
@@ -28,7 +27,7 @@ export class ClassesComponent implements OnInit {
   
   constructor(private modalService: BsModalService, 
     private dictionary: DictionaryService, 
-    private student: StudentService,
+    private studentService: StudentService,
     private classService: ClassService) { }
 
   async ngOnInit() {
@@ -36,18 +35,21 @@ export class ClassesComponent implements OnInit {
   }
 
   async loadData(){
-    this.allStudents = await this.student.getStudents();
     this.allAcademicYears = await this.dictionary.getAcademicYears();
+    this.selectedAcademicYear = this.allAcademicYears[0];
+    await this.academicYearChanged();
   }
 
   async academicYearChanged() {
-    this.classesWithStudents = await this.student.getStudentsByClasses(this.selectedAcademicYear.id);
+    if(this.selectedAcademicYear){
+      this.classesWithStudents = await this.studentService.getStudentsByClasses(this.selectedAcademicYear.id);
+    }
   }
 
   async createClass() {
     this.newClass.academicYearId = this.selectedAcademicYear.id;
     await this.classService.createClass(this.newClass);
-    this.classesWithStudents = await this.student.getStudentsByClasses(this.selectedAcademicYear.id);
+    this.classesWithStudents = await this.studentService.getStudentsByClasses(this.selectedAcademicYear.id);
     this.closeModal();
   }
 
@@ -67,8 +69,13 @@ export class ClassesComponent implements OnInit {
   }
 
   async bindStudentsToClass() {
-    await this.student.putStudentsToClass(this.studentsToAdd.map(s => s.id), this.classIdToBindStudents, this.selectedAcademicYear.id);
-    this.classesWithStudents = await this.student.getStudentsByClasses(this.selectedAcademicYear.id);
+    await this.studentService.putStudentsToClass(this.studentsToAdd.map(s => s.id), this.classIdToBindStudents, this.selectedAcademicYear.id);
+    this.classesWithStudents = await this.studentService.getStudentsByClasses(this.selectedAcademicYear.id);
     this.closeModal();
+  }
+
+  async excludeStudentFromClass(studentId, classId) {
+    await this.studentService.excludeFromClass(studentId, classId);
+    this.classesWithStudents = await this.studentService.getStudentsByClasses(this.selectedAcademicYear.id);
   }
 }

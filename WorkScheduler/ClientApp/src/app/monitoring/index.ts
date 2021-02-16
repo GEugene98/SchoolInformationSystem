@@ -27,7 +27,11 @@ import { ContractsComponent } from './contracts/contracts.component';
 import { StudentService } from './services/student.service';
 import { StudentSelectorComponent } from './lists/components/student-selector/student-selector.component';
 import { ClassService } from './services/class.service';
+
 import { ContractService } from './services/contract.service';
+
+import { SharedModule } from '../shared.module';
+
 
 defineLocale('ru', ruLocale);
 
@@ -38,9 +42,10 @@ defineLocale('ru', ruLocale);
       StudentsComponent,
       ClassesComponent,
       ContractsComponent,
-      StudentSelectorComponent
+      
   ],
   imports: [
+    SharedModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     MatDialogModule,
