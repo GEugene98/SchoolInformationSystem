@@ -1,19 +1,20 @@
 import { User } from "../../shared/models/user";
+import { ContractStatus } from "./contractstatus.model";
+import { Organization } from "./organization.model";
 
 export class Contract {
 
   constructor() {
-      this.organization = 'fefwef';
-      this.contractNumber = "wefwefwewef";
-      this.subject = "wfwefwefwe";
+
   }
-  organization: string;
-  contractNumber: string;
-  dateSigning: Date;
-  signedBy: User;
+  id: number;
+  organization: Organization;
+  number: string;
+  signingData: Date;
   subject: string;
-  contractSum: number;
-  status;
+  signedBy: User;
+  sum: number;
+  status: ContractStatus;
   controlDate: Date;
   comment: string;
 }

@@ -14,40 +14,79 @@
   <thead>
     <tr>
       <th *ngFor = "let column of getVisibleColumns()" scope="col">{{column.name}}</th>
+      <th scope="col">Действия</th>
     </tr>
     
-    <tr *ngFor="let d of data">
-      <td *ngFor="let column of getVisibleColumns()">{{getPropertyValue(d, column.variable)}}</td>
+    <tr *ngFor="let contract of contracts">
+      <td *ngFor="let column of getVisibleColumns()">{{getPropertyValue(contract, column.variable)}}</td>
+      <td>
+        <div class="action-icons">
+          <a title="Редактировать" href="javascript:void(0)"><span style="color: purple" class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+          <a title="Удалить" href="javascript:void(0)" (click)="delete(getPropertyValue(contract, 'id'))"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+        </div>
+      </td>
     </tr>
-
   </thead>
 </table>
 
 
+<button type="button" (click)="openModal(add)" class="btn btn-success top-item" style="float: right; margin: 10px 0;"><span class="glyphicon glyphicon-plus"></span> Зарегистрировать новый договор</button>&nbsp;
+
+<ng-template #add>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Зарегистрировать новый договор</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div style="margin-top: -10px" class="field-box">
+      <div>
+        Организация:
+        <input type="text" [(ngModel)]="contractToCreate.organization" class="form-control" placeholder="Организация">
+      </div>
+      <div>
+        № договора:
+        <input type="text" [(ngModel)]="contractToCreate.number" class="form-control" placeholder="№ договора">
+      </div>
+      <div>
+        Дата подписания, срок действия:
+        <input type="text" placeholder="Щелкните здесь для выбора" class="form-control" 
+        [(ngModel)]="contractToCreate.signingData" AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
+      </div>
+      <div>
+        Предмет договора:
+        <input type="text" [(ngModel)]="contractToCreate.subject" class="form-control" placeholder="Предмет договора">
+      </div>
+      <div>
+        Кем подписан:
+        <input type="text" [(ngModel)]="contractToCreate.signedBy" class="form-control" placeholder="Кем подписан">
+      </div>
+      <div>
+        Сумма договора:
+        <input type="number" [(ngModel)]="contractToCreate.sum" class="form-control" step="0.01" min="0" placeholder="0,00">
+      </div>
+      <div>
+        Статус:
+          <ng-select>
+          </ng-select>
+      </div>
+      <div>
+        Дата контроля:
+        <input type="text" placeholder="Щелкните здесь для выбора" class="form-control" 
+        [(ngModel)]="contractToCreate.controlDate" placement="top" AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
+      </div>
+      <div>
+        Комментарий:
+        <textarea [(ngModel)]="contractToCreate.comment" class="form-control" placeholder="Комментарий"></textarea>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top: 15px;">
+      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+      <button type="button" class="btn btn-success">Зарегистрировать</button>
+    </div>
+  </div>
+</ng-template>
 
 
-
-
-
-
-
-<!-- <tbody>
-    <tr>
-      <td>ООО "Алкир"</td>
-      <td>5065</td>
-      <td>18.04.2020, 5 лет</td>
-      <td>Русския язык</td>
-      <td>Работник</td>
-      <td>1 рубль</td>
-      <td>завершён</td>
-      <td>14.02.2020</td>
-    </tr>
-  </tbody> -->
-<!-- <th scope="col">Организация-партнёр</th>
-      <th scope="col">№ договора</th>
-      <th scope="col">Дата подписания, срок действия</th>
-      <th scope="col">Предмет договора</th>
-      <th scope="col">Кем подписан</th>
-      <th scope="col">Сумма договора</th>
-      <th scope="col">Статус (подготовлен, на подписании, в исполнении, завершён)</th>
-      <th scope="col">Дата контроля (указать замечания после проверки)</th> -->
