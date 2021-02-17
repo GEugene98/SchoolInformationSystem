@@ -35,7 +35,7 @@
       <td>{{action.confirmationForm.name}}</td>
       <td>
         <a *ngIf="checkRole(userState.currentUser?.state, 'Директор') || (checkRole(userState.currentUser?.state, 'Администратор') && action.status != 3)" title="Редактировать" href="javascript:void(0)" (click)="copy(action); openModal(edit);"><span style="color: purple" class="action-icon glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-        <a title="В тайм-лист" href="javascript:void(0)" (click)="copy(action); openModal(toTimeline);"><span style="color: purple" class="action-icon glyphicon glyphicon-time" aria-hidden="true"></span></a>
+        <a title="В тайм-лист" href="javascript:void(0)" (click)="copy(action); openModal(toTimeline);"><span style="color: purple" class="action-icon glyphicon glyphicon-time action-icons" aria-hidden="true"></span></a>
       </td>
     </tr>
   </tbody>

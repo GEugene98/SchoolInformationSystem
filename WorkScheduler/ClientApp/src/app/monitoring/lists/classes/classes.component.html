@@ -30,7 +30,7 @@
               <td>{{student.fullName}}</td>
               <td>{{student.birthday | date : 'dd.MM.yyyy'}}</td>
               <td>
-                <a title="Убрать из списка класса в выбранном учебном году" (click)="excludeStudentFromClass(student.id, class.id)" href="javascript:void(0)"><span style="color: rgb(255, 150, 45)" class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></a>
+                <a title="Убрать из списка класса в выбранном учебном году" (click)="excludeStudentFromClass(student.id, class.id)" href="javascript:void(0)"><span style="color: rgb(255, 150, 45)" class="glyphicon glyphicon-minus-sign action-icons" aria-hidden="true"></span></a>
               </td>
             </tr>
           </tbody>
