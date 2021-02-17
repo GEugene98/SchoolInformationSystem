@@ -1,13 +1,20 @@
 <div>
   <h1>Журнал внеурочной деятельности</h1>
-  <app-register-params></app-register-params>
+  <app-register-params
+    [allAcademicYears]="allAcademicYears"
+    [selectedAcademicYear]="selectedAcademicYear"
+    [associations]="associations"
+    [groups]="groups"
+    [academicPeriods]="academicPeriods">
+  </app-register-params>
   <div class="pane">
     <button type="button" class="btn btn-primary">Сформировать документ</button>
   </div>
   <div class="tabs">
     <tabset>
       <tab heading="Журнал">
-        <app-register-table></app-register-table>
+        <app-register-table>
+        </app-register-table>
       </tab>
       <tab heading="Календарно-тематическое планирование">
         <app-register-planing></app-register-planing>

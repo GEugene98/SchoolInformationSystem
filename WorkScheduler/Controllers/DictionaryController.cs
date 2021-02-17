@@ -44,6 +44,23 @@ namespace WorkScheduler.Controllers
             return Ok(academicYears);
         }
 
+        [HttpGet("Associations")]
+        public IActionResult Associations(AssociationType type, int academicYearId)
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+            var associations = Db.Associations
+                .Where(a => a.Type == type && a.SchoolId == currentUser.SchoolId && a.AcademicYearId == academicYearId)
+                .OrderBy(a => a.Name)
+                .Select(a => new DictionaryViewModel<int>
+                {
+                    Id = a.Id,
+                    Name = a.Name
+                })
+                .ToList();
+
+            return Ok(associations);
+        }
+
         [HttpGet("ConfirmationForms")]
         public IActionResult ConfirmationForms()
         {

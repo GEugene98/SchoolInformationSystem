@@ -2,19 +2,21 @@
   <tr>
     <td>
       Объединение:
-        <ng-select [items]="[1,2,3]"
+        <ng-select [items]="associations"
                    style="width: 500px;"
                    placeholder="Щелкните здесь для выбора"
-                   
+                   bindValue="id"
+                   bindLabel="name"
                    [clearable]="true">
         </ng-select>
     </td>
     <td>
       Группа:
-        <ng-select [items]="[1,2,3]"
+        <ng-select [items]="groups"
                    style="width: 500px;"
                    placeholder="Щелкните здесь для выбора"
-                   
+                   bindValue="id"
+                   bindLabel="name"
                    [clearable]="true">
         </ng-select>
     </td>
@@ -22,19 +24,21 @@
   <tr>
     <td>
       Учебный год:
-        <ng-select [items]="[1,2,3]"
+        <ng-select [items]="allAcademicYears"
                    style="width: 500px;"
                    placeholder="Щелкните здесь для выбора"
-                   
+                   bindValue="id"
+                   bindLabel="name"
                    [clearable]="true">
         </ng-select>
     </td>
     <td>
       Период:
-        <ng-select [items]="[1,2,3]"
+        <ng-select [items]="academicPeriods"
                    style="width: 500px;"
                    placeholder="Щелкните здесь для выбора"
-                   
+                   bindValue="id"
+                   bindLabel="name"
                    [clearable]="true">
         </ng-select>
     </td>

@@ -6,6 +6,7 @@ import { User } from "../models/user";
 import { ConfirmationForm } from "../models/confirmation-form.model";
 import { Dictionary } from "../models/dictionary.model";
 import { WorkSchedule } from "../models/work-schedule.model";
+import { AssociationType } from "../../register/models/enums/association-type.enum";
 
 @Injectable()
 export class DictionaryService {
@@ -47,6 +48,14 @@ export class DictionaryService {
       .set('userId', userId.toString());
 
     return await this.http.get<string[]>('api/Dictionary/UserActivity', { params: params }).toPromise();
+  }
+
+  async getAssociations(type: AssociationType, academicYearId: number){
+    const params = new HttpParams()
+    .set('type', type.toString())
+    .set('academicYearId', academicYearId.toString());
+
+  return await this.http.get<Dictionary<number>[]>('api/Dictionary/Associations', { params: params }).toPromise();
   }
 
   async getAllActivity(range: Date[]) {
