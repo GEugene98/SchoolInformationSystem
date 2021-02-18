@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AcademicYear } from '../../../shared/models/academic-year.model';
 import { Dictionary } from '../../../shared/models/dictionary.model';
 import { Group } from '../../models/group.model';
@@ -10,11 +10,11 @@ import { Group } from '../../models/group.model';
 })
 export class RegisterParamsComponent implements OnInit {
 
-  allAcademicYears: AcademicYear[];
-  selectedAcademicYear: AcademicYear;
-  associations: Dictionary<number>[];
-  academicPeriods: Dictionary<number>[];
-  groups: Group[];
+  @Input() allAcademicYears: AcademicYear[];
+  @Input() selectedAcademicYear: AcademicYear;
+  @Input() associations: Dictionary<number>[];
+  @Input() academicPeriods: Dictionary<number>[];
+  @Input() groups: Group[];
   
   constructor() { }
 
