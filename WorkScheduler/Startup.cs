@@ -88,6 +88,7 @@ namespace WorkSheduler
                 //Register
                 services.AddScoped<AssociationService>();
                 services.AddScoped<GroupService>();
+                services.AddScoped<PlaningRecordService>();
 
 
 

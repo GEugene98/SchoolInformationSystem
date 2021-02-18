@@ -1,6 +1,9 @@
+<form #uploadForm><input type="file" (change)="uploadExcel(uploadForm)" #fileInput name="f" style="display:none" /></form>
+
 <div class="pane">
-  <button type="button" class="btn btn-success">Импорт КТП <span class="glyphicon glyphicon-open" aria-hidden="true"></span> </button>
+    <button class="btn btn-success" (click)="fileInput.click()">Импорт КТП <span class="glyphicon glyphicon-open" aria-hidden="true"></span> </button>
 </div>
+
 <table class="table">
   <thead>
     <tr>

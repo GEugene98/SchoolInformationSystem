@@ -33,6 +33,7 @@ import { AssociationService } from './services/association.service';
 import { CreateGroupComponent } from './shared/create-group/create-group.component';
 import { StudentSelectorComponent } from '../monitoring/lists/components/student-selector/student-selector.component';
 import { SharedModule } from '../shared.module';
+import { RegisterPlaningService } from './services/register-planing.service';
 
 defineLocale('ru', ruLocale);
 
@@ -77,7 +78,8 @@ defineLocale('ru', ruLocale);
     AccountService,
     ProblemService,
     GroupService,
-    AssociationService
+    AssociationService,
+    RegisterPlaningService
   ],
   entryComponents: [
   ]

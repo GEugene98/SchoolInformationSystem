@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RegisterPlaningService } from '../../services/register-planing.service';
 
 @Component({
   selector: 'app-register-planing',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterPlaningComponent implements OnInit {
 
-  constructor() { }
+  constructor(private planingService: RegisterPlaningService) { }
 
   ngOnInit() {
+  }
+
+  async uploadExcel(uploadForm){
+    await this.planingService.uploadPlaningExcel(new FormData(uploadForm));
   }
 
 }
