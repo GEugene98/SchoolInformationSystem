@@ -2,10 +2,10 @@
   <h1>Журнал дополнительного образования</h1>
   <app-register-params
     [allAcademicYears]="allAcademicYears"
-    [selectedAcademicYear]="selectedAcademicYear"
     [associations]="associations"
-    [groups]="groups"
-    [academicPeriods]="academicPeriods">
+    (selectedAcademicYearChanged)="loadAssociations($event)"
+    (selectedAssociationChanged)="loadGroups($event)"
+    [groups]="groups">
   </app-register-params>
   <div class="pane">
     <button type="button" class="btn btn-primary">Сформировать документ</button>

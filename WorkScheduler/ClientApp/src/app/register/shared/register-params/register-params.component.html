@@ -1,19 +1,23 @@
 <table>
   <tr>
     <td>
+      Учебный год:
+      <ng-select [items]="allAcademicYears"
+                 style="width: 500px;"
+                 [(ngModel)]="selectedAcademicYearId"
+                 placeholder="Щелкните здесь для выбора"
+                 (ngModelChange)="academicYearChanged()"
+                 bindValue="id"
+                 bindLabel="name"
+                 [clearable]="true">
+      </ng-select>
+    </td>
+    <td>
       Объединение:
         <ng-select [items]="associations"
                    style="width: 500px;"
-                   placeholder="Щелкните здесь для выбора"
-                   bindValue="id"
-                   bindLabel="name"
-                   [clearable]="true">
-        </ng-select>
-    </td>
-    <td>
-      Группа:
-        <ng-select [items]="groups"
-                   style="width: 500px;"
+                   [(ngModel)]="selectedAssociationId"
+                   (ngModelChange)="associationChanged()"
                    placeholder="Щелкните здесь для выбора"
                    bindValue="id"
                    bindLabel="name"
@@ -23,16 +27,17 @@
   </tr>
   <tr>
     <td>
-      Учебный год:
-        <ng-select [items]="allAcademicYears"
-                   style="width: 500px;"
-                   placeholder="Щелкните здесь для выбора"
-                   bindValue="id"
-                   bindLabel="name"
-                   [clearable]="true">
-        </ng-select>
+      Группа:
+      <ng-select [items]="groups"
+                 style="width: 500px;"
+                 placeholder="Щелкните здесь для выбора"
+                 bindValue="id"
+                 bindLabel="name"
+                 [(ngModel)]="selectedGroupId"
+                 [clearable]="true">
+      </ng-select>
     </td>
-    <td>
+    <!-- <td>
       Период:
         <ng-select [items]="academicPeriods"
                    style="width: 500px;"
@@ -41,7 +46,7 @@
                    bindLabel="name"
                    [clearable]="true">
         </ng-select>
-    </td>
+    </td> -->
   </tr>
 </table>      
       

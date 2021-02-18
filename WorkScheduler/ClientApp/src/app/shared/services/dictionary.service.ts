@@ -55,7 +55,15 @@ export class DictionaryService {
     .set('type', type.toString())
     .set('academicYearId', academicYearId.toString());
 
-  return await this.http.get<Dictionary<number>[]>('api/Dictionary/Associations', { params: params }).toPromise();
+    return await this.http.get<Dictionary<number>[]>('api/Dictionary/Associations', { params: params }).toPromise();
+  }
+
+  async getGroups(academicYearId: number, associationId: number){
+    const params = new HttpParams()
+    .set('academicYearId', academicYearId.toString())
+    .set('associationId', associationId.toString());
+
+    return await this.http.get<Dictionary<number>[]>('api/Dictionary/Groups', { params: params }).toPromise();
   }
 
   async getAllActivity(range: Date[]) {

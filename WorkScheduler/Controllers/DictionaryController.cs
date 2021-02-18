@@ -61,6 +61,25 @@ namespace WorkScheduler.Controllers
             return Ok(associations);
         }
 
+        [HttpGet("Groups")]
+        public IActionResult GroupsByAssociation(int academicYearId, int associationId)
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+
+            var groups = Db.AssociationGroups
+                .Where(ag => ag.AssociationId == associationId && ag.Group.SchoolId == currentUser.SchoolId && ag.Group.AcademicYearId == academicYearId)
+                .Select(ag => ag.Group)
+                .OrderBy(g => g.Name)
+                .Select(a => new DictionaryViewModel<int>
+                {
+                    Id = a.Id,
+                    Name = a.Name
+                })
+                .ToList();
+
+            return Ok(groups);
+        }
+
         [HttpGet("ConfirmationForms")]
         public IActionResult ConfirmationForms()
         {

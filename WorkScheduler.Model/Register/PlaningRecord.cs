@@ -21,8 +21,8 @@ namespace WorkScheduler.Models.Register
         public int AcademicYearId { get; set; }
         public AcademicYear AcademicYear { get; set; }
 
-        public int AcademicPeriodId { get; set; }
-        public AcademicPeriod AcademicPeriod { get; set; }
+        //public int AcademicPeriodId { get; set; }
+        //public AcademicPeriod AcademicPeriod { get; set; }
 
         public virtual ICollection<RegisterRecord> RegisterRecords { get; set; }
     }
