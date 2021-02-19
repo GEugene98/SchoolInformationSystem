@@ -1,9 +1,10 @@
-li .glyphicon {
-    margin-right: 10px;
-  }
-  
+
   .navbar {
-    background-color: #f4fff6 !important;
+    background-color: #fffff9 !important;
+  }
+
+  li .glyphicon {
+    margin-right: 10px;
   }
   
   .navbar-brand {
@@ -26,13 +27,9 @@ li .glyphicon {
   }
   
   
-  .navbar-inverse {
-    border-color: white !important;
-  }
   
-    .navbar-inverse .navbar-toggle {
-      border-color: gray !important;
-    }
+  
+  
   
       .navbar-inverse .navbar-toggle .icon-bar {
         background-color: gray;
@@ -44,9 +41,10 @@ li .glyphicon {
   
   /* Highlighting rules for nav menu items */
   li.link-active a {
-    background-color: #007ad9c7;
-    color: white;
+  
+    font-weight: bolder;
   }
+  
   
   /* Keep the nav menu independent of scrolling and on top of other items */
   .main-nav {

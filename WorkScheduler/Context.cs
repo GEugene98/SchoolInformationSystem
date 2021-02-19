@@ -15,7 +15,7 @@ namespace WorkScheduler
     {
         //Shared
         public DbSet<AcademicYear> AcademicYears { get; set; }
-        public DbSet<AcademicPeriod> AcademicPeriods { get; set; }
+        //public DbSet<AcademicPeriod> AcademicPeriods { get; set; }
         public DbSet<School> Schools { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<Post> Posts { get; set; }
