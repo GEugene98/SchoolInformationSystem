@@ -1,3 +1,4 @@
+import { Subject } from "rxjs";
 import { AcademicYear } from "../shared/models/academic-year.model";
 import { Dictionary } from "../shared/models/dictionary.model";
 import { DictionaryService } from "../shared/services/dictionary.service";
@@ -11,7 +12,9 @@ export class RegisterBase {
     associations: Dictionary<number>[];
     selectedAssociation: Dictionary<number>;
     groups: Dictionary<number>[];
+    selectedGroup: Dictionary<number>;
     associationType: AssociationType;
+    refreshPlaning: Subject<boolean> = new Subject();
 
     constructor(private dictionary: DictionaryService, associationType: AssociationType) { 
         this.associationType = associationType;
@@ -42,6 +45,13 @@ export class RegisterBase {
         }
         if (this.selectedAssociation) {
             this.groups = await this.dictionary.getGroups(this.selectedAcademicYear.id, this.selectedAssociation.id);
+        }
+    }
+
+    updateSelectedGroup(groupId: number){
+        if(groupId){
+            this.selectedGroup = this.groups.filter(g => g.id == groupId)[0];
+            this.refreshPlaning.next();
         }
     }
 }

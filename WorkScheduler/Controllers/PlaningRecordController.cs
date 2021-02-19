@@ -4,7 +4,9 @@ using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using WorkScheduler.Services.Register;
+using WorkScheduler.ViewModels.Register;
 
 namespace WorkScheduler.Controllers
 {
@@ -21,11 +23,21 @@ namespace WorkScheduler.Controllers
             PlaningRecordService = planingRecordService;
         }
 
+        [HttpGet]
+        [Route("GetRecords")]
+        public IActionResult GetRecords(int academicYearId, int associationId, int groupId)
+        {
+            var result = PlaningRecordService.GetRecords(academicYearId, associationId, groupId);
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("UploadPlaningExcel")]
-        public IActionResult UploadPlaningExcel()
+        public IActionResult UploadPlaningExcel(string importModelJSON)
         {
             IFormFile file;
+
+            var importModel = JsonConvert.DeserializeObject<ImportPlaning>(importModelJSON);
 
             if (HttpContext.Request.Form.Files.Count > 0)
             {
@@ -33,8 +45,14 @@ namespace WorkScheduler.Controllers
             }
             else return BadRequest();
 
-
-            PlaningRecordService.ParseExcelAndWriteToDB(file);
+            try
+            {
+                PlaningRecordService.ParseExcelAndWriteToDB(file, importModel);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
             return Ok();
         }

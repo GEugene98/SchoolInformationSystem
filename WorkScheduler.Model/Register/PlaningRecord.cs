@@ -8,8 +8,8 @@ namespace WorkScheduler.Models.Register
 {
     public class PlaningRecord : Dictionary<long>
     {
-        public DateTime Date { get; set; }
-        public int Hours { get; set; }
+        public DateTime? Date { get; set; }
+        public int? Hours { get; set; }
         public string Comment { get; set; }
 
         public int AssociationId { get; set; }

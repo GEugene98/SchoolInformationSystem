@@ -43,4 +43,8 @@ export class RegisterParamsComponent implements OnInit {
     this.selectedAssociationChanged.emit(this.selectedAssociationId);
   }
 
+  groupChanged(){
+    this.selectedGroupChanged.emit(this.selectedGroupId);
+  }
+
 }

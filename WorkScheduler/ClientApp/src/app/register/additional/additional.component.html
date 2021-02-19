@@ -5,6 +5,7 @@
     [associations]="associations"
     (selectedAcademicYearChanged)="loadAssociations($event)"
     (selectedAssociationChanged)="loadGroups($event)"
+    (selectedGroupChanged)="updateSelectedGroup($event)"
     [groups]="groups">
   </app-register-params>
   <div class="pane">
@@ -16,7 +17,12 @@
         <app-register-table></app-register-table>
       </tab>
       <tab heading="Календарно-тематическое планирование">
-        <app-register-planing></app-register-planing>
+        <app-register-planing
+          [selectedAcademicYear]="selectedAcademicYear"
+          [selectedAssociation]="selectedAssociation"
+          [selectedGroup]="selectedGroup"
+          [needRefresh]="refreshPlaning"
+        ></app-register-planing>
       </tab>
     </tabset>
   </div>
