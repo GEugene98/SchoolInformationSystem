@@ -70,6 +70,11 @@ export class RegisterTableSettingsComponent implements OnInit {
     this.modalRef.hide();
   }
 
+  async removeAss(id: number) {
+    await this.associationService.deleteAssotiation(id);
+    this.loadData();
+  }
+
 
   getStudentsInGroup(group: Group) {
     var str = "";

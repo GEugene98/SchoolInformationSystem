@@ -73,6 +73,18 @@ namespace WorkScheduler.Services.Register
             return associations;
         }
 
+        public void DeleteAssociation(int id)
+        {
+            var found = Db.Associations.FirstOrDefault(a => a.Id == id);
+
+            if (found == null)
+            {
+                throw new Exception("Запись не найдена. Обновите страницу");
+            }
+            Db.Associations.Remove(found);
+            Db.SaveChanges();
+        }
+
         public int CreateAssociation(AssociationViewModel association, int schoolId, int academicYearId)
         {
             var newAssociation = new Association();

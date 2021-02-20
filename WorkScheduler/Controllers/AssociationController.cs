@@ -31,6 +31,13 @@ namespace WorkScheduler.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("DeleteAssociation")]
+        public IActionResult DeleteAssociation(int id)
+        {
+            AssociationService.DeleteAssociation(id);
+            return Ok();
+        }
+
         [HttpPost("CreateAssociation")]
         public IActionResult CreateAssociation([FromBody]AssociationViewModel association, int academicYearId)
         {

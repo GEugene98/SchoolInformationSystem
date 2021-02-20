@@ -32,6 +32,22 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpPost]
+        [Route("UpdateRecord")]
+        public IActionResult UpdateRecord([FromBody]PlaningRecordViewModel record)
+        {
+            PlaningRecordService.UpdateRecord(record);
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("DeleteRecord")]
+        public IActionResult DeleteRecord(long recordId)
+        {
+            PlaningRecordService.DeleteRecord(recordId);
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("UploadPlaningExcel")]
         public IActionResult UploadPlaningExcel(string importModelJSON)
         {

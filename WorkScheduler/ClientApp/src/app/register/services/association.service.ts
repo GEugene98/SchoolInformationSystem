@@ -22,4 +22,11 @@ export class AssociationService {
         return await this.http.post('api/Association/CreateAssociation', association, { params: params }).toPromise();
     }
 
+    async deleteAssotiation(associationId: number){
+        const params = new HttpParams()
+            .set('id', associationId.toString());
+
+        return await this.http.delete('api/Association/DeleteAssociation', { params: params }).toPromise();
+    }
+
 }
