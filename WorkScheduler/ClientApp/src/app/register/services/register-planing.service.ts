@@ -23,4 +23,15 @@ export class RegisterPlaningService {
         return await this.http.get<PlaningRecord[]>('api/PlaningRecord/GetRecords', { params: params } ).toPromise();
     }
 
+    async updateRecord(record: PlaningRecord){
+        return await this.http.post('api/PlaningRecord/UpdateRecord', record).toPromise();
+    }
+
+    async deleteRecord(recordId: number){
+        const params = new HttpParams()
+            .set('recordId', recordId.toString());
+
+        return await this.http.delete('api/PlaningRecord/DeleteRecord', { params: params }).toPromise();
+    }
+
 }

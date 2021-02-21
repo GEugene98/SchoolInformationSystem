@@ -58,7 +58,7 @@ namespace WorkScheduler.Services.Register
                 var countOfRows = nameCells.Count();
                 if (!(dateCells.Count() == countOfRows && hoursCells.Count() == countOfRows && commentCells.Count() == countOfRows))
                 {
-                    throw new Exception("Количество строк по всем полям должно быть одинаковым");
+                    throw new Exception("Количество ячеек по всем столбцам должно быть одинаковым");
                 }
 
                 var dates = new List<DateTime?>();
@@ -146,6 +146,7 @@ namespace WorkScheduler.Services.Register
         {
             return Db.PlaningRecords
                 .Where(p => p.AcademicYearId == academicYearId && p.AssociationId == associationId && p.GroupId == groupId)
+                .OrderBy(p => p.Date)
                 .Select(p => new PlaningRecordViewModel
                 {
                     Id = p.Id,
@@ -154,6 +155,35 @@ namespace WorkScheduler.Services.Register
                     Hours = p.Hours,
                     Comment = p.Comment
                 });
+        }
+
+        public void DeleteRecord(long recordId)
+        {
+            var foundRecord = Db.PlaningRecords.FirstOrDefault(p => p.Id == recordId);
+
+            if (foundRecord == null)
+            {
+                throw new Exception("Запись КТП не найдена. Обновите страницу");
+            }
+            Db.PlaningRecords.Remove(foundRecord);
+            Db.SaveChanges();
+        }
+
+        public void UpdateRecord(PlaningRecordViewModel record)
+        {
+            var foundRecord = Db.PlaningRecords.FirstOrDefault(p => p.Id == record.Id);
+
+            if (foundRecord == null)
+            {
+                throw new Exception("Запись КТП не найдена. Обновите страницу");
+            }
+
+            foundRecord.Name = record.Name;
+            foundRecord.Comment = record.Comment;
+            foundRecord.Date = record.Date;
+            foundRecord.Hours = record.Hours;
+
+            Db.SaveChanges();
         }
     }
 }

@@ -15,10 +15,13 @@ import { RegisterPlaningService } from '../../services/register-planing.service'
 })
 export class RegisterPlaningComponent implements OnInit {
 
+  bsConfig: any;
   modalRef: BsModalRef;
+
   importModel: ImportPlaning = new ImportPlaning();
 
   records: PlaningRecord[] = [];
+  editedRecord: PlaningRecord = new PlaningRecord();
 
   @Input() selectedAcademicYear: AcademicYear;
   @Input() selectedAssociation: Dictionary<number>;
@@ -28,7 +31,9 @@ export class RegisterPlaningComponent implements OnInit {
   
   constructor(private planingService: RegisterPlaningService, 
     private modalService: BsModalService, 
-    private messageService: MessageService) { }
+    private messageService: MessageService) { 
+      this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
+    }
 
   async ngOnInit() {
     await this.loadData();
@@ -51,7 +56,6 @@ export class RegisterPlaningComponent implements OnInit {
     catch (e) {
       this.messageService.add({ severity: 'error', summary: 'Ошибка обработки файла', detail: e.error , life: 5000 });
     }
-
   }
 
   refreshImportModel(){
@@ -62,8 +66,15 @@ export class RegisterPlaningComponent implements OnInit {
   }
 
   openModal(modal) {
-    this.refreshImportModel();
     this.modalRef = this.modalService.show(modal);
+  }
+
+  openEditModal(modal, record: PlaningRecord){
+    this.editedRecord = Object.assign({}, record);
+    if(this.editedRecord.date)
+      this.editedRecord.date = new Date(this.editedRecord.date.toString()); //Костыль для ngx-datepicker'а
+
+    this.openModal(modal);
   }
 
   openPreImportModal(modal) {
@@ -71,11 +82,33 @@ export class RegisterPlaningComponent implements OnInit {
       this.messageService.add({ severity: 'warn', summary: 'Не все параметры выбраны', detail: "Выберите учебный год, объединение и группу", life: 5000 });
       return;
     }
+    this.refreshImportModel();
     this.openModal(modal);
   }
 
   closeModal() {
     this.modalRef.hide();
+  }
+
+  async saveEditedRecord(){
+    try{
+      await this.planingService.updateRecord(this.editedRecord);
+      await this.loadData();
+      this.closeModal();
+    }
+    catch(e){
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error , life: 5000 });
+    }   
+  }
+
+  async deleteRecord(recordId: number){
+    try{
+      await this.planingService.deleteRecord(recordId);
+      await this.loadData();
+    }
+    catch(e){
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error , life: 5000 });
+    }   
   }
 
 }

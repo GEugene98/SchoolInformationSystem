@@ -1,12 +1,13 @@
 <div>
   <h1>Журнал внеурочной деятельности</h1>
   <app-register-params
-    [allAcademicYears]="allAcademicYears"
-    [associations]="associations"
-    (selectedAcademicYearChanged)="loadAssociations($event)"
-    (selectedAssociationChanged)="loadGroups($event)"
-    [groups]="groups">
-  </app-register-params>
+  [allAcademicYears]="allAcademicYears"
+  [associations]="associations"
+  (selectedAcademicYearChanged)="loadAssociations($event)"
+  (selectedAssociationChanged)="loadGroups($event)"
+  (selectedGroupChanged)="updateSelectedGroup($event)"
+  [groups]="groups">
+</app-register-params>
   <div class="pane">
     <button type="button" class="btn btn-primary">Сформировать документ</button>
   </div>
@@ -17,7 +18,12 @@
         </app-register-table>
       </tab>
       <tab heading="Календарно-тематическое планирование">
-        <app-register-planing></app-register-planing>
+        <app-register-planing
+        [selectedAcademicYear]="selectedAcademicYear"
+        [selectedAssociation]="selectedAssociation"
+        [selectedGroup]="selectedGroup"
+        [needRefresh]="refreshPlaning"
+      ></app-register-planing>
       </tab>
     </tabset>
   </div>
