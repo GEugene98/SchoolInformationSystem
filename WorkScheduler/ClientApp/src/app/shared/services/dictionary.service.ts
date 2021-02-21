@@ -7,6 +7,7 @@ import { ConfirmationForm } from "../models/confirmation-form.model";
 import { Dictionary } from "../models/dictionary.model";
 import { WorkSchedule } from "../models/work-schedule.model";
 import { AssociationType } from "../../register/models/enums/association-type.enum";
+import { Organization } from "../../monitoring/models/organization.model";
 
 @Injectable()
 export class DictionaryService {
@@ -17,6 +18,10 @@ export class DictionaryService {
 
   async getAcademicYears() {
     return await this.http.get<AcademicYear[]>('api/Dictionary/AcademicYears').toPromise();
+  }
+
+  async getOrganizations() {
+    return await this.http.get<Organization[]>('api/Dictionary/Organizations').toPromise();
   }
 
   async getActivities() {

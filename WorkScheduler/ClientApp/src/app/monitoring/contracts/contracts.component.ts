@@ -1,7 +1,11 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { MessageService } from 'primeng/api';
+import { User } from '../../shared/models/user';
+import { DictionaryService } from '../../shared/services/dictionary.service';
 import { Contract } from '../models/contract.model';
+import { Organization } from '../models/organization.model';
 import { ContractService } from '../services/contract.service';
 
 @Component({
@@ -17,25 +21,24 @@ export class ContractsComponent implements OnInit {
   contractToCreate: Contract = new Contract();
   newContract: Contract;
   statuses = [{id: 0, name: 'Подготовлен'}, {id: 1, name: 'На подписании'}, {id: 2, name: 'В исполнении'}, {id: 3, name: 'Завершен'}];
-
-
-  //contracts: Contract[] = [];
+  organizations: Organization[] = [];
+  users: User[] = [];
 
   columns = [
     {
       name: "Организация",
-      visibility: true,
-      variable: "organization"
+      visibility: false,
+      variable: "organization.name"
     },
     {
       name: "№ договора",
-      visibility: true,
+      visibility: false,
       variable: "number"
     },
     {
       name: "Дата подписания, срок действия",
-      visibility: false,
-      variable: "signingData"
+      visibility: true,
+      variable: "signingDate"
     },
     {
       name: "Предмет договора",
@@ -45,7 +48,7 @@ export class ContractsComponent implements OnInit {
     {
       name: "Кем подписан",
       visibility: false,
-      variable: "signedBy"
+      variable: "signedBy.fullName"
     },
     {
       name: "Сумма договора",
@@ -54,8 +57,8 @@ export class ContractsComponent implements OnInit {
     },
     {
       name: "Статус",
-      visibility: false,
-      variable: "ContractStatus"
+      visibility: true,
+      variable: "status"
     },
     {
       name: "Дата контроля",
@@ -71,9 +74,12 @@ export class ContractsComponent implements OnInit {
 
   constructor( private contract: ContractService, 
     private modalService: BsModalService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private dictionary: DictionaryService,
+    private datePipe: DatePipe) {
+      this.contractToCreate.organization = new Organization();
+      this.contractToCreate.signedBy = new User();
       this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
-      
      }
 
   async ngOnInit() {
@@ -81,15 +87,27 @@ export class ContractsComponent implements OnInit {
   }
 
   async loadData(){
-    //this.contracts = await this.contract.getContracts();
+    this.users = await this.dictionary.getUsers();
+    this.organizations = await this.dictionary.getOrganizations();
     await this.contract.loadContracts();
   }
 
   getPropertyValue(object, fieldName) {
-    fieldName.split('.').forEach(function(token) {
-      if (object) object = object[token];
-    });
-    return object;
+    let result;
+    result = fieldName.split('.')
+    .reduce(function(o, k) {
+      return o && o[k];
+    }, object)
+    if(fieldName == "status"){
+      if(result == undefined){
+        return " "
+      }
+      return this.statuses.filter(s => s.id == result)[0].name;
+    }
+    if(fieldName == "signingDate" || fieldName == "controlDate"){
+      return this.datePipe.transform(result, "dd.MM.yyyy");
+    }
+    return result;
   }
 
   showAllHandler(){
@@ -117,7 +135,6 @@ export class ContractsComponent implements OnInit {
   }
 
   async createContract(){
-    debugger
     await this.contract.createContract(this.contractToCreate);
     this.closeModal();
     await this.loadData();

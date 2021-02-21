@@ -46,7 +46,11 @@
     <div style="margin-top: -10px" class="field-box">
       <div>
         Организация:
-        <input type="text" [(ngModel)]="contractToCreate.organization" class="form-control" placeholder="Организация">
+        <ng-select [items]="organizations"
+                   bindLabel="name"
+                   bindValue="id"
+                   [(ngModel)]="contractToCreate.organization.id">
+          </ng-select>
       </div>
       <div>
         № договора:
@@ -55,7 +59,7 @@
       <div>
         Дата подписания, срок действия:
         <input type="text" placeholder="Щелкните здесь для выбора" class="form-control" 
-        [(ngModel)]="contractToCreate.signingData" AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
+        [(ngModel)]="contractToCreate.signingDate" AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
       </div>
       <div>
         Предмет договора:
@@ -63,7 +67,11 @@
       </div>
       <div>
         Кем подписан:
-        <input type="text" [(ngModel)]="contractToCreate.signedBy" class="form-control" placeholder="Кем подписан">
+        <ng-select [items]="users"
+                   bindLabel="fullName"
+                   bindValue="id"
+                   [(ngModel)]="contractToCreate.signedBy.id">
+          </ng-select>
       </div>
       <div>
         Сумма договора:

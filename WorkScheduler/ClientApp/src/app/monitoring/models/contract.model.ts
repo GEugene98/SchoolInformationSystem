@@ -10,7 +10,7 @@ export class Contract {
   id: number;
   organization: Organization;
   number: string;
-  signingData: Date;
+  signingDate: Date;
   subject: string;
   signedBy: User;
   sum: number;
