@@ -45,9 +45,9 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpDelete("DeleteContract")]
-        public IActionResult DeleteContract(long contractId)
+        public IActionResult DeleteContract(long id)
         {
-            ContractService.DeleteContract(contractId);
+            ContractService.DeleteContract(id);
             return Ok();
         }
     }

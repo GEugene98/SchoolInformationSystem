@@ -7,6 +7,8 @@ import { async } from "@angular/core/testing";
 @Injectable()
 export class ContractService {
      
+    public contracts: Contract[];
+
     constructor (private http: HttpClient) {
 
     }
@@ -15,10 +17,21 @@ export class ContractService {
         return await this.http.get<Contract[]>('api/Contract/GetContracts').toPromise();
     }
 
+    async loadContracts(){
+        this.contracts = await this.http.get<Contract[]>('api/Contract/GetContracts').toPromise();
+    }
+
     async deleteContract(contractId: number) {
-        const params = new HttpParams()
-        .set('id', contractId.toString());
+        const params = new HttpParams().set('id', contractId.toString());
 
         return await this.http.delete('api/Contract/DeleteContract', {params: params}).toPromise();
+    }
+
+    async editContarct(contract: Contract){
+        return await this.http.post('api/Contract/UpdateContract', contract).toPromise();
+    }
+
+    async createContract(contract: Contract){
+        return await this.http.post('api/Contract/CreateContract', contract).toPromise();
     }
 }

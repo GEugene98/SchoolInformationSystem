@@ -22,18 +22,27 @@ namespace WorkScheduler.Services.Monitoring
 
         public List<ContractViewModel> GetContracts(int schoolId)
         {
-            return
+            var result = 
                 Db.Contracts
+                    .Include(c => c.SignedBy)
                     .Where(c => c.SchoolId == schoolId)
                     .OrderBy(c => c.Organization.Name)
                     .Select(contract => new ContractViewModel
                     {
                         Id = contract.Id,
-                        OrganizationId = contract.OrganizationId,
+                        Organization = new OrganizationViewModel
+                        {
+                            Id=contract.Organization.Id,
+                            Name = contract.Organization.Name
+                        },
                         Number = contract.Number,
                         SigningDate = contract.SigningDate,
                         Subject = contract.Subject,
-                        SignedById = contract.SignedById,
+                        SignedBy = new UserViewModel
+                        {
+                            Id = contract.SignedBy.Id,
+                            FullName = contract.SignedBy.LastName + " " + contract.SignedBy.FirstName[0] + ". " + contract.SignedBy.SurName[0] + "."
+                        },
                         Sum = contract.Sum,
                         Status = contract.Status,
                         ControlDate = contract.ControlDate,
@@ -41,17 +50,19 @@ namespace WorkScheduler.Services.Monitoring
                         SchoolId = contract.SchoolId
                     })
                     .ToList();
+
+            return result;
         }
 
         public long CreateContract(ContractViewModel contract)
         {
             var newContract = new Contract
             {
-                OrganizationId = contract.OrganizationId,
+                OrganizationId = contract.Organization.Id,
                 Number = contract.Number,
                 SigningDate = contract.SigningDate,
                 Subject = contract.Subject,
-                SignedById = contract.SignedById,
+                SignedById = contract.SignedBy.Id,
                 Sum = contract.Sum,
                 Status = contract.Status,
                 ControlDate = contract.ControlDate,
@@ -75,8 +86,8 @@ namespace WorkScheduler.Services.Monitoring
             }
 
             foundContract.Number = contract.Number;
-            foundContract.OrganizationId = contract.OrganizationId;
-            foundContract.SignedById = contract.SignedById;
+            foundContract.OrganizationId = contract.Organization.Id;
+            foundContract.SignedById = contract.SignedBy.Id;
             foundContract.SigningDate = contract.SigningDate;
             foundContract.Status = contract.Status;
             foundContract.Subject = contract.Subject;

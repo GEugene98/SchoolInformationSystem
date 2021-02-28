@@ -22,7 +22,7 @@ export class MonthComponent implements OnInit {
   acceptDate: Date;
 
   range: Date[];
-  bsConfig: any;
+  rangeBsConfig: any;
   generalSchedule: GeneralSchedule;
 
   @ViewChild("selectDate") selectDateModal: ElementRef;
@@ -45,7 +45,7 @@ export class MonthComponent implements OnInit {
     private ngxService: NgxUiLoaderService,
     private messageService: MessageService,
     private modalService: BsModalService, private dictionary: DictionaryService) {
-    this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
+    this.rangeBsConfig = { rangeInputFormat: 'DD.MM.YYYY', locale: 'ru' };
     this.range = new Array<Date>();
   }
 

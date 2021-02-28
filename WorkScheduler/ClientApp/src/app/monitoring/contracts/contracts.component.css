@@ -1,3 +1,6 @@
+.panel-monitoring{
+  border: 1px solid transparent;
+}
 .columns {
     display: flex;
     flex-direction: row;

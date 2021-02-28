@@ -31,6 +31,7 @@ import { ClassService } from './services/class.service';
 import { ContractService } from './services/contract.service';
 
 import { SharedModule } from '../shared.module';
+import { DatePipe } from '@angular/common';
 
 
 defineLocale('ru', ruLocale);
@@ -73,7 +74,8 @@ defineLocale('ru', ruLocale);
     ProblemService,
     StudentService,
     ClassService,
-    ContractService
+    ContractService,
+    DatePipe
   ],
   entryComponents: [
   ]

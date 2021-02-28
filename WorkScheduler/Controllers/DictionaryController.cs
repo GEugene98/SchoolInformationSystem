@@ -44,6 +44,22 @@ namespace WorkScheduler.Controllers
             return Ok(academicYears);
         }
 
+        [HttpGet("Organizations")]
+        public IActionResult Organizations()
+        {
+            var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
+            var organizations = Db.Organizations
+                .Where(o => o.SchoolId == currentUser.SchoolId)
+                .Select(o => new DictionaryViewModel<int>
+                {
+                    Id = o.Id,
+                    Name = o.Name
+                })
+                .ToList();
+
+            return Ok(organizations);
+        }
+
         [HttpGet("Associations")]
         public IActionResult Associations(AssociationType type, int academicYearId)
         {
@@ -181,7 +197,7 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpPost("UpdateActionNames")]
-        public IActionResult UpdateActionNames([FromBody]FuckingPOSTBody<string> actionNames)
+        public IActionResult UpdateActionNames([FromBody] FuckingPOSTBody<string> actionNames)
         {
             var school = Db.Users.Include(u => u.School).FirstOrDefault(u => u.UserName == this.User.Identity.Name).School;
             school.ActionNamesToMakeProtocolJSON = actionNames.Body;
@@ -310,7 +326,7 @@ namespace WorkScheduler.Controllers
 
         [Authorize(Roles = "Директор")]
         [HttpPost("AllActivity")]
-        public IActionResult AllActivity([FromBody]IEnumerable<DateTime> range)
+        public IActionResult AllActivity([FromBody] IEnumerable<DateTime> range)
         {
             var schoolId = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId;
 
