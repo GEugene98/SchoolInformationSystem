@@ -4,7 +4,9 @@ import { Dictionary } from "../shared/models/dictionary.model";
 import { DictionaryService } from "../shared/services/dictionary.service";
 import { AssociationType } from "./models/enums/association-type.enum";
 import { Group } from "./models/group.model";
+import { RegisterRow } from "./models/register-row.model";
 import { GroupService } from "./services/group.service";
+import { RegisterService } from "./services/register.service";
 
 export class RegisterBase {
     allAcademicYears: AcademicYear[];
@@ -15,8 +17,9 @@ export class RegisterBase {
     selectedGroup: Dictionary<number>;
     associationType: AssociationType;
     refreshPlaning: Subject<boolean> = new Subject();
+    registerRows: RegisterRow[] = [];
 
-    constructor(private dictionary: DictionaryService, associationType: AssociationType) { 
+    constructor(private dictionary: DictionaryService, associationType: AssociationType, private register: RegisterService) { 
         this.associationType = associationType;
     }
 
@@ -48,10 +51,11 @@ export class RegisterBase {
         }
     }
 
-    updateSelectedGroup(groupId: number){
+    async updateSelectedGroup(groupId: number){
         if(groupId){
             this.selectedGroup = this.groups.filter(g => g.id == groupId)[0];
             this.refreshPlaning.next();
+            this.registerRows = await this.register.getRecords(this.selectedAcademicYear.id, this.selectedAssociation.id, groupId);
         }
     }
 }

@@ -34,6 +34,7 @@ import { CreateGroupComponent } from './shared/create-group/create-group.compone
 import { StudentSelectorComponent } from '../monitoring/lists/components/student-selector/student-selector.component';
 import { SharedModule } from '../shared.module';
 import { RegisterPlaningService } from './services/register-planing.service';
+import { RegisterService } from './services/register.service';
 
 defineLocale('ru', ruLocale);
 
@@ -79,7 +80,8 @@ defineLocale('ru', ruLocale);
     ProblemService,
     GroupService,
     AssociationService,
-    RegisterPlaningService
+    RegisterPlaningService,
+    RegisterService
   ],
   entryComponents: [
   ]

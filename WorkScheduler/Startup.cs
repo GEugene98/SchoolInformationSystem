@@ -58,7 +58,7 @@ namespace WorkSheduler
 
                 services.ConfigureApplicationCookie(options =>
                 {
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(180);
+                    options.ExpireTimeSpan = TimeSpan.FromDays(180);
                 });
 
 
@@ -89,7 +89,7 @@ namespace WorkSheduler
                 services.AddScoped<AssociationService>();
                 services.AddScoped<GroupService>();
                 services.AddScoped<PlaningRecordService>();
-
+                services.AddScoped<RegisterService>();
 
 
                 //var context = new CustomAssemblyLoadContext();

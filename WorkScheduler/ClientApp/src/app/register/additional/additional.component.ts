@@ -6,6 +6,7 @@ import { AssociationType } from '../models/enums/association-type.enum';
 import { Group } from '../models/group.model';
 import { RegisterBase } from '../register-base';
 import { GroupService } from '../services/group.service';
+import { RegisterService } from '../services/register.service';
 
 @Component({
   selector: 'app-additional',
@@ -14,7 +15,7 @@ import { GroupService } from '../services/group.service';
 })
 export class AdditionalComponent extends RegisterBase implements OnInit {
 
-  constructor(dictionary: DictionaryService) { 
-    super(dictionary, AssociationType.DO);
+  constructor(dictionary: DictionaryService, register: RegisterService) { 
+    super(dictionary, AssociationType.DO, register);
   }
 }

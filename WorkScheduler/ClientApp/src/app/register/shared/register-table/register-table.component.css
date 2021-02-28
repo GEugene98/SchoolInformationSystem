@@ -9,6 +9,11 @@
 .rg-table .head {
 	font-weight: bold;
 }
+
+.rg-table td {
+	max-width: 50px;
+}
+
 .rg-table th, .rg-table td {
 	border: 1px solid rgb(207, 207, 207);
 	padding: 10px;
@@ -48,3 +53,32 @@
 	width: 100%;
 	z-index: -1;        
 }
+
+.rgt-container {
+	width: 100%;
+	overflow-x: auto;
+	white-space: nowrap;
+}
+
+.legend {
+	font-size: 12px;
+    margin-top: 20px;
+}
+.legend div p span.legend-label {
+	width: 40px;
+	height: 25px;
+	border: 1px solid #d0d0d0;
+	float: left;
+	text-align: center;
+	padding: 3px 0 0 0px;
+	margin: -3px 5px 0 0px;
+}
+
+.cell-input {
+	border: none;
+    background: none;
+	width: 100%;
+	outline: none;
+	text-align: center;
+}
+
