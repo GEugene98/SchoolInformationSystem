@@ -75,34 +75,6 @@ namespace WorkScheduler.Services.Register
                 rows[i].Cells = cells.OrderBy(c => c.Date).ToList();
             }
 
-            //foreach (var item in rows)
-            //{
-            //    var regRecs = registerRecords.FirstOrDefault(g => g.Key == item.Student.Id);
-
-            //    var cells = new List<RegisterRecordViewModel>();
-
-            //    foreach (var cell in planingRecords)
-            //    {
-            //        var newCell = new RegisterRecordViewModel();
-            //        newCell.Date = cell.Date;
-
-            //        if (regRecs!= null)
-            //        {
-            //            var foundRec = regRecs.FirstOrDefault(rr => rr.PlaningRecord.Date == cell.Date);
-            //            if (foundRec != null)
-            //            {
-            //                newCell.Id = foundRec.Id;
-            //                newCell.Content = foundRec.Content;
-            //                newCell.Date = foundRec.PlaningRecord.Date;
-            //            }
-            //        }
-                    
-            //        cells.Add(newCell);
-            //    }
-
-            //    item.Cells = cells;
-            //}
-
             return rows;
         }
     }
