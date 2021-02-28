@@ -27,6 +27,10 @@ export class ContractService {
         return await this.http.delete('api/Contract/DeleteContract', {params: params}).toPromise();
     }
 
+    async editContarct(contract: Contract){
+        return await this.http.post('api/Contract/UpdateContract', contract).toPromise();
+    }
+
     async createContract(contract: Contract){
         return await this.http.post('api/Contract/CreateContract', contract).toPromise();
     }

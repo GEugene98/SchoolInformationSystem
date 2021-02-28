@@ -86,8 +86,8 @@ namespace WorkScheduler.Services.Monitoring
             }
 
             foundContract.Number = contract.Number;
-            foundContract.OrganizationId = contract.OrganizationId;
-            foundContract.SignedById = contract.SignedById;
+            foundContract.OrganizationId = contract.Organization.Id;
+            foundContract.SignedById = contract.SignedBy.Id;
             foundContract.SigningDate = contract.SigningDate;
             foundContract.Status = contract.Status;
             foundContract.Subject = contract.Subject;

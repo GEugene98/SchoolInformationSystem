@@ -118,11 +118,25 @@ export class ContractsComponent implements OnInit {
     return this.columns.filter(i => i.visibility);
   }
 
-  // copy(contract: Contract){
-  //   this.newContract = Object.assign({}, contract);
-  //   if(this.newContract.signingData)
-  //   this.newContract.signingData = new Date(this.newContract.signingData.toString());
-  // }
+  copy(contract: Contract){
+    this.newContract = Object.assign({}, contract);
+    if(this.newContract.signingDate && this.newContract.controlDate){
+      this.newContract.signingDate = new Date(this.newContract.signingDate.toString());
+      this.newContract.controlDate = new Date(this.newContract.controlDate.toString());
+    }
+  }
+
+  async saveContract(){
+    try{
+      await this.contract.editContarct(this.newContract);
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Договор сохранен", life: 5000 });
+      await this.loadData();
+      this.closeModal();
+      this.newContract = new Contract();
+    } catch (e){
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
+  }
 
   async delete(contractId: number){
     try {
@@ -135,9 +149,14 @@ export class ContractsComponent implements OnInit {
   }
 
   async createContract(){
-    await this.contract.createContract(this.contractToCreate);
-    this.closeModal();
-    await this.loadData();
+    try {
+      await this.contract.createContract(this.contractToCreate);
+      this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Договор добавлен в таблицу", life: 5000 });
+      this.closeModal();
+      await this.loadData();
+    } catch (e) {
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
+    }
   }
 
   openModal(modal) {

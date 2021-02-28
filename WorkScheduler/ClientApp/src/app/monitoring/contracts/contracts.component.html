@@ -103,6 +103,70 @@
   </div>
 </ng-template>
 
+<ng-template #edit>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Изменить договор</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div style="margin-top: -10px;">
+      <div>
+        Организация:
+        <ng-select [items]="organizations"
+                   bindLabel="name"
+                   [(ngModel)]="newContract.organization">
+          </ng-select>
+      </div>
+      <div>
+        № договора:
+        <input type="text" [(ngModel)]="newContract.number" class="form-control" placeholder="№ договора">
+      </div>
+      <div>
+        Дата подписания, срок действия:
+        <input type="text" placeholder="Щелкните здесь для выбора" class="form-control" 
+        [(ngModel)]="newContract.signingDate" AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
+      </div>
+      <div>
+        Предмет договора:
+        <input type="text" [(ngModel)]="newContract.subject" class="form-control" placeholder="Предмет договора">
+      </div>
+      <div>
+        Кем подписан:
+        <ng-select [items]="users"
+                   bindLabel="fullName"
+                   [(ngModel)]="newContract.signedBy">
+          </ng-select>
+      </div>
+      <div>
+        Сумма договора:
+        <input type="number" [(ngModel)]="newContract.sum" class="form-control" step="0.01" min="0" placeholder="0,00">
+      </div>
+      <div>
+        Статус:
+          <ng-select [items]="statuses"
+                     bindLabel="name"
+                     bindValue="id"
+                     [(ngModel)]="newContract.status">
+          </ng-select>
+      </div>
+      <div>
+        Дата контроля:
+        <input type="text" placeholder="Щелкните здесь для выбора" class="form-control" 
+        [(ngModel)]="newContract.controlDate" placement="top" AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
+      </div>
+      <div>
+        Комментарий:
+        <textarea [(ngModel)]="newContract.comment" class="form-control" placeholder="Комментарий"></textarea>
+      </div>
+      <div style="text-align:center; margin-top: 15px;">
+        <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+        <button type="button" (click)="saveContract()" class="btn btn-success">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <p-toast [baseZIndex]="1000"></p-toast>
 
