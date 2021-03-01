@@ -1,58 +1,61 @@
-<div class="rgt-container">
-  <table class="rg-table">
-    <tr class="head"> 
-      <td rowspan="2">Ученики</td> 
-      <td *ngFor="let month of getMonths()" [attr.colspan]="month.days">{{month.monthName}}</td>
-    </tr>
-    <tr class="head"> 
-      <td *ngFor="let day of getDays()">{{day}}</td>
-    </tr>
-     
-    <tr *ngFor="let row of rows"> 
-      <td>
-        {{row.student.fullName}}
-      </td>
-      <td *ngFor="let cell of row.cells">
-         <input 
-            type="text" 
-            onkeyup="this.value = this.value.toUpperCase()" 
-            class="cell-input" 
-            [(ngModel)]="cell.content"
-            (ngModelChange)="updateCell(cell)">
-      </td>
-    </tr>
-  </table>
-</div>
-
-<div class="legend print-block">	
-  <div>		
-    <p>
-      <span class="legend-label">УП</span>
-      <span class="legend-description"> — Пропуск по уважительной причине</span>
-    </p>		
-    <p>
-      <span class="legend-label">Б</span>
-      <span class="legend-description"> — Пропуск по болезни</span>
-    </p>		
-    <p>
-      <span class="legend-label">НП</span>
-      <span class="legend-description"> — Пропуск по неуважительной причине</span>
-    </p>	
-  </div>	
-  <div>		
-    <p>
-      <span class="legend-label">ОТ</span>
-      <span class="legend-description"> — Отсутствовал</span>
-    </p>		
-    <p>
-      <span class="legend-label">ОП</span>
-      <span class="legend-description"> — Опоздал</span>
-    </p>	
-  </div>	
-  <div>		
-    <p>
-      <span class="legend-label">ОСВ</span>
-      <span class="legend-description"> — Освобожден</span>
-    </p>	
+<span *ngIf="!rows" style="text-align: center; margin-top: 150px; font-style: italic;">Выберите учебный год, объединение и группу для отображения журнала и КТП</span>
+<div *ngIf="rows">
+  <div class="rgt-container">
+    <table class="rg-table">
+      <tr class="head"> 
+        <td rowspan="2">Ученики</td> 
+        <td *ngFor="let month of getMonths()" [attr.colspan]="month.days">{{month.monthName}}</td>
+      </tr>
+      <tr class="head"> 
+        <td *ngFor="let day of getDays()">{{day}}</td>
+      </tr>
+       
+      <tr *ngFor="let row of rows"> 
+        <td>
+          {{row.student.fullName}}
+        </td>
+        <td *ngFor="let cell of row.cells">
+           <input 
+              type="text" 
+              class="cell-input" 
+              [(ngModel)]="cell.content"
+              (change)="updateCell(cell, row.student.id)">
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  <div class="legend print-block">	
+    <div>		
+      <p>
+        <span class="legend-label">УП</span>
+        <span class="legend-description"> — Пропуск по уважительной причине</span>
+      </p>		
+      <p>
+        <span class="legend-label">Б</span>
+        <span class="legend-description"> — Пропуск по болезни</span>
+      </p>		
+      <p>
+        <span class="legend-label">НП</span>
+        <span class="legend-description"> — Пропуск по неуважительной причине</span>
+      </p>	
+    </div>	
+    <div>		
+      <p>
+        <span class="legend-label">ОТ</span>
+        <span class="legend-description"> — Отсутствовал</span>
+      </p>		
+      <p>
+        <span class="legend-label">ОП</span>
+        <span class="legend-description"> — Опоздал</span>
+      </p>	
+    </div>	
+    <div>		
+      <p>
+        <span class="legend-label">ОСВ</span>
+        <span class="legend-description"> — Освобожден</span>
+      </p>	
+    </div>
   </div>
 </div>
+

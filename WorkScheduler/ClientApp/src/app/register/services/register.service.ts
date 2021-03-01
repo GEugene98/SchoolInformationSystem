@@ -15,4 +15,14 @@ export class RegisterService {
   
         return await this.http.get<RegisterRow[]>('api/Register/GetRecords', { params: params } ).toPromise();
     }
+
+    async updateCell(planingRecordId: number, studentId: string, cellId: number, content: string){
+        const params = new HttpParams()
+            .set('planingRecordId', planingRecordId.toString())
+            .set('studentId', studentId)
+            .set('cellId', cellId.toString())
+            .set('content', content);
+  
+        return await this.http.get<RegisterRow[]>('api/Register/MakeMark', { params: params } ).toPromise();
+    }
 }

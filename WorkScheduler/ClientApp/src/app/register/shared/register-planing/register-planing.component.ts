@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
@@ -20,14 +20,14 @@ export class RegisterPlaningComponent implements OnInit {
 
   importModel: ImportPlaning = new ImportPlaning();
 
-  records: PlaningRecord[] = [];
+  @Input() records: PlaningRecord[] = [];
   editedRecord: PlaningRecord = new PlaningRecord();
 
   @Input() selectedAcademicYear: AcademicYear;
   @Input() selectedAssociation: Dictionary<number>;
   @Input() selectedGroup: Dictionary<number>;
 
-  @Input() needRefresh: Subject<boolean>;
+  @Output() ktpChanged = new EventEmitter();
   
   constructor(private planingService: RegisterPlaningService, 
     private modalService: BsModalService, 
@@ -36,12 +36,11 @@ export class RegisterPlaningComponent implements OnInit {
     }
 
   async ngOnInit() {
-    await this.loadData();
-
-    this.needRefresh.subscribe(() => this.loadData());
+    //await this.loadData();
   }
 
   async loadData(){
+    this.ktpChanged.emit();
     if(this.selectedAcademicYear && this.selectedAssociation.id && this.selectedGroup){
       this.records = await this.planingService.getRecords(this.selectedAcademicYear.id, this.selectedAssociation.id, this.selectedGroup.id);
     }

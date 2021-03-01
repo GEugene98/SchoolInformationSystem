@@ -22,4 +22,8 @@ export class GroupService {
         return await this.http.post('api/Group/CreateGroup', group, { params: params }).toPromise();
     }
 
+    async updateGroup(group: Group) {
+        return await this.http.post('api/Group/UpdateGroup', group).toPromise();
+    }
+
 }

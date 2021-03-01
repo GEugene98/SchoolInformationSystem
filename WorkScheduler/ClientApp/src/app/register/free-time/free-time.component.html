@@ -9,19 +9,20 @@
   [groups]="groups">
 </app-register-params>
   <div class="pane">
-    <button type="button" class="btn btn-primary">Сформировать документ</button>
+    <!-- <button type="button" class="btn btn-primary">Сформировать документ</button> -->
   </div>
   <div class="tabs">
     <tabset>
       <tab heading="Журнал">
-        <app-register-table [rows]="registerRows"></app-register-table>
+        <app-register-table [rows]="registerRows" (updateCellEvent)="updateCell($event)"></app-register-table>
       </tab>
       <tab heading="Календарно-тематическое планирование">
         <app-register-planing
         [selectedAcademicYear]="selectedAcademicYear"
         [selectedAssociation]="selectedAssociation"
         [selectedGroup]="selectedGroup"
-        [needRefresh]="refreshPlaning"
+        [records]="planingRecords"
+        (ktpChanged)="loadRegister()"
       ></app-register-planing>
       </tab>
     </tabset>

@@ -27,5 +27,15 @@ namespace WorkScheduler.Controllers
             var result = RegisterService.GetRecords(academicYearId, associationId, groupId, schoolId);
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("MakeMark")]
+        public IActionResult MakeMark(int planingRecordId, int studentId, string content, int? cellId)
+        {
+            RegisterService.MakeMark(studentId, planingRecordId, content, cellId);
+            return Ok();
+        }
     }
+
+
 }

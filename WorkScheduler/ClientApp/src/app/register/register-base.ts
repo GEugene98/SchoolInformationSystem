@@ -4,8 +4,11 @@ import { Dictionary } from "../shared/models/dictionary.model";
 import { DictionaryService } from "../shared/services/dictionary.service";
 import { AssociationType } from "./models/enums/association-type.enum";
 import { Group } from "./models/group.model";
+import { PlaningRecord } from "./models/planing-record.model";
+import { RegisterRecord } from "./models/register-record.model";
 import { RegisterRow } from "./models/register-row.model";
 import { GroupService } from "./services/group.service";
+import { RegisterPlaningService } from "./services/register-planing.service";
 import { RegisterService } from "./services/register.service";
 
 export class RegisterBase {
@@ -16,10 +19,10 @@ export class RegisterBase {
     groups: Dictionary<number>[];
     selectedGroup: Dictionary<number>;
     associationType: AssociationType;
-    refreshPlaning: Subject<boolean> = new Subject();
-    registerRows: RegisterRow[] = [];
+    registerRows: RegisterRow[];
+    planingRecords: PlaningRecord[];
 
-    constructor(private dictionary: DictionaryService, associationType: AssociationType, private register: RegisterService) { 
+    constructor(private dictionary: DictionaryService, associationType: AssociationType, private register: RegisterService, private planingService: RegisterPlaningService) { 
         this.associationType = associationType;
     }
 
@@ -51,11 +54,22 @@ export class RegisterBase {
         }
     }
 
+    async updateCell(data){
+        if(data.cell.content) {
+            await this.register.updateCell(data.cell.planingRecordId, data.studentId, data.cell.id, data.cell.content);
+            this.registerRows = await this.register.getRecords(this.selectedAcademicYear.id, this.selectedAssociation.id, this.selectedGroup.id);
+        }
+    }
+
     async updateSelectedGroup(groupId: number){
         if(groupId){
             this.selectedGroup = this.groups.filter(g => g.id == groupId)[0];
-            this.refreshPlaning.next();
+            this.planingRecords = await this.planingService.getRecords(this.selectedAcademicYear.id, this.selectedAssociation.id, groupId);
             this.registerRows = await this.register.getRecords(this.selectedAcademicYear.id, this.selectedAssociation.id, groupId);
         }
+    }
+
+    async loadRegister() {
+        this.registerRows = await this.register.getRecords(this.selectedAcademicYear.id, this.selectedAssociation.id, this.selectedGroup.id);
     }
 }

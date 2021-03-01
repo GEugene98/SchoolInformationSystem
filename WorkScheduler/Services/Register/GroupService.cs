@@ -71,5 +71,29 @@ namespace WorkScheduler.Services.Register
             return newGroup.Id;
         }
 
+        public void UpdateGroup(GroupViewModel group)
+        {
+            var foundGroup = Db.Groups.FirstOrDefault(g => g.Id == group.Id);
+
+            foundGroup.Name = group.Name;
+
+            Db.SaveChanges();
+
+            var bindings = Db.GroupStudents.Where(gs => gs.GroupId == group.Id);
+            Db.GroupStudents.RemoveRange(bindings);
+
+            if (group.Students != null && group.Students.Count > 0)
+            {
+                var gss = new List<GroupStudent>();
+
+                foreach (var item in group.Students)
+                    gss.Add(new GroupStudent { GroupId = foundGroup.Id, StudentId = item.Id });
+
+                Db.GroupStudents.AddRange(gss);
+                Db.SaveChanges();
+            }
+
+        }
+
     }
 }

@@ -30,6 +30,8 @@ export class RegisterTableSettingsComponent implements OnInit {
   selectedAcademicYear: AcademicYear;
   newAssociation: Association;
   modalRef: BsModalRef;
+
+  editedGroup: Group;
   
   constructor(private groupService: GroupService, private associationService: AssociationService, private modalService: BsModalService) { }
 
@@ -75,6 +77,20 @@ export class RegisterTableSettingsComponent implements OnInit {
     this.loadData();
   }
 
+  openEditGroupModal(modal, group: Group){
+    this.editedGroup = Object.assign({}, group);
+    this.openModal(modal);
+  }
+
+  updateStudentsInGroup(students: Student[]){
+    this.editedGroup.students = students;
+  }
+
+  async updateGroup() {
+    await this.groupService.updateGroup(this.editedGroup);
+    await this.loadData();
+    this.closeModal();
+  }
 
   getStudentsInGroup(group: Group) {
     var str = "";

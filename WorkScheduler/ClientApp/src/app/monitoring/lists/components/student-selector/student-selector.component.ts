@@ -10,7 +10,7 @@ export class StudentSelectorComponent implements OnInit {
 
 
   @Input() allStudents : Student[];
-  selectedStudents: Student[] = [];
+  @Input() selectedStudents: Student[] = []; 
   foundStudent: Student;
 
   @Output() selectedStudentsChanged = new EventEmitter<Student[]>();

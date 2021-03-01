@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RegisterRecord } from '../../models/register-record.model';
 import { RegisterRow } from '../../models/register-row.model';
 
@@ -11,7 +11,8 @@ const monthNames = ["Январь", "Февраль", "Март", "Апрель"
 })
 export class RegisterTableComponent implements OnInit {
 
-  @Input() rows: RegisterRow[] = [];
+  @Input() rows: RegisterRow[];
+  @Output() updateCellEvent = new EventEmitter();
 
   constructor() { }
 
@@ -47,7 +48,7 @@ export class RegisterTableComponent implements OnInit {
     return [];
   }
 
-  updateCell(cell: RegisterRecord) {
-    console.log(cell);
+  updateCell(cell: RegisterRecord, studentId: string) {
+    this.updateCellEvent.emit({cell: cell, studentId: studentId});
   }
 }

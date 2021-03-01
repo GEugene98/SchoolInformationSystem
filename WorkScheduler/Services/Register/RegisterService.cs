@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using WorkScheduler.Models.Register;
 using WorkScheduler.ViewModels.Monitoring.Shared;
 using WorkScheduler.ViewModels.Register;
 
@@ -57,6 +58,7 @@ namespace WorkScheduler.Services.Register
                 {
                     var newCell = new RegisterRecordViewModel();
                     newCell.Date = cell.Date;
+                    newCell.PlaningRecordId = (int)cell.Id;
 
                     if (regRecs != null)
                     {
@@ -66,6 +68,7 @@ namespace WorkScheduler.Services.Register
                             newCell.Id = foundRec.Id;
                             newCell.Content = foundRec.Content;
                             newCell.Date = foundRec.PlaningRecord.Date;
+                            newCell.PlaningRecordId = foundRec.Id;
                         }
                     }
 
@@ -77,5 +80,29 @@ namespace WorkScheduler.Services.Register
 
             return rows;
         }
+
+        public void MakeMark(int studentId, int planingRecordId, string content, int? cellId)
+        {
+            if (cellId.HasValue && cellId != 0)
+            {
+                var record = Db.RegisterRecords.FirstOrDefault(r => r.Id == cellId);
+                record.Content = content;
+                Db.SaveChanges();
+                return;
+            }
+
+            var newRecord = new RegisterRecord
+            {
+                StudentId = studentId,
+                Content = content,
+                PlaningRecordId = planingRecordId
+            };
+
+            Db.RegisterRecords.Add(newRecord);
+
+            Db.SaveChanges();
+        }
     }
+
+     
 }

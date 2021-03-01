@@ -41,5 +41,12 @@ namespace WorkScheduler.Controllers
             return Ok(result);
         }
 
+        [HttpPost("UpdateGroup")]
+        public IActionResult UpdateGroup([FromBody] GroupViewModel group)
+        {
+            GroupService.UpdateGroup(group);
+            return Ok();
+        }
+
     }
 }
