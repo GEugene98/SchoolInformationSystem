@@ -4,7 +4,7 @@
       <td rowspan="2">Ученики</td> 
       <td *ngFor="let month of getMonths()" [attr.colspan]="month.days">{{month.monthName}}</td>
     </tr>
-    <tr> 
+    <tr class="head"> 
       <td *ngFor="let day of getDays()">{{day}}</td>
     </tr>
      
