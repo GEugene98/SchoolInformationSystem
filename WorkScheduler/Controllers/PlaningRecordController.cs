@@ -35,6 +35,10 @@ namespace WorkScheduler.Controllers
         [Route("UpdateRecord")]
         public IActionResult UpdateRecord([FromBody]PlaningRecordViewModel record)
         {
+            if (record.Date.HasValue)
+            {
+                record.Date = record.Date.Value.AddHours(3);
+            }
             PlaningRecordService.UpdateRecord(record);
             return Ok();
         }
