@@ -45,9 +45,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
   similarTickets: Ticket[];
   showAllSimilar: boolean = false;
 
-  @ViewChild("deleteAll") deleteAllModal: ElementRef;
-  @ViewChild("addWithTime") addWithTimeModal: ElementRef;
-  @ViewChild("fullComment") fullCommentModal: ElementRef;
+  @ViewChild("deleteAll", { static: true }) deleteAllModal: ElementRef;
+  @ViewChild("addWithTime", { static: true }) addWithTimeModal: ElementRef;
+  @ViewChild("fullComment", { static: true }) fullCommentModal: ElementRef;
 
   days: number[] = undefined;
   dateTo: Date = new Date();

@@ -31,7 +31,7 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
 
   statuses = [{id: undefined, name: ''},{id: 0, name: 'Не назначено'}, {id: 1, name: 'Назначено'}, {id: 2, name: 'Принято'}, {id: 3, name: 'Отклонено'}, {id: 4, name: 'Готово'}];
 
-  @ViewChild("fullComment") fullCommentModal: ElementRef;
+  @ViewChild("fullComment", { static: true }) fullCommentModal: ElementRef;
 
   checklistId: number;
   checklist: Checklist;

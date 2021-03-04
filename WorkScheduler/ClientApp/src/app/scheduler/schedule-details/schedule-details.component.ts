@@ -22,7 +22,7 @@ import { Activity } from '../../shared/models/activity.model';
 export class ScheduleDetailsComponent implements OnInit {
 
   modalRef: BsModalRef;
-  @ViewChild("selectDate") selectDateModal: ElementRef;
+  @ViewChild("selectDate", { static: true }) selectDateModal: ElementRef;
   selectedAll: boolean;
   bsConfig: any;
   scheduleId: number;

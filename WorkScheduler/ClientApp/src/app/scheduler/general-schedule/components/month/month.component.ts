@@ -25,7 +25,7 @@ export class MonthComponent implements OnInit {
   rangeBsConfig: any;
   generalSchedule: GeneralSchedule;
 
-  @ViewChild("selectDate") selectDateModal: ElementRef;
+  @ViewChild("selectDate", { static: true }) selectDateModal: ElementRef;
 
   modalRef: BsModalRef;
 
