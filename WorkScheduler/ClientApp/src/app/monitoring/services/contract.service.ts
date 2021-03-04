@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Contract } from "../models/contract.model";
-import { async } from "@angular/core/testing";
+import { waitForAsync } from "@angular/core/testing";
 
 
 @Injectable()

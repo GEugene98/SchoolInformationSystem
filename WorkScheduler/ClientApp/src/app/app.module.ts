@@ -138,7 +138,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     SchedulerModule,
     RegisterModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     UploadModule,
     TabsModule.forRoot(),
     BsDatepickerModule.forRoot(),

@@ -10,7 +10,9 @@ import { RegisterRow } from "./models/register-row.model";
 import { GroupService } from "./services/group.service";
 import { RegisterPlaningService } from "./services/register-planing.service";
 import { RegisterService } from "./services/register.service";
+import { Directive } from "@angular/core";
 
+@Directive()
 export class RegisterBase {
     allAcademicYears: AcademicYear[];
     selectedAcademicYear: AcademicYear;
