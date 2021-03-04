@@ -404,7 +404,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let ticket of userState.assignedTickets.state" [class.expired]="false">
-                    <td><span placement="left" theme="light" z-index="10000" [tooltip]="getTooltip(ticket)" style="color: skyblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></td>
+                    <td><span placement="left" theme="light" z-index="10000" [title]="getTooltip(ticket)" style="color: skyblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></td>
                     <td><span *ngIf="ticket.date">{{ticket.date | date : 'dd.MM.yyyy'}}</span></td>
                     <td><span *ngIf="ticket.hours">{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes < 10">0</span></span></td>
                     <td>{{ticket.name}}</td>

@@ -19,8 +19,8 @@ import { MonthComponent } from './general-schedule/components/month/month.compon
 import { YearComponent } from './general-schedule/components/year/year.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { AcceptComponent } from './accept/accept.component';
-import { MessageService } from 'primeng/components/common/messageservice';
-import { GrowlModule } from 'primeng/growl';
+// import { MessageService } from 'primeng/components/common/messageservice';
+// import { GrowlModule } from 'primeng/growl';
 import { ToastModule } from 'primeng/toast';
 import { ChartModule } from 'primeng/chart';
 
@@ -36,7 +36,6 @@ import { TimelineComponent } from './timeline/timeline.component';
 import { ActionComponent } from './action/action.component';
 import { ConfirmAcceptScheduleComponent } from './confirm-accept-schedule/confirm-accept-schedule.component';
 import { RepeatComponent } from './timeline/components/repeat/repeat.component';
-import { TooltipModule } from 'ng2-tooltip-directive';
 import { ChecklistsComponent } from './checklists/checklists.component';
 import { ChecklistDetailsComponent } from './checklist-details/checklist-details.component';
 import { OtherChecklistsComponent } from './other-checklists/other-checklists.component';
@@ -44,6 +43,7 @@ import { ProblemService } from '../shared/services/problem.service';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { ProtocolsComponent } from './protocols/protocols.component';
 import { ProtocolDetailsComponent } from './protocols/components/protocol-details/protocol-details.component';
+import { MessageService } from 'primeng/api';
 defineLocale('ru', ruLocale); 
 
 @NgModule({
@@ -75,8 +75,6 @@ defineLocale('ru', ruLocale);
     MatDialogModule,
     BrowserAnimationsModule,
     NgSelectModule,
-    GrowlModule,
-    TooltipModule,
     ToastModule,
     ChartModule,
     TabsModule,

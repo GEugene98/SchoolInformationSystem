@@ -8,14 +8,11 @@ import { TabsModule, ModalModule, PaginationModule, defineLocale, ruLocale } fro
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MessageService } from 'primeng/components/common/messageservice';
-import { GrowlModule } from 'primeng/growl';
 import { ToastModule } from 'primeng/toast';
 import { ChartModule } from 'primeng/chart';
 import { UserState } from '../shared/states/user.state';
 import { DictionaryService } from '../shared/services/dictionary.service';
 import { AccountService } from '../shared/services/account.service';
-import { TooltipModule } from 'ng2-tooltip-directive';
 import { ProblemService } from '../shared/services/problem.service';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { RegisterScheduleComponent } from './register-schedule/register-schedule.component';
@@ -35,6 +32,7 @@ import { StudentSelectorComponent } from '../monitoring/lists/components/student
 import { SharedModule } from '../shared.module';
 import { RegisterPlaningService } from './services/register-planing.service';
 import { RegisterService } from './services/register.service';
+import { MessageService } from 'primeng/api';
 
 defineLocale('ru', ruLocale);
 
@@ -59,8 +57,6 @@ defineLocale('ru', ruLocale);
     MatDialogModule,
     BrowserAnimationsModule,
     NgSelectModule,
-    GrowlModule,
-    TooltipModule,
     ToastModule,
     ChartModule,
     TabsModule,

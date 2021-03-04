@@ -1,6 +1,7 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/distinctUntilChanged';
+
+import {distinctUntilChanged} from 'rxjs/operators';
+import { BehaviorSubject ,  Observable } from 'rxjs';
+
 
 export class DataStore<T extends any> {
   private subject: BehaviorSubject<T>;
@@ -14,5 +15,5 @@ export class DataStore<T extends any> {
   }
 
   /** Поток хранилища для подписки на него */
-  public get state$(): Observable<T> { return this.subject.asObservable().distinctUntilChanged(); }
+  public get state$(): Observable<T> { return this.subject.asObservable().pipe(distinctUntilChanged()); }
 }
