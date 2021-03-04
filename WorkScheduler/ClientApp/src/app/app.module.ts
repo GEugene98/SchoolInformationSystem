@@ -21,7 +21,6 @@ import { ConfirmComponent } from './scheduler/confirm/confirm.component';
 import { AcceptComponent } from './scheduler/accept/accept.component';
 import { ScheduleDetailsComponent } from './scheduler/schedule-details/schedule-details.component';
 import { TimelineComponent } from './scheduler/timeline/timeline.component';
-import { NgxUiLoaderModule, NgxUiLoaderConfig } from 'ngx-ui-loader';
 import { ChecklistsComponent } from './scheduler/checklists/checklists.component';
 import { ChartModule } from 'primeng/chart';
 import { ChecklistDetailsComponent } from './scheduler/checklist-details/checklist-details.component';
@@ -37,17 +36,11 @@ import { AdditionalComponent } from './register/additional/additional.component'
 import { FreeTimeComponent } from './register/free-time/free-time.component';
 import { RegisterSettingsComponent } from './register/register-settings/register-settings.component';
 import { RegisterScheduleComponent } from './register/register-schedule/register-schedule.component';
-import { RegisterParamsComponent } from './register/shared/register-params/register-params.component';
-import { RegisterTableComponent } from './register/shared/register-table/register-table.component';
-import { RegisterPlaningComponent } from './register/shared/register-planing/register-planing.component';
 import { RegisterGpdComponent } from './register/register-gpd/register-gpd.component';
 import { MonitoringsMainComponent } from './monitoring/monitorings-main/monitorings-main.component';
 import { MonitoringModule } from './monitoring';
 import { ListsComponent } from './monitoring/lists/lists.component';
 import { ContractsComponent } from './monitoring/contracts/contracts.component';
-import { StudentSelectorComponent } from './monitoring/lists/components/student-selector/student-selector.component';
-import { CreateGroupComponent } from './register/shared/create-group/create-group.component';
-
  
 defineLocale('ru', ruLocale);
 
@@ -87,32 +80,6 @@ const routes = [
   }
 ];
 
-const ngxUiLoaderConfig: NgxUiLoaderConfig =
-{
-  "bgsColor": "rgb(76,175,80)",
-  "bgsOpacity": 0.5,
-  "bgsPosition": "bottom-right",
-  "bgsSize": 60,
-  "bgsType": "square-jelly-box",
-  "blur": 0,
-  "fgsColor": "rgb(76,175,80)",
-  "fgsPosition": "center-center",
-  "fgsSize": 60,
-  "fgsType": "square-jelly-box",
-  "gap": 24,
-  "logoPosition": "center-center",
-  "logoSize": 120,
-  "logoUrl": "",
-  "overlayColor": "rgba(40, 40, 40, 0.8)",
-  "pbColor": "rgb(76,175,80)",
-  "pbDirection": "ltr",
-  "pbThickness": 3,
-  "hasProgressBar": false,
-  "text": "Загрузка данных с сервера...",
-  "textColor": "#c5c5c5",
-  "textPosition": "center-center",
-  "threshold": 500
-}
 
 @NgModule({
   declarations: [ 
@@ -130,14 +97,10 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig =
     ChartModule,
     ToastModule,
     MonitoringModule,
-    //TooltipModule.forChild(),
-    //TabsModule.forRoot(),
-    //BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     FormsModule,
     SchedulerModule,
     RegisterModule,
-    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     UploadModule,
     TabsModule.forRoot(),
