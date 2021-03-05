@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 import { ActivatedRoute } from '@angular/router';
 import { Checklist } from '../../shared/models/checklist.model';
 import { ScheduleService } from '../services/schedule.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Ticket } from '../../shared/models/ticket.model';
 import { DictionaryService } from '../../shared/services/dictionary.service';
 import { User } from '../../shared/models/user';
@@ -31,7 +31,7 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
 
   statuses = [{id: undefined, name: ''},{id: 0, name: 'Не назначено'}, {id: 1, name: 'Назначено'}, {id: 2, name: 'Принято'}, {id: 3, name: 'Отклонено'}, {id: 4, name: 'Готово'}];
 
-  @ViewChild("fullComment", { static: true }) fullCommentModal: ElementRef;
+  @ViewChild("fullComment", { static: true }) fullCommentModal;
 
   checklistId: number;
   checklist: Checklist;
@@ -59,7 +59,7 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
     private dictionary: DictionaryService,
     private userState: UserState,
     private messageService: MessageService,
-    private ngxService: NgxUiLoaderService,
+     
     private titleService: Title,
     private schedule: ScheduleService) { 
     this.checklistId = this.activateRoute.snapshot.params['id'];
@@ -85,15 +85,15 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
 
   @Debounce(1500)
   async loadData(showLoader: boolean = true, scrollToTop: boolean = false) {
-    if (showLoader) this.ngxService.start();
-    let response = await this.schedule.getChecklist(this.checklistId, this.getRequestDetails());
+    if (showLoader)  
+    var response = await this.schedule.getChecklist(this.checklistId, this.getRequestDetails());
     this.checklist = response.body;
     this.totalItemCount = response.totalItemCount;
     this.totalPages = response.pageCount;
     this.titleService.setTitle(this.checklist.name);
     this.responsibles = this.dictionary.getResponsibles();
     this.newTicket = new Ticket();
-    if (showLoader) this.ngxService.stop();
+    if (showLoader)   
     if (scrollToTop) window.scrollTo(0, 0);
   }
 

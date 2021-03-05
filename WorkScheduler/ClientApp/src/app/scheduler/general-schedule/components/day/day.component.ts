@@ -4,9 +4,9 @@ import { Action } from '../../../../shared/models/action.model';
 import { ScheduleService } from '../../../services/schedule.service';
 import { User, isUserInRole } from '../../../../shared/models/user';
 import { UserState } from '../../../../shared/states/user.state';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
+   
 import { MessageService } from 'primeng/api';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Ticket } from '../../../../shared/models/ticket.model';
 import { Time } from '../../../../shared/models/time.model';
 
@@ -29,7 +29,7 @@ export class DayComponent implements OnInit {
   newTicket: Ticket;
 
   constructor(private schedule: ScheduleService, public userState: UserState,
-    private ngxService: NgxUiLoaderService,
+     
     private messageService: MessageService,
     private modalService: BsModalService,
   ) {
@@ -41,7 +41,7 @@ export class DayComponent implements OnInit {
   }
 
   async loadData() {
-    this.ngxService.start();
+     
     try {
       this.day = await this.schedule.getScheduleForDay(this.date, this.showMine);
       this.actions = new Array<Action>();
@@ -52,7 +52,7 @@ export class DayComponent implements OnInit {
       console.log(e);
     }
     finally {
-      this.ngxService.stop();
+        
     }
   }
 

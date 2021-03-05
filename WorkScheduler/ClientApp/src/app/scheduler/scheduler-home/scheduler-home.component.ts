@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserState } from '../../shared/states/user.state';
 import { User } from '../../shared/models/user';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ScheduleService } from '../services/schedule.service';
 import { DictionaryService } from '../../shared/services/dictionary.service';
 
@@ -13,12 +12,11 @@ import { DictionaryService } from '../../shared/services/dictionary.service';
 })
 export class SchedulerHomeComponent implements OnInit {
 
-  constructor(private http: HttpClient, private userState: UserState, private schedule: ScheduleService, private dictionary: DictionaryService, private ngxService: NgxUiLoaderService) {
+  constructor(private http: HttpClient, private userState: UserState, private schedule: ScheduleService, private dictionary: DictionaryService) {
   }
 
   async ngOnInit() {
     try {
-        this.ngxService.start();
         this.userState.currentUser.state = await this.http.get<User>('/api/Account/GetCurrentUserInfo').toPromise();
 
         let notifications = await this.dictionary.getNotifications();
@@ -47,7 +45,6 @@ export class SchedulerHomeComponent implements OnInit {
       location.href = '/api/Account/Login';
     }
     finally {
-      this.ngxService.stop();
     }
   }
 

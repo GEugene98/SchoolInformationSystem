@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { TabsModule, ModalModule, PaginationModule, defineLocale, ruLocale } from 'ngx-bootstrap';
+import { TabsModule } from 'ngx-bootstrap/tabs'; 
+import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ChartModule } from 'primeng/chart';
@@ -20,11 +21,11 @@ import { MonitoringsMainComponent } from './monitorings-main/monitorings-main.co
 import { ListsComponent } from './lists/lists.component';
 import { ClassesComponent } from './lists/classes/classes.component';
 import { StudentsComponent } from './lists/students/students.component';
-import { AccordionModule } from 'primeng/accordion';
 import { ContractsComponent } from './contracts/contracts.component';
 import { StudentService } from './services/student.service';
-import { StudentSelectorComponent } from './lists/components/student-selector/student-selector.component';
 import { ClassService } from './services/class.service';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ruLocale } from 'ngx-bootstrap/locale';
 
 import { ContractService } from './services/contract.service';
 import { SharedModule } from '../shared.module';
@@ -46,7 +47,6 @@ defineLocale('ru', ruLocale);
     SharedModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    MatDialogModule,
     BrowserAnimationsModule,
     NgSelectModule,
     ToastModule,
@@ -58,7 +58,6 @@ defineLocale('ru', ruLocale);
     FormsModule,
     RouterModule.forChild([]),
     UploadModule,
-    AccordionModule,
     PaginationModule.forRoot()
   ],
   providers: [
@@ -70,7 +69,8 @@ defineLocale('ru', ruLocale);
     StudentService,
     ClassService,
     ContractService,
-    DatePipe
+    DatePipe,
+    BsModalService
   ],
   entryComponents: [
   ]

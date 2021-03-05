@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { AcademicYear } from '../../../shared/models/academic-year.model';

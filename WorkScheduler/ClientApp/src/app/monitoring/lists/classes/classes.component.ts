@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { indexOf } from 'lodash';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { AcademicYear } from '../../../shared/models/academic-year.model';
 import { Student } from '../../../shared/models/student';

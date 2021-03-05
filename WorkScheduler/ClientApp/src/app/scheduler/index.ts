@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { TabsModule, ModalModule, PaginationModule } from 'ngx-bootstrap';
+import { TabsModule } from 'ngx-bootstrap/tabs'; 
+import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { SchedulerHomeComponent } from './scheduler-home/scheduler-home.component';
 import { MySchedules } from './my-schedules/my-schedules.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { GeneralScheduleComponent } from './general-schedule/general-schedule.component';
 import { DayComponent } from './general-schedule/components/day/day.component';
 import { WeekComponent } from './general-schedule/components/week/week.component';
@@ -72,7 +72,6 @@ defineLocale('ru', ruLocale);
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    MatDialogModule,
     BrowserAnimationsModule,
     NgSelectModule,
     ToastModule,
@@ -92,7 +91,8 @@ defineLocale('ru', ruLocale);
     ScheduleService,
     MessageService,
     AccountService, 
-    ProblemService
+    ProblemService,
+    BsModalService
   ],
   entryComponents: [
   ]

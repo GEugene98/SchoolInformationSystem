@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { TabsModule, ModalModule, ButtonsModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -41,7 +40,10 @@ import { MonitoringsMainComponent } from './monitoring/monitorings-main/monitori
 import { MonitoringModule } from './monitoring';
 import { ListsComponent } from './monitoring/lists/lists.component';
 import { ContractsComponent } from './monitoring/contracts/contracts.component';
- 
+import { TabsModule } from 'ngx-bootstrap/tabs'; 
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+
 defineLocale('ru', ruLocale);
 
 const routes = [

@@ -4,7 +4,7 @@ import { User } from '../../../shared/models/user';
 import { Dictionary } from '../../../shared/models/dictionary.model';
 import { AccountService } from '../../../shared/services/account.service';
 import { Register } from '../../../shared/models/register.model';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Title } from '@angular/platform-browser';
 import { UserState } from '../../../shared/states/user.state';
 

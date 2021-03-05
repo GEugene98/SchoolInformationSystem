@@ -3,9 +3,9 @@ import { GeneralSchedule } from '../../../../shared/models/general-schedule.mode
 import { isUserInRole, User } from '../../../../shared/models/user';
 import { UserState } from '../../../../shared/states/user.state';
 import { ScheduleService } from '../../../services/schedule.service';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
+   
 import { Action } from '../../../../shared/models/action.model';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { DictionaryService } from '../../../../shared/services/dictionary.service';
 import { Ticket } from '../../../../shared/models/ticket.model';
 import { Time } from '../../../../shared/models/time.model';
@@ -42,7 +42,7 @@ export class MonthComponent implements OnInit {
 
   constructor(private schedule: ScheduleService,
     public userState: UserState,
-    private ngxService: NgxUiLoaderService,
+     
     private messageService: MessageService,
     private modalService: BsModalService, private dictionary: DictionaryService) {
     this.rangeBsConfig = { rangeInputFormat: 'DD.MM.YYYY', locale: 'ru' };
@@ -54,7 +54,7 @@ export class MonthComponent implements OnInit {
   }
 
   async loadData() {
-    this.ngxService.start();
+     
     try {
       this.generalSchedule = await this.schedule.getScheduleForPeriod(this.range[0], this.range[1], this.showMine);
       this.allResponsibles = this.dictionary.getResponsibles();
@@ -62,7 +62,7 @@ export class MonthComponent implements OnInit {
     } catch (e) {
     }
     finally {
-      this.ngxService.stop();
+        
     }
 
   }

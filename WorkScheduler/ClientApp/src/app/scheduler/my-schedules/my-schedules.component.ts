@@ -1,16 +1,13 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { DictionaryService } from '../../shared/services/dictionary.service';
 import { AcademicYear } from '../../shared/models/academic-year.model';
-import { Activity, Color } from '../../shared/models/activity.model';
-import { WorkSchedule } from '../../shared/models/work-schedule.model';
-import { MessageService } from 'primeng/components/common/messageservice';
-import { Message } from 'primeng/api';
+import { Activity } from '../../shared/models/activity.model';
 import { ScheduleService } from '../services/schedule.service';
 import { Title } from '@angular/platform-browser';
 import { UserState } from '../../shared/states/user.state';
-import _ = require('lodash');
+import * as _ from 'lodash';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-my-schedules-component',
@@ -31,9 +28,9 @@ export class MySchedules {
   constructor(private modalService: BsModalService,
     private dictionary: DictionaryService,
     private messageService: MessageService,
-    private userState: UserState,
+    public userState: UserState,
     private titleService: Title,
-    private schedule: ScheduleService) {
+    public schedule: ScheduleService) {
     this.loadData();
     this.selectedActivityId = this.selectedAcademicYearId = 0;
     this.titleService.setTitle('Мои планы');

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Action } from '../../shared/models/action.model';
 import { ScheduleService } from '../services/schedule.service';
 import { MessageService } from 'primeng/api';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
+   
 import { ActionStatus } from '../../shared/enums/action-status.enum';
 import { Title } from '@angular/platform-browser';
 import { WorkSchedule } from '../../shared/models/work-schedule.model';
@@ -18,7 +18,7 @@ export class ConfirmComponent implements OnInit {
 
   constructor(private schedule: ScheduleService,
     private messageService: MessageService,
-    private ngxService: NgxUiLoaderService,
+     
     private titleService: Title) {
     this.titleService.setTitle('Планы для согласования');
   }
@@ -28,13 +28,13 @@ export class ConfirmComponent implements OnInit {
   }
 
   async loadData() {
-    this.ngxService.start();
+     
     try {
       this.schedules = await this.schedule.getActionsToMake(ActionStatus.Confirmed);
     } catch (e) {
     }
     finally {
-      this.ngxService.stop();
+        
     }
   }
 
@@ -43,7 +43,7 @@ export class ConfirmComponent implements OnInit {
       this.messageService.add({ severity: 'info', summary: 'Предупреждение', detail: 'Необходимо выбрать хотя бы одно мероприятие', life: 5000 });
       return;
     }
-    this.ngxService.start();
+     
     try {
       await this.schedule.confirm(actionIdsToConfirm);
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Выбраные мероприятия согласованы", life: 5000 });
@@ -52,7 +52,7 @@ export class ConfirmComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
     finally {
-      this.ngxService.stop();
+        
     }
   }
 
@@ -61,7 +61,7 @@ export class ConfirmComponent implements OnInit {
       this.messageService.add({ severity: 'info', summary: 'Предупреждение', detail: 'Необходимо выбрать хотя бы одно мероприятие', life: 5000 });
       return;
     }
-    this.ngxService.start();
+     
     try {
       await this.schedule.cancelConfirming(actionIdsToCancel);
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Выбраные мероприятия отклонены", life: 5000 });
@@ -70,7 +70,7 @@ export class ConfirmComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
     finally {
-      this.ngxService.stop();
+        
     }
   }
 }

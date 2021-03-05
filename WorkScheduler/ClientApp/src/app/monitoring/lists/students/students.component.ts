@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Student } from '../../../shared/models/student';
 import { StudentService } from '../../services/student.service';
 
@@ -14,7 +14,7 @@ export class StudentsComponent implements OnInit {
   modalRef: BsModalRef;
   studentToCreate: Student = new Student();
 
-  constructor(private modalService: BsModalService, private studentService: StudentService) { 
+  constructor(private modalService: BsModalService, public studentService: StudentService) { 
     this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
   }
 

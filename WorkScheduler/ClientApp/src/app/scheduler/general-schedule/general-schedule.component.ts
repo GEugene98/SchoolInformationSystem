@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { last } from '@angular/router/src/utils/collection';
 import { Title } from '@angular/platform-browser';
 
 @Component({

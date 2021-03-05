@@ -1,14 +1,12 @@
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ScheduleService } from '../services/schedule.service';
 import { DictionaryService } from '../../shared/services/dictionary.service';
 import { MessageService } from 'primeng/api';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { UserState } from '../../shared/states/user.state';
 import { Ticket } from '../../shared/models/ticket.model';
 import { TicketPack } from '../../shared/models/ticket-pack.model';
-import { BsModalRef } from 'ngx-bootstrap';
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
 import { guid } from '../../shared/guid';
@@ -45,9 +43,9 @@ export class TimelineComponent implements OnInit, OnDestroy {
   similarTickets: Ticket[];
   showAllSimilar: boolean = false;
 
-  @ViewChild("deleteAll", { static: true }) deleteAllModal: ElementRef;
-  @ViewChild("addWithTime", { static: true }) addWithTimeModal: ElementRef;
-  @ViewChild("fullComment", { static: true }) fullCommentModal: ElementRef;
+  @ViewChild("deleteAll", { static: true }) deleteAllModal;
+  @ViewChild("addWithTime", { static: true }) addWithTimeModal;
+  @ViewChild("fullComment", { static: true }) fullCommentModal;
 
   days: number[] = undefined;
   dateTo: Date = new Date();
@@ -58,9 +56,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
     private schedule: ScheduleService,
     private dictionary: DictionaryService,
     private messageService: MessageService,
-    private ngxService: NgxUiLoaderService,
     private titleService: Title,
-    private userState: UserState) {
+    public userState: UserState) {
     this.rangeBsConfig = { rangeInputFormat: 'DD.MM.YYYY', locale: 'ru' };
     this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
     this.titleService.setTitle('Тайм-лист');
@@ -82,7 +79,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
   }
 
   async loadData(showLoader: boolean = true) {
-    // if (showLoader) this.ngxService.start();
+    // if (showLoader)  
     this.originalPacks = await this.schedule.myTicketPacks(this.range);
     this.filterChecklistTickets();
     this.newTicket = new Ticket();
@@ -91,7 +88,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.userState.assignedTickets.state = await this.schedule.assignedTickets();
     let notifications = await this.dictionary.getNotifications();
     this.userState.assignedTicketCount.state = parseInt(notifications.filter(n => n.id == 'assignedTickets')[0].name);
-    // if (showLoader)this.ngxService.stop();
+    // if (showLoader)  
   }
 
   checklistTicketsFilterHandler() {

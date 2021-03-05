@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Checklist } from '../../shared/models/checklist.model';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { DictionaryService } from '../../shared/services/dictionary.service';
 import { MessageService } from 'primeng/api';
 import { Title } from '@angular/platform-browser';

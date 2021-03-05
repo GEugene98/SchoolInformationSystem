@@ -17,7 +17,7 @@ export class ProtocolsComponent implements OnInit {
   protocols: ProtocolInfo[];
   allProtocols: ProtocolInfo[];
 
-  constructor(private scheduleService: ScheduleService, private messageService: MessageService, private userState: UserState, private router: Router) { }
+  constructor(private scheduleService: ScheduleService, private messageService: MessageService, public userState: UserState, private router: Router) { }
 
   async ngOnInit() {
     await this.loadData();

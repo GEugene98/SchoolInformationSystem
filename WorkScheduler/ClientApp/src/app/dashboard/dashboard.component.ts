@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { UserState } from '../shared/states/user.state';
 import { AccountService } from '../shared/services/account.service';
 import { User, isUserInRole } from '../shared/models/user';

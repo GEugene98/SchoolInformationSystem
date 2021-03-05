@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { TabsModule, ModalModule, PaginationModule, defineLocale, ruLocale } from 'ngx-bootstrap';
+import { TabsModule } from 'ngx-bootstrap/tabs'; 
+import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
 import { ToastModule } from 'primeng/toast';
 import { ChartModule } from 'primeng/chart';
 import { UserState } from '../shared/states/user.state';
@@ -28,11 +28,13 @@ import { RegisterTableSettingsComponent } from './shared/register-table-settings
 import { GroupService } from './services/group.service';
 import { AssociationService } from './services/association.service';
 import { CreateGroupComponent } from './shared/create-group/create-group.component';
-import { StudentSelectorComponent } from '../monitoring/lists/components/student-selector/student-selector.component';
 import { SharedModule } from '../shared.module';
 import { RegisterPlaningService } from './services/register-planing.service';
 import { RegisterService } from './services/register.service';
 import { MessageService } from 'primeng/api';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ruLocale } from 'ngx-bootstrap/locale';
 
 defineLocale('ru', ruLocale);
 
@@ -54,7 +56,6 @@ defineLocale('ru', ruLocale);
     SharedModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    MatDialogModule,
     BrowserAnimationsModule,
     NgSelectModule,
     ToastModule,
@@ -77,7 +78,8 @@ defineLocale('ru', ruLocale);
     GroupService,
     AssociationService,
     RegisterPlaningService,
-    RegisterService
+    RegisterService,
+    BsModalService
   ],
   entryComponents: [
   ]

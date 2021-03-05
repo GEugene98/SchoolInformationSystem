@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MessageService } from 'primeng/api';
 import { User } from '../../shared/models/user';
 import { DictionaryService } from '../../shared/services/dictionary.service';
@@ -72,7 +72,7 @@ export class ContractsComponent implements OnInit {
     }
   ];
 
-  constructor( private contract: ContractService, 
+  constructor( public contract: ContractService, 
     private modalService: BsModalService,
     private messageService: MessageService,
     private dictionary: DictionaryService,

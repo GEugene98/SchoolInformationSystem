@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { StudentService } from '../../../monitoring/services/student.service';
 import { AcademicYear } from '../../../shared/models/academic-year.model';
 import { Student } from '../../../shared/models/student';
@@ -8,7 +8,7 @@ import { AssociationType } from '../../models/enums/association-type.enum';
 import { Group } from '../../models/group.model';
 import { AssociationService } from '../../services/association.service';
 import { GroupService } from '../../services/group.service';
-import _ = require('lodash');
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-register-table-settings',

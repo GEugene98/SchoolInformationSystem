@@ -4,12 +4,12 @@ import { WorkSchedule } from '../../shared/models/work-schedule.model';
 import { Action } from '../../shared/models/action.model';
 import { User, isUserInRole } from '../../shared/models/user';
 import { ConfirmationForm } from '../../shared/models/confirmation-form.model';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { DictionaryService } from '../../shared/services/dictionary.service';
 import { UserState } from '../../shared/states/user.state';
 import { MessageService } from 'primeng/api';
 import { ScheduleService } from '../services/schedule.service';
-import { NgxUiLoaderService } from 'ngx-ui-loader';
+   
 import { Title } from '@angular/platform-browser';
 import { AcademicYear } from '../../shared/models/academic-year.model';
 import { Activity } from '../../shared/models/activity.model';
@@ -22,7 +22,7 @@ import { Activity } from '../../shared/models/activity.model';
 export class ScheduleDetailsComponent implements OnInit {
 
   modalRef: BsModalRef;
-  @ViewChild("selectDate", { static: true }) selectDateModal: ElementRef;
+  @ViewChild("selectDate", { static: true }) selectDateModal;
   selectedAll: boolean;
   bsConfig: any;
   scheduleId: number;
@@ -54,7 +54,7 @@ export class ScheduleDetailsComponent implements OnInit {
     private router: Router,
     private dictionary: DictionaryService,
     private messageService: MessageService,
-    private ngxService: NgxUiLoaderService,
+     
     private titleService: Title,
     private userState: UserState) {
     this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
@@ -62,12 +62,12 @@ export class ScheduleDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.ngxService.start();
+     
     this.scheduleId = this.activateRoute.snapshot.params['id'];
     await this.loadData();
     this.titleService.setTitle(this.currentSchedule.name);
     this.selectedResponsibles.push(this.userState.currentUser.state);
-    this.ngxService.stop();
+      
   }
 
   async loadData() {
@@ -92,7 +92,7 @@ export class ScheduleDetailsComponent implements OnInit {
       return;
     }
     try {
-      this.ngxService.start();
+       
       await this.schedule.exportActions(this.actions.filter(a => a.selected).map(a => a.id), this.targetScheduleId, this.replace);
       await this.loadData();
       this.messageService.add({ severity: 'success', summary: 'Готово', detail: "Мероприятия экспортированы", life: 5000 });
@@ -102,7 +102,7 @@ export class ScheduleDetailsComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
     finally{
-      this.ngxService.stop();
+        
     }
   }
 
@@ -269,7 +269,7 @@ export class ScheduleDetailsComponent implements OnInit {
       return;
     }
 
-    this.ngxService.start();
+     
 
     try {
       await this.schedule.allowConfirm(actionIdsToConfirm);
@@ -280,7 +280,7 @@ export class ScheduleDetailsComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
     finally {
-      this.ngxService.stop();
+        
     }
   }
 
@@ -292,7 +292,7 @@ export class ScheduleDetailsComponent implements OnInit {
       return;
     }
 
-    this.ngxService.start();
+     
 
     try {
       await this.schedule.confirm(actionIdsToAccept);
@@ -303,7 +303,7 @@ export class ScheduleDetailsComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 5000 });
     }
     finally {
-      this.ngxService.stop();
+        
     }
   }
 

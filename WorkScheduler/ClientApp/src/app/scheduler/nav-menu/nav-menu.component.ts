@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UserState } from '../../shared/states/user.state';
 import { isUserInRole, User } from '../../shared/models/user';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ProblemService } from '../../shared/services/problem.service';
 
 @Component({
