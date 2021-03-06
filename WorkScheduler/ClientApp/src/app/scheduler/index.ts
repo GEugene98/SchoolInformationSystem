@@ -44,6 +44,8 @@ import { UploadModule } from '@progress/kendo-angular-upload';
 import { ProtocolsComponent } from './protocols/protocols.component';
 import { ProtocolDetailsComponent } from './protocols/components/protocol-details/protocol-details.component';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
 defineLocale('ru', ruLocale); 
 
 @NgModule({
@@ -83,7 +85,9 @@ defineLocale('ru', ruLocale);
     FormsModule,
     RouterModule.forChild([]),
     UploadModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    ButtonModule,
+    RippleModule
   ],
   providers: [
     UserState,

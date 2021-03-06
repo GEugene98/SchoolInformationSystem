@@ -12,7 +12,7 @@ export class RegisterSettingsComponent implements OnInit {
 
   allAcademicYears: AcademicYear[];
   
-  constructor(private dictionary: DictionaryService, private studentService: StudentService) { }
+  constructor(private dictionary: DictionaryService, public studentService: StudentService) { }
 
   async ngOnInit() {
     await this.loadData();

@@ -50,7 +50,8 @@ const routes = [
   { path: '', component: DashboardComponent, pathMatch: 'full' },
   { path: 'settings', component: SettingsComponent, pathMatch: 'full'  },
   {
-    path: 'scheduler', component: SchedulerHomeComponent,
+    path: 'scheduler', loadChildren: () => import('./scheduler/index').then(m => m.SchedulerModule),
+    component: SchedulerHomeComponent,
     children: [
       { path: 'my-schedule', component: MySchedules },
       { path: 'protocols', component: ProtocolsComponent },
@@ -65,7 +66,8 @@ const routes = [
     ]
   },
   {
-    path: 'register', component: RegisterMainComponent,
+    path: 'register', loadChildren: () => import('./register/index').then(m => m.RegisterModule),
+    component: RegisterMainComponent,
     children: [
       { path: 'additional', component: AdditionalComponent },
       { path: 'free-time', component: FreeTimeComponent },
@@ -74,7 +76,8 @@ const routes = [
       { path: 'schedule', component: RegisterScheduleComponent }
     ]
   },
-  {   path: 'monitorings', component: MonitoringsMainComponent,
+  {   path: 'monitorings', loadChildren: () => import('./monitoring/index').then(m => m.MonitoringModule),
+      component: MonitoringsMainComponent,
       children: [
         { path: 'lists', component: ListsComponent },
         { path: 'contracts', component: ContractsComponent }

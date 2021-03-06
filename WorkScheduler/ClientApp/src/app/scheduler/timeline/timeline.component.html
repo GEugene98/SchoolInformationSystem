@@ -1,4 +1,4 @@
-<h1>Мой тайм-лист</h1>
+<h1>Тайм-лист</h1>
 
 <div class="panel panel-default">
     <div class="panel-body">
@@ -15,15 +15,40 @@
                        placeholder="Выбрать период"
                        style="width: 200px; float: left;"> &nbsp;
 
-                <button type="button" (click)="openModal(add)" class="btn btn-success top-item"><span class="glyphicon glyphicon-plus"></span> Добавить запись</button>&nbsp;
-
+                <!-- <button type="button" (click)="openModal(add)" class="btn btn-success top-item"><span class="glyphicon glyphicon-plus"></span> Добавить запись</button>&nbsp; -->
+                <!-- <button pButton pRipple type="button" label="Добавить запись" class="p-button-raised" (click)="openModal(add)"></button> -->
+                <button pButton pRipple icon="pi pi-plus" type="button" label="Добавить запись" (click)="openModal(add)"></button>
             </div>  
 
-            <div style="float:right;">
-                <button *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Новые задания ({{userState.assignedTicketCount.state}})</button>
-                <button title="Сформировать отчет по тайм-листу" type="button" (click)="getDocument()" class="btn btn-primary top-item"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>&nbsp;
-                <button title="Открыть сводку" type="button" (click)="openModal(report)" class="btn btn-primary top-item"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>&nbsp;
-                <button title="Отправить там-лист на мою почту" type="button" (click)="sendTimeline()" class="btn btn-info top-item"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>&nbsp;
+            <div style="float:right;" class="top-right-btns">
+                <button 
+                    pButton 
+                    pRipple 
+                    *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0"
+                    icon="pi pi-bell" 
+                    type="button" 
+                    class="p-button-help"
+                    badge="{{userState.assignedTicketCount.state}}"
+                    label="Новые задания" 
+                    (click)="openModal(assignedTasksModal)">
+                </button>
+
+                <!-- <button *ngIf="userState.assignedTickets.state && userState.assignedTickets.state.length > 0" type="button" (click)="openModal(assignedTasksModal)" class="btn btn-warning top-item"><span class="glyphicon glyphicon-bell"></span> Новые задания ({{userState.assignedTicketCount.state}})</button> -->
+                <p-button 
+                    label="Отчет" 
+                    title="Сформировать отчет по тайм-листу"
+                    (click)="getDocument()"
+                    icon="pi pi-print">
+                </p-button>
+                <p-button 
+                    label="Сводка" 
+                    title="Открыть сводку"
+                    (click)="openModal(report)"
+                    icon="pi pi-list">
+                </p-button>
+                <!-- <button title="Сформировать отчет по тайм-листу" type="button" (click)="getDocument()" class="btn btn-primary top-item"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>&nbsp; -->
+                <!-- <button title="Открыть сводку" type="button" (click)="openModal(report)" class="btn btn-primary top-item"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></button>&nbsp; -->
+                <!-- <button title="Отправить там-лист на мою почту" type="button" (click)="sendTimeline()" class="btn btn-info top-item"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>&nbsp; -->
             </div>
 
 
@@ -42,7 +67,10 @@
 
 <div *ngFor="let pack of packs">
     <div class="date-box">
-        <div style="float:left;"><h3>{{pack.dateToShow}}</h3> </div> <button title="Добавить запись на этот день" class="btn btn-success add-date-btn" style="margin: 16px;" type="button" (click)="openModal(add, pack.date)"><span class="glyphicon glyphicon-plus"></span></button>&nbsp; <br />
+        <div style="float:left;"><h3>{{pack.dateToShow}}</h3> </div> 
+        <!-- <button (click)="openModal(add, pack.date)" pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-text"></button> -->
+        <button pButton (click)="openModal(add, pack.date)" pRipple type="button" icon="pi pi-plus" class="p-button-rounded"></button>
+        <!-- <button title="Добавить запись на этот день" class="btn btn-success add-date-btn" style="margin: 16px;" type="button" (click)="openModal(add, pack.date)"><span class="glyphicon glyphicon-plus"></span></button>&nbsp; <br /> -->
     </div>
     <table class="table">
         <thead>

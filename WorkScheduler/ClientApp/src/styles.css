@@ -82,3 +82,16 @@ th, h1, h2, h3, h4, h5 {
   width: 100%;
   margin-top: 15px;
 }
+
+.p-component {
+    font-family: inherit !important;
+    font-size: inherit !important;
+}
+
+.pi {
+  font-size: inherit !important;
+}
+
+.form-control {
+  box-shadow: none !important;
+}

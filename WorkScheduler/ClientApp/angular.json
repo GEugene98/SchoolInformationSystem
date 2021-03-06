@@ -12,6 +12,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
+            "allowedCommonJsDependencies": ["lodash", "debounce-decorator", "chart.js"],
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -89,7 +90,8 @@
                 "inject": true
               },
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/primeicons/primeicons.css"
             ],
             "assets": [
               "src/assets"

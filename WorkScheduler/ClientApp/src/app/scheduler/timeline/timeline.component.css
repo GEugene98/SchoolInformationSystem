@@ -40,15 +40,16 @@ textarea {
   color: orange;
 }
 
-
-.add-date-btn {
-  margin: 16px;
+.date-box button {
+  margin-top: 22px;
+  margin-left: 10px;
   opacity: 0.3;
   transition: 0.5s;
 }
 
-.date-box:hover .add-date-btn {
-  margin: 16px;
+.date-box:hover button {
+  margin-top: 22px;
+  margin-left: 10px;
   opacity: 1;
   transition: 0.5s;
 }
@@ -66,7 +67,8 @@ textarea {
   width: 100%;
 }
 
-.top .top-item {
+.top .top-item,
+.top button {
   margin-top: 5px;
 }
 
@@ -96,4 +98,8 @@ textarea {
 
 .undone-report {
   color: rgb(184, 0, 0);
+}
+
+.top-right-btns p-button {
+  margin-left: 8px;
 }
