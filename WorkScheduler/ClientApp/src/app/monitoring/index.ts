@@ -31,6 +31,12 @@ import { ContractService } from './services/contract.service';
 import { SharedModule } from '../shared.module';
 import { DatePipe } from '@angular/common';
 
+import { FamilyComponent } from './family/family.component';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import {DialogModule} from 'primeng/dialog';
+import {CheckboxModule} from 'primeng/checkbox';
+
 
 defineLocale('ru', ruLocale);
 
@@ -41,7 +47,7 @@ defineLocale('ru', ruLocale);
       StudentsComponent,
       ClassesComponent,
       ContractsComponent,
-      
+      FamilyComponent 
   ],
   imports: [
     SharedModule,
@@ -58,7 +64,11 @@ defineLocale('ru', ruLocale);
     FormsModule,
     RouterModule.forChild([]),
     UploadModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    TableModule,
+    ButtonModule,
+    DialogModule,
+    CheckboxModule
   ],
   providers: [
     UserState,

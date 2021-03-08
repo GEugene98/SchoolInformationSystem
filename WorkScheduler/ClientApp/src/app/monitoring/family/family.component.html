@@ -1,0 +1,23 @@
+<h2>Социальный паспорт семьи</h2>
+<button pButton  
+        pRipple 
+        icon="pi pi-check-square" 
+        (click)="showModalDialog()" 
+        type="button" 
+        label="Выбрать колонки для отображения" 
+        style="margin-top: 8px;">
+</button>
+<p-dialog header="Выбор колонки для отображения" 
+          [(visible)]="displayModal" 
+          [modal]="true" 
+          [style]="{width: '30vw'}" 
+          [baseZIndex]="10000"
+          [draggable]="false">
+    <div>
+        <div *ngFor="let column of columns" style="margin-bottom: 5px;">
+            <p-checkbox [(ngModel)]="column.visibility" [binary]="true"></p-checkbox>
+            <label style="margin-bottom: -1px;">{{column.name}}</label>
+        </div>
+    </div>
+
+</p-dialog>

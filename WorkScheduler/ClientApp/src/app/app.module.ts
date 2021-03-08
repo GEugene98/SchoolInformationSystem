@@ -43,6 +43,7 @@ import { ContractsComponent } from './monitoring/contracts/contracts.component';
 import { TabsModule } from 'ngx-bootstrap/tabs'; 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { FamilyComponent } from './monitoring/family/family.component';
 
 defineLocale('ru', ruLocale);
 
@@ -80,7 +81,8 @@ const routes = [
       component: MonitoringsMainComponent,
       children: [
         { path: 'lists', component: ListsComponent },
-        { path: 'contracts', component: ContractsComponent }
+        { path: 'contracts', component: ContractsComponent },
+        { path: 'family', component: FamilyComponent}
       ]
   }
 ];
