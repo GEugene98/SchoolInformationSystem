@@ -1,11 +1,31 @@
 <h2>Социальный паспорт семьи</h2>
-<button pButton  
+<tr>
+    <td>
+        <ng-select [items]="allAcademicYears"
+                   style="width: 300px"
+                   placeholder="Выберите учебный год"
+                   bindLabel="name"
+                   [(ngModel)]="selectedAcademicYear">
+        </ng-select>
+    </td>
+    <td>
+        <ng-select [items]="classes"
+                   style="width: 300px;"
+                   placeholder="Выберите класс"
+                   bindLabel="name"
+                   [(ngModel)]="selectedClassses">
+        </ng-select>
+    </td>
+</tr>
+
+
+<button pButton 
         pRipple 
         icon="pi pi-check-square" 
         (click)="showModalDialog()" 
         type="button" 
         label="Выбрать колонки для отображения" 
-        style="margin-top: 8px;">
+        style="margin-top: 8px; float: right;">
 </button>
 <p-dialog header="Выбор колонки для отображения" 
           [(visible)]="displayModal" 
@@ -16,7 +36,7 @@
     <div>
         <div *ngFor="let column of columns" style="margin-bottom: 5px;">
             <p-checkbox [(ngModel)]="column.visibility" [binary]="true"></p-checkbox>
-            <label style="margin-bottom: -1px;">{{column.name}}</label>
+            <label>{{ column.name }}</label>
         </div>
     </div>
 

@@ -50,6 +50,8 @@
   <Compile Remove="Migrations\20190729083121_Schools.Designer.cs" />
   <Compile Remove="Migrations\20190729083322_Schools2.cs" />
   <Compile Remove="Migrations\20190729083322_Schools2.Designer.cs" />
+  <Compile Remove="Migrations\20210320165635_Families.cs" />
+  <Compile Remove="Migrations\20210320165635_Families.Designer.cs" />
 </ItemGroup>
 <ItemGroup>
   <Content Remove="wwwroot\logo.png" />
@@ -170,7 +172,7 @@
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
       <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
-      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>

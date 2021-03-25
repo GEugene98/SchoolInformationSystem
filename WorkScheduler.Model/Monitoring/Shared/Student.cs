@@ -21,6 +21,8 @@ namespace WorkScheduler.Models.Monitoring.Shared
         public int SchoolId { get; set; }
         public School School { get; set; }
 
+        public Family Family { get; set; }
+
         public virtual ICollection<ClassStudent> ClassStudents { get; set; }
         public virtual ICollection<GroupStudent> GroupStudents { get; set; }
         public virtual ICollection<RegisterRecord> RegisterRecords { get; set; }

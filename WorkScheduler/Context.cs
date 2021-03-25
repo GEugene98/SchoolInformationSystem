@@ -40,6 +40,7 @@ namespace WorkScheduler
         public DbSet<Class> Classes { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Organization> Organizations { get; set; }
+        public DbSet<Family> Families { get; set; }
 
 
         //Register
@@ -79,6 +80,8 @@ namespace WorkScheduler
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Student>().HasOne<Family>(s => s.Family).WithOne(f => f.Student).HasForeignKey<Family>(f => f.StudentId);
 
             // Многие ко многим тикет - файл
             modelBuilder.Entity<TicketFile>()

@@ -2,6 +2,8 @@ import { Student } from "../../shared/models/student";
 import { ClarifyFamilyСomposition } from "./clarifyfamilycomposition.model";
 import { FamilyСomposition } from "./familycomposition.model";
 import { FamilyNumberChildren } from "./familynumberchildren.model";
+import { PhysicalGroup } from "./physicalgroup.model";
+import { Registration } from "./registration.model";
 
 export class Family{
 
@@ -23,4 +25,7 @@ export class Family{
     composition: FamilyСomposition;
     clarifyСomposition: ClarifyFamilyСomposition;
     numberChildren: FamilyNumberChildren;
+    physicalGroup: PhysicalGroup;
+    registration: Registration;
+    date: Date;
 }
