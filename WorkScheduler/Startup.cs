@@ -83,6 +83,7 @@ namespace WorkSheduler
                 services.AddScoped<ClassService>();
                 services.AddScoped<StudentService>();
                 services.AddScoped<ContractService>();
+                services.AddScoped<FamilyService>();
 
 
                 //Register
