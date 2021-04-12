@@ -3,6 +3,7 @@ import { AcademicYear } from '../../shared/models/academic-year.model';
 import { DictionaryService } from '../../shared/services/dictionary.service';
 import { Class } from '../models/class.model';
 import { ClassService } from '../services/class.service';
+import { FamilyService } from '../services/family.service';
 
 @Component({
   selector: 'app-family',
@@ -111,7 +112,7 @@ export class FamilyComponent implements OnInit {
   ]
 
   constructor(private dictionary: DictionaryService,
-    private classService: ClassService) { }
+    private classService: ClassService, private familyService: FamilyService) { }
 
   async ngOnInit() {
     await this.loadData();
@@ -124,6 +125,7 @@ export class FamilyComponent implements OnInit {
   async loadData(){
     this.allAcademicYears = await this.dictionary.getAcademicYears();
     this.selectedAcademicYear = this.allAcademicYears[0];
+    this.familyService.getFamilies();
     // this.allClasses = await this.classService.
   }
 

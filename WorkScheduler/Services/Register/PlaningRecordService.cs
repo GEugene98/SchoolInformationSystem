@@ -63,7 +63,7 @@ namespace WorkScheduler.Services.Register
 
                 var dates = new List<DateTime?>();
                 var names = new List<string>();
-                var hoursList = new List<int?>();
+                var hoursList = new List<string>();
                 var comments = new List<string>();
 
                 foreach (var cell in dateCells)
@@ -105,7 +105,7 @@ namespace WorkScheduler.Services.Register
                         continue;
                     }
 
-                    hoursList.Add(Convert.ToInt32(cell.Value));
+                    hoursList.Add(cell.Value.ToString());
                 }
 
                 foreach (var cell in commentCells)

@@ -36,6 +36,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
 import {CheckboxModule} from 'primeng/checkbox';
+import { FamilyService } from './services/family.service';
 
 
 defineLocale('ru', ruLocale);
@@ -80,7 +81,8 @@ defineLocale('ru', ruLocale);
     ClassService,
     ContractService,
     DatePipe,
-    BsModalService
+    BsModalService,
+    FamilyService
   ],
   entryComponents: [
   ]
