@@ -10,3 +10,16 @@ label {
 td{
     padding-right: 15px;
 }
+
+.panelling_select {
+    display: flex;
+    float: left;
+}
+
+.panelling_select div {
+    margin-right: 10px;
+}
+
+.panelling_button {
+    float: right;
+}

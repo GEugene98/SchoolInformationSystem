@@ -29,23 +29,25 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update(Family family)
+        public IActionResult Update([FromBody]Family family)
         {
+            FamilyService.Update(family);
             return Ok();
 
         }
 
-        [HttpPost("[action]")]
-        public IActionResult Create(Family family)
+        [HttpPost]
+        public IActionResult Create([FromBody]Family family)
         {
-
+            FamilyService.Create(family);
             return Ok();
 
         }
 
-        [HttpDelete("[action]")]
+        [HttpDelete]
         public IActionResult Delete(int id)
         {
+            FamilyService.Delete(id);
             return Ok();
 
         }

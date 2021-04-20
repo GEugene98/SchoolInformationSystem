@@ -1,9 +1,12 @@
+import { Family } from './../models/family.model';
 import { Component, OnInit } from '@angular/core';
 import { AcademicYear } from '../../shared/models/academic-year.model';
 import { DictionaryService } from '../../shared/services/dictionary.service';
 import { Class } from '../models/class.model';
 import { ClassService } from '../services/class.service';
 import { FamilyService } from '../services/family.service';
+import { DatePipe } from '@angular/common';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-family',
@@ -12,11 +15,14 @@ import { FamilyService } from '../services/family.service';
 })
 export class FamilyComponent implements OnInit {
 
+  bsConfig: any;
   displayModal: boolean = false;
   selectedAcademicYear: AcademicYear;
   allAcademicYears: AcademicYear[];
   allClasses: Class[];
+  families: Family[];
   selectedClassses: Class;
+  modalColumns: any[];
 
   classes = [
     { id: 1, name: "1-А"},
@@ -37,22 +43,23 @@ export class FamilyComponent implements OnInit {
     {
       name: "ФИО ребенка",
       visibility: true,
-      variable: ""
+      variable: "student.fullName"
     },
     {
       name: "Дата рождения",
       visibility: false,
-      variable: ""
+      variable: "student.birthday"
     },
     {
       name: "Номер свидетельства о рождении (паспорта)",
       visibility: false,
-      variable: ""
+      variable: "passportNumber",
+      secondVariable: "birthCertificate"
     },
     {
       name: "Кем выдан",
       visibility: false,
-      variable: ""
+      variable: "birthCertificate"
     },
     {
       name: "Когда выдан",
@@ -62,22 +69,26 @@ export class FamilyComponent implements OnInit {
     {
       name: "Адрес регистрации",
       visibility: false,
-      variable: ""
+      variable: "registrAddres"
     },
     {
       name: "Адрес проживания",
-      visibility: false,
-      variable: ""
+      visibility: true,
+      variable: "residAddres"
     },
     {
       name: "ФИО матери (полностью), телефон, место работы",
-      visibility: false,
-      variable: ""
+      visibility: true,
+      variable: "fullNameMather",
+      secondVariable: "phoneMother",
+      thirdVariable: "workMother"
     },
     {
       name: "ФИО отца (полностью), телефон, место работы",
       visibility: false,
-      variable: ""
+      variable: "fullNameFather",
+      secondVariable: "phoneFather",
+      thirdVariable: "workFather"
     },
     {
       name: "Категория семьи по составу",
@@ -87,7 +98,7 @@ export class FamilyComponent implements OnInit {
     {
       name: "Категория семьи по количеству детей",
       visibility: false,
-      variable: ""
+      variable: "numberChildren"
     },
     {
       name: "Категория семьи по качеству жизни",
@@ -96,7 +107,7 @@ export class FamilyComponent implements OnInit {
     },
     {
       name: "Группа здоровья",
-      visibility: true,
+      visibility: false,
       variable: ""
     },
     {
@@ -106,29 +117,67 @@ export class FamilyComponent implements OnInit {
     },
     {
       name: "Учет",
-      visibility: true,
+      visibility: false,
       variable: ""
     },
   ]
 
   constructor(private dictionary: DictionaryService,
-    private classService: ClassService, private familyService: FamilyService) { }
+    private datePipe: DatePipe,
+    private classService: ClassService, private familyService: FamilyService) {
+      this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
+     }
 
   async ngOnInit() {
     await this.loadData();
   }
   
+  hideModal(){
+    this.columns = _.cloneDeep(this.modalColumns);
+    this.displayModal = false;
+  }
+
   showModalDialog() {
+      this.modalColumns = _.cloneDeep(this.columns);
       this.displayModal = true;
   }
 
   async loadData(){
     this.allAcademicYears = await this.dictionary.getAcademicYears();
     this.selectedAcademicYear = this.allAcademicYears[0];
-    this.familyService.getFamilies();
+    this.families = await this.familyService.getFamilies();
     // this.allClasses = await this.classService.
   }
 
+  getPropertyValue(object, fieldName, secondFieldName = undefined, thirdVariable = undefined) {
+    let result;
+    result = fieldName.split('.')
+    .reduce(function(o, k) {
+      return o && o[k];
+    }, object)
+    if(fieldName == "student.birthday"){
+      return this.datePipe.transform(result, "dd.MM.yyyy");
+    }
+
+    if(secondFieldName){
+        let secondResult;
+        secondResult = secondFieldName.split('.')
+        .reduce(function(o, k) {
+          return o && o[k];
+        }, object);
+        result += ' ' + secondResult;
+    }
+
+    if(thirdVariable){
+      let thirdResult;
+      thirdResult = thirdVariable.split('.')
+      .reduce(function(o, k) {
+        return o && o[k];
+      }, object);
+      result += ' ' + thirdResult;
+  }
+    return result;
+  }
 
   getVisibleColumns(){
     return this.columns.filter(i => i.visibility);

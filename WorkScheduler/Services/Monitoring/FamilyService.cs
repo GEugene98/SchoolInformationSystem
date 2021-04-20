@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using WorkScheduler.Models.Monitoring;
+using WorkScheduler.Models.Monitoring.Shared;
+using WorkScheduler.ViewModels.Monitoring;
+using WorkScheduler.ViewModels.Monitoring.Shared;
 
 namespace WorkScheduler.Services.Monitoring
 {
@@ -14,9 +17,30 @@ namespace WorkScheduler.Services.Monitoring
             Db = context;
         }
 
-        public List<Family> Get(int schoolId)
+        public List<FamilyViewModel> Get(int schoolId)
         {
-            return Db.Families.Where(f => f.Student.SchoolId == schoolId).ToList();
+            return Db.Families
+                .Where(f => f.Student.SchoolId == schoolId)
+                .Select(f => new FamilyViewModel
+                {
+                    Id = f.Id,
+                    PassportNumber = f.PassportNumber,
+                    BirthCertificate = f.BirthCertificate,
+                    RegistrAddres = f.RegistrAddres,
+                    ResidAddres = f.ResidAddres,
+                    FullNameMather = f.FullNameMather,
+                    PhoneMother = f.PhoneMother,
+                    WorkMother = f.WorkMother,
+                    FullNameFather = f.FullNameFather,
+                    PhoneFather = f.PhoneFather,
+                    WorkFather = f.WorkFather,
+                    Student = new StudentViewModel
+                    {
+                        FullName = f.Student.LastName + " " + f.Student.FirstName + " " + f.Student.SurName,
+                        Birthday = f.Student.Birthday
+                    }
+                })
+                .ToList();
         }
 
         public void Update(Family family)

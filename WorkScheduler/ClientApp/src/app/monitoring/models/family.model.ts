@@ -10,22 +10,23 @@ export class Family{
     constructor(){
 
     }
-    id: number;
-    student: Student;
-    passportNumber: string;
-    birthCertificate: string;
-    registrAddres: string;
-    residAddres: string;
-    fullNameMather: string;
-    phoneMother: number;
-    workMother: string;
-    fullNameFather: string;
-    phoneFather: number;
-    workFather: string;
-    composition: FamilyСomposition;
-    clarifyСomposition: ClarifyFamilyСomposition;
-    numberChildren: FamilyNumberChildren;
-    physicalGroup: PhysicalGroup;
-    registration: Registration;
-    date: Date;
+    id: number; //id
+    student: Student; // От сюда берем др и фио
+    passportNumber: string; // Отвечает за паспорт
+    birthCertificate: string; // Свидетельство о рождении
+    registrAddres: string; //Адресс регистрации
+    residAddres: string;  //Адресс проживания
+    fullNameMather: string; //ФИО матери
+    phoneMother: number; //Телефон матери
+    workMother: string; //Работа матери
+    fullNameFather: string; //ФИО отца
+    phoneFather: number; //Телефон отца
+    workFather: string;  //Работа отца
+    composition: FamilyСomposition; //Категория семьи по составу
+    clarifyСomposition: ClarifyFamilyСomposition; //Подкатегории семьи по составу
+    numberChildren: FamilyNumberChildren; //Кол-во детей
+    
+    physicalGroup: PhysicalGroup; //Физическая группа
+    registration: Registration; // Учет
+    date: Date; // Учет
 }

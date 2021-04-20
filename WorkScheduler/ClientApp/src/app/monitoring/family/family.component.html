@@ -1,32 +1,38 @@
 <h2>Социальный паспорт семьи</h2>
-<tr>
-    <td>
-        <ng-select [items]="allAcademicYears"
-                   style="width: 300px"
-                   placeholder="Выберите учебный год"
-                   bindLabel="name"
-                   [(ngModel)]="selectedAcademicYear">
-        </ng-select>
-    </td>
-    <td>
-        <ng-select [items]="classes"
-                   style="width: 300px;"
-                   placeholder="Выберите класс"
-                   bindLabel="name"
-                   [(ngModel)]="selectedClassses">
-        </ng-select>
-    </td>
-</tr>
+<div class="panelling">
+    <div class="panelling_select">
+        <div class="panelling_select-years">
+            <ng-select [items]="allAcademicYears"
+                       style="width: 300px"
+                       placeholder="Выберите учебный год"
+                       bindLabel="name"
+                       [(ngModel)]="selectedAcademicYear">
+            </ng-select>
+        </div>
+        <div class="panelling_select-classes">
+            <ng-select [items]="classes"
+                       style="width: 300px;"
+                       placeholder="Выберите класс"
+                       bindLabel="name"
+                       [(ngModel)]="selectedClassses">
+            </ng-select>
+        </div>
+    </div>
+    <div class="panelling_button">
+        <button pButton 
+                pRipple 
+                icon="pi pi-check-square" 
+                (click)="showModalDialog()" 
+                type="button" 
+                label="Выбрать колонки для отображения" 
+                style="margin-top: 8px; float: right;">
+        </button>
+    </div>
+</div>
 
 
-<button pButton 
-        pRipple 
-        icon="pi pi-check-square" 
-        (click)="showModalDialog()" 
-        type="button" 
-        label="Выбрать колонки для отображения" 
-        style="margin-top: 8px; float: right;">
-</button>
+
+
 <p-dialog header="Выбор колонки для отображения" 
           [(visible)]="displayModal" 
           [modal]="true" 
@@ -34,10 +40,25 @@
           [baseZIndex]="10000"
           [draggable]="false">
     <div>
-        <div *ngFor="let column of columns" style="margin-bottom: 5px;">
+        <div *ngFor="let column of modalColumns" style="margin-bottom: 5px;">
             <p-checkbox [(ngModel)]="column.visibility" [binary]="true"></p-checkbox>
             <label>{{ column.name }}</label>
         </div>
     </div>
-
+    <ng-template pTemplate="footer">
+        <p-button (click)="hideModal()" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
 </p-dialog>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th *ngFor = "let column of getVisibleColumns()" scope="col">{{column.name}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let family of families">
+          <td *ngFor="let column of getVisibleColumns()">{{getPropertyValue(family, column.variable, column.secondVariable, column.thirdVariable)}}</td>
+      </tr>
+    </tbody>
+</table>
