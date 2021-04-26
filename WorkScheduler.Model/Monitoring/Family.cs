@@ -28,8 +28,9 @@ namespace WorkScheduler.Models.Monitoring
         public FamilyNumberChildren FamilyNumberChildren { get; set; }
         public PhysicalGroup PhysicalGroup { get; set; }
         public Registration Registration { get; set; }
-
         public DateTime RegistrationDate { get; set; }
+        public HealthGroup HealthGroup { get; set; }
+        public FamilyQualityLife FamilyQualityLife { get; set; }
 
     }
 }

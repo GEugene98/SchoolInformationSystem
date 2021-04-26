@@ -31,5 +31,8 @@ namespace WorkScheduler.ViewModels.Monitoring
         public Registration Registration { get; set; }
 
         public DateTime RegistrationDate { get; set; }
+
+        public HealthGroup HealthGroup { get; set; }
+        public FamilyQualityLife FamilyQualityLife { get; set; }
     }
 }

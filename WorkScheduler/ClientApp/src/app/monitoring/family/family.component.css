@@ -2,6 +2,11 @@
     font-size: 15px !important;
 }
 
+a{
+    text-decoration: none;
+    font-weight: 900 !important;
+}
+
 label {
     font-weight: 300;
     margin-bottom: -1px;
@@ -22,4 +27,8 @@ td{
 
 .panelling_button {
     float: right;
+}
+
+p-checkbox {
+    margin-right: 10px;
 }

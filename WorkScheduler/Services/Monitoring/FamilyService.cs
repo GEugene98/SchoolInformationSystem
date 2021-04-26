@@ -38,7 +38,8 @@ namespace WorkScheduler.Services.Monitoring
                     {
                         FullName = f.Student.LastName + " " + f.Student.FirstName + " " + f.Student.SurName,
                         Birthday = f.Student.Birthday
-                    }
+                    },
+                    
                 })
                 .ToList();
         }
