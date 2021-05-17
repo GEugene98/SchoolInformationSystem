@@ -12,8 +12,8 @@ export class Family{
     constructor(){
 
     }
-    id: number; //id
-    student: Student; // От сюда берем др и фио
+  id: number; //id
+  student: Student = new Student(); // Отсюда берем др и фио
     passportNumber: string; // Отвечает за паспорт
     birthCertificate: string; // Свидетельство о рождении
     issuedWhom: string; //Кем выдан
@@ -27,7 +27,7 @@ export class Family{
     phoneFather: number; //Телефон отца
     workFather: string;  //Работа отца
     composition: FamilyСomposition; //Категория семьи по составу
-    clarifyСomposition: ClarifyFamilyСomposition; //Подкатегории семьи по составу
+    clarifycomposition: ClarifyFamilyСomposition; //Подкатегории семьи по составу
     numberChildren: FamilyNumberChildren; //Кол-во детей
     qualityLife: FamilyQualityLife; //Качество жизни
     healthGroup: HealthGroup; //Группа здоровья

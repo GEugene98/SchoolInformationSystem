@@ -8,6 +8,15 @@ import { ClassService } from '../services/class.service';
 import { FamilyService } from '../services/family.service';
 import { DatePipe } from '@angular/common';
 import * as _ from 'lodash';
+import { Student } from '../../shared/models/student';
+import { compositions } from '../models/familycomposition.model';
+import { clarifyСompositions } from '../models/clarifyfamilycomposition.model';
+import { numbersChildren } from '../models/familynumberchildren.model';
+import { healthGroups } from '../models/healthgroup.model';
+import { physicalGroups } from '../models/physicalgroup.model';
+import { registrations } from '../models/registration.model';
+import { qualityLifes } from '../models/familyqualitylife.model';
+
 
 @Component({
   selector: 'app-family',
@@ -17,30 +26,26 @@ import * as _ from 'lodash';
 export class FamilyComponent implements OnInit {
 
   bsConfig: any;
-  displayModalColumns: boolean = false;
-  displayModalEdit: boolean = false;
+  displayModalColumns = false;
+  displayModalEdit = false;
+  addModalVisibility = false;
+  editModalVisibility = false;
   selectedAcademicYear: AcademicYear;
   allAcademicYears: AcademicYear[];
-  allClasses: Class[];
-  // newFamily: Family;
-  families: Family[];
+  classes: Class[];
+  students: Student[];
   selectedClass: Class;
+  newFamily: Family = new Family();
+  families: Family[];
   modalColumns: any[];
 
-  classes = [
-    { id: 1, name: "1-А"},
-    { id: 2, name: "2-А"},
-    { id: 3, name: "3-А"},
-    { id: 4, name: "4-А"},
-    { id: 5, name: "5-А"},
-    { id: 6, name: "6-А"},
-    { id: 7, name: "7-А"},
-    { id: 8, name: "8-А"},
-    { id: 9, name: "9-А"},
-    { id: 10, name: "10-А"},
-    { id: 11, name: "11-А"}
-
-  ]
+  compositions = compositions;
+  clarifycompositions = clarifyСompositions;
+  numbersChildren = numbersChildren;
+  healthGroups = healthGroups;
+  physicalGroups = physicalGroups;
+  registrations = registrations;
+  qualityLifes = qualityLifes;
 
   columns = [
     {
@@ -94,7 +99,7 @@ export class FamilyComponent implements OnInit {
     {
       name: "Категория семьи по составу",
       visibility: false,
-      fieldInfo: "clarifyСomposition"
+      fieldInfo: "clarifycomposition"
     },
     {
       name: "Категория семьи по количеству детей",
@@ -144,25 +149,43 @@ export class FamilyComponent implements OnInit {
       this.displayModalColumns = true;
   }
 
+  showModalDialogEdit(family: Family) {
+    this.newFamily = _.cloneDeep(family);
+    this.editModalVisibility = true;
+  }
 
-  showModalDialogEdit(){
-    this.displayModalEdit = true;
+  showAddModal() {
+    this.newFamily = new Family();
+    this.addModalVisibility = true;
+  }
+
+  async delete(id: number) {
+    await this.familyService.deleteFamily(id);
+    await this.loadFamilies();
   }
 
   async loadData(){
     this.allAcademicYears = await this.dictionary.getAcademicYears();
+    this.students = await this.studentService.getStudents();
     this.selectedAcademicYear = this.allAcademicYears[0];
     await this.loadClasses();
-    this.families = await this.familyService.getFamilies();
+    this.selectedClass = this.classes[0];
+    await this.loadFamilies();
   }
 
   async loadClasses() {
-    this.allClasses = await this.studentService.getStudentsByClasses(this.selectedAcademicYear.id);
+    this.classes = await this.studentService.getStudentsByClasses(this.selectedAcademicYear?.id);
   }
 
-  // copy(family: Family){
-  //   this.newFamily = _.cloneDeep(family);
-  // }
+  async loadFamilies() {
+    this.families = await this.familyService.getFamilies(this.selectedClass?.id);
+  }
+
+  async addFamily() {
+    await this.familyService.createFamily(this.newFamily);
+    await this.loadFamilies();
+    this.addModalVisibility = false;
+  }
 
   getPropertyValue(object, fieldInfo:any) {
     let result = '';
@@ -188,6 +211,50 @@ export class FamilyComponent implements OnInit {
       if(fieldInfo == "student.birthday"){
         itemResult = this.datePipe.transform(itemResult, "dd.MM.yyyy");
       }
+
+      if (fieldInfo == "composition") {
+        if (result == undefined) {
+          itemResult = " "
+        }
+        itemResult = this.compositions.filter(s => s.id == result)[0].name;
+      }
+      if (fieldInfo == "clarifycomposition") {
+        if (result == undefined) {
+          itemResult = " "
+        }
+        itemResult = this.clarifycompositions.filter(s => s.id == result)[0].name;
+      }
+      if (fieldInfo == "numberChildren") {
+        if (result == undefined) {
+          itemResult = " "
+        }
+        itemResult = this.numbersChildren.filter(s => s.id == result)[0].name;
+      }
+      if (fieldInfo == "healthGroup") {
+        if (result == undefined) {
+          itemResult = " "
+        }
+        itemResult = this.healthGroups.filter(s => s.id == result)[0].name;
+      }
+      if (fieldInfo == "physicalGroup") {
+        if (result == undefined) {
+          itemResult = " "
+        }
+        itemResult = this.physicalGroups.filter(s => s.id == result)[0].name;
+      }
+      if (fieldInfo == "registration") {
+        if (result == undefined) {
+          itemResult = " "
+        }
+        itemResult = this.registrations.filter(s => s.id == result)[0].name;
+      }
+      if (fieldInfo == "qualityLife") {
+        if (result == undefined) {
+          itemResult = " "
+        }
+        itemResult = this.qualityLifes.filter(s => s.id == result)[0].name;
+      }
+
       result += ' ' + itemResult;
     }
     return result;

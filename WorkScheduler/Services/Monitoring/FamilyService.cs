@@ -17,10 +17,17 @@ namespace WorkScheduler.Services.Monitoring
             Db = context;
         }
 
-        public List<FamilyViewModel> Get(int schoolId)
+        public List<FamilyViewModel> Get(int schoolId, int classId)
         {
-            return Db.Families
-                .Where(f => f.Student.SchoolId == schoolId)
+            var classStudentsQuery = Db.ClassStudents
+                .Where(cs => cs.ClassId == classId && cs.Student.SchoolId == schoolId);
+
+            var families =
+                from f in Db.Families
+                join cs in classStudentsQuery on f.StudentId equals cs.StudentId
+                select f;
+
+            return families
                 .Select(f => new FamilyViewModel
                 {
                     Id = f.Id,
@@ -73,9 +80,29 @@ namespace WorkScheduler.Services.Monitoring
             Db.SaveChanges();
         }
 
-        public void Create(Family family)
+        public void Create(FamilyViewModel family)
         {
-            Db.Families.Add(family);
+            var newFamily = new Family();
+            newFamily.BirthCertificate = family.BirthCertificate;
+            newFamily.ClarifyFamilyСomposition = family.ClarifyFamilyСomposition;
+            newFamily.FamilyNumberChildren = family.FamilyNumberChildren;
+            newFamily.FamilyQualityLife = family.FamilyQualityLife;
+            newFamily.FamilyСomposition = family.FamilyСomposition;
+            newFamily.FullNameFather = family.FullNameFather;
+            newFamily.HealthGroup = family.HealthGroup;
+            newFamily.FullNameMather = family.FullNameMather;
+            newFamily.PassportNumber = family.PassportNumber;
+            newFamily.PhoneFather = family.PhoneFather;
+            newFamily.PhoneMother = family.PhoneMother;
+            newFamily.PhysicalGroup = family.PhysicalGroup;
+            newFamily.RegistrAddres = family.RegistrAddres;
+            newFamily.Registration = family.Registration;
+            newFamily.RegistrationDate = family.RegistrationDate;
+            newFamily.ResidAddres = family.ResidAddres;
+            newFamily.StudentId = family.Student.Id;
+            newFamily.WorkFather = family.WorkFather;
+            newFamily.WorkMother = family.WorkMother;
+            Db.Families.Add(newFamily);
             Db.SaveChanges();
         }
 

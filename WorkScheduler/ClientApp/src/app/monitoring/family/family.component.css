@@ -32,3 +32,7 @@ td{
 p-checkbox {
     margin-right: 10px;
 }
+
+.family-card > div {
+    margin-top: 10px;
+}

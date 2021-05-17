@@ -10,8 +10,10 @@ export class FamilyService {
 
     }
 
-    async getFamilies() {
-        return await this.http.get<Family[]>('api/Family').toPromise();
+    async getFamilies(classId: number) {
+      const params = new HttpParams()
+        .set('classId', classId.toString());
+      return await this.http.get<Family[]>('api/Family', { params: params }).toPromise();
     }
 
     async upDateFamily(family: Family) {

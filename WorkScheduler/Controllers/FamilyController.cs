@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WorkScheduler.Models.Monitoring;
 using WorkScheduler.Services.Monitoring;
+using WorkScheduler.ViewModels.Monitoring;
 
 namespace WorkScheduler.Controllers
 {
@@ -21,10 +22,10 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(int classId)
         {
             var schoolId = (int)Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId;
-            var result = FamilyService.Get(schoolId);
+            var result = FamilyService.Get(schoolId, classId);
             return Ok(result);
         }
 
@@ -37,7 +38,7 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]Family family)
+        public IActionResult Create([FromBody]FamilyViewModel family)
         {
             FamilyService.Create(family);
             return Ok();
