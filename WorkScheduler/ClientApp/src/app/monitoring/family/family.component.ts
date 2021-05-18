@@ -16,6 +16,7 @@ import { healthGroups } from '../models/healthgroup.model';
 import { physicalGroups } from '../models/physicalgroup.model';
 import { registrations } from '../models/registration.model';
 import { qualityLifes } from '../models/familyqualitylife.model';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -50,7 +51,7 @@ export class FamilyComponent implements OnInit {
   columns = [
     {
       name: "ФИО ребенка",
-      visibility: false,
+      visibility: true,
       fieldInfo: "student.fullName"
     },
     {
@@ -67,49 +68,47 @@ export class FamilyComponent implements OnInit {
       ]
     },
     {
-      name: "Кем выдан",
-      visibility: false,
-      fieldInfo: "issuedWhom"
-    },
-    {
-      name: "Когда выдано",
-      visibility: false,
-      fieldInfo: "whenIssued"
-    },
-    {
       name: "Адрес регистрации",
-      visibility: false,
+      visibility: true,
       fieldInfo: "registrAddres"
     },
     {
       name: "Адрес проживания",
-      visibility: false,
+      visibility: true,
       fieldInfo: "residAddres"
     },
     {
-      name: "ФИО матери (полностью), телефон, место работы",
-      visibility: false,
-      fieldInfo: "fullNameMather"
+      name: "ФИО матери, телефон, место работы",
+      visibility: true,
+      fieldInfo: [
+        "fullNameMather",
+        "phoneMother",
+        "workMother"
+      ]
     },
     {
-      name: "ФИО отца (полностью), телефон, место работы",
+      name: "ФИО отца, телефон, место работы",
       visibility: false,
-      fieldInfo: "fullNameFather"
+      fieldInfo: [
+        "fullNameFather",
+        "phoneFather",
+        "workFather"
+      ]
     },
     {
       name: "Категория семьи по составу",
       visibility: false,
-      fieldInfo: "clarifycomposition"
+      fieldInfo: "clarifyFamilycomposition"
     },
     {
       name: "Категория семьи по количеству детей",
       visibility: false,
-      fieldInfo: "numberChildren"
+      fieldInfo: "familyNumberChildren"
     },
     {
       name: "Категория семьи по качеству жизни",
       visibility: false,
-      fieldInfo: "qualityLife"
+      fieldInfo: "familyQualityLife"
     },
     {
       name: "Группа здоровья",
@@ -131,7 +130,8 @@ export class FamilyComponent implements OnInit {
   constructor(private dictionary: DictionaryService,
     private datePipe: DatePipe,
     private familyService: FamilyService,
-    private studentService: StudentService) {
+    private studentService: StudentService,
+    private messageService: MessageService) {
       this.bsConfig = { dateInputFormat: 'DD.MM.YYYY', locale: 'ru' };
      }
 
@@ -182,9 +182,23 @@ export class FamilyComponent implements OnInit {
   }
 
   async addFamily() {
-    await this.familyService.createFamily(this.newFamily);
+    try {
+      await this.familyService.createFamily(this.newFamily);
+    }
+    catch (e) {
+      console.log(e);
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error, life: 10000 });
+      return;
+    }
+    
     await this.loadFamilies();
     this.addModalVisibility = false;
+  }
+
+  async editFamily(){
+    await this.familyService.updateFamily(this.newFamily);
+    await this.loadFamilies();
+    this.editModalVisibility = false;
   }
 
   getPropertyValue(object, fieldInfo:any) {
@@ -199,7 +213,7 @@ export class FamilyComponent implements OnInit {
         if(i == "student.birthday"){
           itemResult = this.datePipe.transform(itemResult, "dd.MM.yyyy");
         }
-        result += ' ' + itemResult;
+        result += itemResult + '\n';
       });
     }
     else {
@@ -212,19 +226,19 @@ export class FamilyComponent implements OnInit {
         itemResult = this.datePipe.transform(itemResult, "dd.MM.yyyy");
       }
 
-      if (fieldInfo == "composition") {
+      if (fieldInfo == "familycomposition") {
         if (result == undefined) {
           itemResult = " "
         }
         itemResult = this.compositions.filter(s => s.id == result)[0].name;
       }
-      if (fieldInfo == "clarifycomposition") {
+      if (fieldInfo == "clarifyFamilycomposition") {
         if (result == undefined) {
           itemResult = " "
         }
         itemResult = this.clarifycompositions.filter(s => s.id == result)[0].name;
       }
-      if (fieldInfo == "numberChildren") {
+      if (fieldInfo == "familyNumberChildren") {
         if (result == undefined) {
           itemResult = " "
         }

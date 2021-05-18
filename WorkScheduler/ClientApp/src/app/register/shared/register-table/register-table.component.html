@@ -1,5 +1,8 @@
-<span *ngIf="!rows" style="text-align: center; margin-top: 150px; font-style: italic;">Выберите учебный год, объединение и группу для отображения журнала и КТП</span>
-<div *ngIf="rows">
+<div class="pane">
+    <button class="btn btn-primary">Сформировать документ <span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>
+</div>
+<span *ngIf="!rows || (rows[0] && !rows[0].cells)" style="text-align: center; margin-top: 150px; font-style: italic;">Выберите учебный год, объединение, группу, создайте КТП для отображения журнала</span>
+<div *ngIf="rows && rows[0] && rows[0].cells">
   <div class="rgt-container">
     <table class="rg-table">
       <tr class="head"> 

@@ -41,6 +41,14 @@ namespace WorkScheduler.Services.Monitoring
                     FullNameFather = f.FullNameFather,
                     PhoneFather = f.PhoneFather,
                     WorkFather = f.WorkFather,
+                    ClarifyFamilycomposition = f.ClarifyFamilyСomposition,
+                    FamilyNumberChildren = f.FamilyNumberChildren,
+                    Familycomposition = f.FamilyСomposition,
+                    FamilyQualityLife = f.FamilyQualityLife,
+                    RegistrationDate = f.RegistrationDate,
+                    HealthGroup = f.HealthGroup,
+                    PhysicalGroup = f.PhysicalGroup,
+                    Registration = f.Registration,
                     Student = new StudentViewModel
                     {
                         FullName = f.Student.LastName + " " + f.Student.FirstName + " " + f.Student.SurName,
@@ -84,10 +92,10 @@ namespace WorkScheduler.Services.Monitoring
         {
             var newFamily = new Family();
             newFamily.BirthCertificate = family.BirthCertificate;
-            newFamily.ClarifyFamilyСomposition = family.ClarifyFamilyСomposition;
+            newFamily.ClarifyFamilyСomposition = family.ClarifyFamilycomposition;
             newFamily.FamilyNumberChildren = family.FamilyNumberChildren;
             newFamily.FamilyQualityLife = family.FamilyQualityLife;
-            newFamily.FamilyСomposition = family.FamilyСomposition;
+            newFamily.FamilyСomposition = family.Familycomposition;
             newFamily.FullNameFather = family.FullNameFather;
             newFamily.HealthGroup = family.HealthGroup;
             newFamily.FullNameMather = family.FullNameMather;
@@ -103,7 +111,17 @@ namespace WorkScheduler.Services.Monitoring
             newFamily.WorkFather = family.WorkFather;
             newFamily.WorkMother = family.WorkMother;
             Db.Families.Add(newFamily);
-            Db.SaveChanges();
+            try
+            {
+                Db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("duplicate key value violates unique constraint"))
+                {
+                    throw new Exception("Социальный паспорт, который вы создаете для выбранного ученика уже имеется в системе. Измените существующий паспорт или удалите его перед созданием нового");
+                }
+            }
         }
 
         public void Delete(int id)

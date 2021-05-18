@@ -16,7 +16,7 @@ export class FamilyService {
       return await this.http.get<Family[]>('api/Family', { params: params }).toPromise();
     }
 
-    async upDateFamily(family: Family) {
+    async updateFamily(family: Family) {
         return await this.http.put('api/Family', family).toPromise();
     }
 

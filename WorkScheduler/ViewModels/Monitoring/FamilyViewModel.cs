@@ -24,8 +24,8 @@ namespace WorkScheduler.ViewModels.Monitoring
         public string PhoneFather { get; set; }
         public string WorkFather { get; set; }
 
-        public FamilyСomposition FamilyСomposition { get; set; }
-        public ClarifyFamilyСomposition ClarifyFamilyСomposition { get; set; }
+        public FamilyСomposition Familycomposition { get; set; }
+        public ClarifyFamilyСomposition ClarifyFamilycomposition { get; set; }
         public FamilyNumberChildren FamilyNumberChildren { get; set; }
         public PhysicalGroup PhysicalGroup { get; set; }
         public Registration Registration { get; set; }

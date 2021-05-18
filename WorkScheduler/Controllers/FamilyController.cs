@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WorkScheduler.Models.Monitoring;
@@ -40,7 +41,14 @@ namespace WorkScheduler.Controllers
         [HttpPost]
         public IActionResult Create([FromBody]FamilyViewModel family)
         {
-            FamilyService.Create(family);
+            try
+            {
+                FamilyService.Create(family);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return Ok();
 
         }

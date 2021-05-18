@@ -26,10 +26,10 @@ export class Family{
     fullNameFather: string; //ФИО отца
     phoneFather: number; //Телефон отца
     workFather: string;  //Работа отца
-    composition: FamilyСomposition; //Категория семьи по составу
-    clarifycomposition: ClarifyFamilyСomposition; //Подкатегории семьи по составу
-    numberChildren: FamilyNumberChildren; //Кол-во детей
-    qualityLife: FamilyQualityLife; //Качество жизни
+    familycomposition: FamilyСomposition; //Категория семьи по составу
+    clarifyFamilycomposition: ClarifyFamilyСomposition; //Подкатегории семьи по составу
+    familyNumberChildren: FamilyNumberChildren; //Кол-во детей
+    familyQualityLife: FamilyQualityLife; //Качество жизни
     healthGroup: HealthGroup; //Группа здоровья
     physicalGroup: PhysicalGroup; //Физическая группа
     registration: Registration; // Учет

@@ -51,7 +51,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let family of families">
-          <td *ngFor="let column of getVisibleColumns()">{{getPropertyValue(family, column.fieldInfo)}}</td>
+          <td *ngFor="let column of getVisibleColumns()"><span style="white-space: pre-wrap">{{getPropertyValue(family, column.fieldInfo)}}</span></td>
           <td>
             <div class="action-icons">
               <a title="Редактировать" href="javascript:void(0)" class="pi pi-pencil" aria-hidden="true" (click)="showModalDialogEdit(family)"></a>
@@ -87,28 +87,20 @@
           [(visible)]="editModalVisibility"
           [modal]="true"
           [style]="{width: '50vw'}"
-          [baseZIndex]="10000"
+          [baseZIndex]="100"
           [draggable]="false">
     <div class="family-card">
         <div>
             ФИО ребенка:
-            <input type="text" [ngModel]="newFamily.student.fullName" disabled class="form-control" >
+            <input type="text" [ngModel]="newFamily.student.fullName" disabled class="form-control">
         </div>
         <div>
             Номер свидетельства о рождении:
             <input type="text" [(ngModel)]="newFamily.birthCertificate" class="form-control" placeholder="Номер свидетельства о рождении">
         </div>
         <div>
-            Серия и номер паспорта:
-            <input type="text" [(ngModel)]="newFamily.passportNumber" class="form-control" placeholder="Серия и номер паспорта">
-        </div>
-        <div>
-            Кем выдан:
-            <input type="text" [(ngModel)]="newFamily.issuedWhom" class="form-control" placeholder="Кем выдан">
-        </div>
-        <div>
-            Когда:
-            <input type="text" [(ngModel)]="newFamily.whenIssued" class="form-control" placeholder="Когда">
+            Паспортные данные:
+            <input type="text" [(ngModel)]="newFamily.passportNumber" class="form-control" placeholder="Серия и номер паспорта, кем и когда выдан">
         </div>
         <div>
             Адрес регистрации:
@@ -147,7 +139,7 @@
             <ng-select [items]="compositions"
                        bindLabel="name"
                        bindValue="id"
-                       [(ngModel)]="newFamily.composition">
+                       [(ngModel)]="newFamily.familycomposition">
             </ng-select>
         </div>
         <div>
@@ -155,7 +147,7 @@
             <ng-select [items]="clarifycompositions"
                        bindLabel="name"
                        bindValue="id"
-                       [(ngModel)]="newFamily.clarifycomposition">
+                       [(ngModel)]="newFamily.clarifyFamilycomposition">
             </ng-select>
         </div>
 
@@ -164,7 +156,7 @@
             <ng-select [items]="numbersChildren"
                        bindLabel="name"
                        bindValue="id"
-                       [(ngModel)]="newFamily.numberChildren">
+                       [(ngModel)]="newFamily.familyNumberChildren">
             </ng-select>
         </div>
 
@@ -173,7 +165,7 @@
             <ng-select [items]="qualityLifes"
                        bindLabel="name"
                        bindValue="id"
-                       [(ngModel)]="newFamily.qualityLife">
+                       [(ngModel)]="newFamily.familyQualityLife">
             </ng-select>
         </div>
 
@@ -205,7 +197,7 @@
         </div>
         <div style="text-align:center; margin-top: 15px;">
             <!--<button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>-->
-            <button type="button" (click)="addFamily()" class="btn btn-success">Создать запись</button>
+            <button type="button" (click)="editFamily()" class="btn btn-success">Изменить запись</button>
         </div>
     </div>
 </p-dialog>
@@ -214,7 +206,7 @@
           [(visible)]="addModalVisibility"
           [modal]="true"
           [style]="{width: '50vw'}"
-          [baseZIndex]="10000"
+          [baseZIndex]="100"
           [draggable]="false">
     <div class="family-card">
         <div>
@@ -231,16 +223,8 @@
             <input type="text" [(ngModel)]="newFamily.birthCertificate" class="form-control" placeholder="Номер свидетельства о рождении">
         </div>
         <div>
-            Серия и номер паспорта:
-            <input type="text" [(ngModel)]="newFamily.passportNumber" class="form-control" placeholder="Серия и номер паспорта">
-        </div>
-        <div>
-            Кем выдан:
-            <input type="text" [(ngModel)]="newFamily.issuedWhom" class="form-control" placeholder="Кем выдан">
-        </div>
-        <div>
-            Когда:
-            <input type="text" [(ngModel)]="newFamily.whenIssued" class="form-control" placeholder="Когда">
+            Паспортные данные:
+            <input type="text" [(ngModel)]="newFamily.passportNumber" class="form-control" placeholder="Серия и номер паспорта, кем и когда выдан">
         </div>
         <div>
             Адрес регистрации:
@@ -279,7 +263,7 @@
             <ng-select [items]="compositions"
                        bindLabel="name"
                        bindValue="id"
-                       [(ngModel)]="newFamily.composition">
+                       [(ngModel)]="newFamily.familycomposition">
             </ng-select>
         </div>
         <div>
@@ -287,7 +271,7 @@
             <ng-select [items]="clarifycompositions"
                        bindLabel="name"
                        bindValue="id"
-                       [(ngModel)]="newFamily.clarifycomposition">
+                       [(ngModel)]="newFamily.clarifyFamilycomposition">
             </ng-select>
         </div>
 
@@ -296,7 +280,7 @@
             <ng-select [items]="numbersChildren"
                        bindLabel="name"
                        bindValue="id"
-                       [(ngModel)]="newFamily.numberChildren">
+                       [(ngModel)]="newFamily.familyNumberChildren">
             </ng-select>
         </div>
 
@@ -305,7 +289,7 @@
             <ng-select [items]="qualityLifes"
                        bindLabel="name"
                        bindValue="id"
-                       [(ngModel)]="newFamily.qualityLife">
+                       [(ngModel)]="newFamily.familyQualityLife">
             </ng-select>
         </div>
 
@@ -344,3 +328,5 @@
 
 <!-- <span style="color: purple" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 
 <span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span>-->
+
+<p-toast></p-toast> 
