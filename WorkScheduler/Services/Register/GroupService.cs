@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Monitoring.Shared;
 using WorkScheduler.ViewModels.Monitoring.Shared;
@@ -15,6 +16,17 @@ namespace WorkScheduler.Services.Register
         public GroupService(Context context)
         {
             Db = context;
+        }
+
+        public GroupViewModel Get(int id)
+        {
+            var found = Db.Groups.Include(g => g.AcademicYear).FirstOrDefault(g => g.Id == id);
+            var gr = new GroupViewModel();
+            gr.Id = found.Id;
+            gr.Name = found.Name;
+            gr.Type = found.Type;
+            gr.AcademicYear = new ViewModels.DictionaryViewModel<int> { Id = found.AcademicYear.Id, Name = found.AcademicYear.Name };
+            return gr;
         }
 
         public List<GroupViewModel> GetGroups(int academicYearId, int schoolId, AssociationType type)

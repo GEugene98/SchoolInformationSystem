@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using WorkScheduler.ViewModels;
+using WorkScheduler.ViewModels.Monitoring;
+using WorkScheduler.ViewModels.Register;
 using WorkScheduler.ViewModels.Scheduler;
 using WorkScheduler.ViewModels.Scheduler.Rendering;
 
@@ -238,6 +240,134 @@ namespace WorkScheduler.Services
 
 
             return template;
-        } 
+        }
+
+        public string GetRegisterHTML(AssociationViewModel association,
+            GroupViewModel group,
+            List<RegisterRow> registerRows,
+            List<PlaningRecordViewModel> planingRecords,
+            List<FamilyViewModel> families)
+        {
+            var template = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "assets", "register-template.html"));
+            template = template.Replace("%ACADEMIC_YEAR%", association.AcademicYear.Name);
+            template = template.Replace("%TEACHER%", association.AcademicYear.Name);
+            template = template.Replace("%ASSOCIATION%", association.Name);
+            template = template.Replace("%GROUP%", group.Name);
+
+            //Рендер таблицы журнала
+            if (registerRows.Count > 0 && registerRows[0].Cells.Count > 0)
+            {
+                var months = new List<MonthInfo>();
+
+                for (var i = 0; i < registerRows[0].Cells.Count; i++)
+                {
+                    var month = registerRows[0].Cells[i].Date.Value.Month;
+                    if (i == 0)
+                    {
+                        months.Add(new MonthInfo { Month = month, Days = 1, MonthName = monthNames[month - 1] });
+                        continue;
+                    }
+                    var found = months.Where(m => m.Month == month).ToArray();
+                    if (found.Length > 0)
+                    {
+                        found[0].Days++;
+                    }
+                    else
+                    {
+                        months.Add(new MonthInfo { Month = month, Days = 1, MonthName = monthNames[month - 1] });
+                    }
+                }
+
+                var days = registerRows[0].Cells.Select(c => c.Date.Value);
+
+                var registerHTML =
+                $@"<table class=""rg-table"">" +
+                $@"<tr class=""head"">"+
+                $@"<td rowspan = ""2"" > Ученики </td>";
+
+                foreach (var month in months)
+                {
+                    registerHTML += $@"<td colspan=""{month.Days}"">{month.MonthName}</td>";
+                }
+
+                registerHTML += $@"</tr> <tr class=""head"">";
+
+                foreach (var day in days)
+                {
+                    registerHTML += $@"<td>{day.Date.Day}</td>";
+                }
+
+                registerHTML += $@"</tr>";
+
+                foreach (var row in registerRows)
+                {
+                    registerHTML += $@"<tr>";
+
+                    registerHTML += $@"<td>{row.Student.FullName}</td>";
+
+                    foreach (var cell in row.Cells)
+                    {
+                        registerHTML += $@"<td>{cell.Content}</td>";
+                    }
+
+                    registerHTML += $@"</tr>";
+                }
+
+                registerHTML += $@"</table>";
+
+                template = template.Replace("%REGISTER%", registerHTML);
+
+                //Рендер КТП
+
+                var ktpHTML = $@"<table class=""rg-table""><thead><tr><th scope=""col"" style=""width:10 %"">Дата</th><th scope = ""col"" style = ""width:60%""> Содержание / Тема </th><th scope = ""col"" style = ""width:10%""> Часы </th><th scope = ""col"" style = ""width:10%""> Подпись </th><th scope = ""col"" style = ""width:10%""> Примечание </th></tr > </thead > <tbody>";
+
+                foreach (var record in planingRecords)
+                {
+                    ktpHTML += $@"<tr>
+                    <td>{(record.Date.HasValue ? record.Date.Value.ToShortDateString() : "")}</td>
+                    <td>{record.Name}</td>
+                    <td>{record.Hours}</td>
+                    <td></td>
+                    <td>{record.Comment}</td>
+                </tr>";
+                }
+
+                ktpHTML += $@"</tbody></table>";
+
+                template = template.Replace("%PLANING%", ktpHTML);
+
+                // Рендер информации о семьях
+
+                var familyHTML = $@"<table class=""rg-table""><thead><tr><th scope=""col"">ФИО ребенка</th><th scope=""col"">Дата рождения</th><th scope=""col"">Адрес регистрации</th><th scope=""col"">Адрес проживания</th><th scope=""col"">ФИО матери, телефон, место работы</th><th scope=""col"">ФИО отца, телефон, место работы</th></tr></thead><tbody>";
+
+                foreach (var family in families)
+                {
+                    familyHTML += $@"<tr>
+                    <td>{family.Student.FullName}</td>
+                    <td>{(family.Student.Birthday.HasValue ? family.Student.Birthday.Value.ToShortDateString() : "")}</td>
+                    <td>{family.RegistrAddres}</td>
+                    <td>{family.ResidAddres}</td>
+                    <td>{family.FullNameMather + '\n' + family.PhoneMother + '\n' + family.WorkMother}</td>
+                    <td>{family.FullNameFather + '\n' + family.PhoneFather + '\n' + family.WorkFather}</td>
+                    </tr>";
+                }
+
+                familyHTML += $@"</tbody></table>";
+
+                template = template.Replace("%FAMILY%", familyHTML);
+            }
+
+            return template;
+        }
+
+        private string[] monthNames = new string[] { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
+    }
+
+    class MonthInfo
+    {
+        public int Month { get; set; }
+        public int Days { get; set; }
+        public string MonthName { get; set; }
     }
 }
+

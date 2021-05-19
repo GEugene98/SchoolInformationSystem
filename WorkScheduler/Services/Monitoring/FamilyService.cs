@@ -17,6 +17,48 @@ namespace WorkScheduler.Services.Monitoring
             Db = context;
         }
 
+        public List<FamilyViewModel> GetByGroup(int groupId)
+        {
+            var groupStudentsQuery = Db.GroupStudents
+                .Where(gs => gs.GroupId == groupId);
+
+            var families =
+                from f in Db.Families
+                join gs in groupStudentsQuery on f.StudentId equals gs.StudentId
+                select f;
+
+            return families
+                .Select(f => new FamilyViewModel
+                {
+                    Id = f.Id,
+                    PassportNumber = f.PassportNumber,
+                    BirthCertificate = f.BirthCertificate,
+                    RegistrAddres = f.RegistrAddres,
+                    ResidAddres = f.ResidAddres,
+                    FullNameMather = f.FullNameMather,
+                    PhoneMother = f.PhoneMother,
+                    WorkMother = f.WorkMother,
+                    FullNameFather = f.FullNameFather,
+                    PhoneFather = f.PhoneFather,
+                    WorkFather = f.WorkFather,
+                    ClarifyFamilycomposition = f.ClarifyFamilyСomposition,
+                    FamilyNumberChildren = f.FamilyNumberChildren,
+                    Familycomposition = f.FamilyСomposition,
+                    FamilyQualityLife = f.FamilyQualityLife,
+                    RegistrationDate = f.RegistrationDate,
+                    HealthGroup = f.HealthGroup,
+                    PhysicalGroup = f.PhysicalGroup,
+                    Registration = f.Registration,
+                    Student = new StudentViewModel
+                    {
+                        FullName = f.Student.LastName + " " + f.Student.FirstName + " " + f.Student.SurName,
+                        Birthday = f.Student.Birthday
+                    },
+
+                })
+                .ToList();
+        }
+
         public List<FamilyViewModel> Get(int schoolId, int classId)
         {
             var classStudentsQuery = Db.ClassStudents

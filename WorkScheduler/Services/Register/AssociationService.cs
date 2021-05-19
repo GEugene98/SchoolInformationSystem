@@ -19,6 +19,17 @@ namespace WorkScheduler.Services.Register
             Db = context;
         }
 
+        public AssociationViewModel Get(int id)
+        {
+            var found = Db.Associations.Include(a => a.AcademicYear).FirstOrDefault(a => a.Id == id);
+            var ass = new AssociationViewModel();
+            ass.Id = found.Id;
+            ass.Name = found.Name;
+            ass.Type = found.Type;
+            ass.AcademicYear = new ViewModels.DictionaryViewModel<int> { Name = found.AcademicYear.Name, Id = found.AcademicYear.Id };
+            return ass;
+        }
+
         public List<AssociationViewModel> GetAssociations(AssociationType type, int schoolId, int academicYearId)
         {
             var associationsQuery = Db.Associations

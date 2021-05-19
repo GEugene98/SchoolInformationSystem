@@ -8,7 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkScheduler.Models.Identity;
+using WorkScheduler.Services.Monitoring;
+using WorkScheduler.Services.Register;
 using WorkScheduler.ViewModels;
+using WorkScheduler.ViewModels.Register;
 
 namespace WorkScheduler.Services
 {
@@ -21,13 +24,35 @@ namespace WorkScheduler.Services
         protected ReportRenderService RenderService;
         protected IConverter Converter;
 
-        public ReportService(SchedulerService schedulerService, IConverter converter, ReportRenderService renderService, TicketService ticketService, ProtocolService protocolService)
+        protected AssociationService AssociationService;
+        protected GroupService GroupService;
+        protected RegisterService RegisterService;
+        protected PlaningRecordService PlaningRecordService;
+        protected FamilyService FamilyService;
+
+        public ReportService(SchedulerService schedulerService,
+            IConverter converter,
+            ReportRenderService renderService,
+            TicketService ticketService,
+            ProtocolService protocolService,
+            AssociationService associationService,
+            GroupService groupService,
+            RegisterService registerService,
+            PlaningRecordService planingRecordService,
+            FamilyService familyService
+            )
         {
             SchedulerService = schedulerService;
             TicketService = ticketService;
             ProtocolService = protocolService;
             RenderService = renderService;
             Converter = converter;
+
+            AssociationService = associationService;
+            GroupService = groupService;
+            RegisterService = registerService;
+            PlaningRecordService = planingRecordService;
+            FamilyService = familyService;
         }
 
         public byte[] GetGeneralPeriodReport(DateTime start, DateTime end, DateTime confirmDate, DateTime acceptDate, User user, bool titlePage = false)
@@ -149,6 +174,44 @@ namespace WorkScheduler.Services
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Unit = Unit.Centimeters, Left = 3, Top = 1, Right = 1, Bottom = 1.5 },
                 DocumentTitle = $"Протокол заседания {protocol.Name}"
+            };
+
+            var objectSettings = new ObjectSettings
+            {
+                //PagesCount = true,0
+                HtmlContent = html,
+                WebSettings = { DefaultEncoding = "utf-8" },
+                //HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
+                FooterSettings = { FontName = "Times New Roman", FontSize = 10, Line = false, Center = "[page]" }
+            };
+
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = globalSettings,
+                Objects = { objectSettings }
+            };
+
+            return Converter.Convert(pdf);
+        }
+
+        public byte[] GetRegisterReport(int academicYearId, int assotiationId, int groupId)
+        {
+            //var protocol = ProtocolService.GetProtocol(protcolId, schoolId);
+
+            var records = RegisterService.GetRecords(academicYearId, assotiationId, groupId).ToList();
+            var planings = PlaningRecordService.GetRecords(academicYearId, assotiationId, groupId).ToList();
+            var association = AssociationService.Get(assotiationId);
+            var group = GroupService.Get(groupId);
+            var families = FamilyService.GetByGroup(groupId);
+            var html = RenderService.GetRegisterHTML(association, group, records, planings, families);
+
+            var globalSettings = new GlobalSettings
+            {
+                ColorMode = ColorMode.Grayscale,
+                Orientation = Orientation.Portrait,
+                PaperSize = PaperKind.A4,
+                Margins = new MarginSettings { Unit = Unit.Centimeters, Left = 3, Top = 1, Right = 1, Bottom = 1.5 },
+                DocumentTitle = $"Журнал {association.Name}"
             };
 
             var objectSettings = new ObjectSettings

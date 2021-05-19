@@ -23,8 +23,8 @@ namespace WorkScheduler.Controllers
         [Route("GetRecords")]
         public IActionResult GetRecords(int academicYearId, int associationId, int groupId)
         {
-            var schoolId = (int)Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId;
-            var result = RegisterService.GetRecords(academicYearId, associationId, groupId, schoolId);
+            //var schoolId = (int)Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name).SchoolId;
+            var result = RegisterService.GetRecords(academicYearId, associationId, groupId);
             return Ok(result);
         }
 

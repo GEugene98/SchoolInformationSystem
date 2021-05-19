@@ -21,7 +21,7 @@ namespace WorkScheduler.Services.Register
             GroupService = groupService;
         }
 
-        public IEnumerable<RegisterRow> GetRecords(int academicYearId, int associationId, int groupId, int schoolId)
+        public IEnumerable<RegisterRow> GetRecords(int academicYearId, int associationId, int groupId)
         {
             var planingRecords = PlaningRecordService.GetRecords(academicYearId, associationId, groupId).Where(p => p.Date.HasValue).ToList();
 

@@ -34,6 +34,19 @@
             overflow-x: auto;
             white-space: nowrap;
         }
+        .legend {
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+            .legend div p span.legend-label {
+                width: 40px;
+                height: 25px;
+                border: 1px solid #d0d0d0;
+                text-align: center;
+                padding: 3px 0 0 0px;
+                margin: -3px 5px 0 0px;
+            }
 
     </style>
 </head>
@@ -44,219 +57,62 @@
         дополнительного образования<br />
         в объединении (секции, клубе, кружке)<br />
         на %ACADEMIC_YEAR% учебный год<br />
-    </div>
-
-
-    <br />
-
-    <div class="description">
-
-
+        Объединение: %ASSOCIATION% <br />
+        Педагог: %TEACHER% <br />
+        Группа: %GROUP%<br />
     </div>
 
     <br />
 
     <div class="content">
-        <table class="rg-table">
-            <tr class="head">
-                <td rowspan="2">Ученики</td>
-                <td colspan="4">Январь</td>
-                <td colspan="4">Февраль</td>
-                <td colspan="4">Март</td>
-                <td colspan="4">Апрель</td>
-            </tr>
-            <tr class="head">
-                <td>1</td>
-                <td>14</td>
-                <td>16</td>
-                <td>22</td>
-
-                <td>1</td>
-                <td>14</td>
-                <td>16</td>
-                <td>22</td>
-
-                <td>1</td>
-                <td>14</td>
-                <td>16</td>
-                <td>22</td>
-
-                <td>1</td>
-                <td>14</td>
-                <td>16</td>
-                <td>22</td>
-            </tr>
-
-            <tr>
-                <td>
-                    Иванов
-                </td>
-
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-            </tr>
-
-            <tr>
-                <td>
-                    Петров
-                </td>
-
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-            </tr>
-        </table>
-
+        %REGISTER%
     </div>
-
 
     <br />
 
+    <div class="legend print-block">
+        <div>
+            <p>
+                <span class="legend-label">УП</span>
+                <span class="legend-description"> — Пропуск по уважительной причине</span>
+            </p>
+            <p>
+                <span class="legend-label">Б</span>
+                <span class="legend-description"> — Пропуск по болезни</span>
+            </p>
+            <p>
+                <span class="legend-label">НП</span>
+                <span class="legend-description"> — Пропуск по неуважительной причине</span>
+            </p>
+        </div>
+        <div>
+            <p>
+                <span class="legend-label">ОТ</span>
+                <span class="legend-description"> — Отсутствовал</span>
+            </p>
+            <p>
+                <span class="legend-label">ОП</span>
+                <span class="legend-description"> — Опоздал</span>
+            </p>
+        </div>
+        <div>
+            <p>
+                <span class="legend-label">ОСВ</span>
+                <span class="legend-description"> — Освобожден</span>
+            </p>
+        </div>
+    </div>
+
+    <br />
 
     <div class="ktp">
-        <table class="rg-table">
-            <thead>
-                <tr>
-                    <th scope="col">Дата</th>
-                    <th scope="col">Содержание/Тема</th>
-                    <th scope="col">Часы</th>
-                    <th scope="col">Подпись</th>
-                    <th scope="col">Примечание</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>25.05.2020</td>
-                    <td>ВАвававававававававававававававава</td>
-                    <td>8</td>
-                    <td></td>
-                    <td>ываываываываыва</td>
-                </tr>
-                <tr>
-                    <td>25.05.2020</td>
-                    <td>ВАвававававававававававававававава</td>
-                    <td>8</td>
-                    <td></td>
-                    <td>ываываываываыва</td>
-                </tr>
-                <tr>
-                    <td>25.05.2020</td>
-                    <td>ВАвававававававававававававававава</td>
-                    <td>8</td>
-                    <td></td>
-                    <td>ываываываываыва</td>
-                </tr>
-                <tr>
-                    <td>25.05.2020</td>
-                    <td>ВАвававававававававававававававава</td>
-                    <td>8</td>
-                    <td></td>
-                    <td>ываываываываыва</td>
-                </tr>
-                <tr>
-                    <td>25.05.2020</td>
-                    <td>ВАвававававававававававававававава</td>
-                    <td>8</td>
-                    <td></td>
-                    <td>ываываываываыва</td>
-                </tr>
-            </tbody>
-        </table>
-
+        %PLANING%
     </div>
 
     <br />
 
     <div class="parents">
-        <table class="rg-table">
-            <thead>
-                <tr>
-                    <th scope="col">ФИО ребенка</th>
-                    <th scope="col">Дата рождения</th>
-                    <th scope="col">Адрес регистрации</th>
-                    <th scope="col">Адрес проживания</th>
-                    <th scope="col">ФИО матери, телефон, место работы</th>
-                    <th scope="col">ФИО отца, телефон, место работы</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>25.05.2020</td>
-                    <td>ВАвававававававававававававававава</td>
-                    <td>8</td>
-                    <td>ааааа</td>
-                    <td>ываываываываыва</td>
-                    <td>ываываываываыва</td>
-                </tr>
-                <tr>
-                    <td>25.05.2020</td>
-                    <td>ВАвававававававававававававававава</td>
-                    <td>8</td>
-                    <td></td>
-                    <td>ываываываываыва</td>
-                    <td>ываываываываыва</td>
-                </tr>
-                <tr>
-                    <td>25.05.2020</td>
-                    <td>ВАвававававававававававававававава</td>
-                    <td>8</td>
-                    <td>ааааа</td>
-                    <td>ываываываываыва</td>
-                    <td>ываываываываыва</td>
-                </tr>
-                <tr>
-                    <td>25.05.2020</td>
-                    <td>ВАвававававававававававававававава</td>
-                    <td>8</td>
-                    <td>ааааааа</td>
-                    <td>ываываываываыва</td>
-                    <td>ываываываываыва</td>
-                </tr>
-                <tr>
-                    <td>25.05.2020</td>
-                    <td>ВАвававававававававававававававава</td>
-                    <td>8</td>
-                    <td>ывывывыв</td>
-                    <td>ываываываываыва</td>
-                    <td>ываываываываыва</td>
-                </tr>
-            </tbody>
-        </table>
-
+        %FAMILY%
     </div>
-
 </body>
 </html>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { RegisterRecord } from '../../models/register-record.model';
 import { RegisterRow } from '../../models/register-row.model';
 
@@ -11,8 +11,15 @@ const monthNames = ["Январь", "Февраль", "Март", "Апрель"
 })
 export class RegisterTableComponent implements OnInit {
 
+  @Input() academicYearId: number;
+  @Input() associationId: number;
+  @Input() groupId: number;
+
   @Input() rows: RegisterRow[];
   @Output() updateCellEvent = new EventEmitter();
+
+  @ViewChild("renderedTable", {static: false})
+    nameParagraph: ElementRef|undefined;
 
   constructor() { }
 
@@ -46,6 +53,11 @@ export class RegisterTableComponent implements OnInit {
       return months;
     }
     return [];
+  }
+
+  getDocument() {
+    window.open(`/api/Report/Register?` +
+      `academicYearId=${this.academicYearId}&associationId=${this.associationId}&groupId=${this.groupId}`);
   }
 
   updateCell(cell: RegisterRecord, studentId: string) {
