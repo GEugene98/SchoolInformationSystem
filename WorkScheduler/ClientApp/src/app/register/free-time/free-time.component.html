@@ -8,9 +8,7 @@
   (selectedGroupChanged)="updateSelectedGroup($event)"
   [groups]="groups">
 </app-register-params>
-  <div class="pane">
-    <!-- <button type="button" class="btn btn-primary">Сформировать документ</button> -->
-  </div>
+<div *ngIf="selectedAssociation?.user">Педагог: {{selectedAssociation?.user?.fullName}}</div>
   <div class="tabs">
     <tabset>
       <tab heading="Журнал">

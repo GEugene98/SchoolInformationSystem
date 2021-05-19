@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Monitoring.Shared;
 using WorkScheduler.Models.Register;
+using WorkScheduler.ViewModels;
 using WorkScheduler.ViewModels.Monitoring.Shared;
 using WorkScheduler.ViewModels.Register;
 
@@ -21,18 +22,26 @@ namespace WorkScheduler.Services.Register
 
         public AssociationViewModel Get(int id)
         {
-            var found = Db.Associations.Include(a => a.AcademicYear).FirstOrDefault(a => a.Id == id);
+            var found = Db.Associations.Include(a => a.AcademicYear).Include(a => a.User).FirstOrDefault(a => a.Id == id);
             var ass = new AssociationViewModel();
             ass.Id = found.Id;
             ass.Name = found.Name;
             ass.Type = found.Type;
+            if (found.User != null)
+            {
+                ass.User = new UserViewModel { Id = found.User.Id, FullName = $"{found.User.LastName} {found.User.FirstName} {found.User.SurName}"};
+            }
+            else
+            {
+                ass.User = new UserViewModel { FullName = "ПЕДАГОГ ЗА ОБЪЕДИНЕНИЕМ НЕ ЗАКРЕПЛЕН !"};
+            }
             ass.AcademicYear = new ViewModels.DictionaryViewModel<int> { Name = found.AcademicYear.Name, Id = found.AcademicYear.Id };
             return ass;
         }
 
         public List<AssociationViewModel> GetAssociations(AssociationType type, int schoolId, int academicYearId)
         {
-            var associationsQuery = Db.Associations
+            var associationsQuery = Db.Associations.Include(a => a.User)
                 .Where(a => a.AcademicYearId == academicYearId && a.SchoolId == schoolId && a.Type == type);
 
             var joinResultQuery =
@@ -68,17 +77,22 @@ namespace WorkScheduler.Services.Register
                 .OrderBy(a => a.Name)
                 .ToList()
                 .Select(a => new AssociationViewModel
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    User = a.User != null ? new UserViewModel
                     {
-                        Id = a.Id,
-                        Name = a.Name,
-                        Groups = associationsAndGroups
+                        Id = a.User.Id,
+                        FullName = $"{a.User.LastName} {a.User.FirstName} {a.User.SurName}"
+                    }: null,
+                    Groups = associationsAndGroups
                             .Where(jr => jr.Association.Id == a.Id)
                             .Select(jr => new GroupViewModel {
                                 Id = jr.Group.Id,
                                 Name = jr.Group.Name,
                                 Students = students.Where(s => s.GroupId == jr.Group.Id).Select(s => s.Student).ToList()
                             }).ToList()
-                    })
+                })
                 .ToList();
 
             return associations;
@@ -96,6 +110,15 @@ namespace WorkScheduler.Services.Register
             Db.SaveChanges();
         }
 
+        public void EditAssotiation(AssociationViewModel association)
+        {
+            var found = Db.Associations.FirstOrDefault(a => a.Id == association.Id);
+
+            found.Name = association.Name;
+            found.UserId = association.User.Id;
+            Db.SaveChanges();
+        }
+
         public int CreateAssociation(AssociationViewModel association, int schoolId, int academicYearId)
         {
             var newAssociation = new Association();
@@ -103,6 +126,7 @@ namespace WorkScheduler.Services.Register
             newAssociation.SchoolId = schoolId;
             newAssociation.Name = association.Name;
             newAssociation.Type = association.Type;
+            newAssociation.UserId = association.User.Id;
 
             Db.Associations.Add(newAssociation);
             Db.SaveChanges();
@@ -158,11 +182,7 @@ namespace WorkScheduler.Services.Register
 
                 }
 
-                
-
-
-            }
-           
+            }        
 
             return newAssociation.Id;
         }

@@ -107,16 +107,16 @@ namespace WorkScheduler.Controllers
         [HttpGet("Register")]
         public IActionResult Register(int academicYearId, int associationId, int groupId)
         {
-            //try
-            //{
+            try
+            {
                 var report = ReportService.GetRegisterReport(academicYearId, associationId, groupId);
                 return File(report, "application/pdf");
-            //}
-            //catch (Exception ex)
-            //{
-            //    Logger.Error(ex.ToString());
-            //    return BadRequest(ex.Message);
-            //}
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString());
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using WorkScheduler.Models.Monitoring;
+using WorkScheduler.Models.Register;
 using WorkScheduler.Models.Scheduler;
 using WorkScheduler.Models.Shared;
 
@@ -37,6 +38,7 @@ namespace WorkScheduler.Models.Identity
         public virtual ICollection<LoginLog> LoginLogs { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Contract> Contracts { get; set; }
+        public virtual ICollection<Association> Associations { get; set; }
 
     }
 }

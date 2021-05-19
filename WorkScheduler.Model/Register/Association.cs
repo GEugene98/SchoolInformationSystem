@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using WorkScheduler.Models.Base;
 using WorkScheduler.Models.Enums;
+using WorkScheduler.Models.Identity;
 using WorkScheduler.Models.Shared;
 
 namespace WorkScheduler.Models.Register
@@ -15,6 +16,9 @@ namespace WorkScheduler.Models.Register
 
         public int SchoolId { get; set; }
         public School School { get; set; }
+
+        public string UserId { get; set; }
+        public User User { get; set; }
 
         public virtual ICollection<AssociationGroup> AssociationGroups { get; set; }
         public virtual ICollection<PlaningRecord> PlaningRecords { get; set; }

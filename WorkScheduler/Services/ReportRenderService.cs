@@ -250,7 +250,7 @@ namespace WorkScheduler.Services
         {
             var template = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "assets", "register-template.html"));
             template = template.Replace("%ACADEMIC_YEAR%", association.AcademicYear.Name);
-            template = template.Replace("%TEACHER%", association.AcademicYear.Name);
+            template = template.Replace("%TEACHER%", association.User.FullName);
             template = template.Replace("%ASSOCIATION%", association.Name);
             template = template.Replace("%GROUP%", group.Name);
 

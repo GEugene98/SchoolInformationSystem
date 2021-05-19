@@ -47,5 +47,12 @@ namespace WorkScheduler.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("EditAssociation")]
+        public IActionResult EditAssociation([FromBody] AssociationViewModel association)
+        {
+            AssociationService.EditAssotiation(association);
+            return Ok();
+        }
     }
 }

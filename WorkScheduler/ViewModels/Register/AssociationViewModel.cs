@@ -9,6 +9,8 @@ namespace WorkScheduler.ViewModels.Register
         public DictionaryViewModel<int> AcademicYear { get; set; }
         public AssociationType Type { get; set; }
 
+        public UserViewModel User;
+
         public List<GroupViewModel> Groups { get; set; }
     }
 }

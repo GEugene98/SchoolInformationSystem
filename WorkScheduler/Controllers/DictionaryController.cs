@@ -12,6 +12,7 @@ using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.Services;
 using WorkScheduler.ViewModels;
+using WorkScheduler.ViewModels.Register;
 
 namespace WorkScheduler.Controllers
 {
@@ -64,13 +65,18 @@ namespace WorkScheduler.Controllers
         public IActionResult Associations(AssociationType type, int academicYearId)
         {
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
-            var associations = Db.Associations
+            var associations = Db.Associations.Include(a => a.User) 
                 .Where(a => a.Type == type && a.SchoolId == currentUser.SchoolId && a.AcademicYearId == academicYearId)
                 .OrderBy(a => a.Name)
-                .Select(a => new DictionaryViewModel<int>
+                .Select(a => new AssociationViewModel
                 {
                     Id = a.Id,
-                    Name = a.Name
+                    Name = a.Name,
+                    User = a.User != null ? new UserViewModel
+                    {
+                        Id = a.User.Id,
+                        FullName = $"{a.User.LastName} {a.User.FirstName} {a.User.SurName}"
+                    } : null
                 })
                 .ToList();
 

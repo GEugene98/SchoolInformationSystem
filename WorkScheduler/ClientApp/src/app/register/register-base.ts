@@ -11,13 +11,14 @@ import { GroupService } from "./services/group.service";
 import { RegisterPlaningService } from "./services/register-planing.service";
 import { RegisterService } from "./services/register.service";
 import { Directive } from "@angular/core";
+import { Association } from "./models/association.model";
 
 @Directive()
 export class RegisterBase {
     allAcademicYears: AcademicYear[];
     selectedAcademicYear: AcademicYear;
-    associations: Dictionary<number>[];
-    selectedAssociation: Dictionary<number>;
+    associations: Association[];
+    selectedAssociation: Association;
     groups: Dictionary<number>[];
     selectedGroup: Dictionary<number>;
     associationType: AssociationType;

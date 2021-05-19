@@ -82,5 +82,24 @@ namespace WorkScheduler.Controllers
             }
 
         }
+
+        [HttpGet("[action]")]
+        public IActionResult DownloadPlaningTemplate()
+        {
+            try
+            {
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "assets", "planing-template.xlsx");
+                string fileName = Path.GetFileName(filePath);
+
+                string fileType = "application/octet-stream";
+                return PhysicalFile(filePath, fileType, fileName);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+
+        }
+        
     }
 }

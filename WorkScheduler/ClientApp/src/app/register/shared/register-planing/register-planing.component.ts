@@ -121,6 +121,10 @@ export class RegisterPlaningComponent implements OnInit {
     }   
   }
 
+  downloadTemplate(){
+    location.href = 'api/File/DownloadPlaningTemplate';
+  }
+
   async deleteRecord(recordId: number){
     try{
       await this.planingService.deleteRecord(recordId);

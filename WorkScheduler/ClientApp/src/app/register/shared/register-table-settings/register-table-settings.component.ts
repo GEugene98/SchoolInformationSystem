@@ -9,6 +9,8 @@ import { Group } from '../../models/group.model';
 import { AssociationService } from '../../services/association.service';
 import { GroupService } from '../../services/group.service';
 import * as _ from 'lodash';
+import { DictionaryService } from '../../../shared/services/dictionary.service';
+import { User } from '../../../shared/models/user';
 
 @Component({
   selector: 'app-register-table-settings',
@@ -31,9 +33,11 @@ export class RegisterTableSettingsComponent implements OnInit {
   newAssociation: Association;
   modalRef: BsModalRef;
 
+  users: User[];
+
   editedGroup: Group;
   
-  constructor(private groupService: GroupService, private associationService: AssociationService, private modalService: BsModalService) { }
+  constructor(private groupService: GroupService, private associationService: AssociationService, private modalService: BsModalService, private dictionary: DictionaryService) { }
 
   async ngOnInit() {
     await this.loadData();
@@ -44,6 +48,7 @@ export class RegisterTableSettingsComponent implements OnInit {
   }
 
   async loadData() {
+    this.users = await this.dictionary.getUsers();
     if(this.selectedAcademicYear){
       this.associations = await this.associationService.getAssotiations(this.associationType, this.selectedAcademicYear.id);
       this.allGroupsByTypeAndYear = await this.groupService.getGroups(this.associationType, this.selectedAcademicYear.id);
@@ -60,6 +65,17 @@ export class RegisterTableSettingsComponent implements OnInit {
     await this.associationService.createAssotiation(this.newAssociation, this.selectedAcademicYear.id);
     await this.loadData();
     this.closeModal();
+  }
+
+  async edit(){
+    await this.associationService.editAssotiation(this.newAssociation);
+    await this.loadData();
+    this.closeModal();
+  }
+
+  openEditModal(modal, assotiation: Association) {
+    this.newAssociation = _.cloneDeep(assotiation);
+    this.modalRef = this.modalService.show(modal);
   }
 
   openModal(modal) {

@@ -8,6 +8,7 @@ import { Dictionary } from "../models/dictionary.model";
 import { WorkSchedule } from "../models/work-schedule.model";
 import { AssociationType } from "../../register/models/enums/association-type.enum";
 import { Organization } from "../../monitoring/models/organization.model";
+import { Association } from "../../register/models/association.model";
 
 @Injectable()
 export class DictionaryService {
@@ -60,7 +61,7 @@ export class DictionaryService {
     .set('type', type.toString())
     .set('academicYearId', academicYearId.toString());
 
-    return await this.http.get<Dictionary<number>[]>('api/Dictionary/Associations', { params: params }).toPromise();
+    return await this.http.get<Association[]>('api/Dictionary/Associations', { params: params }).toPromise();
   }
 
   async getGroups(academicYearId: number, associationId: number){
