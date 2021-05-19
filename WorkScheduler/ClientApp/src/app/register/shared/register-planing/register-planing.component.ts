@@ -22,6 +22,7 @@ export class RegisterPlaningComponent implements OnInit {
 
   @Input() records: PlaningRecord[] = [];
   editedRecord: PlaningRecord = new PlaningRecord();
+  newRecord: PlaningRecord = new PlaningRecord();
 
   @Input() selectedAcademicYear: AcademicYear;
   @Input() selectedAssociation: Dictionary<number>;
@@ -85,8 +86,28 @@ export class RegisterPlaningComponent implements OnInit {
     this.openModal(modal);
   }
 
+  openAddModal(modal) {
+    if(!this.selectedAcademicYear || !this.selectedAssociation || !this.selectedGroup){
+      this.messageService.add({ severity: 'warn', summary: 'Не все параметры выбраны', detail: "Выберите учебный год, объединение и группу", life: 5000 });
+      return;
+    }
+    this.newRecord = new PlaningRecord();
+    this.openModal(modal);
+  }
+
   closeModal() {
     this.modalRef.hide();
+  }
+
+  async addRecord(){
+    try{
+      await this.planingService.createRecord(this.newRecord, this.selectedAcademicYear.id, this.selectedAssociation.id, this.selectedGroup.id);
+      await this.loadData();
+      this.closeModal();
+    }
+    catch(e){
+      this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: e.error , life: 5000 });
+    }   
   }
 
   async saveEditedRecord(){

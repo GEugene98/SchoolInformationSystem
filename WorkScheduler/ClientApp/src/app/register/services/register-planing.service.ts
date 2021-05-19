@@ -23,6 +23,15 @@ export class RegisterPlaningService {
         return await this.http.get<PlaningRecord[]>('api/PlaningRecord/GetRecords', { params: params } ).toPromise();
     }
 
+    async createRecord(record: PlaningRecord, academicYearId: number, associationId: number, groupId: number){
+        const params = new HttpParams()
+            .set('associationId', associationId.toString())
+            .set('groupId', groupId.toString())
+            .set('academicYearId', academicYearId.toString());
+  
+        return await this.http.post('api/PlaningRecord/CreateRecord', record, { params: params }).toPromise();
+    }
+
     async updateRecord(record: PlaningRecord){
         return await this.http.post('api/PlaningRecord/UpdateRecord', record).toPromise();
     }

@@ -185,5 +185,22 @@ namespace WorkScheduler.Services.Register
 
             Db.SaveChanges();
         }
+
+        public void CreateRecord(PlaningRecordViewModel record, int academicYearId, int associationId, int groupId)
+        {
+            var newRecord = new PlaningRecord();
+
+            newRecord.Name = record.Name;
+            newRecord.Comment = record.Comment;
+            newRecord.Date = record.Date;
+            newRecord.Hours = record.Hours;
+            newRecord.AcademicYearId = academicYearId;
+            newRecord.AssociationId = associationId;
+            newRecord.GroupId = groupId;
+
+            Db.PlaningRecords.Add(newRecord);
+
+            Db.SaveChanges();
+        }
     }
 }

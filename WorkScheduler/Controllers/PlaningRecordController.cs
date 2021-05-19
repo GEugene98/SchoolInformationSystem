@@ -43,6 +43,18 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("CreateRecord")]
+        public IActionResult CreateRecord([FromBody] PlaningRecordViewModel record, int academicYearId, int associationId, int groupId)
+        {
+            if (record.Date.HasValue)
+            {
+                record.Date = record.Date.Value.AddHours(3);
+            }
+            PlaningRecordService.CreateRecord(record, academicYearId, associationId, groupId);
+            return Ok();
+        }
+
         [HttpDelete]
         [Route("DeleteRecord")]
         public IActionResult DeleteRecord(long recordId)
