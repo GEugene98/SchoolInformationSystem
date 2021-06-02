@@ -98,6 +98,11 @@ export class FamilyComponent implements OnInit {
     {
       name: "Категория семьи по составу",
       visibility: false,
+      fieldInfo: "familycomposition"
+    },
+    {
+      name: "Подкатегория семьи по составу",
+      visibility: false,
       fieldInfo: "clarifyFamilycomposition"
     },
     {
@@ -116,7 +121,7 @@ export class FamilyComponent implements OnInit {
       fieldInfo: "healthGroup"
     },
     {
-      name: "Физкультурная группа",
+      name: "Физическая группа",
       visibility: false,
       fieldInfo: "physicalGroup"
     },
@@ -227,46 +232,46 @@ export class FamilyComponent implements OnInit {
       }
 
       if (fieldInfo == "familycomposition") {
-        if (result == undefined) {
+        if (itemResult == undefined) {
           itemResult = " "
         }
-        itemResult = this.compositions.filter(s => s.id == result)[0].name;
+        itemResult = this.compositions.filter(s => s.id == itemResult)[0].name;
       }
       if (fieldInfo == "clarifyFamilycomposition") {
-        if (result == undefined) {
+        if (itemResult == undefined) {
           itemResult = " "
         }
-        itemResult = this.clarifycompositions.filter(s => s.id == result)[0].name;
+        itemResult = this.clarifycompositions.filter(s => s.id == itemResult)[0].name;
       }
       if (fieldInfo == "familyNumberChildren") {
-        if (result == undefined) {
+        if (itemResult == undefined) {
           itemResult = " "
         }
-        itemResult = this.numbersChildren.filter(s => s.id == result)[0].name;
+        itemResult = this.numbersChildren.filter(s => s.id == itemResult)[0].name;
       }
       if (fieldInfo == "healthGroup") {
-        if (result == undefined) {
+        if (itemResult == undefined) {
           itemResult = " "
         }
-        itemResult = this.healthGroups.filter(s => s.id == result)[0].name;
+        itemResult = this.healthGroups.filter(s => s.id == itemResult)[0].name;
       }
       if (fieldInfo == "physicalGroup") {
-        if (result == undefined) {
+        if (itemResult == undefined) {
           itemResult = " "
         }
-        itemResult = this.physicalGroups.filter(s => s.id == result)[0].name;
+        itemResult = this.physicalGroups.filter(s => s.id == itemResult)[0].name;
       }
       if (fieldInfo == "registration") {
-        if (result == undefined) {
+        if (itemResult == undefined) {
           itemResult = " "
         }
-        itemResult = this.registrations.filter(s => s.id == result)[0].name;
+        itemResult = this.registrations.filter(s => s.id == itemResult)[0].name;
       }
-      if (fieldInfo == "qualityLife") {
-        if (result == undefined) {
+      if (fieldInfo == "familyQualityLife") {
+        if (itemResult == undefined) {
           itemResult = " "
         }
-        itemResult = this.qualityLifes.filter(s => s.id == result)[0].name;
+        itemResult = this.qualityLifes.filter(s => s.id == itemResult)[0].name;
       }
 
       result += ' ' + itemResult;

@@ -101,7 +101,7 @@ namespace WorkScheduler.Services.Monitoring
                 .ToList();
         }
 
-        public void Update(Family family)
+        public void Update(FamilyViewModel family)
         {
             var foundFamily = Db.Families.FirstOrDefault(f => f.Id == family.Id);
 
@@ -110,18 +110,22 @@ namespace WorkScheduler.Services.Monitoring
                 throw new Exception("Записи с таким Id не найдено");
             }
 
-            foundFamily.BirthCertificate = family.BirthCertificate;
-            foundFamily.ClarifyFamilyСomposition = family.ClarifyFamilyСomposition;
+            foundFamily.FamilyСomposition = family.Familycomposition;
+            foundFamily.ClarifyFamilyСomposition = family.ClarifyFamilycomposition;
             foundFamily.FamilyNumberChildren = family.FamilyNumberChildren;
-            foundFamily.FamilyСomposition = family.FamilyСomposition;
+            foundFamily.PhysicalGroup = family.PhysicalGroup;
+            foundFamily.Registration = family.Registration;
+            foundFamily.HealthGroup = family.HealthGroup;
+            foundFamily.FamilyQualityLife = family.FamilyQualityLife;
+
+
+            foundFamily.BirthCertificate = family.BirthCertificate;
             foundFamily.FullNameFather = family.FullNameFather;
             foundFamily.FullNameMather = family.FullNameMather;
             foundFamily.PassportNumber = family.PassportNumber;
             foundFamily.PhoneFather = family.PhoneFather;
             foundFamily.PhoneMother = family.PhoneMother;
-            foundFamily.PhysicalGroup = family.PhysicalGroup;
             foundFamily.RegistrAddres = family.RegistrAddres;
-            foundFamily.Registration = family.Registration;
             foundFamily.RegistrationDate = family.RegistrationDate;
             foundFamily.ResidAddres = family.ResidAddres;
             foundFamily.WorkFather = family.WorkFather;

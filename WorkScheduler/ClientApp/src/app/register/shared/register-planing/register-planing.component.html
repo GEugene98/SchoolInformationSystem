@@ -39,8 +39,12 @@
           <span aria-hidden="true">&times;</span>
       </button>
   </div>
+  
   <div class="modal-body pre-import-modal">
-    Укажите диапазоны ячеек, в которых будет происходить считывание данных. <br/>
+    Укажите количество записей в файле:
+    <input type="number" [(ngModel)]="count" class="form-control" placeholder="10">
+
+    <!-- Укажите диапазоны ячеек, в которых будет происходить считывание данных. <br/>
     Количество ячеек по каждому столбцу должно быть одинаковым! <br/>
     Например, вы указали диапазон ячеек по столбцу дат A1:A3, 
     следовательно диапазоны ячеек в других столбцах должны охватывать 3 ячейки.  
@@ -50,8 +54,8 @@
       <div>
           <input type="text" onkeyup="this.value = this.value.toUpperCase();" [(ngModel)]="importModel.dateRange" class="form-control" placeholder="А1:A5">
       </div>
-      Диапазон ячеек, содержащих тему:<br/>
-      <div>
+      Диапазон ячеек, содержащих тему:<br/> -->
+      <!-- <div>
           <input type="text" onkeyup="this.value = this.value.toUpperCase();" [(ngModel)]="importModel.nameRange" class="form-control" placeholder="B1:B5">
       </div>
       Диапазон ячеек, содержащих часы:<br/>
@@ -61,7 +65,7 @@
       Диапазон ячеек, содержащих примечание:<br/>
       <div >
           <input type="text" onkeyup="this.value = this.value.toUpperCase();" [(ngModel)]="importModel.commentRange" class="form-control" placeholder="D1:D5">
-      </div>
+      </div> -->
 
       <div style="text-align:center; margin-top: 15px;">
           <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>

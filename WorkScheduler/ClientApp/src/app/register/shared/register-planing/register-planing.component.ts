@@ -19,6 +19,7 @@ export class RegisterPlaningComponent implements OnInit {
   modalRef: BsModalRef;
 
   importModel: ImportPlaning = new ImportPlaning();
+  count: number;
 
   @Input() records: PlaningRecord[] = [];
   editedRecord: PlaningRecord = new PlaningRecord();
@@ -48,6 +49,11 @@ export class RegisterPlaningComponent implements OnInit {
   }
 
   async uploadExcel(uploadForm){
+    this.count = this.count + 1;
+    this.importModel.dateRange = "A2:A"+this.count.toString();
+    this.importModel.nameRange = "B2:B"+this.count.toString();
+    this.importModel.hoursRange = "C2:C"+this.count.toString();
+    this.importModel.commentRange = "D2:D"+this.count.toString();
     try{
       await this.planingService.uploadPlaningExcel(new FormData(uploadForm), this.importModel);
       await this.loadData();
@@ -78,6 +84,7 @@ export class RegisterPlaningComponent implements OnInit {
   }
 
   openPreImportModal(modal) {
+    this.count = undefined;
     if(!this.selectedAcademicYear || !this.selectedAssociation || !this.selectedGroup){
       this.messageService.add({ severity: 'warn', summary: 'Не все параметры выбраны', detail: "Выберите учебный год, объединение и группу", life: 5000 });
       return;

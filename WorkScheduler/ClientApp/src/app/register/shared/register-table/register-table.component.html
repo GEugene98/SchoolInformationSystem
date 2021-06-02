@@ -22,7 +22,7 @@
               type="text" 
               class="cell-input" 
               [(ngModel)]="cell.content"
-              (change)="updateCell(cell, row.student.id)">
+              (ngModelChange)="updateCell(cell, row.student.id)">
         </td>
       </tr>
     </table>

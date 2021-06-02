@@ -1,7 +1,7 @@
 export class ImportPlaning {
     dateRange: string;
     nameRange: string;
-    hourRange: string;
+    hoursRange: string;
     commentRange: string;
 
     academicYearId: number;

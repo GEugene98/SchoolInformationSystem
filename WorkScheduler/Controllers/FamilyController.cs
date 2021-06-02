@@ -31,7 +31,7 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody]Family family)
+        public IActionResult Update([FromBody]FamilyViewModel family)
         {
             FamilyService.Update(family);
             return Ok();

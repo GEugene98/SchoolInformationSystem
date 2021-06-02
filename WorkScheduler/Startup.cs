@@ -62,7 +62,6 @@ namespace WorkSheduler
                 });
 
 
-
                 //Shared
                 services.AddScoped<ReportService>();
                 services.AddScoped<CallboardService>();
