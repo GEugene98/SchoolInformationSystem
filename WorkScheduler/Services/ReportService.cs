@@ -196,8 +196,6 @@ namespace WorkScheduler.Services
 
         public byte[] GetRegisterReport(int academicYearId, int assotiationId, int groupId)
         {
-            //var protocol = ProtocolService.GetProtocol(protcolId, schoolId);
-
             var records = RegisterService.GetRecords(academicYearId, assotiationId, groupId).ToList();
             var planings = PlaningRecordService.GetRecords(academicYearId, assotiationId, groupId).ToList();
             var association = AssociationService.Get(assotiationId);
@@ -208,7 +206,7 @@ namespace WorkScheduler.Services
             var globalSettings = new GlobalSettings
             {
                 ColorMode = ColorMode.Grayscale,
-                Orientation = Orientation.Portrait,
+                Orientation = Orientation.Landscape,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Unit = Unit.Centimeters, Left = 3, Top = 1, Right = 1, Bottom = 1.5 },
                 DocumentTitle = $"Журнал {association.Name}"
@@ -231,59 +229,5 @@ namespace WorkScheduler.Services
 
             return Converter.Convert(pdf);
         }
-
-        //public byte[] GetGeneralDayReport(DateTime date)
-        //{
-        //    var schedule = SchedulerService.MakeScheduleForDay(date);
-
-        //    var html = RenderDayReportHTML(schedule);
-
-        //    var globalSettings = new GlobalSettings
-        //    {
-        //        ColorMode = ColorMode.Color,
-        //        Orientation = Orientation.Portrait,
-        //        PaperSize = PaperKind.A4,
-        //        Margins = new MarginSettings { Unit = Unit.Centimeters, Left = 3, Top = 1, Right = 1, Bottom = 1.5 },
-        //        DocumentTitle = $"Отчёт на {date.ToShortDateString()}"
-        //    };
-
-        //    var objectSettings = new ObjectSettings
-        //    {
-        //        //PagesCount = true,
-        //        HtmlContent = html,
-        //        WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "general-report.css") },
-        //        //HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
-        //        //FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Report Footer" }
-        //    };
-
-        //    var pdf = new HtmlToPdfDocument()
-        //    {
-        //        GlobalSettings = globalSettings,
-        //        Objects = { objectSettings }
-        //    };
-
-        //    return Converter.Convert(pdf);
-        //}
-
-
-        //private string RenderDayReportHTML(Day day)
-        //{
-        //    var template = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "assets", "general-template.html"));
-
-        //    template = template.Replace("%PERIOD%", $"на {day.Date.ToShortDateString()}");
-
-        //    var tableContent = "";
-
-        //    foreach (var action in day.Actions)
-        //    {
-        //        tableContent +=
-        //            $"<tr class='{action.Activity.Color.ToString().ToLower()}'>" +
-        //                $"<td>{action.GetResponsiblesShortNameForms()}</td>" +
-        //                $"<td>{action.Name}</td>" +
-        //            $"</tr>";
-        //    }
-
-        //    return template.Replace("%TABLE_CONTENT%", tableContent);
-        //}
     }
 }
