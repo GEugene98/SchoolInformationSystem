@@ -20,7 +20,8 @@
         <td *ngFor="let cell of row.cells">
            <input 
               type="text" 
-              class="cell-input" 
+              class="cell-input"
+              id="row{{rows.indexOf(row)}}cell{{row.cells.indexOf(cell)}}"
               [(ngModel)]="cell.content"
               (ngModelChange)="updateCell(cell, row.student.id)">
         </td>
