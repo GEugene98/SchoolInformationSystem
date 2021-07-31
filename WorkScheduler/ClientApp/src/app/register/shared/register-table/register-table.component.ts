@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 import { RegisterRecord } from '../../models/register-record.model';
 import { RegisterRow } from '../../models/register-row.model';
 
@@ -60,7 +61,52 @@ export class RegisterTableComponent implements OnInit {
       `academicYearId=${this.academicYearId}&associationId=${this.associationId}&groupId=${this.groupId}`);
   }
 
-  updateCell(cell: RegisterRecord, studentId: string) {
+  updateCell(cell: RegisterRecord, studentId: string, content?: string) {
+    if (content) {
+      cell.content = content;
+    } 
     this.updateCellEvent.emit({cell: cell, studentId: studentId});
   }
+
+  clickedCell: RegisterRecord;
+  studentId: string;
+
+  onCellClick(cell, studentId) {
+    this.clickedCell = cell;
+    this.studentId = studentId;
+  }
+
+  menuItems: MenuItem[] = [
+    {
+        label: 'УП',
+        command: () => this.updateCell(this.clickedCell, this.studentId, 'УП'),
+    },
+    {
+        label: 'Б',
+        command: () => this.updateCell(this.clickedCell, this.studentId, 'Б'),
+    },
+    {
+        label: 'НП',
+        command: () => this.updateCell(this.clickedCell, this.studentId, 'НП'),
+    },
+    {
+        label: 'ОТ',
+        command: () => this.updateCell(this.clickedCell, this.studentId, 'ОТ'),
+    },
+    {
+        label: 'ОП',
+        command: () => this.updateCell(this.clickedCell, this.studentId, 'ОП'),
+    },
+    {
+        label: 'ОСВ',
+        command: () => this.updateCell(this.clickedCell, this.studentId, 'ОСВ'),
+    },
+    {
+      separator:true
+    },
+    {
+      label:'Оставить пустым',
+      command: () => this.updateCell(this.clickedCell, this.studentId, ' ')
+    },
+  ];
 }

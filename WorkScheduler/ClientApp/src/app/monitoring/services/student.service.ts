@@ -45,6 +45,17 @@ export class StudentService {
 
     async createStudent(student: Student) {
         return await this.http.post('api/Student/CreateStudent', student).toPromise();
-    }    
+    }  
+    
+    async updateStudent(student: Student) {
+        return await this.http.post('api/Student/UpdateStudent', student).toPromise();
+    }
+
+    async deleteStudent(studentId: number) {
+        const params = new HttpParams()
+            .set('studentId', studentId.toString());
+
+        return await this.http.delete('api/Student/DeleteStudent', { params: params }).toPromise();
+    }
 
 }

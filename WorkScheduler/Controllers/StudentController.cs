@@ -70,5 +70,19 @@ namespace WorkScheduler.Controllers
             return Ok();
         }
 
+        [HttpPost("UpdateStudent")]
+        public IActionResult UpdateStudent([FromBody] StudentViewModel student)
+        {
+            StudentService.UpdateStudent(student);
+            return Ok();
+        }
+
+        [HttpDelete("DeleteStudent")]
+        public IActionResult DeleteStudent(int studentId)
+        {
+            StudentService.DeleteStudent(studentId);
+            return Ok();
+        }
+
     }
 }

@@ -82,6 +82,19 @@ namespace WorkScheduler.Services.Monitoring
             return newClass.Id;
         }
 
+        public void DeleteClass(int id)
+        {
+            var foundClass = Db.Classes.FirstOrDefault(c => c.Id == id);
+
+            if (foundClass == null)
+            {
+                throw new Exception("Class not found");
+            }
+
+            Db.Classes.Remove(foundClass);
+            Db.SaveChanges();
+        }
+
         
 
         //public IEnumerable<StudentViewModel> GetStudents()

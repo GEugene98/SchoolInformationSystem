@@ -17,13 +17,16 @@
         <td>
           {{row.student.fullName}}
         </td>
-        <td *ngFor="let cell of row.cells">
-           <input 
+        <td *ngFor="let cell of row.cells" 
+          (click)="onCellClick(cell, row.student.id); menu.toggle($event)"
+          style="cursor: pointer;">
+           <!-- <input 
               type="text" 
               class="cell-input"
               id="row{{rows.indexOf(row)}}cell{{row.cells.indexOf(cell)}}"
               [(ngModel)]="cell.content"
-              (ngModelChange)="updateCell(cell, row.student.id)">
+              (ngModelChange)="updateCell(cell, row.student.id)"> -->
+              <span>{{cell.content}}</span>
         </td>
       </tr>
     </table>
@@ -63,3 +66,4 @@
   </div>
 </div>
 
+<p-tieredMenu #menu [model]="menuItems" [popup]="true" appendTo="body"></p-tieredMenu>

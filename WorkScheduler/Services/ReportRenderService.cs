@@ -319,7 +319,7 @@ namespace WorkScheduler.Services
 
                 //Рендер КТП
 
-                var ktpHTML = $@"<table class=""rg-table""><thead><tr><th scope=""col"" style=""width:10 %"">Дата</th><th scope = ""col"" style = ""width:60%""> Содержание / Тема </th><th scope = ""col"" style = ""width:10%""> Часы </th><th scope = ""col"" style = ""width:10%""> Подпись </th><th scope = ""col"" style = ""width:10%""> Примечание </th></tr > </thead > <tbody>";
+                var ktpHTML = $@"<table class=""rg-table""><thead><tr><th scope=""col"" style=""width:10 %"">Дата</th><th scope = ""col"" style = ""width:70%""> Содержание / Тема </th><th scope = ""col"" style = ""width:10%""> Часы </th><th scope = ""col"" style = ""width:10%""> Примечание </th></tr > </thead > <tbody>";
 
                 foreach (var record in planingRecords)
                 {
@@ -327,7 +327,6 @@ namespace WorkScheduler.Services
                     <td>{(record.Date.HasValue ? record.Date.Value.ToShortDateString() : "")}</td>
                     <td>{record.Name}</td>
                     <td>{record.Hours}</td>
-                    <td></td>
                     <td>{record.Comment}</td>
                 </tr>";
                 }

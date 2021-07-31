@@ -1,5 +1,6 @@
 {
   "compileOnSave": false,
+  "enableIvy": false,
   "compilerOptions": {
     "downlevelIteration": true,
     "importHelpers": true,

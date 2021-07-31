@@ -18,6 +18,24 @@ namespace WorkScheduler.Services.Monitoring
             Db = context;
         }
 
+        public void UpdateStudent(StudentViewModel student)
+        {
+            var foundStudent = Db.Students.FirstOrDefault(s => s.Id == student.Id);
+
+            if (foundStudent == null)
+            {
+                throw new Exception("Student not found");
+            }
+
+            foundStudent.Number = student.Number;
+            foundStudent.Birthday = student.Birthday.Value.AddHours(3);
+            foundStudent.FirstName = student.FirstName;
+            foundStudent.LastName = student.LastName;
+            foundStudent.SurName = student.SurName;
+
+            Db.SaveChanges();
+        }
+
         public int CreateStudent(StudentViewModel student, int? classId = null)
         {
             var newStudent = new Student
@@ -26,7 +44,7 @@ namespace WorkScheduler.Services.Monitoring
                 LastName = student.LastName,
                 SurName = student.SurName,
                 SchoolId = student.SchoolId,
-                Birthday = student.Birthday,
+                Birthday = student.Birthday.Value.AddHours(3),
                 Number = student.Number
             };
 

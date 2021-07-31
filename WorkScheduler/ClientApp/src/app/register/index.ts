@@ -35,6 +35,7 @@ import { MessageService } from 'primeng/api';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ruLocale } from 'ngx-bootstrap/locale';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 
 defineLocale('ru', ruLocale);
 
@@ -67,7 +68,8 @@ defineLocale('ru', ruLocale);
     FormsModule,
     RouterModule.forChild([]),
     UploadModule,
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    TieredMenuModule
   ],
   providers: [
     UserState,

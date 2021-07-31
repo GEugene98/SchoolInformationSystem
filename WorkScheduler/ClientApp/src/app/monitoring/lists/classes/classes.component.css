@@ -3,3 +3,13 @@
     display: flex;
     justify-content: space-between;
 }
+
+.class-label {
+    display: flex;
+    align-items: baseline;
+}
+
+.class-label a {
+    margin-left: 5px;
+    cursor: pointer;
+}

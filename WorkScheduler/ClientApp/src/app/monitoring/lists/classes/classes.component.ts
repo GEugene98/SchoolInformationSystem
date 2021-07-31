@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import * as _ from 'lodash';
 import { indexOf } from 'lodash';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
@@ -24,6 +25,7 @@ export class ClassesComponent implements OnInit {
   classesWithStudents: Class[] = [];
   newClass: Class = new Class();
   classIdToBindStudents: number;
+  classToDelete: Class;
   
   constructor(private modalService: BsModalService, 
     private dictionary: DictionaryService, 
@@ -62,6 +64,17 @@ export class ClassesComponent implements OnInit {
   closeModal() {
     this.modalRef.hide();
     this.classIdToBindStudents = undefined;
+  }
+
+  deleteClass(classModel: Class, modal) {
+    this.classToDelete = _.cloneDeep(classModel);
+    this.openModal(modal);
+  }
+
+  async delete(id) {
+    await this.classService.deleteClass(id);
+    this.classesWithStudents = await this.studentService.getStudentsByClasses(this.selectedAcademicYear.id);
+    this.closeModal();
   }
 
   updateStudentsToAdd(students: Student[]) {

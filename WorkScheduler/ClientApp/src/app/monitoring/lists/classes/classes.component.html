@@ -12,7 +12,11 @@
 </div>
 
 <div *ngFor="let class of classesWithStudents">
-  <h3>{{class.name}}</h3> 
+  <div class="class-label">
+    <h3>{{class.name}}</h3> 
+    <a title="Удалить класс" (click)="deleteClass(class, deleteModal)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+  </div>
+  
   <button type="button" (click)="classIdToBindStudents = class.id; openModal(addStudents)" class="btn btn-link top-item"><span class="glyphicon glyphicon-plus"></span> Добавить учеников </button>&nbsp;
       <div *ngIf="class.students && class.students.length > 0">
         <table class="table">
@@ -53,6 +57,26 @@
       <div style="text-align:center; margin-top: 15px;">
           <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
           <button type="button" (click)="createClass()" class="btn btn-success">Создать класс</button>
+      </div>
+  </div>
+
+</ng-template>
+
+<ng-template #deleteModal>
+  <div class="modal-header"> 
+      <h4 class="modal-title pull-left">Удалить {{classToDelete.name}}?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <div style="margin-top: -10px">
+          В {{selectedAcademicYear.name}} учебном году выбранный класс будет удален. Продолжить?
+      </div>
+
+      <div style="text-align:center; margin-top: 15px;">
+          <button type="button" (click)="closeModal()" class="btn btn-success">Отмена</button>
+          <button type="button" (click)="delete(classToDelete.id)" class="btn btn-danger">Удалить класс</button>
       </div>
   </div>
 

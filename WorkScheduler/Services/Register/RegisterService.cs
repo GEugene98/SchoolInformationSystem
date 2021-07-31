@@ -27,7 +27,7 @@ namespace WorkScheduler.Services.Register
 
             var aType = Db.Associations.FirstOrDefault(a => a.Id == associationId).Type;
 
-            var students = Db.GroupStudents.Where(gs => gs.GroupId == groupId).Select(gs => gs.Student).ToList();
+            var students = Db.GroupStudents.Where(gs => gs.GroupId == groupId).Select(gs => gs.Student).OrderBy(s => s.LastName).ToList();
 
             var rows = students.Select(s => new RegisterRow
             {

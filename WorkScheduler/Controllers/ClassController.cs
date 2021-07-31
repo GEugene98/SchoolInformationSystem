@@ -39,5 +39,12 @@ namespace WorkScheduler.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("DeleteClass")]
+        public IActionResult DeleteClass(int id)
+        {
+            ClassService.DeleteClass(id);
+            return Ok();
+        }
     }
 }
