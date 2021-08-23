@@ -5,14 +5,16 @@
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-body">
-    <div style="text-align: left">
-      <button type="button" (click)="clear(); openModal(add)" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Добавить задание</button>
+    <div class="panel-body">
+        <div style="text-align: left">
+            <button type="button" (click)="clear(); openModal(add)" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Добавить задание</button>
+        </div>
+        <div style="margin-top:15px; width: 350px; display: flex">
+            <input type="checkbox" id="cto" (change)="filterTicketsByNotifyStatus($event)">
+            <label style="font-weight: normal;" for="cto">Отобразить только требующие внимания задания</label>
+        </div>
     </div>
-  </div>
 </div>
-
-<br />
 
 
 
@@ -118,7 +120,7 @@
 <div style="text-align: center; margin-top: 50px; font-style: italic;"
      *ngIf="!checklist?.tickets || checklist?.tickets.length == 0"><span>Заданий нет</span></div>
 
-<div *ngIf="checklist?.tickets && checklist?.tickets.length != 0" style="text-align: center;">
+<div *ngIf="checklist?.tickets && checklist?.tickets.length != 0 && paginatorVisibility" style="text-align: center;">
   <pagination [boundaryLinks]="showBoundaryLinks()" firstText="В начало" lastText="В конец" nextText="Далее" previousText="Назад" [totalItems]="totalItemCount" [(ngModel)]="currentPage" (pageChanged)="currentPage = $event.page; loadData(true, true)" [maxSize]="5" [itemsPerPage]="15"></pagination>
 </div>
 </div>

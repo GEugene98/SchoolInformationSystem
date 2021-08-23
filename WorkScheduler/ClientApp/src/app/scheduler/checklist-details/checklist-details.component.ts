@@ -16,6 +16,7 @@ import { ChecklistFilter } from '../../shared/table/checklist/checklist-filter';
 import { TableRequest } from '../../shared/table/table-request';
 import Debounce from 'debounce-decorator';
 import { UserState } from '../../shared/states/user.state';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-checklist-details',
@@ -35,6 +36,7 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
 
   checklistId: number;
   checklist: Checklist;
+  checklistOriginal: Checklist;
 
   newTicket: Ticket;
 
@@ -54,6 +56,9 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
 
   refreshIntervalId;
 
+  notifiedTicetsOnly: boolean;
+  paginatorVisibility: boolean = true;
+
   constructor(private activateRoute: ActivatedRoute,
     private modalService: BsModalService,
     private dictionary: DictionaryService,
@@ -70,7 +75,10 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.transactionId = guid();
     this.loadData();
+    this.setAutoRefresh();   
+  }
 
+  setAutoRefresh() {
     this.refreshIntervalId = setInterval(async () => {
       let response = await this.schedule.getChecklist(this.checklistId, this.getRequestDetails());
       this.checklist = response.body;
@@ -87,7 +95,8 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
   async loadData(showLoader: boolean = true, scrollToTop: boolean = false) {
     if (showLoader)  
     var response = await this.schedule.getChecklist(this.checklistId, this.getRequestDetails());
-    this.checklist = response.body;
+    this.checklistOriginal = response.body;
+    this.checklist = _.cloneDeep(response.body);
     this.totalItemCount = response.totalItemCount;
     this.totalPages = response.pageCount;
     this.titleService.setTitle(this.checklist.name);
@@ -115,6 +124,20 @@ export class ChecklistDetailsComponent implements OnInit, OnDestroy {
 
   showAutoAcceptMessage() {
     return this.newTicket.hours && this.newTicket.minutes && this.newTicket.date && (this.newTicket.userIdsToAssignTicket.indexOf(this.userState.currentUser.state.id) > -1)
+  }
+
+  filterTicketsByNotifyStatus(event) {
+    this.filter = new ChecklistFilter();
+    if (event.target.checked) {
+      this.checklist.tickets = this.checklistOriginal.tickets.filter(t => t.notify);
+      clearInterval(this.refreshIntervalId);
+      this.paginatorVisibility = false;
+    }
+    else {
+      this.checklist.tickets = _.cloneDeep(this.checklistOriginal.tickets);
+      this.setAutoRefresh();
+      this.paginatorVisibility = true;
+    }
   }
 
   openModal(modal) {

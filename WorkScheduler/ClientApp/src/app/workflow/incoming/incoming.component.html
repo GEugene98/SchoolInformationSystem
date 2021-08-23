@@ -1,0 +1,84 @@
+<!-- -->
+<h2>Входящая документация</h2>
+<div class="panelling">
+    <div class="panelling_button">
+        <button pButton
+                pRipple
+                icon="pi pi-plus"
+                type="button"
+                class="p-button-success"
+                label="Добавить запись о документе"
+                style="margin: 8px 4px; float: right;">
+        </button>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">
+            <a href="javascript:void(0)" (click)="sort('Id')">ID</a>
+            <input type="text" [(ngModel)]="filter.id" (ngModelChange)="loadData()" class="form-control" />
+          </th>
+          <th scope="col">
+            <a href="javascript:void(0)" (click)="sort('Num')">Номер</a>
+            <input [(ngModel)]="filter.num" (ngModelChange)="loadData()" type="text" class="form-control" />
+          </th>
+          <th scope="col">
+            <a href="javascript:void(0)" (click)="sort('Name')">Наименование</a>
+            <input [(ngModel)]="filter.name" (ngModelChange)="loadData()" type="text" class="form-control" />
+          </th>
+          <th scope="col">
+            <a href="javascript:void(0)" (click)="sort('Organization.Name')">От кого</a>
+            <ng-select bindLabel="name"
+                       bindValue="id"
+                       (ngModelChange)="loadData()"
+                       style="max-width: 180px; min-width: 150px; font-weight: normal;">
+            </ng-select>
+          </th>
+          <th scope="col">
+            <a href="javascript:void(0)" (click)="sort('Type.Name')">Тип</a>
+            <ng-select bindLabel="name"
+                       bindValue="id"
+                       (ngModelChange)="loadData()"
+                       style="max-width: 180px; min-width: 150px; font-weight: normal;">
+            </ng-select>
+          </th>
+          <th scope="col">
+            <a href="javascript:void(0)" (click)="sort('Taken')">Получено</a>
+            <input [(ngModel)]="filter.taken" (ngModelChange)="loadData()" type="text" class="form-control" />
+          </th>
+          <th scope="col">
+            <a href="javascript:void(0)" (click)="sort('Deadline')">Срок ответа</a>
+            <input [(ngModel)]="filter.deadline" (ngModelChange)="loadData()" type="text" class="form-control" />
+          </th>
+          <th scope="col">
+            <a href="javascript:void(0)" (click)="sort('Responsible')">Кому направлено</a>
+            <input [(ngModel)]="filter.userId" (ngModelChange)="loadData()" type="text" class="form-control" />
+          </th>
+          <th scope="col">Дополнительно</th>
+          <th scope="col">Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <div class="action-icons">
+              <a title="Редактировать" href="javascript:void(0)" class="pi pi-pencil" aria-hidden="true"></a>
+              <a title="Удалить" href="javascript:void(0)" class="pi pi-times" aria-hidden="true" style="color: red;"></a>
+            </div>
+          </td>
+      </tr>
+    </tbody>
+</table>
+
+<p-toast></p-toast> 

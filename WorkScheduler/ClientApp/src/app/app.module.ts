@@ -44,6 +44,10 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { FamilyComponent } from './monitoring/family/family.component';
+import { WorkflowModule } from './workflow';
+import { WorkflowMainComponent } from './workflow/workflow-main/workflow-main.component';
+import { IncomingComponent } from './workflow/incoming/incoming.component';
+import { OutgoingComponent } from './workflow/outgoing/outgoing.component';
 
 defineLocale('ru', ruLocale);
 
@@ -84,6 +88,13 @@ const routes = [
         { path: 'contracts', component: ContractsComponent },
         { path: 'family', component: FamilyComponent}
       ]
+  },
+  {   path: 'workflow', loadChildren: () => import('./workflow/index').then(m => m.WorkflowModule),
+      component: WorkflowMainComponent,
+      children: [
+        { path: 'incoming', component: IncomingComponent },
+        { path: 'outgoing', component: OutgoingComponent },
+      ]
   }
 ];
 
@@ -108,6 +119,7 @@ const routes = [
     FormsModule,
     SchedulerModule,
     RegisterModule,
+    WorkflowModule,
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     UploadModule,
     TabsModule.forRoot(),
