@@ -7,6 +7,7 @@ using WorkScheduler.Models.Identity;
 using WorkScheduler.Models.Monitoring;
 using WorkScheduler.Models.Monitoring.Shared;
 using WorkScheduler.Models.Register;
+using WorkScheduler.Models.Workflow;
 
 namespace WorkScheduler.Models.Shared
 {
@@ -16,6 +17,8 @@ namespace WorkScheduler.Models.Shared
         public string Email { get; set; }
         public string DocumentHeaderHTML { get; set; }
         public string ActionNamesToMakeProtocolJSON { get; set; }
+        public string IncomingDocumentTypesJSON { get; set; }
+        public string OutgoingDocumentTypesJSON { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
         //public virtual ICollection<AcademicPeriod> AcademicPeriods { get; set; }
@@ -24,6 +27,8 @@ namespace WorkScheduler.Models.Shared
         public virtual ICollection<Class> Classes { get; set; }
         public virtual ICollection<Association> Associations { get; set; }
         public virtual ICollection<Contract> Contracts { get; set; }
+        public virtual ICollection<IncomingDocument> IncomingDocuments { get; set; }
+        public virtual ICollection<OutgoingDocument> OutgoingDocuments { get; set; }
 
     }
 }

@@ -108,6 +108,8 @@
   <None Remove="ClientApp\dist\main-es5.js" />
   <None Remove="ClientApp\dist\runtime-es2015.js.map" />
   <None Remove="ClientApp\dist\main-es5.js.map" />
+  <None Remove="ViewModels\Workflow\" />
+  <None Remove="ViewModels\Workflow\Filtering\" />
 </ItemGroup>
 <ItemGroup>
   <Compile Remove="Migrations\20190729083121_Schools.cs" />
@@ -165,6 +167,8 @@
     <Folder Include="ClientApp\src\app\register\" />
     <Folder Include="Services\Register\" />
     <Folder Include="ViewModels\Register\" />
+    <Folder Include="ViewModels\Workflow\" />
+    <Folder Include="ViewModels\Workflow\Filtering\" />
   </ItemGroup>
 
   <ItemGroup>

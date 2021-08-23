@@ -31,6 +31,7 @@ namespace WorkScheduler.ViewModels
         public bool Notify { get; set; }
         public IEnumerable<FileViewModel> InFiles { get; set; }
         public IEnumerable<FileViewModel> OutFiles { get; set; }
+        public IEnumerable<FileViewModel> DocumentFiles { get; set; }
 
         public IEnumerable<string> UserIdsToAssignTicket { get; set; }
 

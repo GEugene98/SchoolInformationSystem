@@ -6,6 +6,7 @@ using WorkScheduler.Models.Base;
 using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Identity;
 using WorkScheduler.Models.Scheduler;
+using WorkScheduler.Models.Workflow;
 
 namespace WorkScheduler.Models
 {
@@ -38,5 +39,7 @@ namespace WorkScheduler.Models
         public byte? Minutes { get; set; }
 
         public virtual ICollection<TicketFile> TicketFiles { get; set; }
+        public virtual ICollection<IncomingDocument> IncomingDocuments { get; set; }
+        public virtual ICollection<OutgoingDocument> OutgoingDocuments { get; set; }
     }
 }

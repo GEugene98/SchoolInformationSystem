@@ -8,6 +8,7 @@ using WorkScheduler.Models.Monitoring.TalentedChildren;
 using WorkScheduler.Models.Register;
 using WorkScheduler.Models.Scheduler;
 using WorkScheduler.Models.Shared;
+using WorkScheduler.Models.Workflow;
 
 namespace WorkScheduler
 {
@@ -51,25 +52,11 @@ namespace WorkScheduler
         public DbSet<PlaningRecord> PlaningRecords { get; set; }
         public DbSet<RegisterRecord> RegisterRecords { get; set; }
 
-
-
-        //public DbSet<Address> Addresses { get; set; }
-        //public DbSet<Certificate> Certificates { get; set; }
-        //public DbSet<Diploma> Diplomas { get; set; }
-        //public DbSet<Experience> Experiences { get; set; }
-        //public DbSet<Passport> Passports { get; set; }
-        //public DbSet<RefCourse> RefCourses { get; set; }
-        //public DbSet<Reward> Rewards { get; set; }
-        //public DbSet<StudentAchivment> StudentAchivments { get; set; }
-        //public DbSet<Vacation> Vacations { get; set; }
-        //public DbSet<Worker> Workers { get; set; }
-        //public DbSet<WorkerAchivment> WorkerAchivments { get; set; }
-        //public DbSet<WorkHistory> WorkHistory { get; set; }
-        //public DbSet<WorkPeriod> WorkPeriods { get; set; }
-        //public DbSet<StudentAchivment> StudentAchivments { get; set; }
-        //public DbSet<AchivmentLevel> AchivmentLevels { get; set; }
-        //public DbSet<AchivmentResult> AchivmentResults { get; set; }
-        //public DbSet<StudentAction> StudentActions { get; set; }
+        //Workflow
+        public DbSet<IncomingDocument> IncomingDocuments { get; set; }
+        public DbSet<OutgoingDocument> OutgoingDocuments { get; set; }
+        public DbSet<IncomingDocumentFile> IncomingDocumentFiles { get; set; }
+        public DbSet<OutgoingDocumentFile> OutgoingDocumentFiles { get; set; }
 
 
         public Context(DbContextOptions<Context> options) : base(options)
@@ -158,6 +145,36 @@ namespace WorkScheduler
                 .HasOne(ag => ag.Association)
                 .WithMany(a => a.AssociationGroups)
                 .HasForeignKey(ag => ag.AssociationId);
+
+
+
+            // Многие ко многим документ - файл
+            modelBuilder.Entity<IncomingDocumentFile>()
+            .HasKey(idf => idf.Id);
+
+            modelBuilder.Entity<IncomingDocumentFile>()
+                .HasOne(idf => idf.IncomingDocument)
+                .WithMany(id => id.IncomingDocumentFiles)
+                .HasForeignKey(idf => idf.IncomingDocumentId);
+
+            modelBuilder.Entity<IncomingDocumentFile>()
+                .HasOne(incomingDocumentFile => incomingDocumentFile.File)
+                .WithMany(file => file.IncomingDocumentFiles)
+                .HasForeignKey(idf => idf.FileId);
+
+            modelBuilder.Entity<OutgoingDocumentFile>()
+            .HasKey(odf => odf.Id);
+
+            modelBuilder.Entity<OutgoingDocumentFile>()
+                .HasOne(odf => odf.OutgoingDocument)
+                .WithMany(od => od.OutgoingDocumentFiles)
+                .HasForeignKey(odf => odf.OutgoingDocumentId);
+
+            modelBuilder.Entity<OutgoingDocumentFile>()
+                .HasOne(outgoingDocumentFile => outgoingDocumentFile.File)
+                .WithMany(file => file.OutgoingDocumentFiles)
+                .HasForeignKey(odf => odf.FileId);
+
         }
     }
 }

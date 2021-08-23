@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using WorkScheduler.Models.Base;
 using WorkScheduler.Models.Monitoring.TalentedChildren;
 using WorkScheduler.Models.Scheduler;
+using WorkScheduler.Models.Workflow;
 
 namespace WorkScheduler.Models.Shared
 {
@@ -14,5 +15,8 @@ namespace WorkScheduler.Models.Shared
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
         public virtual ICollection<TicketFile> TicketFiles { get; set; }
+        public virtual ICollection<IncomingDocumentFile> IncomingDocumentFiles { get; set; }
+        public virtual ICollection<OutgoingDocumentFile> OutgoingDocumentFiles { get; set; }
+        
     }
 }
