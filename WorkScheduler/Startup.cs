@@ -91,6 +91,9 @@ namespace WorkSheduler
                 services.AddScoped<PlaningRecordService>();
                 services.AddScoped<RegisterService>();
 
+                //Workflow
+                services.AddScoped<WorkflowService>();
+
 
                 //var context = new CustomAssemblyLoadContext();
                 //context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));

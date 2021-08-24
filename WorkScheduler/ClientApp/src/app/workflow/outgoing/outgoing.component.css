@@ -1,0 +1,38 @@
+:host ::ng-deep .p-dialog-title{
+    font-size: 15px !important;
+}
+
+a{
+    text-decoration: none;
+    font-weight: 900 !important;
+}
+
+label {
+    font-weight: 300;
+    margin-bottom: -1px;
+}
+
+td{
+    padding-right: 15px;
+}
+
+.panelling_select {
+    display: flex;
+    float: left;
+}
+
+.panelling_select div {
+    margin-right: 10px;
+}
+
+.panelling_button {
+    float: right;
+}
+
+p-checkbox {
+    margin-right: 10px;
+}
+
+.family-card > div {
+    margin-top: 10px;
+}

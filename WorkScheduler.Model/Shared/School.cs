@@ -19,6 +19,8 @@ namespace WorkScheduler.Models.Shared
         public string ActionNamesToMakeProtocolJSON { get; set; }
         public string IncomingDocumentTypesJSON { get; set; }
         public string OutgoingDocumentTypesJSON { get; set; }
+        public string IncomingWorkflowChecklist { get; set; }
+        public string OutgoingWorkflowChecklist { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
         //public virtual ICollection<AcademicPeriod> AcademicPeriods { get; set; }

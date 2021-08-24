@@ -24,6 +24,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { WorkflowMainComponent } from './workflow-main/workflow-main.component';
 import { IncomingComponent } from './incoming/incoming.component';
 import { OutgoingComponent } from './outgoing/outgoing.component';
+import { WorkflowService } from './services/workflow.service';
 
 defineLocale('ru', ruLocale);
 
@@ -57,7 +58,8 @@ defineLocale('ru', ruLocale);
     MessageService,
     AccountService,
     ProblemService,
-    BsModalService
+    BsModalService,
+    WorkflowService
   ],
   entryComponents: [
   ]

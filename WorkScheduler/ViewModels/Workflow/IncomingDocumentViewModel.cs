@@ -24,5 +24,7 @@ namespace WorkScheduler.ViewModels
         public string Description { get; set; }
 
         public IEnumerable<FileViewModel> Files { get; set; }
+
+        public bool CreateTicket { get; set; }
     }
 }

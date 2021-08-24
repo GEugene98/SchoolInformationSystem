@@ -3,8 +3,6 @@ namespace WorkScheduler.ViewModels.Workflow.Filtering
 {
     public class DocumentFilter
     {
-        public DocumentFilter()
-        {
-        }
+        
     }
 }

@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using WorkScheduler.Models.Scheduler;
 using WorkScheduler.Models.Enums;
+using WorkScheduler.Models.Workflow;
 
 namespace WorkScheduler.Services
 {
@@ -58,26 +59,6 @@ namespace WorkScheduler.Services
             Db.SaveChanges();
 
             return files;
-        }
-
-        public void BindFilesToTicket(IEnumerable<Models.Shared.File> uploadedFiles, long ticketId, TicketFileType bindingType)
-        {
-            var ticketFiles = new List<TicketFile>();
-
-            foreach(var f in uploadedFiles)
-            {
-                var ticketFile = new TicketFile
-                {
-                    TicketId = ticketId,
-                    FileId = f.Id,
-                    Type = bindingType
-                };
-
-                ticketFiles.Add(ticketFile);
-            }
-
-            Db.TicketFiles.AddRange(ticketFiles);
-            Db.SaveChanges();
         }
 
         public string AddFile(IFormFile file, string transactionId, string schoolId)
@@ -137,6 +118,64 @@ namespace WorkScheduler.Services
             {
                 File.Delete(physicalPath);
             }
+        }
+
+        public void BindFilesToTicket(IEnumerable<Models.Shared.File> uploadedFiles, long ticketId, TicketFileType bindingType)
+        {
+            var ticketFiles = new List<TicketFile>();
+
+            foreach (var f in uploadedFiles)
+            {
+                var ticketFile = new TicketFile
+                {
+                    TicketId = ticketId,
+                    FileId = f.Id,
+                    Type = bindingType
+                };
+
+                ticketFiles.Add(ticketFile);
+            }
+
+            Db.TicketFiles.AddRange(ticketFiles);
+            Db.SaveChanges();
+        }
+
+        public void BindFilesToIncomingDocument(IEnumerable<Models.Shared.File> uploadedFiles, int incomingDocumentId)
+        {
+            var documentFiles = new List<IncomingDocumentFile>();
+
+            foreach (var f in uploadedFiles)
+            {
+                var docFile = new IncomingDocumentFile
+                {
+                    IncomingDocumentId = incomingDocumentId,
+                    FileId = f.Id
+                };
+
+                documentFiles.Add(docFile);
+            }
+
+            Db.IncomingDocumentFiles.AddRange(documentFiles);
+            Db.SaveChanges();
+        }
+
+        public void BindFilesToOutgoingDocument(IEnumerable<Models.Shared.File> uploadedFiles, int outgoingDocumentId)
+        {
+            var documentFiles = new List<OutgoingDocumentFile>();
+
+            foreach (var f in uploadedFiles)
+            {
+                var docFile = new OutgoingDocumentFile
+                {
+                    OutgoingDocumentId = outgoingDocumentId,
+                    FileId = f.Id
+                };
+
+                documentFiles.Add(docFile);
+            }
+
+            Db.OutgoingDocumentFiles.AddRange(documentFiles);
+            Db.SaveChanges();
         }
     }
 }

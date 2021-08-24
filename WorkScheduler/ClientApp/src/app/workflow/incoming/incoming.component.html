@@ -1,84 +1,264 @@
-<!-- -->
 <h2>Входящая документация</h2>
-<div class="panelling">
-    <div class="panelling_button">
-        <button pButton
-                pRipple
-                icon="pi pi-plus"
-                type="button"
-                class="p-button-success"
-                label="Добавить запись о документе"
-                style="margin: 8px 4px; float: right;">
-        </button>
-    </div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+      <div style="text-align: left">
+          <button type="button" (click)="openModal(add)" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Создать карточку документа</button>
+      </div>
+  </div>
 </div>
 
 <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">
-            <a href="javascript:void(0)" (click)="sort('Id')">ID</a>
-            <input type="text" [(ngModel)]="filter.id" (ngModelChange)="loadData()" class="form-control" />
-          </th>
-          <th scope="col">
-            <a href="javascript:void(0)" (click)="sort('Num')">Номер</a>
-            <input [(ngModel)]="filter.num" (ngModelChange)="loadData()" type="text" class="form-control" />
-          </th>
-          <th scope="col">
-            <a href="javascript:void(0)" (click)="sort('Name')">Наименование</a>
-            <input [(ngModel)]="filter.name" (ngModelChange)="loadData()" type="text" class="form-control" />
-          </th>
-          <th scope="col">
-            <a href="javascript:void(0)" (click)="sort('Organization.Name')">От кого</a>
-            <ng-select bindLabel="name"
-                       bindValue="id"
-                       (ngModelChange)="loadData()"
-                       style="max-width: 180px; min-width: 150px; font-weight: normal;">
-            </ng-select>
-          </th>
-          <th scope="col">
-            <a href="javascript:void(0)" (click)="sort('Type.Name')">Тип</a>
-            <ng-select bindLabel="name"
-                       bindValue="id"
-                       (ngModelChange)="loadData()"
-                       style="max-width: 180px; min-width: 150px; font-weight: normal;">
-            </ng-select>
-          </th>
-          <th scope="col">
-            <a href="javascript:void(0)" (click)="sort('Taken')">Получено</a>
-            <input [(ngModel)]="filter.taken" (ngModelChange)="loadData()" type="text" class="form-control" />
-          </th>
-          <th scope="col">
-            <a href="javascript:void(0)" (click)="sort('Deadline')">Срок ответа</a>
-            <input [(ngModel)]="filter.deadline" (ngModelChange)="loadData()" type="text" class="form-control" />
-          </th>
-          <th scope="col">
-            <a href="javascript:void(0)" (click)="sort('Responsible')">Кому направлено</a>
-            <input [(ngModel)]="filter.userId" (ngModelChange)="loadData()" type="text" class="form-control" />
-          </th>
-          <th scope="col">Дополнительно</th>
-          <th scope="col">Действия</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>
-            <div class="action-icons">
-              <a title="Редактировать" href="javascript:void(0)" class="pi pi-pencil" aria-hidden="true"></a>
-              <a title="Удалить" href="javascript:void(0)" class="pi pi-times" aria-hidden="true" style="color: red;"></a>
-            </div>
-          </td>
-      </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th scope="col">
+        <a href="javascript:void(0)" (click)="sort('Id')">ID</a>
+        <input type="text" [(ngModel)]="filter.id" (ngModelChange)="loadData()" class="form-control" />
+      </th>
+      <th scope="col">
+        <a href="javascript:void(0)" (click)="sort('Num')">Номер</a>
+        <input [(ngModel)]="filter.num" (ngModelChange)="loadData()" type="text" class="form-control" />
+      </th>
+      <th scope="col">
+        <a href="javascript:void(0)" (click)="sort('Name')">Наименование</a>
+        <input [(ngModel)]="filter.name" (ngModelChange)="loadData()" type="text" class="form-control" />
+      </th>
+      <th scope="col">
+        <a href="javascript:void(0)" (click)="sort('Organization.Name')">От кого</a>
+        <ng-select bindLabel="name" bindValue="id" (ngModelChange)="loadData()"
+          style="max-width: 180px; min-width: 150px; font-weight: normal;">
+        </ng-select>
+      </th>
+      <th scope="col">
+        <a href="javascript:void(0)" (click)="sort('Type.Name')">Тип</a>
+        <ng-select bindLabel="name" bindValue="id" (ngModelChange)="loadData()"
+          style="max-width: 180px; min-width: 150px; font-weight: normal;">
+        </ng-select>
+      </th>
+      <th scope="col">
+        <a href="javascript:void(0)" (click)="sort('Taken')">Получено</a>
+        <input [(ngModel)]="filter.taken" (ngModelChange)="loadData()" type="text" class="form-control" />
+      </th>
+      <th scope="col">
+        <a href="javascript:void(0)" (click)="sort('Deadline')">Срок ответа</a>
+        <input [(ngModel)]="filter.deadline" (ngModelChange)="loadData()" type="text" class="form-control" />
+      </th>
+      <th scope="col">
+        <a href="javascript:void(0)" (click)="sort('Responsible')">Кому направлено</a>
+        <input [(ngModel)]="filter.userId" (ngModelChange)="loadData()" type="text" class="form-control" />
+      </th>
+      <th scope="col">Дополнительно</th>
+      <th scope="col">Действия</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let doc of docs">
+      <td>{{doc.id}}</td>
+      <td>{{doc.num}}</td>
+      <td>{{doc.name}}</td>
+      <td>{{doc.organization?.name}}</td>
+      <td>{{doc.type}}</td>
+      <td>{{doc.taken | date : 'dd.MM.yyyy' }}</td>
+      <td>{{doc.deadline | date : 'dd.MM.yyyy' }}</td>
+      <td>{{doc.user.fullName}}</td>
+      <td>{{doc.description}}</td>
+      <td>
+        <div class="action-icons">
+          <a title="Редактировать" (click)="openModal(edit, doc)" href="javascript:void(0)" class="pi pi-pencil" aria-hidden="true"></a>
+          <a title="Удалить" href="javascript:void(0)" (click)="deleteDoc(doc.id)" class="pi pi-times" aria-hidden="true" style="color: red;"></a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
-<p-toast></p-toast> 
+
+<ng-template #add>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Создание карточки документа</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div style="margin-top: -10px">
+      Номер:
+      <input type="text" [(ngModel)]="newDoc.num" class="form-control" placeholder="Номер">
+    </div>
+    <br />
+    <div style="margin-top: -10px">
+      Наименование:
+      <input type="text" [(ngModel)]="newDoc.name" class="form-control" placeholder="Наименование">
+    </div>
+    <br />
+    <div style="margin-top: -10px">
+      Тип:
+      <input type="text" [(ngModel)]="newDoc.type" class="form-control" placeholder="Тип">
+    </div>
+    <br />
+    Организация:
+    <ng-select [items]="organizations | async" [multiple]="false" [closeOnSelect]="false" [searchable]="true"
+      bindLabel="name" bindValue="id" placeholder="Вы можете сделать выбор позже" [(ngModel)]="newDoc.organizationId">
+    </ng-select>
+    <br />
+    <div>
+      Получено:
+      <input type="text" placeholder="Щелкните здесь для выбора" class="form-control" [(ngModel)]="newDoc.taken"
+        AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
+    </div>
+    <br />
+    <div>
+      Срок выполнения:
+      <input type="text" placeholder="Щелкните здесь для выбора" class="form-control" [(ngModel)]="newDoc.deadline"
+        AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
+    </div>
+    <br />
+    Кому назначено:
+    <ng-select [items]="responsibles | async" [multiple]="false" [closeOnSelect]="false" [searchable]="true"
+      bindLabel="fullName" bindValue="id" placeholder="Вы можете сделать выбор позже" [(ngModel)]="newDoc.userId">
+    </ng-select>
+    <br />
+    <div>
+        <input type="checkbox" id="cto" [(ngModel)]="newDoc.createTicket">
+        <label style="font-weight: normal;" for="cto"> Создать задание для выбранного пользователя в приложении "Планирование"</label>
+    </div>
+    <br />
+    <div>
+      Комментарий:
+      <textarea [(ngModel)]="newDoc.description" class="form-control" placeholder="Комментарий"></textarea>
+    </div>
+    <br />
+
+    <div>
+      <kendo-upload [saveUrl]="fileUploadUrl" [removeUrl]="fileRemoveUrl" (upload)="uploadEventHandler($event)"
+        (remove)="removeEventHandler($event)" (success)="uploaded($event)">
+        <kendo-upload-messages select="Добавить вложение" uploadSelectedFiles="Загрузить выбранные файлы"
+          clearSelectedFiles="Удалить выбранные файлы">
+        </kendo-upload-messages>
+      </kendo-upload>
+    </div>
+
+    <div style="text-align:center; margin-top: 15px;">
+      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+      <button type="button" (click)="addDoc(null)" class="btn btn-success">Сохранить</button>
+    </div>
+
+  </div>
+</ng-template>
+
+<ng-template #edit>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Изменение карточки документа</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div style="margin-top: -10px">
+      Номер:
+      <input type="text" [(ngModel)]="newDoc.num" class="form-control" placeholder="Номер">
+    </div>
+    <br />
+    <div style="margin-top: -10px">
+      Наименование:
+      <input type="text" [(ngModel)]="newDoc.name" class="form-control" placeholder="Наименование">
+    </div>
+    <br />
+    <div style="margin-top: -10px">
+      Тип:
+      <input type="text" [(ngModel)]="newDoc.type" class="form-control" placeholder="Тип">
+    </div>
+    <br />
+    Организация:
+    <ng-select [items]="organizations | async" [multiple]="false" [closeOnSelect]="false" [searchable]="true"
+      bindLabel="name" bindValue="id" placeholder="Вы можете сделать выбор позже" [(ngModel)]="newDoc.organizationId">
+    </ng-select>
+    <br />
+    <div>
+      Получено:
+      <input type="text" placeholder="Щелкните здесь для выбора" class="form-control" [(ngModel)]="newDoc.taken"
+        AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
+    </div>
+    <br />
+    <div>
+      Срок выполнения:
+      <input type="text" placeholder="Щелкните здесь для выбора" class="form-control" [(ngModel)]="newDoc.deadline"
+        AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
+    </div>
+    <br />
+    Кому назначено:
+    <ng-select [items]="responsibles | async" [multiple]="false" [closeOnSelect]="false" [searchable]="true"
+      bindLabel="fullName" bindValue="id" placeholder="Вы можете сделать выбор позже" [(ngModel)]="newDoc.userId">
+    </ng-select>
+    <br />
+    <div>
+      Комментарий:
+      <textarea [(ngModel)]="newDoc.description" class="form-control" placeholder="Комментарий"></textarea>
+    </div>
+    <br />
+
+    <div>
+      <table class="table" *ngIf="newDoc.files.length != 0">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 80%">Файл</th>
+            <th scope="col" style="width: 10%">Размер</th>
+            <th scope="col" style="width: 10%; text-align: center">Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of newDoc.files">
+            <td>
+              <i *ngIf="file.extension == 'doc' || file.extension == 'docx'" class="fa fa-file-word-o"
+                aria-hidden="true" style="color: blue"></i>
+              <i *ngIf="file.extension == 'xls' || file.extension == 'xlsx'" class="fa fa-file-excel-o"
+                aria-hidden="true" style="color: green"></i>
+              <i *ngIf="file.extension == 'ppt' || file.extension == 'pptx'" class="fa fa-file-powerpoint-o"
+                aria-hidden="true" style="color: orange"></i>
+              <i *ngIf="file.extension == 'pdf'" class="fa fa-file-pdf-o" aria-hidden="true" style="color: red"></i>
+              <i *ngIf="file.extension == 'zip' || file.extension == 'rar'" class="fa fa-file-archive-o"
+                aria-hidden="true" style="color: dimgray"></i>
+              <i *ngIf="file.extension == 'png' || file.extension == 'jpg' || file.extension == 'jpeg'"
+                class="fa fa-file-image-o" aria-hidden="true" style="color: purple"></i>
+              <i *ngIf="file.extension != 'doc'
+                     && file.extension != 'docx'
+                     && file.extension != 'xls'
+                     && file.extension != 'xlsx'
+                     && file.extension != 'ppt'
+                     && file.extension != 'pptx'
+                     && file.extension != 'pdf'
+                     && file.extension != 'zip'
+                     && file.extension != 'rar'
+                     && file.extension != 'png'
+                     && file.extension != 'jpg'
+                     && file.extension != 'jpeg'" class="fa fa-file-o" aria-hidden="true"></i>
+              {{file.name}}
+            </td>
+            <td>{{file.sizeMb}} Мб</td>
+            <td style="text-align: center">
+              <a title="Скачать" (click)="downloadFile(file.id)" href="javascript:void(0)"><span style="color: green"
+                  class="glyphicon glyphicon-save" aria-hidden="true"></span></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <kendo-upload [saveUrl]="fileUploadUrl" [removeUrl]="fileRemoveUrl" (upload)="uploadEventHandler($event)"
+        (remove)="removeEventHandler($event)" (success)="uploaded($event)">
+        <kendo-upload-messages select="Добавить вложение" uploadSelectedFiles="Загрузить выбранные файлы"
+          clearSelectedFiles="Удалить выбранные файлы">
+        </kendo-upload-messages>
+      </kendo-upload>
+    </div>
+
+    <div style="text-align:center; margin-top: 15px;">
+      <button type="button" (click)="closeModal()" class="btn btn-danger">Отмена</button>
+      <button type="button" (click)="editDoc(null)" class="btn btn-success">Сохранить</button>
+    </div>
+
+  </div>
+</ng-template>
+
+<p-toast></p-toast>

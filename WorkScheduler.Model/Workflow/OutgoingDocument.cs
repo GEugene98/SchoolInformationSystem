@@ -15,7 +15,7 @@ namespace WorkScheduler.Models.Workflow
         public string UserId { get; set; }
         public User User { get; set; }
 
-        public long TicketId { get; set; }
+        public long? TicketId { get; set; }
         public Ticket Ticket { get; set; }
 
         public string Num { get; set; }
