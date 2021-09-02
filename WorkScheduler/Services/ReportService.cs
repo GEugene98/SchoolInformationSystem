@@ -206,7 +206,7 @@ namespace WorkScheduler.Services
             var globalSettings = new GlobalSettings
             {
                 ColorMode = ColorMode.Grayscale,
-                Orientation = Orientation.Landscape,
+                Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Unit = Unit.Centimeters, Left = 3, Top = 1, Right = 1, Bottom = 1.5 },
                 DocumentTitle = $"Журнал {association.Name}"
@@ -214,11 +214,11 @@ namespace WorkScheduler.Services
 
             var objectSettings = new ObjectSettings
             {
-                //PagesCount = true,0
+                PagesCount = true,
                 HtmlContent = html,
                 WebSettings = { DefaultEncoding = "utf-8" },
                 //HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
-                FooterSettings = { FontName = "Times New Roman", FontSize = 10, Line = false, Center = "[page]" }
+                FooterSettings = { FontName = "Times New Roman", FontSize = 10, Line = false }
             };
 
             var pdf = new HtmlToPdfDocument()

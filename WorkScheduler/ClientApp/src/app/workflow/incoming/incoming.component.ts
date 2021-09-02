@@ -80,8 +80,8 @@ export class IncomingComponent implements OnInit {
   openModal(modal, doc: IncomingDocument = undefined) {
     if (doc) {
       this.newDoc = _.cloneDeep(doc);
-      this.newDoc.taken = new Date(this.newDoc.taken.toString()); //Костыль для ngx-datepicker'а
-      this.newDoc.deadline = new Date(this.newDoc.deadline.toString()); //Костыль для ngx-datepicker'а
+      this.newDoc.taken = new Date(this.newDoc.taken?.toString()); //Костыль для ngx-datepicker'а
+      this.newDoc.deadline = new Date(this.newDoc.deadline?.toString()); //Костыль для ngx-datepicker'а
     }
     else {
       this.newDoc = new IncomingDocument();

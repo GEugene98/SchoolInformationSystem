@@ -278,42 +278,51 @@ namespace WorkScheduler.Services
                     }
                 }
 
-                var days = registerRows[0].Cells.Select(c => c.Date.Value);
+                var days = registerRows[0].Cells.Select(c => c.Date.Value).ToList();
 
-                var registerHTML =
-                $@"<table class=""rg-table"">" +
-                $@"<tr class=""head"">"+
-                $@"<td rowspan = ""2"" > Ученики </td>";
+                var registerHTML = "";
+
+                var skip = 0;
 
                 foreach (var month in months)
                 {
+                    var monthDays = days.Skip(skip).Take(month.Days);
+
+                    registerHTML +=
+                    $@"<table class=""rg-table"">" +
+                    $@"<tr class=""head"">" +
+                    $@"<td rowspan = ""2"" > Ученики </td>";
+
+
                     registerHTML += $@"<td colspan=""{month.Days}"">{month.MonthName}</td>";
-                }
 
-                registerHTML += $@"</tr> <tr class=""head"">";
 
-                foreach (var day in days)
-                {
-                    registerHTML += $@"<td>{day.Date.Day}</td>";
-                }
+                    registerHTML += $@"</tr> <tr class=""head"">";
 
-                registerHTML += $@"</tr>";
-
-                foreach (var row in registerRows)
-                {
-                    registerHTML += $@"<tr>";
-
-                    registerHTML += $@"<td>{row.Student.FullName}</td>";
-
-                    foreach (var cell in row.Cells)
+                    foreach (var day in monthDays)
                     {
-                        registerHTML += $@"<td>{cell.Content}</td>";
+                        registerHTML += $@"<td>{day.Date.Day}</td>";
                     }
 
                     registerHTML += $@"</tr>";
-                }
 
-                registerHTML += $@"</table>";
+                    foreach (var row in registerRows)
+                    {
+                        registerHTML += $@"<tr>";
+
+                        registerHTML += $@"<td class=""studentname"">{row.Student.FullName}</td>";
+
+                        foreach (var cell in row.Cells.Skip(skip).Take(month.Days))
+                        {
+                            registerHTML += $@"<td>{cell.Content}</td>";
+                        }
+
+                        registerHTML += $@"</tr>";
+                    }
+
+                    registerHTML += $@"</table>";
+                    skip = month.Days;
+                }
 
                 template = template.Replace("%REGISTER%", registerHTML);
 
