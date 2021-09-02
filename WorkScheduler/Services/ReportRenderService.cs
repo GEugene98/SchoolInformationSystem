@@ -294,7 +294,7 @@ namespace WorkScheduler.Services
                     $@"<td rowspan = ""2"" > Ученики </td>";
 
 
-                    registerHTML += $@"<td colspan=""{month.Days}"">{month.MonthName}</td>";
+                    registerHTML += $@"<td class=""monthname"" colspan=""{month.Days}"">{month.MonthName}</td>";
 
 
                     registerHTML += $@"</tr> <tr class=""head"">";
@@ -321,7 +321,7 @@ namespace WorkScheduler.Services
                     }
 
                     registerHTML += $@"</table>";
-                    skip = month.Days;
+                    skip += month.Days;
                 }
 
                 template = template.Replace("%REGISTER%", registerHTML);

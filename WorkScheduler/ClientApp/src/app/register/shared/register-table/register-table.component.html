@@ -13,7 +13,7 @@
         <td *ngFor="let day of getDays()">{{day}}</td>
       </tr>
        
-      <tr *ngFor="let row of rows" title="row.student.fullName"> 
+      <tr *ngFor="let row of rows" title="{{row.student.fullName}}"> 
         <td>
           {{row.student.fullName}}
         </td>
