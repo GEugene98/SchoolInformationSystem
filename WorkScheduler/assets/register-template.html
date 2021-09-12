@@ -1,106 +1,95 @@
 ﻿<html>
 <head>
     <style>
+	
+		.main {
+			page-break-after: always;
+			font-size: 24px !important;
+			text-align: center;
+		}
         .rg-table {
             border-collapse: collapse;
+			//font-size: 14px;
             border-spacing: 0;
-            width: 100%;
             overflow: hidden;
             margin-top: 15px;
+			page-break-inside: avoid;
+			page-break-after: always;
+			border: 2px solid black !important;
+			
         }
+		
+		.rg-table thead td {
+			text-align: center !ipmortant;
+		}
+		
+		 
+			.content .rg-table {
+				max-width: 100% !important;
+				min-width: 50% !important;
+				width: 100%;
+				font-size: 20px !important;
+			}
+		
+		
+		.rg-table .studentname {
+			width: 200px !important;
+		}
 
             .rg-table .head {
                 font-weight: bold;
             }
+			
 
             .rg-table th, .rg-table td {
                 border: 1px solid black;
                 padding: 10px;
-                text-align: center;
+                text-align: left;
                 vertical-align: middle;
                 position: relative;
             }
 
-            .rg-table th, .rg-table td {
-                border: 1px solid black;
-                padding: 10px;
-                text-align: center;
-                vertical-align: middle;
-                position: relative;
-            }
 
         .rgt-container {
-            width: 100%;
-            overflow-x: auto;
-            white-space: nowrap;
+            //width: 100%;
+            //overflow-x: auto;
+            //white-space: nowrap;
         }
-        .legend {
-            font-size: 12px;
-            margin-top: 20px;
-        }
+		
+		 .ktp {
+		   page-break-after: always;
+		 }
+		
+		 .ktp table { page-break-before: always }
+		 .ktp tr    { page-break-inside:avoid; page-break-after:auto }
+		 
+		 .parents table {
+			page-break-inside: avoid;
+			page-break-after: always;
+		 }
 
-            .legend div p span.legend-label {
-                width: 40px;
-                height: 25px;
-                border: 1px solid #d0d0d0;
-                text-align: center;
-                padding: 3px 0 0 0px;
-                margin: -3px 5px 0 0px;
-            }
 
     </style>
 </head>
 <body>
     <div class="main">
-        ЖУРНАЛ<br />
+	<p>Муниципальное казенное образовательное учреждение <br /> &laquo;Ширинская средняя общеобразовательная школа&raquo; <br /> (МКОУ &laquo;Ширинская СОШ&raquo;)</p>
+		<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <b style="font-size: 46px">ЖУРНАЛ</b><br /><br />
         учета работы педагога<br />
         дополнительного образования<br />
         в объединении (секции, клубе, кружке)<br />
         на %ACADEMIC_YEAR% учебный год<br />
         Объединение: %ASSOCIATION% <br />
+		Группа: %GROUP%<br />
         Педагог: %TEACHER% <br />
-        Группа: %GROUP%<br />
+       
     </div>
 
     <br />
 
     <div class="content">
         %REGISTER%
-    </div>
-
-    <br />
-
-    <div class="legend print-block">
-        <div>
-            <p>
-                <span class="legend-label">УП</span>
-                <span class="legend-description"> — Пропуск по уважительной причине</span>
-            </p>
-            <p>
-                <span class="legend-label">Б</span>
-                <span class="legend-description"> — Пропуск по болезни</span>
-            </p>
-            <p>
-                <span class="legend-label">НП</span>
-                <span class="legend-description"> — Пропуск по неуважительной причине</span>
-            </p>
-        </div>
-        <div>
-            <p>
-                <span class="legend-label">ОТ</span>
-                <span class="legend-description"> — Отсутствовал</span>
-            </p>
-            <p>
-                <span class="legend-label">ОП</span>
-                <span class="legend-description"> — Опоздал</span>
-            </p>
-        </div>
-        <div>
-            <p>
-                <span class="legend-label">ОСВ</span>
-                <span class="legend-description"> — Освобожден</span>
-            </p>
-        </div>
     </div>
 
     <br />

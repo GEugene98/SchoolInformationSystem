@@ -11,8 +11,9 @@ namespace WorkScheduler.ViewModels
         public string UserId { get; set; }
         public UserViewModel User { get; set; }
 
-        public long TicketId { get; set; }
-        public TicketViewModel Ticket { get; set; }
+        public List<TicketViewModel> Tickets { get; set; }
+
+        public List<string> UserIdsToCheck { get; set; }
 
         public string Num { get; set; }
         public int OrganizationId { get; set; }
@@ -24,6 +25,7 @@ namespace WorkScheduler.ViewModels
         public string Description { get; set; }
 
         public IEnumerable<FileViewModel> Files { get; set; }
+        public IEnumerable<FileViewModel> FilesFromTickets { get; set; }
 
         public bool CreateTicket { get; set; }
     }

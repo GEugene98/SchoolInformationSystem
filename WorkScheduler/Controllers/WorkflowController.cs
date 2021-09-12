@@ -81,11 +81,20 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpPost("UpdateIncomingDocument")]
-        public IActionResult UpdateIncomingDocument([FromBody] IncomingDocumentViewModel document)
+        public IActionResult UpdateIncomingDocument([FromBody] IncomingDocumentViewModel document, string transactionId)
         {
             try
             {
                 WorkflowService.UpdateIncomingDocument(document);
+
+                var schoolId = Db.Users.First(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
+
+                var uploadedFiles = FileService.PutFilesInDb(transactionId, schoolId);
+
+                if (uploadedFiles.Count() != 0)
+                {
+                    FileService.BindFilesToIncomingDocument(uploadedFiles, document.Id);
+                }
             }
             catch (Exception ex)
             {
@@ -96,11 +105,20 @@ namespace WorkScheduler.Controllers
         }
 
         [HttpPost("UpdateOutgoingDocument")]
-        public IActionResult UpdateOutgoingDocument([FromBody] OutgoingDocumentViewModel document)
+        public IActionResult UpdateOutgoingDocument([FromBody] OutgoingDocumentViewModel document, string transactionId)
         {
             try
             {
                 WorkflowService.UpdateOutgoingDocument(document);
+
+                var schoolId = Db.Users.First(u => u.UserName == this.User.Identity.Name).SchoolId.ToString();
+
+                var uploadedFiles = FileService.PutFilesInDb(transactionId, schoolId);
+
+                if (uploadedFiles.Count() != 0)
+                {
+                    FileService.BindFilesToOutgoingDocument(uploadedFiles, document.Id);
+                }
             }
             catch (Exception ex)
             {

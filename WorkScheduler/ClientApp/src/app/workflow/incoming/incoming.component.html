@@ -12,10 +12,6 @@
   <thead>
     <tr>
       <th scope="col">
-        <a href="javascript:void(0)" (click)="sort('Id')">ID</a>
-        <input type="text" [(ngModel)]="filter.id" (ngModelChange)="loadData()" class="form-control" />
-      </th>
-      <th scope="col">
         <a href="javascript:void(0)" (click)="sort('Num')">Номер</a>
         <input [(ngModel)]="filter.num" (ngModelChange)="loadData()" type="text" class="form-control" />
       </th>
@@ -53,7 +49,6 @@
   </thead>
   <tbody>
     <tr *ngFor="let doc of docs">
-      <td>{{doc.id}}</td>
       <td>{{doc.num}}</td>
       <td>{{doc.name}}</td>
       <td>{{doc.organization?.name}}</td>
@@ -65,7 +60,7 @@
       <td>
         <div class="action-icons">
           <a title="Редактировать" (click)="openModal(edit, doc)" href="javascript:void(0)" class="pi pi-pencil" aria-hidden="true"></a>
-          <a title="Удалить" href="javascript:void(0)" (click)="deleteDoc(doc.id)" class="pi pi-times" aria-hidden="true" style="color: red;"></a>
+          <a title="Удалить" href="javascript:void(0)" (click)="openDeleteDocModal(del, doc.id)" class="pi pi-times" aria-hidden="true" style="color: red;"></a>
         </div>
       </td>
     </tr>
@@ -97,8 +92,8 @@
     </div>
     <br />
     Организация:
-    <ng-select [items]="organizations | async" [multiple]="false" [closeOnSelect]="false" [searchable]="true"
-      bindLabel="name" bindValue="id" placeholder="Вы можете сделать выбор позже" [(ngModel)]="newDoc.organizationId">
+    <ng-select [items]="organizations | async" [multiple]="false" [closeOnSelect]="true" [searchable]="true"
+      bindLabel="name" bindValue="id" [(ngModel)]="newDoc.organizationId">
     </ng-select>
     <br />
     <div>
@@ -113,16 +108,23 @@
         AUTOCOMPLETE="off" [bsConfig]="bsConfig" bsDatepicker>
     </div>
     <br />
-    Кому назначено:
-    <ng-select [items]="responsibles | async" [multiple]="false" [closeOnSelect]="false" [searchable]="true"
-      bindLabel="fullName" bindValue="id" placeholder="Вы можете сделать выбор позже" [(ngModel)]="newDoc.userId">
+    Ответственный:
+    <ng-select [items]="responsibles | async" [multiple]="false" [closeOnSelect]="true" [searchable]="true"
+      bindLabel="fullName" bindValue="id" placeholder="Выберите одного" [(ngModel)]="newDoc.userId">
     </ng-select>
     <br />
     <div>
-        <input type="checkbox" id="cto" [(ngModel)]="newDoc.createTicket">
-        <label style="font-weight: normal;" for="cto"> Создать задание для выбранного пользователя в приложении "Планирование"</label>
+      <input type="checkbox" id="cto" [(ngModel)]="newDoc.createTicket">
+      <label style="font-weight: normal; margin-left: 5px;" for="cto"> Создать задание </label>
     </div>
     <br />
+    <div *ngIf="newDoc.createTicket">
+      Также создать задания на контроль для:
+      <ng-select [items]="responsibles | async" [multiple]="true" [closeOnSelect]="false" [searchable]="true"
+        bindLabel="fullName" bindValue="id" placeholder="Вы можете выбрать несколько или не выбирать" [(ngModel)]="newDoc.userIdsToCheck">
+      </ng-select>
+      <br />
+    </div> 
     <div>
       Комментарий:
       <textarea [(ngModel)]="newDoc.description" class="form-control" placeholder="Комментарий"></textarea>
@@ -259,6 +261,22 @@
     </div>
 
   </div>
+</ng-template>
+
+<ng-template #del>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">Удалить запись о документе?</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <div style="text-align:center; margin-top: 15px;">
+          <button type="button" (click)="closeModal()" class="btn btn-danger">Нет</button>
+          <button type="button" (click)="deleteDoc(deleteId)" class="btn btn-success">Да</button>
+      </div>
+  </div>
+
 </ng-template>
 
 <p-toast></p-toast>

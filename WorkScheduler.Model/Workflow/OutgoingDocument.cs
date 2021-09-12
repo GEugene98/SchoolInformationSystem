@@ -15,9 +15,6 @@ namespace WorkScheduler.Models.Workflow
         public string UserId { get; set; }
         public User User { get; set; }
 
-        public long? TicketId { get; set; }
-        public Ticket Ticket { get; set; }
-
         public string Num { get; set; }
         public int OrganizationId { get; set; }
         public Organization Organization { get; set; }
@@ -27,6 +24,7 @@ namespace WorkScheduler.Models.Workflow
         public bool Done { get; set; }
         public string Description { get; set; }
 
+        public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual ICollection<OutgoingDocumentFile> OutgoingDocumentFiles { get; set; }
     }
 }

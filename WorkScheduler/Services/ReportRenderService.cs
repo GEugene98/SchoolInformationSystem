@@ -321,28 +321,29 @@ namespace WorkScheduler.Services
                     }
 
                     registerHTML += $@"</table>";
+
+                    //Рендер КТП
+
+                    var ktp = $@"<table class=""rg-table ktp-table""><thead><tr><th scope=""col"" style=""width:10 %"">Дата</th><th scope = ""col"" style = ""width:70%""> Содержание / Тема </th><th scope = ""col"" style = ""width:10%""> Часы </th><th scope = ""col"" style = ""width:10%""> Примечание </th></tr > </thead > <tbody>";
+
+                    foreach (var record in planingRecords.Skip(skip).Take(month.Days))
+                    {
+                        ktp += $@"<tr>
+                        <td>{(record.Date.HasValue ? record.Date.Value.ToShortDateString() : "")}</td>
+                        <td>{record.Name}</td>
+                        <td>{record.Hours}</td>
+                        <td>{record.Comment}</td>
+                        </tr>";
+                    }
+
+                    ktp += $@"</tbody></table>";
+
+                    registerHTML += ktp;
+
                     skip += month.Days;
                 }
 
                 template = template.Replace("%REGISTER%", registerHTML);
-
-                //Рендер КТП
-
-                var ktpHTML = $@"<table class=""rg-table""><thead><tr><th scope=""col"" style=""width:10 %"">Дата</th><th scope = ""col"" style = ""width:70%""> Содержание / Тема </th><th scope = ""col"" style = ""width:10%""> Часы </th><th scope = ""col"" style = ""width:10%""> Примечание </th></tr > </thead > <tbody>";
-
-                foreach (var record in planingRecords)
-                {
-                    ktpHTML += $@"<tr>
-                    <td>{(record.Date.HasValue ? record.Date.Value.ToShortDateString() : "")}</td>
-                    <td>{record.Name}</td>
-                    <td>{record.Hours}</td>
-                    <td>{record.Comment}</td>
-                </tr>";
-                }
-
-                ktpHTML += $@"</tbody></table>";
-
-                template = template.Replace("%PLANING%", ktpHTML);
 
                 // Рендер информации о семьях
 

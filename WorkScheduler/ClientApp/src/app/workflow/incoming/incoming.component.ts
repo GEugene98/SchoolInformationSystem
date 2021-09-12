@@ -67,21 +67,32 @@ export class IncomingComponent implements OnInit {
   }
 
   async editDoc() {
-    await this.workflowService.updateIncoming(this.newDoc);
+    await this.workflowService.updateIncoming(this.newDoc, this.transactionId);
     this.loadData();
     this.closeModal();
   }
 
+  deleteId;
+  openDeleteDocModal(modal, id) {
+    this.deleteId = id;
+    this.openModal(modal);
+  }
+
   async deleteDoc(id) {
     await this.workflowService.deleteIncoming(id);
-    this.loadData();
+    await this.loadData();
+    this.closeModal();
   }
 
   openModal(modal, doc: IncomingDocument = undefined) {
     if (doc) {
       this.newDoc = _.cloneDeep(doc);
-      this.newDoc.taken = new Date(this.newDoc.taken?.toString()); //Костыль для ngx-datepicker'а
-      this.newDoc.deadline = new Date(this.newDoc.deadline?.toString()); //Костыль для ngx-datepicker'а
+      if (this.newDoc.taken) {
+        this.newDoc.taken = new Date(this.newDoc.taken?.toString()); //Костыль для ngx-datepicker'а
+      }
+      if (this.newDoc.deadline) {
+        this.newDoc.deadline = new Date(this.newDoc.deadline?.toString()); //Костыль для ngx-datepicker'а
+      }
     }
     else {
       this.newDoc = new IncomingDocument();

@@ -28,6 +28,7 @@ namespace WorkScheduler.Services.Monitoring
                 select f;
 
             return families
+                .OrderBy(f => f.Student.LastName)
                 .Select(f => new FamilyViewModel
                 {
                     Id = f.Id,

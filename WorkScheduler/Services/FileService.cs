@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WorkScheduler.Models.Scheduler;
 using WorkScheduler.Models.Enums;
 using WorkScheduler.Models.Workflow;
+using Microsoft.EntityFrameworkCore;
 
 namespace WorkScheduler.Services
 {
@@ -143,6 +144,7 @@ namespace WorkScheduler.Services
         public void BindFilesToIncomingDocument(IEnumerable<Models.Shared.File> uploadedFiles, int incomingDocumentId)
         {
             var documentFiles = new List<IncomingDocumentFile>();
+            var document = Db.IncomingDocuments.Include(d => d.Tickets).FirstOrDefault(d => d.Id == incomingDocumentId);
 
             foreach (var f in uploadedFiles)
             {
@@ -156,12 +158,34 @@ namespace WorkScheduler.Services
             }
 
             Db.IncomingDocumentFiles.AddRange(documentFiles);
+
+            if (document.Tickets.Count() != 0)
+            {
+                foreach (var item in document.Tickets)
+                {
+                    foreach (var f in uploadedFiles)
+                    {
+                        var ticketFile = new TicketFile
+                        {
+                            TicketId = item.Id,
+                            Type = TicketFileType.Incoming,
+                            FileId = f.Id
+                        };
+
+                        Db.TicketFiles.Add(ticketFile);
+                    }
+                    
+                }
+            }
+
             Db.SaveChanges();
         }
 
         public void BindFilesToOutgoingDocument(IEnumerable<Models.Shared.File> uploadedFiles, int outgoingDocumentId)
         {
             var documentFiles = new List<OutgoingDocumentFile>();
+            var document = Db.OutgoingDocuments.Include(d => d.Tickets).FirstOrDefault(d => d.Id == outgoingDocumentId);
+
 
             foreach (var f in uploadedFiles)
             {
@@ -175,6 +199,26 @@ namespace WorkScheduler.Services
             }
 
             Db.OutgoingDocumentFiles.AddRange(documentFiles);
+
+            if (document.Tickets.Count() != 0)
+            {
+                foreach (var item in document.Tickets)
+                {
+                    foreach (var f in uploadedFiles)
+                    {
+                        var ticketFile = new TicketFile
+                        {
+                            TicketId = item.Id,
+                            Type = TicketFileType.Incoming,
+                            FileId = f.Id
+                        };
+
+                        Db.TicketFiles.Add(ticketFile);
+                    }
+
+                }
+            }
+
             Db.SaveChanges();
         }
     }

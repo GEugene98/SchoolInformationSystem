@@ -18,6 +18,14 @@ namespace WorkScheduler.Models
         public int? ActionId { get; set; }
         public Action Action { get; set; }
 
+        public int? IncomingDocumentId { get; set; }
+        public IncomingDocument IncomingDocument { get; set; }
+
+        public int? OutgoingDocumentId { get; set; }
+        public OutgoingDocument OutgoingDocument { get; set; }
+
+        public bool OnCheck { get; set; }
+
         public int? ChecklistId { get; set; }
         public Checklist Checklist { get; set; }
 
@@ -39,7 +47,5 @@ namespace WorkScheduler.Models
         public byte? Minutes { get; set; }
 
         public virtual ICollection<TicketFile> TicketFiles { get; set; }
-        public virtual ICollection<IncomingDocument> IncomingDocuments { get; set; }
-        public virtual ICollection<OutgoingDocument> OutgoingDocuments { get; set; }
     }
 }

@@ -15,9 +15,11 @@ export class IncomingDocument {
   userId: string;
   user: User;
   files: File[];
-  ticket: Ticket;
+  tickets: Ticket[];
 
   //For creating
   organizationId?: number;
   createTicket: boolean;
+  typeId?: number;
+  userIdsToCheck: string[];
 }

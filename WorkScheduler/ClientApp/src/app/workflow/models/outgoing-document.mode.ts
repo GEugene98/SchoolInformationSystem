@@ -15,10 +15,11 @@ export class OutgoingDocument {
   userId: string;
   user: User;
   files: File[];
-  ticket: Ticket;
+  tickets: Ticket[];
 
   //For creating
   organizationId?: number;
   typeId?: number;
   createTicket: boolean;
+  userIdsToCheck: string[];
 }

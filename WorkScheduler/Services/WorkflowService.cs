@@ -55,6 +55,7 @@ namespace WorkScheduler.Services
                         Id = d.Organization.Id,
                         Name = d.Organization.Name
                     },
+                    OrganizationId = d.Organization.Id,
                     Deadline = d.Deadline,
                     Done = d.Done,
                     Description = d.Description,
@@ -68,6 +69,8 @@ namespace WorkScheduler.Services
                         Extension = f.File.Extension
                     })
                 })
+                .OrderByDescending(d => d.Taken)
+                .ThenByDescending(d => d.Num)
                 .ToList();
 
             return result;
@@ -111,6 +114,7 @@ namespace WorkScheduler.Services
                         Id = d.Organization.Id,
                         Name = d.Organization.Name
                     },
+                    OrganizationId = d.Organization.Id,
                     Deadline = d.Deadline,
                     Done = d.Done,
                     Description = d.Description,
@@ -124,6 +128,8 @@ namespace WorkScheduler.Services
                         Extension = f.File.Extension
                     })
                 })
+                .OrderByDescending(d => d.Taken)
+                .ThenByDescending(d => d.Num)
                 .ToList();
 
             return result;
@@ -151,7 +157,8 @@ namespace WorkScheduler.Services
             if (document.CreateTicket)
             {
                 var checklistId = Db.Schools.FirstOrDefault(s => s.Id == schoolId).IncomingWorkflowChecklist;
-                var ticket = new Ticket
+
+                var responsibleTicket = new Ticket
                 {
                     Name = document.Name,
                     Date = document.Deadline,
@@ -159,11 +166,28 @@ namespace WorkScheduler.Services
                     Comment = document.Description,
                     UserId = document.UserId,
                     Status = Models.Enums.TicketStatus.Assigned,
+                    IncomingDocumentId = newDoc.Id,
                 };
-                Db.Tickets.Add(ticket);
-                Db.SaveChanges();
 
-                newDoc.TicketId = ticket.Id;
+                Db.Tickets.Add(responsibleTicket);
+
+                foreach (var item in document.UserIdsToCheck)
+                {
+                    var ticket = new Ticket
+                    {
+                        Name = document.Name,
+                        Date = document.Deadline,
+                        ChecklistId = Convert.ToInt32(checklistId),
+                        Comment = document.Description,
+                        UserId = item,
+                        Status = Models.Enums.TicketStatus.Assigned,
+                        IncomingDocumentId = newDoc.Id,
+                        OnCheck = true
+                    };
+
+                    Db.Tickets.Add(ticket);
+                }
+
                 Db.SaveChanges();
             }
 
@@ -191,8 +215,10 @@ namespace WorkScheduler.Services
 
             if (document.CreateTicket)
             {
+
                 var checklistId = Db.Schools.FirstOrDefault(s => s.Id == schoolId).OutgoingWorkflowChecklist;
-                var ticket = new Ticket
+
+                var responsibleTicket = new Ticket
                 {
                     Name = document.Name,
                     Date = document.Deadline,
@@ -200,12 +226,30 @@ namespace WorkScheduler.Services
                     Comment = document.Description,
                     UserId = document.UserId,
                     Status = Models.Enums.TicketStatus.Assigned,
+                    OutgoingDocumentId = newDoc.Id,
                 };
-                Db.Tickets.Add(ticket);
+
+                Db.Tickets.Add(responsibleTicket);
+
+                foreach (var item in document.UserIdsToCheck)
+                {
+                    var ticket = new Ticket
+                    {
+                        Name = document.Name,
+                        Date = document.Deadline,
+                        ChecklistId = Convert.ToInt32(checklistId),
+                        Comment = document.Description,
+                        UserId = item,
+                        Status = Models.Enums.TicketStatus.Assigned,
+                        OutgoingDocumentId = newDoc.Id,
+                        OnCheck = true
+                    };
+
+                    Db.Tickets.Add(ticket);
+                }
+
                 Db.SaveChanges();
 
-                newDoc.TicketId = ticket.Id;
-                Db.SaveChanges();
             }
 
             return newDoc.Id;

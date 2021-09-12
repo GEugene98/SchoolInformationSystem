@@ -17,12 +17,16 @@ export class WorkflowService {
         return await this.http.get<OutgoingDocument[]>('api/Workflow/GetOutgoingDocuments').toPromise();
     }
 
-    async updateIncoming(document: IncomingDocument) {
-        return await this.http.post('api/Workflow/UpdateIncomingDocument', document).toPromise();
+    async updateIncoming(document: IncomingDocument, transactionId) {
+        const params = new HttpParams()
+            .set('transactionId', transactionId.toString());
+        return await this.http.post('api/Workflow/UpdateIncomingDocument', document, {params: params}).toPromise();
     }
 
-    async updateOutgoing(document: OutgoingDocument) {
-        return await this.http.post('api/Workflow/UpdateOutgoingDocument', document).toPromise();
+    async updateOutgoing(document: OutgoingDocument, transactionId) {
+        const params = new HttpParams()
+            .set('transactionId', transactionId.toString());
+        return await this.http.post('api/Workflow/UpdateOutgoingDocument', document, {params: params}).toPromise();
     }
 
     async createIncoming(document: IncomingDocument, transactionId: string) {
