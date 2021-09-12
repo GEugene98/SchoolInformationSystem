@@ -99,3 +99,12 @@ body .modal-content {
   border: none !important;
   border-radius: 5px !important;
 }
+
+.full-comment-textarea {
+  border: none;
+  height: 400px;
+  min-width: 100%;
+  max-width: 100%;
+  outline: none;
+  resize: none;
+}

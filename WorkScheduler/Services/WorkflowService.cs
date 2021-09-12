@@ -43,6 +43,7 @@ namespace WorkScheduler.Services
                     Id = d.Id,
                     Name = d.Name,
                     Num = d.Num,
+                    UserId = d.UserId,
                     User = new UserViewModel
                     {
                         Id = d.User.Id,
@@ -102,6 +103,7 @@ namespace WorkScheduler.Services
                     Id = d.Id,
                     Name = d.Name,
                     Num = d.Num,
+                    UserId = d.UserId,
                     User = new UserViewModel
                     {
                         Id = d.User.Id,
@@ -264,6 +266,20 @@ namespace WorkScheduler.Services
                 throw new Exception("Документ не найден");
             }
 
+            if (found.UserId != document.UserId & !String.IsNullOrEmpty(document.UserId))
+            {
+                var foundTicket = Db.Tickets.FirstOrDefault(t => t.IncomingDocumentId == document.Id);
+
+                if (foundTicket != null)
+                {
+                    foundTicket.UserId = document.UserId;
+                    foundTicket.Status = Models.Enums.TicketStatus.Assigned;
+                    foundTicket.OnCheck = false;
+                    Db.SaveChanges();
+                }
+            }
+
+            found.UserId = document.UserId;
             found.Name = document.Name;
             found.Num = document.Num;
             found.OrganizationId = document.OrganizationId;
@@ -285,6 +301,20 @@ namespace WorkScheduler.Services
                 throw new Exception("Документ не найден");
             }
 
+            if (found.UserId != document.UserId & !String.IsNullOrEmpty(document.UserId))
+            {
+                var foundTicket = Db.Tickets.FirstOrDefault(t => t.OutgoingDocumentId == document.Id);
+
+                if (foundTicket != null)
+                {
+                    foundTicket.UserId = document.UserId;
+                    foundTicket.Status = Models.Enums.TicketStatus.Assigned;
+                    foundTicket.OnCheck = false;
+                    Db.SaveChanges();
+                }
+            }
+
+            found.UserId = document.UserId;
             found.Name = document.Name;
             found.Num = document.Num;
             found.OrganizationId = document.OrganizationId;

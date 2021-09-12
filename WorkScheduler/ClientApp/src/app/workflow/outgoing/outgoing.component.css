@@ -36,3 +36,12 @@ p-checkbox {
 .family-card > div {
     margin-top: 10px;
 }
+
+.full-comment-textarea {
+    border: none;
+    height: 400px;
+    min-width: 100%;
+    max-width: 100%;
+    outline: none;
+    resize: none;
+  }

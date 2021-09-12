@@ -291,10 +291,10 @@ namespace WorkScheduler.Services
                     registerHTML +=
                     $@"<table class=""rg-table"">" +
                     $@"<tr class=""head"">" +
-                    $@"<td rowspan = ""2"" > Ученики </td>";
+                    $@"<td rowspan = ""2"" style=""text-align: center !important"" > Ученики </td>";
 
 
-                    registerHTML += $@"<td class=""monthname"" colspan=""{month.Days}"">{month.MonthName}</td>";
+                    registerHTML += $@"<td class=""monthname"" colspan=""{month.Days}"" style=""text-align: center !important"">{month.MonthName}</td>";
 
 
                     registerHTML += $@"</tr> <tr class=""head"">";
@@ -324,7 +324,7 @@ namespace WorkScheduler.Services
 
                     //Рендер КТП
 
-                    var ktp = $@"<table class=""rg-table ktp-table""><thead><tr><th scope=""col"" style=""width:10 %"">Дата</th><th scope = ""col"" style = ""width:70%""> Содержание / Тема </th><th scope = ""col"" style = ""width:10%""> Часы </th><th scope = ""col"" style = ""width:10%""> Примечание </th></tr > </thead > <tbody>";
+                    var ktp = $@"<table class=""rg-table ktp-table""><thead><tr><th scope=""col"" style=""width:10%; text-align: center !important"">Дата</th><th scope = ""col"" style = ""width:70%; text-align: center !important""> Содержание / Тема </th><th scope = ""col"" style = ""width:10%; text-align: center !important""> Часы </th><th scope = ""col"" style = ""width:10%; text-align: center !important""> Примечание </th></tr > </thead > <tbody>";
 
                     foreach (var record in planingRecords.Skip(skip).Take(month.Days))
                     {
@@ -347,7 +347,7 @@ namespace WorkScheduler.Services
 
                 // Рендер информации о семьях
 
-                var familyHTML = $@"<table class=""rg-table""><thead><tr><th scope=""col"">ФИО ребенка</th><th scope=""col"">Дата рождения</th><th scope=""col"">Адрес регистрации</th><th scope=""col"">Адрес проживания</th><th scope=""col"">ФИО матери, телефон, место работы</th><th scope=""col"">ФИО отца, телефон, место работы</th></tr></thead><tbody>";
+                var familyHTML = $@"<table class=""rg-table""><thead><tr><th scope=""col"" style=""text-align: center !important"">ФИО ребенка</th><th scope=""col"" style=""text-align: center !important"">Дата рождения</th><th scope=""col"" style=""text-align: center !important"">Адрес регистрации</th><th scope=""col"" style=""text-align: center !important"">Адрес проживания</th><th scope=""col""style=""text-align: center !important"">ФИО матери, телефон, место работы</th><th scope=""col""style=""text-align: center !important"">ФИО отца, телефон, место работы</th></tr></thead><tbody>";
 
                 foreach (var family in families)
                 {

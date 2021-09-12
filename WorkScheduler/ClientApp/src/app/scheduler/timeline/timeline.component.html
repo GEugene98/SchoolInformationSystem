@@ -91,10 +91,14 @@
                     title="Задание из чек-листа">
                     <a *ngIf="ticket.hasChecklist && !ticket.action" href="javascript:void(0)" (click)="openReplyModal(ticket, replyModal)" class="blue-text" [class.red-text]="ticket.isExpiered">
                         <span class='glyphicon glyphicon-check'></span>
-                        {{ticket.name}}
+                        {{ticket.name}} <br/>
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.incomingDocument">{{ticket.incomingDocument.user.fullName}}</span> 
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.outgoingDocument">{{ticket.outgoingDocument.user.fullName}}</span> 
                     </a>
                     <span *ngIf="!ticket.hasChecklist && !ticket.action">
-                        {{ticket.name}}
+                        {{ticket.name}} <br/>
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.incomingDocument">{{ticket.incomingDocument.user.fullName}}</span> 
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.outgoingDocument">{{ticket.outgoingDocument.user.fullName}}</span> 
                     </span>
                     <div *ngIf="ticket.action" [class.deleted-action]="ticket.action.isDeleted">
                         <div class="inner-action-card c{{ticket.action.activity.color}}">
@@ -435,7 +439,11 @@
                     <td><span placement="left" theme="light" z-index="10000" [title]="getTooltip(ticket)" style="color: skyblue" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></td>
                     <td><span *ngIf="ticket.date">{{ticket.date | date : 'dd.MM.yyyy'}}</span></td>
                     <td><span *ngIf="ticket.hours">{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes < 10">0</span></span></td>
-                    <td>{{ticket.name}}</td>
+                    <td>
+                        {{ticket.name}} <br/>
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.incomingDocument">{{ticket.incomingDocument.user.fullName}}</span> 
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.outgoingDocument">{{ticket.outgoingDocument.user.fullName}}</span> 
+                    </td>
                     <td style="text-align: center">
                         <a title="Принять" href="javascript:void(0)" (click)="acceptTicket(ticket)"><span style="color: green" class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></a>
                         <a title="Отклонить" href="javascript:void(0)" (click)="openDeclineDialog(declineModal, ticket)"><span style="color: red" class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>

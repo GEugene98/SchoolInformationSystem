@@ -4,6 +4,8 @@ import { Action } from "./action.model";
 import { Time } from "./time.model";
 import { Checklist } from "./checklist.model";
 import { File } from "./file.model";
+import { IncomingDocument } from "../../workflow/models/incoming-document.model";
+import { OutgoingDocument } from "../../workflow/models/outgoing-document.mode";
 
 export class Ticket extends Dictionary<number> {
   action: Action;
@@ -30,6 +32,9 @@ export class Ticket extends Dictionary<number> {
   responseComment: string;
   inFiles: File[];
   outFiles: File[];
+  onCheck: boolean;
+  incomingDocument: IncomingDocument;
+  outgoingDocument: OutgoingDocument;
 
   //front only
   dateToGroup: any;

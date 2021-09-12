@@ -33,6 +33,10 @@ namespace WorkScheduler.Services
                 .Include(t => t.Action)
                 .Include(t => t.Checklist)
                 .Include(t => t.Checklist.User)
+                .Include(t => t.IncomingDocument)
+                .Include(t => t.OutgoingDocument)
+                .Include(t => t.IncomingDocument.User)
+                .Include(t => t.OutgoingDocument.User)
                 .Include(t => t.Action.ConfirmationForm)
                 .Include(t => t.Action.WorkSchedule)
                 .Include(t => t.Action.WorkSchedule.Activity)
@@ -142,6 +146,25 @@ namespace WorkScheduler.Services
                         Id = t.User.Id,
                         Name = t.User.UserName
                     },
+                    OnCheck = t.OnCheck,
+                    IncomingDocument = t.IncomingDocument != null ? new IncomingDocumentViewModel
+                    {
+                        Id = t.IncomingDocument.Id,
+                        User = new UserViewModel
+                        {
+                            Id = t.IncomingDocument.User.Id,
+                            FullName = t.IncomingDocument.User.LastName + " " + t.IncomingDocument.User.FirstName[0] + ". " + t.IncomingDocument.User.SurName[0] + "."
+                        }
+                    } : null,
+                    OutgoingDocument = t.OutgoingDocument != null ? new OutgoingDocumentViewModel
+                    {
+                        Id = t.OutgoingDocument.Id,
+                        User = new UserViewModel
+                        {
+                            Id = t.OutgoingDocument.User.Id,
+                            FullName = t.OutgoingDocument.User.LastName + " " + t.OutgoingDocument.User.FirstName[0] + ". " + t.OutgoingDocument.User.SurName[0] + "."
+                        }
+                    } : null,
                     Action = t.Action != null ? new ActionViewModel
                     {
                         Id = t.Action.Id,
@@ -241,6 +264,10 @@ namespace WorkScheduler.Services
             var tickets = Db.Tickets
                 .Include(t => t.Checklist)
                 .Include(t => t.Checklist.User)
+                .Include(t => t.IncomingDocument)
+                .Include(t => t.OutgoingDocument)
+                .Include(t => t.IncomingDocument.User)
+                .Include(t => t.OutgoingDocument.User)
                 .Where(t => t.UserId == userId && t.ChecklistId != null && t.Status == TicketStatus.Assigned);
 
             var foundFiles =
@@ -267,6 +294,25 @@ namespace WorkScheduler.Services
                 Hours = t.Hours,
                 Minutes = t.Minutes,
                 ResponseComment = t.ResponseComment,
+                OnCheck = t.OnCheck,
+                IncomingDocument = t.IncomingDocument != null ? new IncomingDocumentViewModel
+                {
+                    Id = t.IncomingDocument.Id,
+                    User = new UserViewModel
+                    {
+                        Id = t.IncomingDocument.User.Id,
+                        FullName = t.IncomingDocument.User.LastName + " " + t.IncomingDocument.User.FirstName[0] + ". " + t.IncomingDocument.User.SurName[0] + "."
+                    }
+                } : null,
+                OutgoingDocument = t.OutgoingDocument != null ? new OutgoingDocumentViewModel
+                {
+                    Id = t.OutgoingDocument.Id,
+                    User = new UserViewModel
+                    {
+                        Id = t.OutgoingDocument.User.Id,
+                        FullName = t.OutgoingDocument.User.LastName + " " + t.OutgoingDocument.User.FirstName[0] + ". " + t.OutgoingDocument.User.SurName[0] + "."
+                    }
+                } : null,
                 Checklist = new ChecklistViewModel
                 {
                     Id = t.Checklist.Id,

@@ -64,6 +64,10 @@ namespace WorkScheduler.Controllers
             var currentUser = Db.Users.FirstOrDefault(u => u.UserName == this.User.Identity.Name);
             var schoolId = (int)currentUser.SchoolId;
             student.SchoolId = schoolId;
+            if (student.Birthday != null)
+            {
+                student.Birthday = student.Birthday.Value.AddHours(3);
+            }
 
             StudentService.CreateStudent(student);
 
@@ -73,6 +77,10 @@ namespace WorkScheduler.Controllers
         [HttpPost("UpdateStudent")]
         public IActionResult UpdateStudent([FromBody] StudentViewModel student)
         {
+            if (student.Birthday != null)
+            {
+                student.Birthday = student.Birthday.Value.AddHours(3);
+            }
             StudentService.UpdateStudent(student);
             return Ok();
         }

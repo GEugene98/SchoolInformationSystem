@@ -94,8 +94,8 @@ namespace WorkSheduler
                 //Workflow
                 services.AddScoped<WorkflowService>();
 
-                //var context = new CustomAssemblyLoadContext();
-                //context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+                var context = new CustomAssemblyLoadContext();
+                context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
 
                 // In production, the Angular files will be served from this directory
                 services.AddSpaStaticFiles(configuration =>

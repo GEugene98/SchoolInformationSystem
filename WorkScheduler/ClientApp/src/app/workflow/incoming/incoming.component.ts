@@ -105,11 +105,13 @@ export class IncomingComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  getCutComment(comment: string) {
-    if (comment.length < 150) {
-      return comment+'';
+  getCutComment(comment) {
+    if(comment) {
+      if (comment.length < 150) {
+        return comment+'';
+      }
+      return comment.substring(0, 150) + "...";
     }
-    return comment.substring(0, 150) + "...";
   }
 
   uploadEventHandler(e: UploadEvent) {
