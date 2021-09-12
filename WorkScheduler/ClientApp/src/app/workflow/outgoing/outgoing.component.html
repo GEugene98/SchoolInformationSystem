@@ -56,7 +56,7 @@
       <td>{{doc.taken | date : 'dd.MM.yyyy' }}</td>
       <td>{{doc.deadline | date : 'dd.MM.yyyy' }}</td>
       <td>{{doc.user.fullName}}</td>
-      <td>{{doc.description}}</td>
+      <td (click)="copy(ticket); openFullCommentModal()" style="cursor: pointer;">{{getCutComment(doc.description)}}</td>
       <td>
         <div class="action-icons">
           <a title="Редактировать" (click)="openModal(edit, doc)" href="javascript:void(0)" class="pi pi-pencil" aria-hidden="true"></a>
@@ -277,6 +277,18 @@
       </div>
   </div>
 
+</ng-template>
+
+<ng-template #fullComment>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">Полный комментарий</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <textarea readonly class="full-comment-textarea">{{this.newDoc.description}}</textarea>
+  </div>
 </ng-template>
 
 <p-toast></p-toast>
