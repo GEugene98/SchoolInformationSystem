@@ -298,20 +298,20 @@ namespace WorkScheduler.Services
                 IncomingDocument = t.IncomingDocument != null ? new IncomingDocumentViewModel
                 {
                     Id = t.IncomingDocument.Id,
-                    User = new UserViewModel
+                    User =  t.IncomingDocument.User != null ? new UserViewModel
                     {
                         Id = t.IncomingDocument.User.Id,
                         FullName = t.IncomingDocument.User.LastName + " " + t.IncomingDocument.User.FirstName[0] + ". " + t.IncomingDocument.User.SurName[0] + "."
-                    }
+                    } : null
                 } : null,
                 OutgoingDocument = t.OutgoingDocument != null ? new OutgoingDocumentViewModel
                 {
                     Id = t.OutgoingDocument.Id,
-                    User = new UserViewModel
+                    User = t.OutgoingDocument.User != null ? new UserViewModel
                     {
                         Id = t.OutgoingDocument.User.Id,
                         FullName = t.OutgoingDocument.User.LastName + " " + t.OutgoingDocument.User.FirstName[0] + ". " + t.OutgoingDocument.User.SurName[0] + "."
-                    }
+                    } : null
                 } : null,
                 Checklist = new ChecklistViewModel
                 {

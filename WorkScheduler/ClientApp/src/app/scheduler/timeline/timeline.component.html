@@ -92,13 +92,13 @@
                     <a *ngIf="ticket.hasChecklist && !ticket.action" href="javascript:void(0)" (click)="openReplyModal(ticket, replyModal)" class="blue-text" [class.red-text]="ticket.isExpiered">
                         <span class='glyphicon glyphicon-check'></span>
                         {{ticket.name}} <br/>
-                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.incomingDocument">{{ticket.incomingDocument.user.fullName}}</span> 
-                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.outgoingDocument">{{ticket.outgoingDocument.user.fullName}}</span> 
-                    </a>
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.incomingDocument && ticket.incomingDocument.user">{{ticket.incomingDocument.user.fullName}}</span> 
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.outgoingDocument && ticket.outgoingDocument.user">{{ticket.outgoingDocument.user.fullName}}</span> 
+                    </a> 
                     <span *ngIf="!ticket.hasChecklist && !ticket.action">
                         {{ticket.name}} <br/>
-                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.incomingDocument">{{ticket.incomingDocument.user.fullName}}</span> 
-                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.outgoingDocument">{{ticket.outgoingDocument.user.fullName}}</span> 
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.incomingDocument && ticket.incomingDocument.user">{{ticket.incomingDocument.user.fullName}}</span> 
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.outgoingDocument && ticket.outgoingDocument.user">{{ticket.outgoingDocument.user.fullName}}</span> 
                     </span>
                     <div *ngIf="ticket.action" [class.deleted-action]="ticket.action.isDeleted">
                         <div class="inner-action-card c{{ticket.action.activity.color}}">
@@ -441,8 +441,8 @@
                     <td><span *ngIf="ticket.hours">{{ticket.hours}}:{{ticket.minutes}}<span *ngIf="ticket.minutes < 10">0</span></span></td>
                     <td>
                         {{ticket.name}} <br/>
-                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.incomingDocument">{{ticket.incomingDocument.user.fullName}}</span> 
-                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.outgoingDocument">{{ticket.outgoingDocument.user.fullName}}</span> 
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.incomingDocument && ticket.incomingDocument.user">{{ticket.incomingDocument.user.fullName}}</span> 
+                        <span class="badge" style="background-color: #83bbe2 !important; font-size: smaller;" *ngIf="ticket.onCheck && ticket.outgoingDocument && ticket.outgoingDocument.user">{{ticket.outgoingDocument.user.fullName}}</span> 
                     </td>
                     <td style="text-align: center">
                         <a title="Принять" href="javascript:void(0)" (click)="acceptTicket(ticket)"><span style="color: green" class="glyphicon glyphicon-pushpin" aria-hidden="true"></span></a>
